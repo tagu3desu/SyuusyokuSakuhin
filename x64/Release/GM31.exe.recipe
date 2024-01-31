@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\x64\Release\GM31.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\DepthShadowMappingPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\DepthShadowMappingVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\envMappingPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\envMappingVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\FogPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\FogVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\gaugePS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\gaugeVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\pixelLightingPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\pixelLightingRimPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\pixelLightingRimVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\pixelLightingVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\staminagaugePS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\staminagaugeVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\unlitTexturePS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\unlitTexturePS2.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\unlitTextureVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\unlitTextureVS2.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\vertexLightingPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\vertexLightingVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\shader\dissolvePS.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
