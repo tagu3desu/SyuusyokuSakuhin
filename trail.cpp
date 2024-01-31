@@ -223,8 +223,8 @@ void Trail::Draw()
 	
 	if (m_TopVertexArray.size() > 10)
 	{
-		m_TopVertexArrayCopy = m_TopVertexArray;
-		m_BottomVertexArray = m_BottomVertexArrayCopy;
+		m_TopVertexArray.pop();
+		m_BottomVertexArrayCopy.pop();
 	}
 
 
@@ -236,13 +236,13 @@ void Trail::Draw()
 		m_BottomVertexArray.push(bottomposition->GetBottomVertexPostion());
 
 
-		vertex[i * 2].Position = m_TopVertexArrayCopy.front();
+		vertex[i * 2].Position = m_TopVertexArray.front();
 		vertex[i * 2].TexCoord = D3DXVECTOR2(i * 1.0f, 0.0f);
 		vertex[i * 2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 
 	
-		vertex[i * 2 + 1].Position = m_BottomVertexArrayCopy.front();
+		vertex[i * 2 + 1].Position = m_BottomVertexArray.front();
 		vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(i * 1.0f, 1.0f);
 		vertex[i * 2 + 1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル

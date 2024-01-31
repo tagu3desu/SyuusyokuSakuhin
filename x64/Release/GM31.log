@@ -1,7 +1,7 @@
 ﻿  trail.cpp
   コード生成しています。
-  58 of 2869 functions ( 2.0%) were compiled, the rest were copied from previous compilation.
+  1 of 2845 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    34 functions had inline decision re-evaluated but remain unchanged
+    49 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
-  GM31.vcxproj -> C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\x64\Release\GM31.exe
+  GM31.vcxproj -> C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Release\GM31.exe
