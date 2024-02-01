@@ -46,47 +46,7 @@ void Trail::Init()
 	}
 
 
-	// インデックスバッファ生成
-	//{
-	//	unsigned int index[((VERTEX_NUMBER + 2) * 2) * VERTEX_NUMBER - 2];
-
-	//	int i = 0;
-	//	for (int x = 0; x < VERTEX_NUMBER; x++)
-	//	{
-	//		for (int z = 0; z < VERTEX_NUMBER + 1; z++)
-	//		{
-	//			index[i] = x * (VERTEX_NUMBER + 1) + z;
-	//			i++;
-
-	//			index[i] = (x + 1) * (VERTEX_NUMBER + 1) + z;
-	//			i++;
-	//		}
-
-	//		if (x == VERTEX_NUMBER - 1)
-	//			break;
-
-	//		//縮退ポリゴン
-	//		index[i] = (x + 1) * (VERTEX_NUMBER + 1) + VERTEX_NUMBER;
-	//		i++;
-
-	//		index[i] = (x + 1) * (VERTEX_NUMBER + 1);
-	//		i++;
-	//	}
-
-	//	D3D11_BUFFER_DESC bd;
-	//	ZeroMemory(&bd, sizeof(bd));
-	//	bd.Usage = D3D11_USAGE_DYNAMIC;
-	//	bd.ByteWidth = sizeof(unsigned int) * (((VERTEX_NUMBER + 2) * 2) * VERTEX_NUMBER - 2);
-	//	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	//	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	//	D3D11_SUBRESOURCE_DATA sd;
-	//	ZeroMemory(&sd, sizeof(sd));
-	//	sd.pSysMem = index;
-
-	//	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_IndexBuffer);
-	//}
-
+	
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
@@ -97,19 +57,8 @@ void Trail::Init()
 		NULL);
 	assert(m_Texture);
 
-	
-
-	//// テクスチャ読み込み
-	//D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-	//	"asset/texture/waternormal.png",
-	//	NULL,
-	//	NULL,
-	//	&m_TextureNormal,
-	//	NULL);
-	//assert(m_TextureNormal);
-
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\vertexLightingVS.cso");
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\vertexLightingPS.cso");
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 
 	GameObject::Init();
 }
@@ -119,10 +68,7 @@ void Trail::Uninit()
 {
 
 	m_VertexBuffer->Release();
-	//m_IndexBuffer->Release();
 	m_Texture->Release();
-	//m_TextureNormal->Release();
-
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
@@ -139,67 +85,7 @@ void Trail::Update()
 
 
 	
-	/*ImGui::SetNextWindowSize(ImVec2(400, 250));
-	ImGui::Begin("Top");
-	while (!m_TopVertexArray.empty()) {
-		D3DXVECTOR3 element = m_TopVertexArray.front();
-		ImGui::Text("Element : (%f, %f, %f)", element.x, element.y, element.z);
-		m_TopVertexArray.pop();
-	}
-	ImGui::End();
-
-	ImGui::SetNextWindowSize(ImVec2(400, 250));
-	ImGui::Begin("Bottom");
-	while (!m_BottomVertexArray.empty()) {
-		D3DXVECTOR3 element = m_BottomVertexArray.front();
-		ImGui::Text("Element : (%f, %f, %f)", element.x, element.y, element.z);
-		m_BottomVertexArray.pop();
-	}
-	ImGui::End();*/
-
 	
-
-	
-	
-	
-
-	//size_t count = m_TopVertexArray.size();
-
-	//if (count > 10)
-	//{
-	//	m_TopVertexArray.clear();
-	//	m_BottomVertexArray.clear();
-	//}
-	//
-	//
-
-
-	//ImGui::SetNextWindowSize(ImVec2(400, 250));
-	//ImGui::Begin("Count");
-	//for (int i = 0; i < m_TopVertexArray.size(); ++i)
-	//{
-	//	ImGui::Text("Size: %zu", count);
-	//}
-
-	//ImGui::End();
-
-	//ImGui::SetNextWindowSize(ImVec2(400, 250));
-	//ImGui::Begin("TopVertexArray");
-	//for (int i = 0; i < m_TopVertexArray.size(); ++i)
-	//{
-	//	ImGui::Text("TopVertex %d: (%f, %f, %f)", i, m_TopVertexArray[i].x, m_TopVertexArray[i].y, m_TopVertexArray[i].z);
-	//}
-
-	//ImGui::End();
-
-	//ImGui::SetNextWindowSize(ImVec2(400, 250));
-	//ImGui::Begin("BottomVertexArray");
-	//for (int i = 0; i < m_TopVertexArray.size(); ++i)
-	//{
-	//	ImGui::Text("BottomVertex %d: (%f, %f, %f)", i, m_BottomVertexArray[i].x, m_BottomVertexArray[i].y, m_BottomVertexArray[i].z);
-	//}
-
-	//ImGui::End();
 
 }
 
@@ -291,8 +177,7 @@ void Trail::Draw()
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
 
-	// インデックスバッファ設定
-	//Renderer::GetDeviceContext()->IASetIndexBuffer(m_IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
 
 	// マテリアル設定
 	MATERIAL material;
@@ -303,13 +188,12 @@ void Trail::Draw()
 
 	// テクスチャ設定
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-	//Renderer::GetDeviceContext()->PSSetShaderResources(2, 1, &m_TextureNormal);
+
 
 	// プリミティブトポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	// ポリゴン描画
-	//Renderer::GetDeviceContext()->DrawIndexed(((VERTEX_NUMBER + 2) * 2) * VERTEX_NUMBER - 2, 0, 0);
 	Renderer::GetDeviceContext()->Draw(VERTEX_NUMBER , 0);
 }
 

@@ -4,8 +4,8 @@
 #include<queue>
 #include<deque>
 
-#define VERTEX_NUMBER			8
-#define KEEP_VERTEX				8
+#define VERTEX_NUMBER			14
+#define KEEP_VERTEX				14
 
 class Trail : public GameObject
 {
@@ -21,21 +21,12 @@ private:
 	VERTEX_3D		m_Vertex[VERTEX_NUMBER * 4]{};
 
 	
-	//std::vector<D3DXVECTOR3> m_TopVertexArray;
-	//std::vector<D3DXVECTOR3> m_BottomVertexArray;
-
 	std::queue<D3DXVECTOR3> m_TopVertexArray;
 	std::queue<D3DXVECTOR3> m_BottomVertexArray;
 
 	std::queue<D3DXVECTOR3> m_TopVertexArrayCopy;
 	std::queue<D3DXVECTOR3> m_BottomVertexArrayCopy;
 
-
-	/*std::queue<D3DXVECTOR3> m_TopVertexArray;
-	std::queue<D3DXVECTOR3> m_BottomVertexArray;
-
-	std::queue<D3DXVECTOR3> m_TopVertexArrayCopy;
-	std::queue<D3DXVECTOR3> m_BottomVertexArrayCopy;*/
 
 	D3DXVECTOR3 befortopvertex;
 	D3DXVECTOR3 beforbottomvertex;
