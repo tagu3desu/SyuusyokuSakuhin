@@ -16,7 +16,7 @@ void Trail::Init()
 
 	// 頂点バッファ生成
 	{
-		for (int i = 0; i <= VERTEX_NUMBER; i++)
+		for (int i = 0; i < KEEP_VERTEX/2; i++)
 		{
 		
 				m_Vertex[i* 2].Position = D3DXVECTOR3((i - 10) * 5.0f, 2.0f,  0);
@@ -90,7 +90,7 @@ void Trail::Init()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/vertex.png",
+		"asset/texture/redtrail.png",
 		NULL,
 		NULL,
 		&m_Texture,
@@ -139,7 +139,7 @@ void Trail::Update()
 
 
 	
-	ImGui::SetNextWindowSize(ImVec2(400, 250));
+	/*ImGui::SetNextWindowSize(ImVec2(400, 250));
 	ImGui::Begin("Top");
 	while (!m_TopVertexArray.empty()) {
 		D3DXVECTOR3 element = m_TopVertexArray.front();
@@ -155,7 +155,7 @@ void Trail::Update()
 		ImGui::Text("Element : (%f, %f, %f)", element.x, element.y, element.z);
 		m_BottomVertexArray.pop();
 	}
-	ImGui::End();
+	ImGui::End();*/
 
 	
 
@@ -214,42 +214,56 @@ void Trail::Draw()
 
 	GameObject::Draw();
 
+	if (m_TopVertexArray.size() >= VERTEX_NUMBER/2)
+	{
+		m_TopVertexArray.pop();
+		m_BottomVertexArray.pop();
+	}
+
+	
+	m_TopVertexArray.push(toppostion->GetTopVertexPostion());
+	m_BottomVertexArray.push(bottomposition->GetBottomVertexPostion());
+
+	
+
+	
+	m_TopVertexArrayCopy = m_TopVertexArray;
+	m_BottomVertexArrayCopy = m_BottomVertexArray;
+
+	
+
 	//// 頂点データ書き換え// ここにメンバ変数で保存した頂点データを変える
 	D3D11_MAPPED_SUBRESOURCE msr;
 	Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-	
-	
-	if (m_TopVertexArray.size() > 10)
-	{
-		m_TopVertexArray.pop();
-		m_BottomVertexArrayCopy.pop();
-	}
-
-
 	////キュー
-	for (int i = 0; i < KEEP_VERTEX; i++)
-	{	
-		m_TopVertexArray.push(toppostion->GetTopVertexPostion());
-		m_BottomVertexArray.push(bottomposition->GetBottomVertexPostion());
-
-
-		vertex[i * 2].Position = m_TopVertexArray.front();
-		vertex[i * 2].TexCoord = D3DXVECTOR2(i * 1.0f, 0.0f);
-		vertex[i * 2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[i * 2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
-
-	
-		vertex[i * 2 + 1].Position = m_BottomVertexArray.front();
-		vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(i * 1.0f, 1.0f);
-		vertex[i * 2 + 1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
+	for (int i = 0; i < VERTEX_NUMBER/2; i++)
+	{
+		if (!m_TopVertexArrayCopy.empty())
+		{
+			vertex[i * 2].Position = m_TopVertexArrayCopy.front();
+			vertex[i * 2].TexCoord = D3DXVECTOR2(i * 1.0f, 0.0f);
+			vertex[i * 2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[i * 2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
+			m_TopVertexArrayCopy.pop();
+		}
+		
+		if (!m_BottomVertexArrayCopy.empty())
+		{
+			vertex[i * 2 + 1].Position = m_BottomVertexArrayCopy.front();
+			vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(i * 1.0f, 1.0f);
+			vertex[i * 2 + 1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+			vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
+			m_BottomVertexArrayCopy.pop();
+		}
+		
 	}	
 
-	
-	
 	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+
+	
+	
 
 	// 入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
@@ -296,6 +310,6 @@ void Trail::Draw()
 
 	// ポリゴン描画
 	//Renderer::GetDeviceContext()->DrawIndexed(((VERTEX_NUMBER + 2) * 2) * VERTEX_NUMBER - 2, 0, 0);
-	Renderer::GetDeviceContext()->Draw(VERTEX_NUMBER*4 , 0);
+	Renderer::GetDeviceContext()->Draw(VERTEX_NUMBER , 0);
 }
 

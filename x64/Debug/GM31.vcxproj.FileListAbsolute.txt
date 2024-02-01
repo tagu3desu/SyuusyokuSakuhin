@@ -56,3 +56,4 @@ C:\Users\kousu\Desktop\就プレ_ステートマシンつくりちゅ\x64\Debug\
 C:\Users\kousu\Desktop\就プレ_ステートマシンつくりちゅ\就プレ_ステートマシンつくりちゅ\x64\Debug\GM31.exe
 C:\Users\kousu\OneDrive\デスクトップ\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\x64\Debug\GM31.exe
 C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\x64\Debug\GM31.exe
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Debug\GM31.exe
