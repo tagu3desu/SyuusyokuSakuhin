@@ -14,7 +14,7 @@
 
 void Loading::Init()
 {
-	//AddGameObject<LoadingLogo>(SPRITE_LAYER);
+	AddGameObject<LoadingLogo>(SPRITE_LAYER);
 	AddGameObject<LoadingTexture>(SPRITE_LAYER);
 	std::thread th(&Game::Load);
 	th.detach();

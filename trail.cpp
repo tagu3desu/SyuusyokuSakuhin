@@ -228,7 +228,6 @@ void Trail::Draw()
 	}
 
 
-
 	////キュー
 	for (int i = 0; i < KEEP_VERTEX; i++)
 	{	
@@ -248,30 +247,7 @@ void Trail::Draw()
 		vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 	}	
 
-	//m_TopVertexArray.push_back(toppostion->GetTopVertexPostion());
-	//m_BottomVertexArray.push_back(bottomposition->GetBottomVertexPostion());
-
-	////ベクター
-	//for (int i = 0; i < KEEP_VERTEX; i++)
-	//{
-	//	
-	//	
-	//	//0 2
-	//	vertex[i * 2].Position = m_TopVertexArray[i];
-	//	vertex[i * 2].TexCoord = D3DXVECTOR2(i * 1.0f, 0.0f);
-	//	vertex[i * 2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	//	vertex[i * 2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
-
-
-	//	//1 3 
-	//	vertex[i * 2 + 1].Position = m_BottomVertexArray[i];
-	//	vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(i * 1.0f, 1.0f);
-	//	vertex[i * 2 + 1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	//	vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
-
-
-	//}
-
+	
 	
 	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
