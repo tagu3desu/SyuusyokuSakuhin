@@ -150,7 +150,7 @@ void Player::Update()
 
 
 	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Player");
 	ImGui::InputFloat3("Position", m_Position);
 	ImGui::InputFloat3("BPosition", m_BonePos);
@@ -166,7 +166,7 @@ void Player::Update()
 	ImGui::Checkbox("Guard", &m_isGuard); 
 	ImGui::Checkbox("EndGuard", &m_EndGuard);
 	ImGui::Checkbox("InpactGuard", &m_InpactGuard);
-	ImGui::End();
+	ImGui::End();*/
 
 	
 

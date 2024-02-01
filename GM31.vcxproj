@@ -198,9 +198,10 @@
     <ClCompile Include="field.cpp" />
     <ClCompile Include="floar.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="gametexturemanager.cpp" />
     <ClCompile Include="grass.cpp" />
     <ClCompile Include="howleffect.cpp" />
-    <ClCompile Include="loadingtexture.cpp">
+    <ClCompile Include="loadingtexturemanager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -321,9 +322,10 @@
     <ClInclude Include="floar.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameobject.h" />
+    <ClInclude Include="gametexturemanager.h" />
     <ClInclude Include="grass.h" />
     <ClInclude Include="howleffect.h" />
-    <ClInclude Include="loadingtexture.h" />
+    <ClInclude Include="loadingtexturemanager.h" />
     <ClInclude Include="potion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>

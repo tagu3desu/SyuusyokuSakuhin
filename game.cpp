@@ -45,6 +45,8 @@
 #include"trailtexture.h"
 #include"trail.h"
 
+#include"gametexturemanager.h"
+
 Torus* torus;
 Player* player;
 
@@ -124,6 +126,8 @@ void Game::Init()
 	collider->boneMatrix = Collider::MatrixConvert(player->m_Model->GetBone("mixamorig:Spine")->WorldMatrix);
 	collider->boneEnable = true;*/
 
+	
+
 	Enemy* enemy = AddGameObject<Enemy>();
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));
 	
@@ -145,8 +149,10 @@ void Game::Init()
 
 	AddGameObject<Trail>();
 
-
+	AddGameObject<GameTexture>(SPRITE_LAYER);
+	
 	AddGameObject<HPgage>(SPRITE_LAYER);
+
 	AddGameObject<Staminagage>(SPRITE_LAYER);
 
 	AddGameObject<Potion>(SPRITE_LAYER);

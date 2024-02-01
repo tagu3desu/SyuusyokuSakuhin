@@ -8,7 +8,7 @@
 #include"game.h"
 #include"fade.h"
 #include"LoadingLogo.h"
-#include"loadingtexture.h"
+#include"loadingtexturemanager.h"
 #include<thread>
 #include"textureload.h"
 

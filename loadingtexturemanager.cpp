@@ -1,6 +1,6 @@
 #include"main.h"
 #include"renderer.h"
-#include"loadingtexture.h"
+#include"loadingtexturemanager.h"
 #include"textureload.h"
 TextureLoad* texture_N = new TextureLoad;
 TextureLoad* texture_O = new TextureLoad;

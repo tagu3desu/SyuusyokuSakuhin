@@ -116,13 +116,13 @@ void Sword::Update()
 
 
 	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(400, 250));
-	ImGui::Begin("Sword");
-	ImGui::InputFloat3("Position", m_Position);
-	ImGui::InputFloat3("Ratation", m_Rotation);
-	ImGui::InputFloat3("Scale", m_Scale);
-	ImGui::InputFloat3("WorldPosition", worldposition);
-	ImGui::End();
+	//ImGui::SetNextWindowSize(ImVec2(400, 250));
+	//ImGui::Begin("Sword");
+	//ImGui::InputFloat3("Position", m_Position);
+	//ImGui::InputFloat3("Ratation", m_Rotation);
+	//ImGui::InputFloat3("Scale", m_Scale);
+	//ImGui::InputFloat3("WorldPosition", worldposition);
+	//ImGui::End();
 
 
 	

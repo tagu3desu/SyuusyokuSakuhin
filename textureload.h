@@ -24,17 +24,19 @@ private:
 	D3DXVECTOR2 m_maxpos{};
 
 
-	float Width=100;
-	float Height=100;
+
+	float m_width=100;
+	float m_height=100;
 
 public:
 	void Init(const char* TextureName);
 	void Uninit();
 	void Update();
-	void Draw(float m_x,float m_y);
+	void Draw(float m_x,float m_y );
 
 	void SetColor(D3DXCOLOR Color) { m_Color = Color; }
 	void SetTexturePostion(float X, float Y) { X = m_x; Y = m_y; }
+	void SetTextureScale(float width, float height) { m_width = width; m_height = height; }
 	void UpDownTexture(bool shake) { shakeflag = shake; }
 
 };

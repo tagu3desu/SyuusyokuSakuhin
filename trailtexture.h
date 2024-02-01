@@ -19,7 +19,7 @@ private:
 	
 
 	D3DXVECTOR3 m_TopVertex;
-	VERTEX_3D top;
+	
 
 public:
 	D3DXVECTOR3 GetTopVertexPostion() { return m_TopVertex; }

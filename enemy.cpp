@@ -294,7 +294,7 @@ void Enemy::Update()
 	
 
 	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
 	ImGui::InputFloat("Thredhold", &m_Threshold);
 	ImGui::InputFloat3("Position", m_Position);
@@ -309,7 +309,7 @@ void Enemy::Update()
 	ImGui::Checkbox("Attack", &m_attack);
 	ImGui::Checkbox("Collision", &m_EnemyAttackHit);
 	ImGui::InputInt("Count", &m_InvincibilityTime);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Enemy::Draw()

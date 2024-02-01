@@ -32,3 +32,4 @@ C:\Users\kousu\Desktop\就プレ_ステートマシンつくりちゅ\就プレ_
 C:\Users\kousu\OneDrive\デスクトップ\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\x64\Release\GM31.exe
 C:\Users\kousu\Desktop\就プレ_トレイルうまくいかん (2)\就プレ_トレイルうまくいかん\就プレ_トレイルうまくいかん\就プレ_ステートマシンつくりちゅ\x64\Release\GM31.exe
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Release\GM31.exe
+C:\Users\kousu\Desktop\就職作品\x64\Release\GM31.exe

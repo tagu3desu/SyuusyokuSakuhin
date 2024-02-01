@@ -93,9 +93,17 @@ void TrailTexture::Update()
 	
 
 	m_TopVertex = ExtractTranslationFromMatrix(m_Matrix);
+	
 
 
-	top = ConvertD3DXVECTOR3ToVERTEX3D(m_TopVertex);
+	////GUIにパラメータ表示
+	//ImGui::SetNextWindowSize(ImVec2(400, 250));
+	//ImGui::Begin("Top");
+	//ImGui::InputFloat3("Position", m_Position);
+	//ImGui::InputFloat3("Ratation", m_Rotation);
+	//ImGui::InputFloat3("Scale", m_Scale);
+	//ImGui::End();
+
 }
 
 void TrailTexture::Draw()
@@ -124,19 +132,19 @@ void TrailTexture::Draw()
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
 
-	//マテリアル設定
-	/*MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	material.TextureEnable = true;
-	Renderer::SetMaterial(material);*/
+	////マテリアル設定
+	//MATERIAL material;
+	//ZeroMemory(&material, sizeof(material));
+	//material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	//material.TextureEnable = true;
+	//Renderer::SetMaterial(material);
 
-	//テクスチャ設定
+	////テクスチャ設定
 	//Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
 
-	//プリミティブトポロジ設定
+	////プリミティブトポロジ設定
 	//Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	//ポリゴン描画
+	////ポリゴン描画
 	//Renderer::GetDeviceContext()->Draw(4, 0);
 }
