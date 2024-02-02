@@ -72,17 +72,17 @@ void Bullet::Update()
 		m_BulletState = BULLET_STATE_ATTACK;
 	}
 
-	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(400, 250));
-	ImGui::Begin("Bullet");
-	ImGui::InputFloat3("Direction", m_direction);
-	ImGui::InputFloat3("Position", m_Position);	
-	ImGui::InputFloat3("Ratation", m_Rotation);
-	ImGui::InputFloat3("Scale", m_Scale);
-	ImGui::InputFloat("Length", &m_BulletLife);
-	ImGui::InputFloat("m_FrameWait", &m_FrameWait);
-	ImGui::Checkbox("hit", &hit);
-	ImGui::End();
+	////GUIにパラメータ表示
+	//ImGui::SetNextWindowSize(ImVec2(400, 250));
+	//ImGui::Begin("Bullet");
+	//ImGui::InputFloat3("Direction", m_direction);
+	//ImGui::InputFloat3("Position", m_Position);	
+	//ImGui::InputFloat3("Ratation", m_Rotation);
+	//ImGui::InputFloat3("Scale", m_Scale);
+	//ImGui::InputFloat("Length", &m_BulletLife);
+	//ImGui::InputFloat("m_FrameWait", &m_FrameWait);
+	//ImGui::Checkbox("hit", &hit);
+	//ImGui::End();
 	
 }
 

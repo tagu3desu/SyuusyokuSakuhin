@@ -115,7 +115,7 @@ void Game::Init()
 
 
 	
-
+	
 	AddGameObject<Trail>();
 
 	AddGameObject<GameTexture>(SPRITE_LAYER);
@@ -168,6 +168,9 @@ void Game::Update()
 	Scene::Update();
 	Scene* scene = Manager::GetScene();
 	Player* player = scene->GetGameObject<Player>();
+	
+	
+	
 	
 
 	if (player->GetOverFlag())

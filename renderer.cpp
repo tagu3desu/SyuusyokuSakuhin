@@ -40,7 +40,8 @@ ID3D11DepthStencilView* Renderer::m_ReflectDepthStencilView = NULL;
 ID3D11Texture2D* Renderer::m_CubeReflectTexture = NULL;
 ID3D11ShaderResourceView* Renderer::m_CubeReflectShaderResourceView = NULL;
 
-
+ID3D11RasterizerState* Renderer::m_rsbuck=NULL;
+ID3D11RasterizerState* Renderer::m_rsnone = NULL;
 
 void Renderer::Init()
 {
@@ -133,17 +134,30 @@ void Renderer::Init()
 
 
 
-	// ラスタライザステート設定
-	D3D11_RASTERIZER_DESC rasterizerDesc{};
-	rasterizerDesc.FillMode = D3D11_FILL_SOLID; 
-	rasterizerDesc.CullMode = D3D11_CULL_BACK; 
-	rasterizerDesc.DepthClipEnable = TRUE; 
-	rasterizerDesc.MultisampleEnable = FALSE; 
+	{
+		// ラスタライザステート設定片面
+		D3D11_RASTERIZER_DESC rasterizerDesc{};
+		rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+		rasterizerDesc.CullMode = D3D11_CULL_BACK;
+		rasterizerDesc.DepthClipEnable = TRUE;
+		rasterizerDesc.MultisampleEnable = FALSE;
 
-	ID3D11RasterizerState *rs;
-	m_Device->CreateRasterizerState( &rasterizerDesc, &rs );
+		
+		m_Device->CreateRasterizerState(&rasterizerDesc, &m_rsbuck);
+	}
 
-	m_DeviceContext->RSSetState( rs );
+	{
+		// ラスタライザステート設定両面
+		D3D11_RASTERIZER_DESC rasterizerDesc{};
+		rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+		rasterizerDesc.CullMode = D3D11_CULL_NONE;
+		rasterizerDesc.DepthClipEnable = TRUE;
+		rasterizerDesc.MultisampleEnable = FALSE;
+
+				m_Device->CreateRasterizerState(&rasterizerDesc, &m_rsnone);
+	}
+
+	m_DeviceContext->RSSetState( m_rsbuck );
 
 
 
@@ -647,4 +661,16 @@ void Renderer::SetDepthViewport(void)
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	m_DeviceContext->RSSetViewports(1, &vp);
+}
+
+void Renderer::SetRssetEnable(bool enable)
+{
+	if (enable)
+	{
+		m_DeviceContext->RSSetState(m_rsnone);
+	}
+	else
+	{
+		m_DeviceContext->RSSetState(m_rsbuck);
+	}
 }

@@ -127,6 +127,10 @@ private:
 	static ID3D11Texture2D* m_CubeReflectTexture;
 	static ID3D11ShaderResourceView* m_CubeReflectShaderResourceView;
 
+	//ラスタライザ
+	static ID3D11RasterizerState* m_rsbuck;
+	static ID3D11RasterizerState* m_rsnone;
+
 public:
 	static void Init();
 	static void Uninit();
@@ -179,4 +183,5 @@ public:
 
 	static void SetDefaultViewport(void);
 	static void SetDepthViewport(void);
+	static void SetRssetEnable(bool enable);
 };

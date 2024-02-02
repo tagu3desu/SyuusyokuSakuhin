@@ -28,7 +28,16 @@ void LoadingTexture::Init()
 
 void LoadingTexture::Uninit()
 {
-	
+	delete texture_N;
+	delete texture_O;
+	delete texture_W;
+	delete texture_L;
+	delete texture_O2;
+	delete texture_D;
+	delete texture_I;
+	delete texture_N2;
+	delete texture_G;
+
 }
 
 void LoadingTexture::Update()

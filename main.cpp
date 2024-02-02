@@ -1,4 +1,4 @@
-#if 1
+#if 0
 //デバック用環境
 #include "main.h"
 #include "manager.h"
