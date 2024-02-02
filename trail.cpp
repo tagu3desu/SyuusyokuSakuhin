@@ -50,7 +50,7 @@ void Trail::Init()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/redtrail.png",
+		"asset/texture/trail.png",
 		NULL,
 		NULL,
 		&m_Texture,
@@ -129,7 +129,7 @@ void Trail::Draw()
 		if (!m_TopVertexArrayCopy.empty())
 		{
 			vertex[i * 2].Position = m_TopVertexArrayCopy.front();
-			vertex[i * 2].TexCoord = D3DXVECTOR2(i * 1.0f, 0.0f);
+			vertex[i * 2].TexCoord = D3DXVECTOR2(/*i * 1.0f*/0.2f, 0.0f);
 			vertex[i * 2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 			vertex[i * 2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 			m_TopVertexArrayCopy.pop();
@@ -138,7 +138,7 @@ void Trail::Draw()
 		if (!m_BottomVertexArrayCopy.empty())
 		{
 			vertex[i * 2 + 1].Position = m_BottomVertexArrayCopy.front();
-			vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(i * 1.0f, 1.0f);
+			vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(/*i * 1.0f*/0.2f, 1.0f);
 			vertex[i * 2 + 1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 			vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 			m_BottomVertexArrayCopy.pop();

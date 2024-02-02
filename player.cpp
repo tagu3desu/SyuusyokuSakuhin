@@ -17,6 +17,7 @@
 #include"hpgage.h"
 #include"potioncount.h"
 
+#include"field.h"
 #include"howleffect.h"
 #include"GuardInpacteffect.h"
 
@@ -239,12 +240,7 @@ void Player::Update()
 		}
 	}
 
-	/*if (Input::GetKeyTrigger('B'))
-	{
-		Bullet* bullet = scene->AddGameObject<Bullet>();
-		bullet->SetPosition(m_Position + D3DXVECTOR3(0.0f,2.0f,0.0f));
-		bullet->SetVelocity(GetRight() * 2.2f);
-	}*/
+
 	//メッシュフィールドとの衝突判定
 	float groundHeight = 0.0f;
 	auto meshField = scene->GetGameObject<MeshField>();

@@ -165,11 +165,7 @@ public:
 			ID3D11ShaderResourceView* depthShadowTexture = Renderer::GetDepthShadowTexture();
 			Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &depthShadowTexture);
 		}
-		if (m_ReflectEnable)
-		{
-			
-			Renderer::GetDeviceContext()->PSSetShaderResources(2, 1, Renderer::GetCubeReflectShaderResourceView());
-		}
+		
 		if (m_dissolveEnable)
 		{
 			// テクスチャ設定

@@ -18,6 +18,7 @@
 #include"howleffect.h"
 #include<cstdlib>
 #include"bullet.h"
+#include"field.h"
 
 
 AnimationModel* Enemy::m_Model{};
@@ -210,6 +211,7 @@ void Enemy::Update()
 		//メッシュフィールドとの衝突判定
 		float groundHeight = 0.0f;
 		auto meshField = scene->GetGameObject<MeshField>();
+		//auto meshField = scene->GetGameObject<Field>();
 		groundHeight = meshField->GetHeight(m_Position);
 
 

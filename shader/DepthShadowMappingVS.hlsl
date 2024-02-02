@@ -1,7 +1,7 @@
 #include "common.hlsl"
 void main(in VS_IN In, out PS_IN Out)
 {
-    matrix wvp; //いつもの処理だが
+    matrix wvp; //いつもの処理
     wvp = mul(World, View); //1パス目はライトカメラの行列
     wvp = mul(wvp, Projection); //2パス目は通常カメラの行列が設定される
     Out.Position = mul(In.Position, wvp); //頂点座標をワールド変換して出力

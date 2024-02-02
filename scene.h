@@ -75,20 +75,6 @@ public:
 		 }
 	 }
 
-	 virtual void ReflectDraw()
-	 {
-		 for (int i = 0; i < MAX_LAYER; i++)
-		 {
-			 for (GameObject* gameObject : m_GameObject[i])
-			 {
-				 if (gameObject->GetReflectEnable())
-				 {
-					 gameObject->Draw();
-				 }
-			 }
-		 }
-	 }
-
 	 template <typename T>	//テンプレート関数
 	 T * AddGameObject(LAYER Layer=OBJECT_LAYER)
 	 {

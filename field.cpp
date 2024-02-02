@@ -1,6 +1,10 @@
 #include "main.h"
 #include "renderer.h"
 #include "field.h"
+#include"manager.h"
+#include"scene.h"
+#include"camera.h"
+
 
 void Field::Init()
 {
@@ -42,12 +46,18 @@ void Field::Init()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/field000.jpg",
+		"asset/texture/Floor_S.jpg",
 		NULL,
 		NULL,
 		&m_Texture,
 		NULL);
 	assert(m_Texture);
+
+	
+
+	
+
+	m_DepthEnable = true;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\DepthShadowMappingVS.cso");
@@ -61,7 +71,7 @@ void Field::Uninit()
 {
 	m_VertexBuffer->Release();
 	m_Texture->Release();
-
+	
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
@@ -73,6 +83,10 @@ void Field::Update()
 
 void Field::Draw()
 {
+	GameObject::Draw();
+	
+	
+
 	//入力レイアウト
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
@@ -83,8 +97,6 @@ void Field::Draw()
 	// テクスチャ設定
 	ID3D11ShaderResourceView* depthShadowTexture = Renderer::GetDepthShadowTexture();
 	Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &depthShadowTexture);
-
-
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;

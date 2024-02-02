@@ -95,9 +95,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			{
 				dwExecLastTime = dwCurrentTime;
 				GetCursorPos(&cursorPos);
-				
-				
-				
+
+
+
 				//É|Å[ÉYèàóù
 				Manager::Update();
 				Manager::Draw();

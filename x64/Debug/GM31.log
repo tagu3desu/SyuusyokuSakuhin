@@ -1,202 +1,35 @@
-﻿C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\DepthShadowMappingPS.hlsl(19,8-80): warning X3206: implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\DepthShadowMappingPS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\DepthShadowMappingVS.hlsl(2,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\DepthShadowMappingVS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\dissolvePS.hlsl(39,11-78): warning X3206: implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\dissolvePS.cso
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\envMappingPS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\envMappingVS.hlsl(6,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\envMappingVS.cso
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\FogPS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\FogVS.hlsl(5,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\FogVS.cso
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\gaugePS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\gaugeVS.hlsl(6,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\gaugeVS.cso
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\pixelLightingPS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\pixelLightingRimPS.hlsl(27,20-50): warning X3081: comma expression used where a vector constructor may have been intended
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\pixelLightingRimPS.hlsl(27,20-50): warning X3081: potentially unintended use of a comma expression in a variable initializer
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\pixelLightingRimPS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\pixelLightingRimVS.hlsl(6,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\pixelLightingRimVS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\pixelLightingVS.hlsl(6,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\pixelLightingVS.cso
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\staminagaugePS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\staminagaugeVS.hlsl(6,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\staminagaugeVS.cso
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\unlitTexturePS.cso
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\unlitTexturePS2.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\unlitTextureVS.hlsl(5,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\unlitTextureVS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\unlitTextureVS2.hlsl(5,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\unlitTextureVS2.cso
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\vertexLightingPS.cso
-C:\Users\kousu\OneDrive\�`E??�N�g�b�v\�A�E��i\shader\vertexLightingVS.hlsl(4,34-36): warning X3578: Output value 'Out' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\vertexLightingVS.cso
-  animationModel.cpp
-  audio.cpp
-  bladeefect2.cpp
-  box.cpp
-  bullet.cpp
-  button.cpp
-  camera.cpp
-  child.cpp
-  collider.cpp
-  cylinder.cpp
-  door.cpp
-  doorframe.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\collider.h(21,27): warning C4305: '初期化中': 'double' から 'float' へ切り詰めます。 (ソース ファイルをコンパイルしています collider.cpp)
-  enemy.cpp
-  enemy2.cpp
-  explosion.cpp
-  fade.cpp
-  field.cpp
-  floar.cpp
+﻿  enemy.cpp
   game.cpp
-  grass.cpp
-  howleffect.cpp
-  loadingtexture.cpp
-  potion.cpp
+  gametexturemanager.cpp
+  loadingtexturemanager.cpp
   hpgage.cpp
-  imgui.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_dx11.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\grass.cpp(65,35): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\grass.cpp(65,26): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  imgui_impl_win32.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.h(15,23): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています potion.cpp)
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.h(16,24): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています potion.cpp)
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.h(17,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています potion.cpp)
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.h(18,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています potion.cpp)
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy.cpp(351,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy.cpp(351,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy.cpp(481,23): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+  Loading.cpp
+  player.cpp
+  staminagage.cpp
+  textureload.cpp
+  trail.cpp
+  trailtexture.cpp
+  wepon_sword.cpp
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(89,16): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(94,16): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(102,20): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(136,20): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(137,20): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\playerHPGage.h(16,16): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\playerHPGage.h(18,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\playerHPGage.h(32,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy.cpp(351,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.h(15,23): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy.cpp(351,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.h(16,24): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.h(17,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.h(18,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\collider.h(21,27): warning C4305: '初期化中': 'double' から 'float' へ切り詰めます。 (ソース ファイルをコンパイルしています game.cpp)
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy2.cpp(115,22): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy2.cpp(157,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy2.cpp(157,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-  imgui_tables.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.cpp(122,39): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.cpp(122,36): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.cpp(127,47): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.cpp(127,38): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.cpp(132,40): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.cpp(132,36): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.cpp(137,47): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potion.cpp(137,37): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  imgui_widgets.cpp
-  input.cpp
-  Loading.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\hpgage.cpp(103,17): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\hpgage.cpp(135,21): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\hpgage.cpp(136,21): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\hpgage.cpp(137,21): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  LoadingLogo.cpp
-  main.cpp
-  manager.cpp
-  meshField.cpp
-  model.cpp
-  Particle.cpp
-  player.cpp
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(12,1): warning C4005: 'DXGI_STATUS_OCCLUDED': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57679,1): message : 'DXGI_STATUS_OCCLUDED' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(13,1): warning C4005: 'DXGI_STATUS_CLIPPED': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57688,1): message : 'DXGI_STATUS_CLIPPED' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(14,1): warning C4005: 'DXGI_STATUS_NO_REDIRECTION': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57697,1): message : 'DXGI_STATUS_NO_REDIRECTION' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(15,1): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57706,1): message : 'DXGI_STATUS_NO_DESKTOP_ACCESS' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(16,1): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57715,1): message : 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(17,1): warning C4005: 'DXGI_STATUS_MODE_CHANGED': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57724,1): message : 'DXGI_STATUS_MODE_CHANGED' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(18,1): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57733,1): message : 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(21,1): warning C4005: 'DXGI_ERROR_INVALID_CALL': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57748,1): message : 'DXGI_ERROR_INVALID_CALL' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(22,1): warning C4005: 'DXGI_ERROR_NOT_FOUND': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57757,1): message : 'DXGI_ERROR_NOT_FOUND' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(23,1): warning C4005: 'DXGI_ERROR_MORE_DATA': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57766,1): message : 'DXGI_ERROR_MORE_DATA' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(24,1): warning C4005: 'DXGI_ERROR_UNSUPPORTED': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57775,1): message : 'DXGI_ERROR_UNSUPPORTED' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(25,1): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57784,1): message : 'DXGI_ERROR_DEVICE_REMOVED' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(26,1): warning C4005: 'DXGI_ERROR_DEVICE_HUNG': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57793,1): message : 'DXGI_ERROR_DEVICE_HUNG' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(27,1): warning C4005: 'DXGI_ERROR_DEVICE_RESET': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57803,1): message : 'DXGI_ERROR_DEVICE_RESET' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(28,1): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57812,1): message : 'DXGI_ERROR_WAS_STILL_DRAWING' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(29,1): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57822,1): message : 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(30,1): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57831,1): message : 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(31,1): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57841,1): message : 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(32,1): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57850,1): message : 'DXGI_ERROR_NONEXCLUSIVE' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(33,1): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57859,1): message : 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(34,1): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57869,1): message : 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dxgitype.h(35,1): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(57878,1): message : 'DXGI_ERROR_REMOTE_OUTOFMEMORY' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(917,1): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(58170,1): message : 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(918,1): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(58179,1): message : 'D3D11_ERROR_FILE_NOT_FOUND' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(919,1): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(58189,1): message : 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(920,1): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(58198,1): message : 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d10.h(608,1): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(58146,1): message : 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d10.h(609,1): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': マクロが再定義されました。 (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winerror.h(58155,1): message : 'D3D10_ERROR_FILE_NOT_FOUND' の以前の定義を確認してください (ソース ファイルをコンパイルしています imgui\imgui_impl_dx11.cpp)
-  polygon2D.cpp
-  potioncount.cpp
-  renderer.cpp
-  result.cpp
-  result_gameover.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\main.cpp(151,49): warning C4244: 'return': 'LONG' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\main.cpp(152,49): warning C4244: 'return': 'LONG' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\main.cpp(154,56): warning C4244: 'return': 'LONG' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\main.cpp(155,56): warning C4244: 'return': 'LONG' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\meshField.cpp(216,24): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\meshField.cpp(217,25): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
-  rock.cpp
-  score.cpp
-  shadow.cpp
-  sky.cpp
-  sprite.cpp
-  staminagage.cpp
-  textureload.cpp
-  title.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potioncount.cpp(112,12): warning C4305: '初期化中': 'double' から 'float' へ切り詰めます。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\potioncount.cpp(113,12): warning C4305: '初期化中': 'double' から 'float' へ切り詰めます。
-  titlebutton.cpp
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy.cpp(481,23): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\hpgage.cpp(91,17): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\hpgage.cpp(123,21): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\hpgage.cpp(124,21): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\hpgage.cpp(125,21): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(490,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(490,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(496,16): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
@@ -205,26 +38,4 @@ C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(1430,30): war
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(1442,31): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(1453,31): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
 C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(1464,31): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
-  titleLogo.cpp
-  torus.cpp
-  trail.cpp
-  trailtexture.cpp
-  treeobj.cpp
-  treetexture.cpp
-  watersurface.cpp
-  wepon_axe.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(89,16): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(94,16): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(102,20): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(136,20): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\staminagage.cpp(137,20): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  wepon_galbert.cpp
-  wepon_gun.cpp
-  wepon_shield.cpp
-  wepon_sword.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\watersurface.cpp(265,19): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\watersurface.cpp(268,57): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\watersurface.cpp(332,24): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\watersurface.cpp(333,25): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
-  LINK : 前回のインクリメンタル リンクで C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Debug\GM31.exe が見つからなかったか、ビルドされませんでした。フル リンクを行います。
   GM31.vcxproj -> C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Debug\GM31.exe
