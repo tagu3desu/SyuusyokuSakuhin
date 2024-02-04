@@ -101,6 +101,8 @@ private:
 	int m_potioncount;
 	int m_Stamina;
 
+	
+
 	//“–‚½‚è”»’è—p
 	int m_InvincibilityTime = 0;
 	bool m_PlayerHitEnemy = false;

@@ -5,6 +5,7 @@ C:\Users\kousu\Desktop\就職作品\box.cpp;C:\Users\kousu\Desktop\就職作品\
 C:\Users\kousu\Desktop\就職作品\bullet.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\bullet.obj
 C:\Users\kousu\Desktop\就職作品\button.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\button.obj
 C:\Users\kousu\Desktop\就職作品\camera.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\camera.obj
+C:\Users\kousu\Desktop\就職作品\campField.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\campField.obj
 C:\Users\kousu\Desktop\就職作品\child.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\child.obj
 C:\Users\kousu\Desktop\就職作品\collider.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\collider.obj
 C:\Users\kousu\Desktop\就職作品\cylinder.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\cylinder.obj
@@ -56,7 +57,6 @@ C:\Users\kousu\Desktop\就職作品\titleLogo.cpp;C:\Users\kousu\Desktop\就職�
 C:\Users\kousu\Desktop\就職作品\titleplayer.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\titleplayer.obj
 C:\Users\kousu\Desktop\就職作品\torus.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\torus.obj
 C:\Users\kousu\Desktop\就職作品\trail.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\trail.obj
-C:\Users\kousu\Desktop\就職作品\trailtexture.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\trailtexture.obj
 C:\Users\kousu\Desktop\就職作品\treeobj.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\treeobj.obj
 C:\Users\kousu\Desktop\就職作品\treetexture.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\treetexture.obj
 C:\Users\kousu\Desktop\就職作品\watersurface.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\watersurface.obj

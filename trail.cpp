@@ -4,31 +4,30 @@
 #include "trail.h"
 #include "scene.h"
 #include"player.h"
-
 #include"input.h"
-#include"trailtexture.h"
 #include"wepon_sword.h"
+
 
 void Trail::Init()
 {
 	Scene* scene = Manager::GetScene();
-	Player* player = scene->GetGameObject<Player>();
-
+	SwordTopVertex* toppostion = scene->GetGameObject<SwordTopVertex>();
+	Sword* bottomposition = scene->GetGameObject<Sword>();
 	// 頂点バッファ生成
 	{
-		for (int i = 0; i < KEEP_VERTEX/2; i++)
+		for (int i = 0; i < KEEP_VERTEX / 2; i++)
 		{
-		
-				m_Vertex[i* 2].Position = D3DXVECTOR3((i - 10) * 5.0f, 2.0f,  0);
-				m_Vertex[i* 2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
-				m_Vertex[i* 2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-				m_Vertex[i* 2].TexCoord = D3DXVECTOR2(i * 1.0f,  0.0f);
 
-				m_Vertex[i * 2 + 1].Position = D3DXVECTOR3((i - 10) * 5.0f, 2.0f, 5.0f);
-				m_Vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
-				m_Vertex[i * 2 + 1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-				m_Vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(i * 1.0f, 1.0f);
-			
+			m_Vertex[i * 2].Position = D3DXVECTOR3((i - 10) * 5.0f, 2.0f, 0);
+			m_Vertex[i * 2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
+			m_Vertex[i * 2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+			m_Vertex[i * 2].TexCoord = D3DXVECTOR2(i * 1.0f, 0.0f);
+
+			m_Vertex[i * 2 + 1].Position = D3DXVECTOR3((i - 10) * 5.0f, 2.0f, 5.0f);
+			m_Vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
+			m_Vertex[i * 2 + 1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+			m_Vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(i * 1.0f, 1.0f);
+
 		}
 
 		D3D11_BUFFER_DESC bd;
@@ -46,7 +45,7 @@ void Trail::Init()
 	}
 
 
-	
+
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
@@ -56,12 +55,15 @@ void Trail::Init()
 		&m_Texture,
 		NULL);
 	assert(m_Texture);
+	
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\unlitTexturePS.cso");
 
 	GameObject::Init();
 }
+
+
 
 
 void Trail::Uninit()
@@ -79,13 +81,6 @@ void Trail::Uninit()
 
 void Trail::Update()
 {
-	Scene* scene = Manager::GetScene();
-	TrailTexture* toppostion = scene->GetGameObject<TrailTexture>();
-	Sword* bottomposition = scene->GetGameObject<Sword>();
-
-
-	
-	
 
 }
 
@@ -94,32 +89,32 @@ void Trail::Draw()
 {
 	
 	Scene* scene = Manager::GetScene();
-	TrailTexture* toppostion = scene->GetGameObject<TrailTexture>();
+	SwordTopVertex* swordtopvertex = scene->GetGameObject<SwordTopVertex>();
 	Sword* bottomposition = scene->GetGameObject<Sword>();
 	Player* player = scene->GetGameObject<Player>();
 	
+	
+	Renderer::SetRssetEnable(true);
+	GameObject::Draw();
+
+	if (m_TopVertexArray.size() >= VERTEX_NUMBER / 2)
+	{
+		m_TopVertexArray.pop();
+		m_BottomVertexArray.pop();
+	}
+
+
+	m_TopVertexArray.push(swordtopvertex->GetTopVertexPostion());
+	m_BottomVertexArray.push(bottomposition->GetBottomVertexPostion());
+
+
+
+
+	m_TopVertexArrayCopy = m_TopVertexArray;
+	m_BottomVertexArrayCopy = m_BottomVertexArray;
+
 	if (player->GetPlayerAttack())
 	{
-		Renderer::SetRssetEnable(true);
-		GameObject::Draw();
-
-		if (m_TopVertexArray.size() >= VERTEX_NUMBER / 2)
-		{
-			m_TopVertexArray.pop();
-			m_BottomVertexArray.pop();
-		}
-
-
-		m_TopVertexArray.push(toppostion->GetTopVertexPostion());
-		m_BottomVertexArray.push(bottomposition->GetBottomVertexPostion());
-
-
-
-
-		m_TopVertexArrayCopy = m_TopVertexArray;
-		m_BottomVertexArrayCopy = m_BottomVertexArray;
-
-
 
 		//// 頂点データ書き換え// ここにメンバ変数で保存した頂点データを変える
 		D3D11_MAPPED_SUBRESOURCE msr;
@@ -168,8 +163,7 @@ void Trail::Draw()
 		D3DXMATRIX world, scale, rot, trans;
 		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-		/*D3DXMatrixTranslation(&trans, m_Position.x , m_Position.y , m_Position.z);*/
-		D3DXMatrixTranslation(&trans, befortopvertex.x, befortopvertex.y, befortopvertex.z);
+		D3DXMatrixTranslation(&trans, m_Position.x , m_Position.y , m_Position.z);
 		world = scale * rot * trans;
 		Renderer::SetWorldMatrix(&world);
 

@@ -1,22 +1,25 @@
 #include"main.h"
 #include"renderer.h"
 #include"collider.h"
-#include"player.h"
 #include"scene.h"
 #include"manager.h"
+#include"wepon_sword.h"
+#include"input.h"
 void Collider::Init()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\box.obj");
+	m_Model->Load("asset\\model\\collider.obj");
 
 	
+	m_Scale = D3DXVECTOR3(0.07f, 0.05f, 0.5f);
+	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.2f);
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\vertexLightingVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\vertexLightingPS.cso");
+		"shader\\collidervertexLightingPS.cso");
 	
 }
 
@@ -33,14 +36,22 @@ void Collider::Uninit()
 void Collider::Update()
 {
 	Scene* scene = Manager::GetScene();
-	Player* player = scene->GetGameObject<Player>();
+	Sword* sword = scene->GetGameObject<Sword>();
 
-	m_Position = player->GetBonePosition();
-	m_Scale = player->GetScale()*10;
+	m_Parent = sword->GetMatrix();
+
+	if (Input::GetKeyPress('8'))
+	{
+		m_ColliderColor = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+	}
+	if (Input::GetKeyPress('7'))
+	{
+		m_ColliderColor = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
+	}
+
 	//GUIにパラメータ表示
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Box");
-
+	ImGui::Begin("Collider");
 	ImGui::InputFloat3("Position", m_Position);	
 	ImGui::InputFloat3("Scale", m_Scale);
 	ImGui::End();
@@ -56,16 +67,21 @@ void Collider::Draw()
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
+
 	//// テクスチャ設定
 	/*ID3D11ShaderResourceView* depthShadowTexture = Renderer::GetDepthShadowTexture();
 	Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &depthShadowTexture);*/
+	PARAMETER parameter;
+	parameter.collidercollor = D3DXCOLOR(m_ColliderColor.r, m_ColliderColor.g, m_ColliderColor.b, m_ColliderColor.a);
+	Renderer::SetParameter(parameter);
+
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot * trans;
+	world = scale * rot * trans * m_Parent;
 	Renderer::SetWorldMatrix(&world);
 
 	m_Model->Draw();

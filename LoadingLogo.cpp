@@ -30,8 +30,6 @@ void LoadingLogo::Uninit()
 
 void LoadingLogo::Update()
 {
-	//GameObject::Update();
-	//m_Position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
 	m_Position = (D3DXVECTOR3(SCREEN_WIDTH *0.5, SCREEN_HEIGHT *0.5, 0.0f));
 	m_Rotation.z += 0.1f;
 }

@@ -13,7 +13,7 @@ class Trail : public GameObject
 private:
 	ID3D11Buffer* m_VertexBuffer{};
 	ID3D11ShaderResourceView* m_Texture{};
-	ID3D11ShaderResourceView* m_TextureNormal{};
+	
 	ID3D11VertexShader* m_VertexShader{};
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
@@ -28,15 +28,17 @@ private:
 	std::queue<D3DXVECTOR3> m_BottomVertexArrayCopy;
 
 
-	D3DXVECTOR3 befortopvertex;
-	D3DXVECTOR3 beforbottomvertex;
+	D3DXVECTOR3 m_topvertex;
+	D3DXVECTOR3 m_bottomvertex;
 
-	VERTEX_3D top;
-	VERTEX_3D bottom;
+	
 
 public:
-	void Init() override;
-	void Uninit() override;
-	void Update() override;
-	void Draw() override;
+	void Init() ;
+	void Uninit() ;
+	void Update() ;
+	void Draw() ;
+
+	void SetTrail(D3DXVECTOR3 top, D3DXVECTOR3 bottom) { m_topvertex = top, m_bottomvertex = bottom; }
+
 };

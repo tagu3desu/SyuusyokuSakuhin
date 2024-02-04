@@ -71,6 +71,8 @@ struct PARAMETER
 	
     float4 stamina;
     float4 baseStaminaColor;
+	
+    float4 collidercollor;
 };
 
 cbuffer ParamBuffer : register(b6)
@@ -78,6 +80,8 @@ cbuffer ParamBuffer : register(b6)
     float dissolveThreshold;
     float disolveRange;
     float2 dummy;
+	
+   
 	
     PARAMETER param;
 }

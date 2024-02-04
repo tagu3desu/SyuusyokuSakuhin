@@ -175,6 +175,7 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="campField.cpp" />
     <ClCompile Include="child.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="collisionHit.cpp">
@@ -280,7 +281,6 @@
     </ClCompile>
     <ClCompile Include="torus.cpp" />
     <ClCompile Include="trail.cpp" />
-    <ClCompile Include="trailtexture.cpp" />
     <ClCompile Include="treeobj.cpp" />
     <ClCompile Include="treetexture.cpp" />
     <ClCompile Include="watersurface.cpp">
@@ -302,6 +302,7 @@
     <ClInclude Include="bullet.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="campField.h" />
     <ClInclude Include="child.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="collisionHit.h" />
@@ -392,7 +393,6 @@
     </ClInclude>
     <ClInclude Include="torus.h" />
     <ClInclude Include="trail.h" />
-    <ClInclude Include="trailtexture.h" />
     <ClInclude Include="treeobj.h" />
     <ClInclude Include="treetexture.h" />
     <ClInclude Include="watersurface.h">
@@ -406,6 +406,12 @@
     <ClInclude Include="wepon_sword.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="shader\collidervertexLightingPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="shader\common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

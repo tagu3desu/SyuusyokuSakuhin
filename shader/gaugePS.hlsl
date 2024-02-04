@@ -29,6 +29,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     //float dist = length(uv) / 0.5;
     //outDiffuse.a = (1.0 - step(1.0, dist)) * step(0.9, dist);
    
+    
     //â°HPÉQÅ[ÉW
    {
     

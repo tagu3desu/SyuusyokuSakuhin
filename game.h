@@ -11,7 +11,11 @@ private:
 
 	static bool m_LoadFinish;
 
-	bool getvertex{};
+	LIGHT light;
+	float x = 1.0f;
+	float y = -1.0f;
+	float z = 1.0f;
+	float a = 0.0f;
 public:
 	static void Load();
 	static void Unload();

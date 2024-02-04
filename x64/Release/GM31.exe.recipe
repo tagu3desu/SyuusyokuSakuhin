@@ -7,6 +7,9 @@
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
+      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\collidervertexLightingPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>C:\Users\kousu\Desktop\就職作品\shader\DepthShadowMappingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>

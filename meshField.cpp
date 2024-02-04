@@ -3,36 +3,47 @@
 #include "renderer.h"
 #include "meshField.h"
 
+ID3D11Buffer* MeshField::m_VertexBuffer{};
+ID3D11Buffer* MeshField::m_IndexBuffer{};
+ID3D11ShaderResourceView* MeshField::m_Texture{};
+VERTEX_3D					MeshField::m_Vertex[21][21]{};
+
 float g_FieldHeight[21][21]
 {
-	{2.0f,2.0f,2.0f,2.0f,2.0f,2.0,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,1.0f,0.0f,0.0f,0.0,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,2.0f,0.0f,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,0.0f,0.0f,1.0f,0.0,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,1.0f,0.0f,1.0f,0.0,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,1.0f,0.0f,1.0f,1.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,0.0f,0.0f,1.0f,1.0,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,0.0f,0.0f,2.0f,0.0,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,0.0f,0.0f,1.0f,0.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,2.0f},
-	{2.0f,0.0f,0.0f,0.0f,1.0f,0.0,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,-2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
-	{2.0f,0.0f,0.0f,0.0f,1.0f,0.0,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,-2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,1.0f,2.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,-2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,-2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,-2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,-2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,-2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,-2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
-	{2.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,-1.0f,-2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
-	{2.0f,2.0f,2.0f,2.0f,2.0f,2.0,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,2.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f,-3.0f},
+	{9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,2.0f,0.0f,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,1.0f,0.0,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,1.0f,0.0f,1.0f,0.0,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,1.0f,0.0f,1.0f,1.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,1.0f,1.0,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,2.0f,0.0,0.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,1.0f,0.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,1.0f,0.0,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,1.0f,0.0,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,1.0f,2.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,1.0f,0.0f,0.0f,0.0,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,2.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,0.0f,0.0f,0.0f,0.0f,0.0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,9.0f},
+	{9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f},
 };
-
-
 
 void MeshField::Init()
 {
+	m_DepthEnable = true;
+	m_ReflectEnable = true;
 
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowMappingVS.cso");
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowMappingPS.cso");
+}
+
+void MeshField::Load()
+{
 	// 頂点バッファ生成
 	{
 		for (int x = 0; x <= 20; x++)
@@ -79,7 +90,7 @@ void MeshField::Init()
 
 	// インデックスバッファ生成
 	{
-		unsigned int index[(22 * 2) * 20 - 2 ];
+		unsigned int index[(22 * 2) * 20 - 2];
 
 		int i = 0;
 		for (int x = 0; x < 20; x++)
@@ -117,41 +128,31 @@ void MeshField::Init()
 		Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_IndexBuffer);
 	}
 
-	m_DepthEnable = true;
-	m_ReflectEnable = true;
+	
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-											"asset/texture/grass.jpg",
-											NULL,
-											NULL,
-											&m_Texture,
-											NULL);
-	assert( m_Texture );
-
-
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowMappingVS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowMappingPS.cso");
-
-
+		"asset/texture/grass.jpg",
+		NULL,
+		NULL,
+		&m_Texture,
+		NULL);
+	assert(m_Texture);
 }
 
-
-void MeshField::Uninit()
+void MeshField::Unload()
 {
-
 	m_VertexBuffer->Release();
 	m_IndexBuffer->Release();
 	m_Texture->Release();
+}
 
+void MeshField::Uninit()
+{
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
-
-
 }
-
 
 void MeshField::Update()
 {
@@ -250,4 +251,18 @@ float MeshField::GetHeight(D3DXVECTOR3 Position)
 	py = -((Position.x - pos1.x) * n.x + (Position.z - pos1.z) * n.z) / n.y + pos1.y;
 
 	return py;
+}
+
+D3DXVECTOR3 MeshField::GetCenterPosition()
+{
+	// マップの幅と高さ
+	float mapWidth = 20 * 5.0f;  // メッシュの数 * メッシュの幅
+	float mapHeight = 20 * 5.0f; // メッシュの数 * メッシュの高さ
+
+	// マップの中心座標を計算
+	float centerX = -mapWidth / 2.0f;
+	float centerZ = mapHeight / 2.0f;
+
+	// マップの中心座標を返す
+	return D3DXVECTOR3(centerX, 0.0f, centerZ); 
 }

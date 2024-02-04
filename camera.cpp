@@ -43,7 +43,7 @@ void Camera::Update()
 	ImGui::End();*/
 
 	
-#if 0 //デバッグ
+#if 1 //デバッグ
 	if (Input::GetKeyPress(VK_RIGHT))
 	{
 		m_Rotation -= 0.1f;

@@ -42,10 +42,9 @@
 #include"watersurface.h"
 #include"wepon_axe.h"
 #include"collider.h"
-#include"trailtexture.h"
 #include"trail.h"
-
 #include"gametexturemanager.h"
+#include"collider.h"
 
 Torus* torus;
 Player* player;
@@ -56,12 +55,12 @@ void Game::Load()
 {
 	Bullet::Load();
 	Enemy::Load();
-	//Enemy2::Load();
-	Child::Load();
 	Rock::Load();
 	TreeTexture::Load();
 	HowlEffect::Load();
-	TrailTexture::Load();
+	SwordTopVertex::Load();
+	MeshField::Load();
+	
 
 	m_LoadFinish = true;
 }
@@ -72,13 +71,11 @@ void Game::Unload()
 
 	Bullet::Unload();
 	Enemy::Unload();
-	//Enemy2::Unload();
-	Child::Unload();
 	Rock::Unload();
 	TreeTexture::Unload();
 	HowlEffect::Unload();
-	TrailTexture::Unload();
-
+	SwordTopVertex::Unload();
+	MeshField::Unload();
 }
 
 void Game::Init()
@@ -98,20 +95,20 @@ void Game::Init()
 	
 
 	player =  AddGameObject<Player>();
-	player->SetPosition(D3DXVECTOR3(-1.0f,0.0f, -4.0f));
+	player->SetPosition(D3DXVECTOR3(-1,0,-4));
 
 	//Gun* gun = AddGameObject<Gun>();
 	Sword*sword =AddGameObject<Sword>();
 	Shield* shield = AddGameObject<Shield>();
+	SwordTopVertex* swordtopvertex = AddGameObject<SwordTopVertex>();
 
-
-
+	Collider* collider = AddGameObject<Collider>();
 	
 
 	Enemy* enemy = AddGameObject<Enemy>();
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));
 	
-	TrailTexture* trailtexture = AddGameObject<TrailTexture>();
+	
 
 
 	
@@ -130,7 +127,7 @@ void Game::Init()
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
-	////木
+	//////木
 	for (int i = 0; i < 20; i++)
 	{
 		auto tree = AddGameObject<TreeTexture>();
@@ -143,7 +140,7 @@ void Game::Init()
 		tree->SetPosition(pos);
 	}
 
-	//////岩
+	////////岩
 	for (int i = 0; i < 20; i++)
 	{
 		auto rock = AddGameObject<Rock>();
@@ -169,8 +166,11 @@ void Game::Update()
 	Scene* scene = Manager::GetScene();
 	Player* player = scene->GetGameObject<Player>();
 	
+	Sword* sword = GetGameObject<Sword>();
 	
 	
+	
+
 	
 
 	if (player->GetOverFlag())
@@ -181,6 +181,15 @@ void Game::Update()
 	{
 		Manager::SetScene<Result>();
 	}
+
+	//GUIにパラメータ表示
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("Light");
+	ImGui::InputFloat("directionX",&x);
+	ImGui::InputFloat("directionY",&y);
+	ImGui::InputFloat("directionZ",&z);
+	ImGui::InputFloat("directionA", &a);
+	ImGui::End();
 }
 
 void Game::Uninit()
@@ -193,24 +202,33 @@ void Game::Uninit()
 void Game::Draw()
 {
 	Scene* scene = Manager::GetScene();
-	D3DXVECTOR3 playerpos =	player->GetPosition();
+	D3DXVECTOR3 lighttarget;
+	MeshField* meshfield= GetGameObject<MeshField>();
+
+	if (meshfield != nullptr)
+	{
+		//meshfield = GetGameObject<MeshField>();
+		lighttarget = meshfield->GetCenterPosition();
+	}
+
 
 	//ライトカメラ構造体の初期化
-	LIGHT light;
+	//LIGHT light;
 	light.Enable = true;
-	light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);	//方向
+	light.Direction = D3DXVECTOR4(x, y, z, a);	//方向
 	D3DXVec4Normalize(&light.Direction, &light.Direction);
 	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);	//環境光の色
 	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);	//拡散光の色
 
 
 	//ライトカメラのビュー行列を作成
-	D3DXVECTOR3 lightPos = D3DXVECTOR3(-50.0f + playerpos.x, 20.0f , -50.0f  + playerpos.z);
+	D3DXVECTOR3 lightPos = D3DXVECTOR3(-50.0f + lighttarget.x, 100.0f , -50.0f  + lighttarget.z);
+	//D3DXVECTOR3 lightPos = D3DXVECTOR3(lighttarget.x, 30.0f,lighttarget.z);
 	D3DXVECTOR3 lightTarget = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&light.ViewMatrix, &lightPos, &lightTarget, &lightUp);
 	//ライトカメラのプロジェクション行列を作成(マトリックス,視野角,アスペクト比,ニアクリップ,ファークリップ(描画距離))
-	D3DXMatrixPerspectiveFovLH(&light.ProjectionMatrix, 1.0f,(float)1.0f, 10.0f, 300.0f);
+	D3DXMatrixPerspectiveFovLH(&light.ProjectionMatrix, 1.0f,(float)1.0f, 35.0f, 400.0f);
 	Renderer::SetLight(light);
 
 	//** 1パス目 シャドウバッファの作成 **//

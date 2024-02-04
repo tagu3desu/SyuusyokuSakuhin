@@ -16,10 +16,11 @@
 #include"staminagage.h"
 #include"hpgage.h"
 #include"potioncount.h"
-
 #include"field.h"
 #include"howleffect.h"
 #include"GuardInpacteffect.h"
+#include"wepon_sword.h"
+#include"trail.h"
 
 void Player::Init()
 {
@@ -222,7 +223,7 @@ void Player::Update()
 		length = D3DXVec3Length(&direction);
 	}
 	
-
+	
 
 
 	if (m_InviciblilityStartFlag)
@@ -243,8 +244,18 @@ void Player::Update()
 
 	//メッシュフィールドとの衝突判定
 	float groundHeight = 0.0f;
-	auto meshField = scene->GetGameObject<MeshField>();
-	groundHeight = meshField->GetHeight(m_Position);
+	//auto meshField = scene->GetGameObject<MeshField>();
+	//MeshField* meshField;
+	//BaseCamp* basecamp;
+	MeshField* meshField = scene->GetGameObject<MeshField>();
+	
+
+	if (meshField != nullptr)
+	{
+		meshField = scene->GetGameObject<MeshField>();
+		groundHeight = meshField->GetHeight(m_Position);
+	}
+	
 
 
 	//円柱

@@ -75,8 +75,6 @@ void TreeTexture::Unload()
 
 void TreeTexture::Uninit()
 {
-	
-
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();

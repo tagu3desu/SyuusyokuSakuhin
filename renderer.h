@@ -78,6 +78,7 @@ struct PARAMETER
 	D3DXVECTOR4 stamina;
 	D3DXCOLOR	staminabasecolor; //スタミナゲージの色
 
+	D3DXCOLOR	collidercollor; //コライダーの色
 };
 
 

@@ -3,19 +3,12 @@
 #include"manager.h"
 #include"trailtexture.h"
 #include"scene.h"
-#include"camera.h"
 #include"wepon_sword.h"
-#include "player.h"
 ID3D11Buffer* TrailTexture::m_VertexBuffer;
-ID3D11ShaderResourceView* TrailTexture::m_Texture;
+
 
 void TrailTexture::Init()
 {
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\unlitTextureVS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\unlitTexturePS.cso");
 
 	m_Scale = D3DXVECTOR3(0.1f, 0.1f, 0.1f);
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.7f);
@@ -57,66 +50,27 @@ void TrailTexture::Load()
 	sd.pSysMem = vertex;
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
-
-	//テクスチャ読み込み
-	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/sea.jpg",
-		NULL,
-		NULL,
-		&m_Texture,
-		NULL);
-	assert(m_Texture);
-
 }
 
 void TrailTexture::Unload()
 {
 	m_VertexBuffer->Release();
-	m_Texture->Release();
 }
 
 void TrailTexture::Uninit()
 {
-	
-
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
 }
 
 void TrailTexture::Update()
 {
 	Scene* scene =  Manager::GetScene();
 	Sword* sword = scene->GetGameObject<Sword>();
-	//Player* player = scene->GetGameObject<Player>();
 	m_Parent = sword->GetMatrix();
-	
-
 	m_TopVertex = ExtractTranslationFromMatrix(m_Matrix);
-	
-
-
-	////GUIにパラメータ表示
-	//ImGui::SetNextWindowSize(ImVec2(400, 250));
-	//ImGui::Begin("Top");
-	//ImGui::InputFloat3("Position", m_Position);
-	//ImGui::InputFloat3("Ratation", m_Rotation);
-	//ImGui::InputFloat3("Scale", m_Scale);
-	//ImGui::End();
-
 }
 
 void TrailTexture::Draw()
 {
-
-	//入力レイアウト
-	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-
-	//シェーダ設定
-	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
-
-
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
@@ -131,20 +85,4 @@ void TrailTexture::Draw()
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
-
-	////マテリアル設定
-	//MATERIAL material;
-	//ZeroMemory(&material, sizeof(material));
-	//material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	//material.TextureEnable = true;
-	//Renderer::SetMaterial(material);
-
-	////テクスチャ設定
-	//Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-
-	////プリミティブトポロジ設定
-	//Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-
-	////ポリゴン描画
-	//Renderer::GetDeviceContext()->Draw(4, 0);
 }

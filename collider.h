@@ -12,12 +12,14 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
+	D3DXMATRIX m_Parent{};
+
+	D3DXCOLOR m_ColliderColor{0.0f,1.0f,0.0f,0.0f};
+
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
-
-    float m_collisionSize=0.1;
 };
 

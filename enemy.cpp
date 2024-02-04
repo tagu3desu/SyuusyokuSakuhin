@@ -108,11 +108,6 @@ void Enemy::Update()
 	
 	GameObject::Update();
 
-	if (Input::GetKeyTrigger('L'))
-	{
-		
-	}
-	
 	
 	auto player = scene->GetGameObject<Player>();
 	
@@ -210,9 +205,20 @@ void Enemy::Update()
 	{
 		//メッシュフィールドとの衝突判定
 		float groundHeight = 0.0f;
-		auto meshField = scene->GetGameObject<MeshField>();
-		//auto meshField = scene->GetGameObject<Field>();
-		groundHeight = meshField->GetHeight(m_Position);
+		//auto meshField = scene->GetGameObject<MeshField>();
+
+		//MeshField* meshField;
+		//BaseCamp* baseCamp;
+
+		MeshField* meshField = scene->GetGameObject<MeshField>();
+		
+
+		if (meshField != nullptr) 
+		{
+			meshField = scene->GetGameObject<MeshField>();
+			groundHeight = meshField->GetHeight(m_Position);
+		}
+		
 
 
 

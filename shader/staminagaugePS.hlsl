@@ -41,7 +41,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
         //スタミナゲージのグレー部分を作成する
         outDiffuse.rgb += param.lostColor.rgb * step(beforStamina, gage);
         //スタミナゲージのオレンジ部分を作成する
-        outDiffuse.rgb += param.baseStaminaColor.rgb * (1.0f - step(nowStamina, gage));      
+        outDiffuse.rgb += param.baseStaminaColor.rgb * (1.0f - step(nowStamina, gage));
     }
 }
 //bool step(a, b)
