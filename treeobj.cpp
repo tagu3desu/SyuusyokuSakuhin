@@ -6,7 +6,7 @@ void TreeOBJ::Init()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\tree.obj");
+	m_Model->Load("asset\\model\\Object\\tree.obj");
 
 	m_DepthEnable = true;
 
@@ -16,7 +16,7 @@ void TreeOBJ::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\vertexLightingPS.cso");
 
-	m_Scale = (D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+	m_Scale = (D3DXVECTOR3(1.1f, 1.1f, 1.1f));
 }
 
 void TreeOBJ::Uninit()
@@ -31,7 +31,12 @@ void TreeOBJ::Uninit()
 
 void TreeOBJ::Update()
 {
-
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("Tree");
+	ImGui::InputFloat3("Scale", m_Scale);
+	ImGui::InputFloat3("Position", m_Position);
+	ImGui::InputFloat3("Rotation", m_Rotation);
+	ImGui::End();
 }
 
 void TreeOBJ::Draw()

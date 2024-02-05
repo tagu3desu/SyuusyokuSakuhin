@@ -9,7 +9,7 @@
 #include"input.h"
 #include"enemy.h"
 #include"collider.h"
-
+#include"title.h"
 ID3D11Buffer* SwordTopVertex::m_VertexBuffer;
 
 
@@ -38,9 +38,12 @@ void Sword::Init()
 	scene = Manager::GetScene();
 
 	
-	//swordcollider = new Collider;
-	//swordcollider = scene->AddGameObject<Collider>();
-	
+
+	if (!Title::GetCheckTitle())
+	{
+		swordcollider = new Collider;
+		swordcollider = scene->AddGameObject<Collider>();
+	}
 }
 
 void Sword::Uninit()
@@ -58,8 +61,11 @@ void Sword::Update()
 	Player* player = scene->GetGameObject<Player>();
 	Enemy* enemy = scene->GetGameObject<Enemy>();
 	
-
-	//swordcollider->SetMatrix(m_Matrix);
+	if (!Title::GetCheckTitle())
+	{
+		swordcollider->SetMatrix(m_Matrix);
+	}
+	
 	
 	
 	AnimationModel* animationmodel;

@@ -27,6 +27,9 @@
 #include"field.h"
 #include"wepon_sword.h"
 #include"wepon_shield.h"
+
+#include"wood.h"
+#include"treeobj.h"
 bool Title::m_TitleCheck = false;
 
 
@@ -51,10 +54,16 @@ void Title::Init()
 	Field* meshfield = AddGameObject<Field>();
 	
 	Player* player = AddGameObject<Player>();
-	player->SetRotation(D3DXVECTOR3(0.0f, -1.9f, 0.0f));
-	
+	player->SetRotation(D3DXVECTOR3(0.0f, -2.4f, 0.0f));
 	AddGameObject<Sword>();
 	AddGameObject<Shield>();
+
+	Wood* wood =AddGameObject<Wood>();
+	wood->SetPosition(D3DXVECTOR3(-0.3f, 1.0f, 0.0f));
+	wood->SetRotation(D3DXVECTOR3(0.0f, -0.9f, 0.0f));
+
+	//TreeOBJ* tree = AddGameObject<TreeOBJ>();
+	
 
 	//AddGameObject<TitleLogo>(SPRITE_LAYER);
 	TitleButton*  m_StartButton = AddGameObject<TitleButton>(SPRITE_LAYER);

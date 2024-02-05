@@ -191,14 +191,7 @@ void Game::Update()
 		Manager::SetScene<Result>();
 	}
 
-	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Light");
-	ImGui::InputFloat("directionX",&x);
-	ImGui::InputFloat("directionY",&y);
-	ImGui::InputFloat("directionZ",&z);
-	ImGui::InputFloat("directionA", &a);
-	ImGui::End();
+	
 }
 
 void Game::Uninit()

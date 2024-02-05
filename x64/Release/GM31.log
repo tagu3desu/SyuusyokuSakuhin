@@ -1,58 +1,7 @@
-﻿  bladeefect1.cpp
-  bladeefect2.cpp
-  camera.cpp
-  door.cpp
-  doorframe.cpp
-  enemy.cpp
-C:\Users\kousu\Desktop\就職作品\enemy.cpp(370,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\enemy.cpp(370,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\enemy.cpp(500,23): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-  field.cpp
-  floar.cpp
-  game.cpp
-C:\Users\kousu\Desktop\就職作品\playerHPGage.h(16,16): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\playerHPGage.h(18,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\playerHPGage.h(32,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.h(15,23): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.h(16,24): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.h(17,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.h(18,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-  grass.cpp
-C:\Users\kousu\Desktop\就職作品\grass.cpp(65,35): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\grass.cpp(65,26): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  howleffect.cpp
-  player.cpp
-C:\Users\kousu\Desktop\就職作品\player.cpp(524,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(524,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(530,16): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-C:\Users\kousu\Desktop\就職作品\player.cpp(538,16): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-C:\Users\kousu\Desktop\就職作品\player.cpp(1446,30): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(1458,31): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(1469,31): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(1480,31): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
-  potion.cpp
-C:\Users\kousu\Desktop\就職作品\potion.h(15,23): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.h(16,24): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.h(17,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.h(18,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.cpp(122,39): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.cpp(122,36): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.cpp(127,47): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.cpp(127,38): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.cpp(132,40): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.cpp(132,36): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.cpp(137,47): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\potion.cpp(137,37): warning C4244: '引数': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  sky.cpp
-  title.cpp
-  titleplayer.cpp
-C:\Users\kousu\Desktop\就職作品\titleplayer.cpp(346,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\titleplayer.cpp(346,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\titleplayer.cpp(349,15): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-  treetexture.cpp
+﻿  wood.cpp
   コード生成しています。
-  1 of 2857 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 2877 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    23 functions had inline decision re-evaluated but remain unchanged
+    27 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Release\GM31.exe

@@ -33,6 +33,8 @@ float g_FieldHeight[21][21]
 	{9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f,9.0f},
 };
 
+
+
 void MeshField::Init()
 {
 	m_DepthEnable = true;

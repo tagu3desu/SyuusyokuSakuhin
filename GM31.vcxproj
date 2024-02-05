@@ -281,6 +281,7 @@
     <ClCompile Include="wepon_gun.cpp" />
     <ClCompile Include="wepon_shield.cpp" />
     <ClCompile Include="wepon_sword.cpp" />
+    <ClCompile Include="wood.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animationModel.h" />
@@ -393,6 +394,7 @@
     <ClInclude Include="wepon_gun.h" />
     <ClInclude Include="wepon_shield.h" />
     <ClInclude Include="wepon_sword.h" />
+    <ClInclude Include="wood.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\collidervertexLightingPS.hlsl">
