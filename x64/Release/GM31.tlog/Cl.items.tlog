@@ -2,6 +2,7 @@ C:\Users\kousu\Desktop\就職作品\animationModel.cpp;C:\Users\kousu\Desktop\�
 C:\Users\kousu\Desktop\就職作品\audio.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\audio.obj
 C:\Users\kousu\Desktop\就職作品\bladeefect2.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\bladeefect2.obj
 C:\Users\kousu\Desktop\就職作品\box.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\box.obj
+C:\Users\kousu\Desktop\就職作品\boxcollider.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\boxcollider.obj
 C:\Users\kousu\Desktop\就職作品\bullet.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\bullet.obj
 C:\Users\kousu\Desktop\就職作品\button.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\button.obj
 C:\Users\kousu\Desktop\就職作品\camera.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\camera.obj
@@ -12,7 +13,7 @@ C:\Users\kousu\Desktop\就職作品\cylinder.cpp;C:\Users\kousu\Desktop\就職�
 C:\Users\kousu\Desktop\就職作品\door.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\door.obj
 C:\Users\kousu\Desktop\就職作品\doorframe.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\doorframe.obj
 C:\Users\kousu\Desktop\就職作品\enemy.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\enemy.obj
-C:\Users\kousu\Desktop\就職作品\explosion.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\explosion.obj
+C:\Users\kousu\Desktop\就職作品\bladeefect1.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\bladeefect1.obj
 C:\Users\kousu\Desktop\就職作品\fade.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\fade.obj
 C:\Users\kousu\Desktop\就職作品\field.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\field.obj
 C:\Users\kousu\Desktop\就職作品\floar.cpp;C:\Users\kousu\Desktop\就職作品\x64\Release\floar.obj

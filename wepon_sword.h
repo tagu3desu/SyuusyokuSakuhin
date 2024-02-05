@@ -20,6 +20,9 @@ private:
 	bool m_swordhit;
 
 	VERTEX_3D bottom;
+
+	class Scene* scene{};
+	class Collider* swordcollider{};
 public:
 	
 	D3DXVECTOR3 GetBottomVertexPostion() { return m_BottomVertex; }
@@ -37,6 +40,11 @@ private:
 	static ID3D11Buffer* m_VertexBuffer;
 	D3DXMATRIX m_Parent{};
 	D3DXVECTOR3 m_TopVertex;
+
+	
+	class Scene* scene{};
+
+
 public:
 	D3DXVECTOR3 GetTopVertexPostion() { return m_TopVertex; }
 

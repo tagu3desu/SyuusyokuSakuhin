@@ -16,7 +16,7 @@ void BoxComponent::Uninit()
 }
 void BoxComponent::Update()
 {
-	//collider->SetScale(D3DXVECTOR3(size, size, size) * scaleoffset);
+
 }
 
 void BoxComponent::Draw()

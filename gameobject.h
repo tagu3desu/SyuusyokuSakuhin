@@ -41,7 +41,7 @@ public:
 	void SetScale(D3DXVECTOR3 Scale) { m_Scale = Scale; };
 	void SetScalePosition(D3DXVECTOR3  Scale, D3DXVECTOR3 Position) { m_Scale = Scale; m_Position = Position;}
 	void SetVelocity(D3DXVECTOR3 velocity) { m_Velocity = velocity; }
-
+	void SetQuaternion(D3DXQUATERNION quaternion) { m_Quaternion = quaternion; }
 
 	GameObject* ParentMatrix;
 	D3DXMATRIX GetMatrix() { return m_Matrix; }

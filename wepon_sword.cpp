@@ -8,7 +8,7 @@
 #include"swordtrail.h"
 #include"input.h"
 #include"enemy.h"
-
+#include"collider.h"
 
 ID3D11Buffer* SwordTopVertex::m_VertexBuffer;
 
@@ -29,15 +29,17 @@ void Sword::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\unlitTexturePS.cso");
 
-
-
-
-
 	//”[“Žž
 	m_Scale = D3DXVECTOR3(110.0f, 110.0f, 1.0f / 0.01f);
 	m_Position = D3DXVECTOR3(20.0f, 6.0f, -14.0f);
 	m_Rotation = D3DXVECTOR3(0.5f, 0.0f, 2.0f);
 
+
+	scene = Manager::GetScene();
+
+	
+	//swordcollider = new Collider;
+	//swordcollider = scene->AddGameObject<Collider>();
 	
 }
 
@@ -53,12 +55,12 @@ void Sword::Uninit()
 
 void Sword::Update()
 {
-	
-	Scene* scene = Manager::GetScene();
 	Player* player = scene->GetGameObject<Player>();
 	Enemy* enemy = scene->GetGameObject<Enemy>();
 	
 
+	//swordcollider->SetMatrix(m_Matrix);
+	
 	
 	AnimationModel* animationmodel;
 	animationmodel = player->GetAnimationModel();
@@ -120,7 +122,7 @@ void Sword::Draw()
 //
 void SwordTopVertex::Init()
 {
-
+	scene = Manager::GetScene();
 	m_Scale = D3DXVECTOR3(0.1f, 0.1f, 0.1f);
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.7f);
 }
@@ -174,8 +176,10 @@ void SwordTopVertex::Uninit()
 
 void SwordTopVertex::Update()
 {
-	Scene* scene = Manager::GetScene();
+	
 	Sword* sword = scene->GetGameObject<Sword>();
+	
+
 	m_Parent = sword->GetMatrix();
 	m_TopVertex = ExtractTranslationFromMatrix(m_Matrix);
 }

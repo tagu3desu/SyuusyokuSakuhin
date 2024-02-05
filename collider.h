@@ -3,10 +3,13 @@
 #include"model.h"
 #include"gameobject.h"
 
+
+
+
 class Collider : public GameObject
 {
 private:
-	Model* m_Model{};
+	static Model* m_Model;
 
 	ID3D11VertexShader* m_VertexShader{};
 	ID3D11PixelShader* m_PixelShader{};
@@ -16,10 +19,27 @@ private:
 
 	D3DXCOLOR m_ColliderColor{0.0f,1.0f,0.0f,0.0f};
 
+	D3DXVECTOR3 m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
+	
 public:
+	D3DXVECTOR3 ExtractTranslationFromMatrix(D3DXMATRIX matrix) {
+		D3DXVECTOR3 pos;
+		pos.x = matrix._41;
+		pos.y = matrix._42;
+		pos.z = matrix._43;
+		return pos;
+	}
+
+	static void Load();
+	static void Unload();
+
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
+	void SetMatrix(D3DXMATRIX matrix) { m_Parent = matrix; }
 };
 

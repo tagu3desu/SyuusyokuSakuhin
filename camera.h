@@ -12,7 +12,7 @@ private:
 		D3DXMATRIX m_ViewMatrix{};
 		D3DXMATRIX m_ProjectionMatrix;
 
-		float m_Rotation{};
+		float m_RotationX{};
 		float m_RotationY{};
 
 

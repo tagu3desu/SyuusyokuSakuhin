@@ -4,7 +4,12 @@
 #include"scene.h"
 #include"manager.h"
 #include"camera.h"
-void BladeEffect2::Init()
+
+
+ID3D11Buffer* BladeEffect2::m_VertexBuffer{};
+ID3D11ShaderResourceView* BladeEffect2::m_Texture{};
+
+void BladeEffect2::Load()
 {
 	VERTEX_3D vertex[4];
 
@@ -50,6 +55,16 @@ void BladeEffect2::Init()
 		&m_Texture,
 		NULL);
 	assert(m_Texture);
+}
+
+void BladeEffect2::Unload()
+{
+	m_VertexBuffer->Release();
+	m_Texture->Release();
+}
+void BladeEffect2::Init()
+{
+	
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\unlitTextureVS.cso");
@@ -61,8 +76,7 @@ void BladeEffect2::Init()
 
 void BladeEffect2::Uninit()
 {
-	m_VertexBuffer->Release();
-	m_Texture->Release();
+	
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();

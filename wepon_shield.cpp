@@ -6,7 +6,7 @@
 #include"player.h"
 #include"animationModel.h"
 #include"input.h"
-
+#include"collider.h"
 
 void Shield::Init()
 {
@@ -29,8 +29,10 @@ void Shield::Init()
 	m_Position = D3DXVECTOR3(5.0f, 12.0f, 3.0f);
 	m_Rotation = D3DXVECTOR3(-2.9f, -4.25f, 1.5f);
 	
-	
+	scene = Manager::GetScene();
 
+	//shieldcollider = new Collider;
+	//shieldcollider = scene->AddGameObject<Collider>();
 }
 
 void Shield::Uninit()
@@ -46,9 +48,14 @@ void Shield::Uninit()
 void Shield::Update()
 {
 	
-	Scene* scene = Manager::GetScene();
+	
 	Player* player = scene->GetGameObject<Player>();
 	AnimationModel* animationmodel;
+
+	//Collider* collider2 = scene->GetGameObject<Collider>();
+	//collider2->SetMatrix(m_Matrix);
+	//shieldcollider->SetMatrix(m_Matrix);
+
 	animationmodel = player->GetAnimationModel();
 	BONE* bone;
 	bone = animationmodel->GetBone("mixamorig:LeftForeArm");
@@ -82,7 +89,7 @@ void Shield::Update()
 
 void Shield::Draw()
 {
-	Scene* scene = Manager::GetScene();
+	
 	Player* player = scene->GetGameObject<Player>();
 
 	GameObject::Draw();

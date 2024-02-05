@@ -17,7 +17,7 @@ private:
 	ID3D11PixelShader*			m_PixelShader{};
 	ID3D11InputLayout*			m_VertexLayout{};
 	
-
+	bool m_BattleMapFlag = false;
 public:
 	static void Load();
 	static void Unload();
@@ -27,6 +27,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void SetMapActive(bool flag) { m_BattleMapFlag = flag; }
+	bool GetMapActive() { return m_BattleMapFlag; }
 	float  GetHeight(D3DXVECTOR3 Position);
 	D3DXVECTOR3 GetCenterPosition();
 };

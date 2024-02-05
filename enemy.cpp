@@ -12,14 +12,14 @@
 #include"input.h"
 #include"collisionHit.h"
 #include"boxcomponent.h"
-#include"explosion.h"
+#include"bladeefect1.h"
 #include"bladeefect2.h"
 #include"audio.h"
 #include"howleffect.h"
 #include<cstdlib>
 #include"bullet.h"
 #include"field.h"
-
+#include"campField.h"
 
 AnimationModel* Enemy::m_Model{};
 //Model* Enemy::m_Model{};
@@ -211,12 +211,23 @@ void Enemy::Update()
 		//BaseCamp* baseCamp;
 
 		MeshField* meshField = scene->GetGameObject<MeshField>();
-		
+		BaseCamp* campField = scene->GetGameObject<BaseCamp>();
 
-		if (meshField != nullptr) 
+		if (meshField != nullptr) {
+			if (meshField->GetMapActive())
+			{
+				meshField = scene->GetGameObject<MeshField>();
+				groundHeight = meshField->GetHeight(m_Position);
+			}
+		}
+		
+		if (campField != nullptr)
 		{
-			meshField = scene->GetGameObject<MeshField>();
-			groundHeight = meshField->GetHeight(m_Position);
+			if (campField->GetMapActive())
+			{
+				campField = scene->GetGameObject<BaseCamp>();
+				groundHeight = meshField->GetHeight(m_Position);
+			}
 		}
 		
 
@@ -240,9 +251,9 @@ void Enemy::Update()
 		}
 		else if (player->GetPlayerHitEnemy() && player->GetPlayerAttack() && player->GetPlayerAttackNumber() != 3)
 		{
-			Explosion* explosion = scene->AddGameObject<Explosion>(EFFECT_LAYER);
-			explosion->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
-			explosion->SetPosition(ExplosionPosition += D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+			BladeEffect1* bladeeffect1 = scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
+			bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
+			bladeeffect1->SetPosition(ExplosionPosition += D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 			m_HP -= 10;
 			hitcout += 1;
 		}

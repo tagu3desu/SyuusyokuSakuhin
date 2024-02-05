@@ -12,7 +12,6 @@
 
 
 #include"meshField.h"
-
 #include"polygon2D.h"
 #include"input.h"
 #include"scene.h"
@@ -23,13 +22,13 @@
 #include"Loading.h"
 #include"sky.h"
 #include"cylinder.h"
-//#include"titleplayer.h"
-//#include"wepon_sword.h"
 
-
-
+#include"player.h"
+#include"field.h"
+#include"wepon_sword.h"
+#include"wepon_shield.h"
 bool Title::m_TitleCheck = false;
-//TitlePlayer* titleplayer;
+
 
 void Title::Init()
 {
@@ -45,42 +44,17 @@ void Title::Init()
 
 	//カメラ
 	Camera* camera = AddGameObject<Camera>(CAMERA_LAYER);
-	//スカイドーム
-	/*Floar* box = AddGameObject<Floar>();
-	box->SetPosition(D3DXVECTOR3(0.0f, 0.0f, m_FloarPosition));
-	Floar* box2 = AddGameObject<Floar>();
-	box2->SetPosition(D3DXVECTOR3(0.0f, 0.0f, m_FloarPosition + 2));
-	Floar* box3 = AddGameObject<Floar>();
-	box3->SetPosition(D3DXVECTOR3(0.0f, 0.0f, m_FloarPosition - 2));
-	Floar* box4 = AddGameObject<Floar>();
-	box4->SetPosition(D3DXVECTOR3(0.0f, 0.0f, m_FloarPosition - 4));
-	Floar* box5 = AddGameObject<Floar>();
-	box5->SetPosition(D3DXVECTOR3(0.0f, 0.0f, m_FloarPosition - 6));
-	Floar* box6 = AddGameObject<Floar>();
-	box6->SetPosition(D3DXVECTOR3(0.0f, 0.0f, m_FloarPosition - 8));*/
-
-	Cylinder* cylinder = AddGameObject<Cylinder>();
-	cylinder->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-	cylinder->SetScale(D3DXVECTOR3(5.0f, 1.0f, 5.0f));
-
-	Door* door = AddGameObject<Door>();
-	door->SetPosition(D3DXVECTOR3(0.0f, 2.0f, 10.0f));
-	D3DXVECTOR3 doorposition = door->GetPosition();
-	//DoorFrame* doorframe = AddGameObject<DoorFrame>();
-	//doorframe->SetPosition(doorposition);
-	
-	//メッシュフィールド
-	WaterSurFace* watersurface = AddGameObject<WaterSurFace>();
-	watersurface->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-
 
 	Sky* skydome = AddGameObject<Sky>();
 	skydome->SetScale(D3DXVECTOR3(300.0f, 300.0f, 300.0f));
 
-	/*titleplayer = AddGameObject<TitlePlayer>();
-	titleplayer->SetPosition(D3DXVECTOR3(0.0f, 2.0f, 0.0f));
-	Sword* sword = AddGameObject<Sword>();*/
-
+	Field* meshfield = AddGameObject<Field>();
+	
+	Player* player = AddGameObject<Player>();
+	player->SetRotation(D3DXVECTOR3(0.0f, -1.9f, 0.0f));
+	
+	AddGameObject<Sword>();
+	AddGameObject<Shield>();
 
 	//AddGameObject<TitleLogo>(SPRITE_LAYER);
 	TitleButton*  m_StartButton = AddGameObject<TitleButton>(SPRITE_LAYER);
@@ -100,44 +74,7 @@ void Title::Update()
 	m_MouseposX = GetMouseCursorPosXinWnd();
 	m_MouseposY = GetMouseCursorPosYinWnd();
 
-	//GUIにパラメータ表示
-	/*ImGui::SetNextWindowSize(ImVec2(300, 150));
-	ImGui::Begin("Mouse");
-	ImGui::InputFloat("PositionX", &m_MouseposX);
-	ImGui::InputFloat("PositionY", &m_MouseposY);
-	ImGui::Checkbox("Push", &buttonOverLapping);
-	ImGui::End();*/
-
-	//シーン上の全ての床を参照
-	//Camera* camera = GetGameObject<Camera>();
-	//m_SponePosition = camera->GetPosition();
-	//m_framecount++;
-	//if (m_framecount >= 200)
-	//{
-	//	AddGameObject<Floar>()->SetPosition(D3DXVECTOR3(m_SponePosition.x, m_SponePosition.y - 3.0f, m_SponePosition.z + 10.0f));
-	//	m_framecount = 0;
-	//}
-
-
-
-	//D3DXVECTOR3 position;
-	//float differential;
-	//std::vector<Floar*> floars = scene->GetGameObjects<Floar>();
-	//for (Floar* floar : floars)
-	//{
-	//	position = floar->GetPosition();
-	//	differential = m_SponePosition.z - position.z;
-
-	//	if (m_SponePosition.y != position.y)
-	//	{
-	//		
-	//	}
-
-	//	if (m_SponePosition.z >= position.z)//differential > 2)
-	//	{
-	//		floar->SetDestroy();
-	//	}
-	//}
+	
 	
 	
 	
@@ -175,8 +112,9 @@ void Title::Draw()
 {
 	
 	Scene* scene = Manager::GetScene();
-	Cylinder* cylinder = GetGameObject<Cylinder>();
-	D3DXVECTOR3 objpos = cylinder->GetPosition();
+	D3DXVECTOR3 objpos;
+	Field* player= GetGameObject<Field>();
+	objpos = player->GetPosition();
 
 	//ライトカメラ構造体の初期化
 	LIGHT light;
@@ -187,12 +125,12 @@ void Title::Draw()
 	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);	//拡散光の色
 
 	//ライトカメラのビュー行列を作成
-	D3DXVECTOR3 lightPos = D3DXVECTOR3(-50.0f + objpos.x, 20.0f, -50.0f + objpos.z);
+	D3DXVECTOR3 lightPos = D3DXVECTOR3(-50.0f + objpos.x, 100.0f, -50.0f + objpos.z);
 	D3DXVECTOR3 lightTarget = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&light.ViewMatrix, &lightPos, &lightTarget, &lightUp);
 	//ライトカメラのプロジェクション行列を作成(マトリックス,視野角,アスペクト比,ニアクリップ,ファークリップ(描画距離))
-	D3DXMatrixPerspectiveFovLH(&light.ProjectionMatrix, 1.0f, (float)1.0f, 10.0f, 300.0f);
+	D3DXMatrixPerspectiveFovLH(&light.ProjectionMatrix, 1.0f, (float)1.0f, 35.0f, 400.0f);
 	Renderer::SetLight(light);
 
 	//** 1パス目 シャドウバッファの作成 **//

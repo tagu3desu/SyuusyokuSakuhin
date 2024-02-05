@@ -17,7 +17,9 @@ private:
 	int m_framecount;
 	float m_FloarPosition;
 
-	D3DXVECTOR3 m_SponePosition;
+
+	
+	
 public:
 	static bool GetCheckTitle() { return m_TitleCheck; }
 

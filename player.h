@@ -9,13 +9,14 @@
 enum PLAYER_STATE
 {
 	PLAYER_STATE_GROUND,
-	PLAYER_STATE_JUMP,
 	PLAYER_STATE_ATTACK,
 	PLAYER_STATE_ATTACK2,
 	PLAYER_STATE_ATTACK3,
 	PLAYER_STATE_ROLL,
 	PLAYER_STATE_DEAD,
-	PLAYER_STATE_GUARD
+	PLAYER_STATE_GUARD,
+	PLAYER_STATE_TITLEIDLE,
+	PLAYER_STATE_TITLESTART,
 };
 class Player :public GameObject
 {
@@ -101,7 +102,9 @@ private:
 	int m_potioncount;
 	int m_Stamina;
 
-	
+	class BoxCollider* m_BoxCollider{};
+
+	float groundHeight = 0.0f;
 
 	//“–‚½‚è”»’è—p
 	int m_InvincibilityTime = 0;
@@ -133,20 +136,21 @@ public:
 
 
 	void UpdateGround();
-	void UpdateJump();
 	void UpdateAttack();
 	void UpdateAttack2();
 	void UpdateAttack3();
 	void UpdateRoll();
 	void UpdateDead();
 	void UpdateGuard();
+	void UpdateTitleIdle();
+	void UpdateTitleStart();
 
+	int GetPlayerAttackNumber() { return m_comboCount; }
 	bool GetOverFlag() { return m_GameOver; }
 	bool GeiPlayerIdle() { return m_idle; }
 	bool GetSwordDrawn() { return m_sworddrawn; }
 	bool GetPlayerHitEnemy() { return m_PlayerHitEnemy; }
 	bool GetPlayerAttack() { return m_attack; }
-	int GetPlayerAttackNumber() { return m_comboCount; }
 	bool GetPlayerlive() { return m_isDead; }
 	bool GetSuccessGuard() { return m_SuccessGuard; }
 	bool GetPlayerRun() { return m_run; }

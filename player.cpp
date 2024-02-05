@@ -21,6 +21,10 @@
 #include"GuardInpacteffect.h"
 #include"wepon_sword.h"
 #include"trail.h"
+#include"boxcollider.h"
+#include"collider.h"
+#include"campField.h"
+#include"title.h"
 
 void Player::Init()
 {
@@ -55,6 +59,10 @@ void Player::Init()
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield BlockEnd.fbx", "EndGuard");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Impact.fbx", "GuardImpact");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield HitSmallAttack.fbx", "HitSmallImpact");
+
+	//タイトル用のモーション
+	m_Model->LoadAnimation("asset\\model\\Sitting.fbx", "TitleIdle");
+	m_Model->LoadAnimation("asset\\model\\Sit To Stand.fbx", "TitleStart");
 
 
 	m_AnimationName = "Idle";
@@ -104,6 +112,9 @@ void Player::Init()
 	m_comboCount=0;
 	m_Stamina = 0;
 
+	//Scene* scene = Manager::GetScene();
+	//Collider* collider = scene->AddGameObject<Collider>();
+
 	GameObject::Init();
 }
 
@@ -118,67 +129,281 @@ void Player::Uninit()
 	m_VertexShader->Release();
 	m_PixelShader->Release();
 
-	GameObject::Uninit();
+	//m_BoxCollider->Uninit();
 }
 
 void Player::Update()
 {
 	Scene* scene = Manager::GetScene();
-
-	directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	directionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-	m_move = false;
-	
-	GameObject::Update();
-	D3DXVECTOR3 oldPosition = m_Position;
-
-	Staminagage* staminagage = scene->GetGameObject<Staminagage>();
-	Enemy* enemy = scene->GetGameObject<Enemy>();
-
-	m_Stamina = staminagage->GetStamina();
-
 	Camera* camera = scene->GetGameObject<Camera>();
-	cameraFoward = camera->GetForward();
-	cameraRight = camera->GetRight();
-	cameraFoward.y = 0.0f;
-	cameraRight.y = 0.0f;
-	D3DXVec3Normalize(&cameraRight, &cameraRight);
-	D3DXVec3Normalize(&cameraFoward, &cameraFoward);
 
-	//HP関連
-	HPgage* hpgage = scene->GetGameObject<HPgage>();
-	m_HP = hpgage->GetHp();
+	if (!Title::GetCheckTitle())
+	{
+		Enemy* enemy = scene->GetGameObject<Enemy>();
+		Staminagage* staminagage = scene->GetGameObject<Staminagage>();
+		HPgage* hpgage = scene->GetGameObject<HPgage>();
+		PotionCount* potioncount = scene->GetGameObject<PotionCount>();
+
+		directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		directionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+		m_move = false;
+
+		GameObject::Update();
+		D3DXVECTOR3 oldPosition = m_Position;
+
+		m_Stamina = staminagage->GetStamina();
+
+		cameraFoward = camera->GetForward();
+		cameraRight = camera->GetRight();
+		cameraFoward.y = 0.0f;
+		cameraRight.y = 0.0f;
+		D3DXVec3Normalize(&cameraRight, &cameraRight);
+		D3DXVec3Normalize(&cameraFoward, &cameraFoward);
+
+		//HP関連
+
+		m_HP = hpgage->GetHp();
+
+		//Collider* collider = scene->GetGameObject<Collider>();
+		//collider->SetMatrix(m_WorldMatrix);
+
+		//m_BoxCollider->Update(m_Matrix);
+
+		//GUIにパラメータ表示
+		/*ImGui::SetNextWindowSize(ImVec2(300, 250));
+		ImGui::Begin("Player");
+		ImGui::InputFloat3("Position", m_Position);
+		ImGui::InputFloat3("BPosition", m_BonePos);
+		ImGui::InputFloat3("Scale", m_Scale);
+		ImGui::InputInt("HP", &m_HP);
+		ImGui::InputFloat("AnimationDelay", &m_AnimationDelay);
+		ImGui::InputInt("count", &hitcount);
+		ImGui::Checkbox("Collision", &m_Rockhit);
+		ImGui::Checkbox("Move", &m_move);
+		ImGui::Checkbox("Run", &m_run);
+		ImGui::Checkbox("Attack", &m_attack);
+		ImGui::Checkbox("Idle", &m_idle);
+		ImGui::Checkbox("Guard", &m_isGuard);
+		ImGui::Checkbox("EndGuard", &m_EndGuard);
+		ImGui::Checkbox("InpactGuard", &m_InpactGuard);
+		ImGui::End();*/
 
 
-	//GUIにパラメータ表示
-	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Player");
-	ImGui::InputFloat3("Position", m_Position);
-	ImGui::InputFloat3("BPosition", m_BonePos);
-	ImGui::InputFloat3("Scale", m_Scale);
-	ImGui::InputInt("HP", &m_HP);
-	ImGui::InputFloat("AnimationDelay", &m_AnimationDelay);
-	ImGui::InputInt("count", &hitcount);
-	ImGui::Checkbox("Collision", &m_Rockhit);
-	ImGui::Checkbox("Move", &m_move);
-	ImGui::Checkbox("Run", &m_run); 
-	ImGui::Checkbox("Attack", &m_attack);
-	ImGui::Checkbox("Idle", &m_idle);
-	ImGui::Checkbox("Guard", &m_isGuard); 
-	ImGui::Checkbox("EndGuard", &m_EndGuard);
-	ImGui::Checkbox("InpactGuard", &m_InpactGuard);
-	ImGui::End();*/
 
+
+
+
+		m_potioncount = potioncount->GetCount();
+		if (m_potioncount > 0)
+		{
+			if (Input::GetKeyTrigger('F'))
+			{
+				potioncount->SubstractCount(1);
+				hpgage->SetHealPoint(200);
+			}
+		}
+
+		if (m_PlayerHitEnemy)
+		{
+			m_InviciblilityStartFlag = true;
+		}
+		if (enemy != nullptr)
+		{
+			direction = enemy->GetPosition() - m_Position;
+			length = D3DXVec3Length(&direction);
+		}
+
+
+
+
+		if (m_InviciblilityStartFlag)
+		{
+			m_InvincibilityTime++;
+			if (m_InvincibilityTime <= 100)
+			{
+				m_InvincibilityFlag = true;
+			}
+			else
+			{
+				m_InvincibilityFlag = false;
+				m_InviciblilityStartFlag = false;
+				m_InvincibilityTime = 0;
+			}
+		}
+
+
+		
+
+
+		//円柱
+		std::vector<Cylinder*> Cylinders = scene->GetGameObjects<Cylinder>();
+		for (Cylinder* cylinder : Cylinders)//範囲for
+		{
+			D3DXVECTOR3 postion = cylinder->GetPosition();
+			D3DXVECTOR3 scale = cylinder->GetScale();
+
+			D3DXVECTOR3 direction2 = m_Position - postion;
+			direction2.y = 0.0f;
+			float length = D3DXVec3Length(&direction2);
+
+			if (length < scale.x)
+			{
+				if (m_Position.y < postion.y + scale.y - 0.5f)
+				{
+					m_Position.x = oldPosition.x;
+					m_Position.z = oldPosition.z;
+				}
+				else
+				{
+
+					groundHeight = postion.y + scale.y + groundHeight; //上判定
+				}
+				break;
+			}
+
+		}
+
+
+
+
+		////四角柱　
+		std::vector<Box*> boxes = scene->GetGameObjects<Box>();
+		{
+			for (Box* box : boxes)
+			{
+
+
+				D3DXVECTOR3 position = box->GetPosition();
+				D3DXVECTOR3 scale = box->GetScale();
+				D3DXVECTOR3 right = box->GetRight();	//X分離軸
+				D3DXVECTOR3 forward = box->GetForward();	//Z分離軸
+				D3DXVECTOR3 up = box->GetUp();	//Y分離軸
+				D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
+
+				float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
+				float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
+
+				//OBB
+				if (fabs(obbx) < scale.x && fabs(obbz) < scale.z)
+				{
+					if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
+					{
+						// 壁の法線ベクトルを計算
+						D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
+
+						// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
+						D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
+
+						// プレイヤーの位置を補正
+						m_Position.x = oldPosition.x + projectedVector.x;
+						m_Position.z = oldPosition.z + projectedVector.z;
+					}
+					else
+					{
+						groundHeight = position.y + groundHeight + scale.y * 2.0f;
+					}
+					break;
+
+				}
+			}
+		}
+
+
+		////敵の弾との判定
+		{
+			std::vector<Bullet*> bullets = scene->GetGameObjects<Bullet>();
+			for (Bullet* bullet : bullets)
+			{
+				D3DXVECTOR3 position = bullet->GetPosition();
+				D3DXVECTOR3 scale = bullet->GetScale() * 0.5;
+				D3DXVECTOR3 right = bullet->GetRight();	//X分離軸
+				D3DXVECTOR3 forward = bullet->GetForward();	//Z分離軸
+				D3DXVECTOR3 up = bullet->GetUp();	//Y分離軸
+				D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
+
+				float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
+				float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
+				float obby = D3DXVec3Dot(&direction, &up);
+
+				//OBB
+				if (fabs(obbx) < scale.x && fabs(obbz) < scale.z && fabs(obby) < scale.y)
+				{
+					m_Rockhit = true;
+
+				}
+				else
+				{
+					m_Rockhit = false;
+					break;
+				}
+
+			}
+		}
+
+		//ダメージ処理
+		{
+			if (enemy != nullptr)
+			{
+				if (m_HP > 0)
+				{
+					if (enemy->GetEnemyHitPlayer() && !m_SuccessGuard || m_Rockhit && !m_SuccessGuard) {
+						hpgage->SetDamage(-80);
+					}
+				}
+			}
+			if (enemy != nullptr)
+			{
+				if (enemy->GetEnemyHitPlayer() && !m_SuccessGuard && !m_HitInpact || m_Rockhit && !m_SuccessGuard && !m_HitInpact)
+				{
+
+					if (m_NextAnimationName != "HitSmallImpact")
+					{
+						m_Time = 0.0f;
+						m_AnimationName = m_NextAnimationName;
+						m_NextAnimationName = "HitSmallImpact";
+						m_BlendTime = 0.0f;
+						m_HitInpact = true;
+					}
+				}
+			}
+
+
+			if (m_HitInpact)
+			{
+				m_hitInpactDelay++;
+				if (m_hitInpactDelay > 30)
+				{
+					m_hitInpactDelay = 0;
+					m_HitInpact = false;
+				}
+			}
+		}
+
+
+
+		//死亡処理
+		if (m_HP <= 0)
+		{
+
+			if (m_NextAnimationName != "IsDead")
+			{
+				m_Time = 0.0f;
+				m_AnimationName = m_NextAnimationName;
+				m_NextAnimationName = "IsDead";
+				m_BlendTime = 0.0f;
+			}
+			m_PlayerState = PLAYER_STATE_DEAD;
+		}
+	}
 	
+
+
 
 	switch (m_PlayerState)
 	{
 	case PLAYER_STATE_GROUND:
 		UpdateGround();
-		break;
-	case PLAYER_STATE_JUMP:
-		UpdateJump();
 		break;
 	case PLAYER_STATE_ATTACK:
 		UpdateAttack();
@@ -198,256 +423,48 @@ void Player::Update()
 	case PLAYER_STATE_GUARD:
 		UpdateGuard();
 		break;
+	case PLAYER_STATE_TITLEIDLE:
+		UpdateTitleIdle();
+		break;
+	case PLAYER_STATE_TITLESTART:
+		UpdateTitleStart();
+		break;
 	default:
 		break;
 	}
 
-	PotionCount* potioncount = scene->GetGameObject<PotionCount>();
-	m_potioncount = potioncount->GetCount();
-	if (m_potioncount > 0)
+	if (Title::GetCheckTitle())
 	{
-		if (Input::GetKeyTrigger('F'))
-		{
-			potioncount->SubstractCount(1);
-			hpgage->SetHealPoint(200);
-		}
+		m_PlayerState = PLAYER_STATE_TITLEIDLE;
 	}
-	
-	if (m_PlayerHitEnemy)
-	{
-		m_InviciblilityStartFlag = true;
-	}
-	if (enemy != nullptr)
-	{
-		direction = enemy->GetPosition() - m_Position;
-		length = D3DXVec3Length(&direction);
-	}
-	
-	
-
-
-	if (m_InviciblilityStartFlag)
-	{
-		m_InvincibilityTime++;
-		if (m_InvincibilityTime <= 100)
-		{
-			m_InvincibilityFlag = true;
-		}
-		else
-		{
-			m_InvincibilityFlag = false;
-			m_InviciblilityStartFlag = false;
-			m_InvincibilityTime = 0;
-		}
-	}
-
 
 	//メッシュフィールドとの衝突判定
-	float groundHeight = 0.0f;
-	//auto meshField = scene->GetGameObject<MeshField>();
-	//MeshField* meshField;
-	//BaseCamp* basecamp;
+	groundHeight = 0.0f;
 	MeshField* meshField = scene->GetGameObject<MeshField>();
+	BaseCamp* campField = scene->GetGameObject<BaseCamp>();
 	
 
 	if (meshField != nullptr)
 	{
-		meshField = scene->GetGameObject<MeshField>();
-		groundHeight = meshField->GetHeight(m_Position);
+		if (meshField->GetMapActive())
+		{
+			meshField = scene->GetGameObject<MeshField>();
+			groundHeight = meshField->GetHeight(m_Position);
+		}
+	}
+
+	if (campField != nullptr)
+	{
+		if (campField->GetMapActive())
+		{
+			campField = scene->GetGameObject<BaseCamp>();
+			groundHeight = campField->GetHeight(m_Position);
+		}
+
 	}
 	
 
 
-	//円柱
-	std::vector<Cylinder*> Cylinders = scene->GetGameObjects<Cylinder>();
-	for (Cylinder* cylinder : Cylinders)//範囲for
-	{
-		D3DXVECTOR3 postion = cylinder->GetPosition();
-		D3DXVECTOR3 scale = cylinder->GetScale();
-
-		D3DXVECTOR3 direction2 = m_Position - postion;
-		direction2.y = 0.0f;
-		float length = D3DXVec3Length(&direction2);
-
-		if (length < scale.x)
-		{
-			if (m_Position.y < postion.y + scale.y - 0.5f)
-			{
-				m_Position.x = oldPosition.x;
-				m_Position.z = oldPosition.z;
-			}
-			else
-			{
-
-				groundHeight = postion.y + scale.y + groundHeight; //上判定
-			}
-			break;
-		}
-
-	}
-
-	
-
-	
-	////四角柱　
-	std::vector<Box*> boxes = scene->GetGameObjects<Box>();
-	{
-		for (Box* box : boxes)
-		{
-
-
-			D3DXVECTOR3 position = box->GetPosition();
-			D3DXVECTOR3 scale = box->GetScale();
-			D3DXVECTOR3 right = box->GetRight();	//X分離軸
-			D3DXVECTOR3 forward = box->GetForward();	//Z分離軸
-			D3DXVECTOR3 up = box->GetUp();	//Y分離軸
-			D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
-
-			float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
-			float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
-
-			//OBB
-			if (fabs(obbx) < scale.x && fabs(obbz) < scale.z)
-			{
-				if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
-				{
-					// 壁の法線ベクトルを計算
-					D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
-
-					// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
-					D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
-
-					// プレイヤーの位置を補正
-					m_Position.x = oldPosition.x + projectedVector.x;
-					m_Position.z = oldPosition.z + projectedVector.z;
-				}
-				else
-				{
-					groundHeight = position.y + groundHeight + scale.y * 2.0f;
-				}
-				break;
-
-			}
-
-			//AABB
-			//// 壁上の特定の点（ここでは壁の中央）からプレイヤーへのベクトルを計算
-			//D3DXVECTOR3 wallToPlayer = m_Position - D3DXVECTOR3(position.x, m_Position.y, position.z);
-
-			//// 壁の法線ベクトルを計算
-			//D3DXVECTOR3 wallNormal(0.0f, 0.0f, 0.0f);
-			//if (D3DXVec3LengthSq(&wallToPlayer) > 0.0001f)
-			//{
-			//	D3DXVec3Normalize(&wallNormal, &wallToPlayer);
-			//}
-
-			//if (position.x - scale.x - 1.0f < m_Position.x &&
-			//	m_Position.x < position.x + scale.x + 1.0f &&
-			//	position.z - scale.z - 1.0f < m_Position.z &&
-			//	m_Position.z < position.z + scale.z + 1.0f)
-			//{
-			//	if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
-			//	{
-			//		// 壁の法線ベクトルを計算
-			//		D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
-
-			//		// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
-			//		D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
-
-			//		// プレイヤーの位置を補正
-			//		m_Position.x = oldPosition.x + projectedVector.x;
-			//		m_Position.z = oldPosition.z + projectedVector.z;
-			//	}
-			//	else
-			//	{
-			//		groundHeight = position.y + groundHeight + scale.y * 2.0f;
-			//	}
-			//	break;
-			//}
-		}
-	}
-	
-
-	////弾　
-	std::vector<Bullet*> bullets = scene->GetGameObjects<Bullet>();
-	for (Bullet* bullet : bullets)
-	{
-		D3DXVECTOR3 position = bullet->GetPosition();
-		D3DXVECTOR3 scale = bullet->GetScale()*0.5;
-		D3DXVECTOR3 right = bullet->GetRight();	//X分離軸
-		D3DXVECTOR3 forward = bullet->GetForward();	//Z分離軸
-		D3DXVECTOR3 up = bullet->GetUp();	//Y分離軸
-		D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
-
-		float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
-		float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
-		float obby = D3DXVec3Dot(&direction, &up);
-
-		//OBB
-		if (fabs(obbx) < scale.x && fabs(obbz) < scale.z && fabs(obby) < scale.y)
-		{
-			m_Rockhit = true;
-			
-		}
-		else
-		{
-			m_Rockhit = false;
-			break;
-		}
-
-	}
-
-	if (enemy != nullptr)
-	{
-		if (m_HP > 0)
-		{
-			if (enemy->GetEnemyHitPlayer() && !m_SuccessGuard || m_Rockhit && !m_SuccessGuard) {
-				hpgage->SetDamage(-80);
-			}
-		}
-	}
-	
-
-
-	//死亡処理
-	if (m_HP <=0)
-	{
-		
-		if (m_NextAnimationName != "IsDead")
-		{
-			m_Time = 0.0f;
-			m_AnimationName = m_NextAnimationName;
-			m_NextAnimationName = "IsDead";
-			m_BlendTime = 0.0f;
-		}
-		m_PlayerState= PLAYER_STATE_DEAD;
-	}
-	
-	if (enemy != nullptr)
-	{
-		if (enemy->GetEnemyHitPlayer() && !m_SuccessGuard && !m_HitInpact || m_Rockhit && !m_SuccessGuard && !m_HitInpact)
-		{
-
-			if (m_NextAnimationName != "HitSmallImpact")
-			{
-				m_Time = 0.0f;
-				m_AnimationName = m_NextAnimationName;
-				m_NextAnimationName = "HitSmallImpact";
-				m_BlendTime = 0.0f;
-				m_HitInpact = true;
-			}
-		}
-	}
-	
-
-	if (m_HitInpact)
-	{
-		m_hitInpactDelay++;
-		if (m_hitInpactDelay > 30)
-		{
-			m_hitInpactDelay = 0;
-			m_HitInpact = false;
-		}
-	}
 
 	//重力
 	m_Velocity.y -= 0.015f;
@@ -477,6 +494,8 @@ void Player::Draw()
 {
 	GameObject::Draw();
 
+	//m_BoxCollider->Draw();
+
 	//入力レイアウト
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
@@ -491,7 +510,15 @@ void Player::Draw()
 	D3DXMatrixRotationQuaternion(&rot, &m_Quaternion);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	D3DXMatrixRotationYawPitchRoll(&euler, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-	m_Matrix = scale * rot * trans;//親のmatrixをかける
+	if (Title::GetCheckTitle())
+	{
+		m_Matrix = scale * euler * trans;
+	}
+	else
+	{
+		m_Matrix = scale * rot * trans;
+	}
+	
 	Renderer::SetWorldMatrix(&m_Matrix);
 
 	m_Model->Update(m_AnimationName.c_str(), m_Time, m_NextAnimationName.c_str(), m_Time, m_BlendTime);
@@ -1230,40 +1257,6 @@ void Player::UpdateAttack3()
 	m_Position += direction * m_speed;
 }
 
-void Player::UpdateJump()
-{
-	m_idle = true;
-	/*D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);*/
-
-	if (Input::GetKeyPress('W')) {
-		directionZ = cameraFoward * 0.1f;
-	}
-	if (Input::GetKeyPress('S')) {
-		directionZ = -cameraFoward * 0.1f;
-	}
-	if (Input::GetKeyPress('A')) {
-		directionX = -cameraRight * 0.1f;
-	}
-	if (Input::GetKeyPress('D')) {
-		directionX = cameraRight * 0.1f;
-	}
-
-
-	//x,zを加算します
-	D3DXVECTOR3 direction = directionX + directionZ;
-	//正規化します
-	D3DXVec3Normalize(&direction, &direction);
-	//PositonにSpeed加算します
-	m_Position += direction * m_speed;
-
-	if (m_IsGround == true)
-	{
-		
-		m_PlayerState = PLAYER_STATE_GROUND;
-	}
-}
-
 void Player::UpdateGuard()
 {
 	m_idle = false;
@@ -1349,6 +1342,22 @@ void Player::UpdateGuard()
 
 	//PositonにSpeed加算します
 	m_Position += direction * m_speed;
+}
+
+void Player::UpdateTitleIdle()
+{
+	if (m_NextAnimationName != "TitleIdle")
+	{
+		m_AnimationName = m_NextAnimationName;
+		m_NextAnimationName = "TitleIdle";
+		m_comboCount = 0;
+		m_BlendTime = 0.0f;
+	}
+}
+
+void Player::UpdateTitleStart()
+{
+
 }
 
 void Player::UpdateDead()

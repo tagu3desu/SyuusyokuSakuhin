@@ -5,11 +5,18 @@
 #include"manager.h"
 #include"wepon_sword.h"
 #include"input.h"
-void Collider::Init()
+Model* Collider::m_Model;
+void Collider::Load()
 {
 
 	m_Model = new Model();
 	m_Model->Load("asset\\model\\collider.obj");
+};
+
+void Collider::Init()
+{
+
+	
 
 	
 	m_Scale = D3DXVECTOR3(0.07f, 0.05f, 0.5f);
@@ -23,10 +30,15 @@ void Collider::Init()
 	
 }
 
-void Collider::Uninit()
+void Collider::Unload()
 {
 	m_Model->Unload();
 	delete m_Model;
+}
+
+void Collider::Uninit()
+{
+	
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
@@ -37,8 +49,7 @@ void Collider::Update()
 {
 	Scene* scene = Manager::GetScene();
 	Sword* sword = scene->GetGameObject<Sword>();
-
-	m_Parent = sword->GetMatrix();
+	//m_Parent = sword->GetMatrix();
 
 	if (Input::GetKeyPress('8'))
 	{
@@ -49,7 +60,7 @@ void Collider::Update()
 		m_ColliderColor = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
 	}
 
-	//GUIにパラメータ表示
+	////GUIにパラメータ表示
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Collider");
 	ImGui::InputFloat3("Position", m_Position);	
@@ -86,3 +97,4 @@ void Collider::Draw()
 
 	m_Model->Draw();
 }
+

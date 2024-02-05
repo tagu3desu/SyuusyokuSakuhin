@@ -38,42 +38,57 @@ void Camera::Update()
 	ImGui::InputFloat("FogStart", &m_FogStart);
 	ImGui::InputFloat("FogEnd", &m_FogEnd);
 	ImGui::InputFloat("FogHeight", &m_FogHeight);
-	ImGui::InputFloat("RotationX", &m_Rotation);
+	ImGui::InputFloat("RotationX", &m_RotationX);
 	ImGui::InputFloat("RotationY", &m_RotationY);
 	ImGui::End();*/
 
 	
 #if 1 //デバッグ
-	if (Input::GetKeyPress(VK_RIGHT))
+	//-0.3,6.8
+
+	if (Title::GetCheckTitle())
 	{
-		m_Rotation -= 0.1f;
+		m_RotationX = -0.3f;
+		m_RotationY = 6.8f;
 	}
-	if (Input::GetKeyPress(VK_LEFT))
+	else
 	{
-		m_Rotation += 0.1f;
-	}
-	if (Input::GetKeyPress(VK_UP) && m_RotationY < 6.7)
-	{
-		m_RotationY += 0.1f;
-	}
-	if (Input::GetKeyPress(VK_DOWN) && m_RotationY > 1.5)
-	{
-		m_RotationY -= 0.1f;
-	}
-#else //本番用
-	m_Rotation -= GetMouseCursorPosX() / 600;
-	if (1.5f <= m_RotationY && m_RotationY <= 6.6)
-	{
-		m_RotationY += GetMouseCursorPosY() / 600;
+		if (Input::GetKeyPress(VK_RIGHT))
+		{
+			m_RotationX -= 0.1f;
+		}
+		if (Input::GetKeyPress(VK_LEFT))
+		{
+			m_RotationX += 0.1f;
+		}
+		if (Input::GetKeyPress(VK_UP) && m_RotationY < 6.7)
+		{
+			m_RotationY += 0.1f;
+		}
+		if (Input::GetKeyPress(VK_DOWN) && m_RotationY > 1.5)
+		{
+			m_RotationY -= 0.1f;
+		}
 	}
 
-	if (m_RotationY < 1.5f)
+	
+#else //本番用
+	if (!Title::GetCheckTitle())
 	{
-		m_RotationY = 1.5f;
-	}
-	if (m_RotationY > 6.6f)
-	{
-		m_RotationY = 6.6f;
+		m_Rotation -= GetMouseCursorPosX() / 600;
+		if (1.5f <= m_RotationY && m_RotationY <= 6.6)
+		{
+			m_RotationY += GetMouseCursorPosY() / 600;
+		}
+
+		if (m_RotationY < 1.5f)
+		{
+			m_RotationY = 1.5f;
+		}
+		if (m_RotationY > 6.6f)
+		{
+			m_RotationY = 6.6f;
+		}
 	}
 #endif 
 
@@ -83,18 +98,18 @@ void Camera::Update()
 	
 
 	//トップビュー	
+	
+	m_Target = player->GetPosition();
+	if (!Title::GetCheckTitle())
+	{
+		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY, -cos(m_RotationX) * 8.0f);
+	}
 	if (Title::GetCheckTitle())
 	{
-		/*m_Target.z += 0.01f;*/
-		//m_RotationY = 6.6f;
-	}
-	else
-	{
-		m_Target = player->GetPosition();
+		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY, -cos(m_RotationX) * 8.0f);
 	}
 
-	m_Position = m_Target + D3DXVECTOR3(sin(m_Rotation)*8.0f,m_RotationY, -cos(m_Rotation)*8.0f);
-
+	
 
 	//カメラシェイク
 	m_ShakeOffset = sinf(m_ShakeTime * 1.5f) * m_ShakeAmplitude;

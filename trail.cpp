@@ -11,8 +11,8 @@
 void Trail::Init()
 {
 	Scene* scene = Manager::GetScene();
-	SwordTopVertex* toppostion = scene->GetGameObject<SwordTopVertex>();
-	Sword* bottomposition = scene->GetGameObject<Sword>();
+	//SwordTopVertex* toppostion = scene->GetGameObject<SwordTopVertex>();
+	//Sword* bottomposition = scene->GetGameObject<Sword>();
 	// 頂点バッファ生成
 	{
 		for (int i = 0; i < KEEP_VERTEX / 2; i++)

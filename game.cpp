@@ -9,7 +9,8 @@
 #include"enemy.h"
 #include"Cylinder.h"
 #include"bullet.h"
-#include"explosion.h"
+#include"bladeefect1.h"
+#include"bladeefect2.h"
 #include"box.h"
 #include"result.h"
 #include"input.h"
@@ -45,7 +46,7 @@
 #include"trail.h"
 #include"gametexturemanager.h"
 #include"collider.h"
-
+#include"campField.h"
 Torus* torus;
 Player* player;
 
@@ -58,10 +59,12 @@ void Game::Load()
 	Rock::Load();
 	TreeTexture::Load();
 	HowlEffect::Load();
+	BladeEffect1::Load();
+	BladeEffect2::Load();
 	SwordTopVertex::Load();
 	MeshField::Load();
-	
-
+	Collider::Load();
+	BaseCamp::Load();
 	m_LoadFinish = true;
 }
 
@@ -74,8 +77,12 @@ void Game::Unload()
 	Rock::Unload();
 	TreeTexture::Unload();
 	HowlEffect::Unload();
+	BladeEffect1::Unload();
+	BladeEffect2::Unload();
 	SwordTopVertex::Unload();
 	MeshField::Unload();
+	Collider::Unload();
+	BaseCamp::Unload();
 }
 
 void Game::Init()
@@ -91,8 +98,10 @@ void Game::Init()
 	//フィールド関連
 	//Field* field = AddGameObject<Field>();
 	MeshField*  meshfield = AddGameObject<MeshField>();
+	meshfield->SetMapActive(true);
 
-	
+	//BaseCamp* campfield = AddGameObject<BaseCamp>();
+	//campfield->SetMapActive(true);
 
 	player =  AddGameObject<Player>();
 	player->SetPosition(D3DXVECTOR3(-1,0,-4));
@@ -102,12 +111,12 @@ void Game::Init()
 	Shield* shield = AddGameObject<Shield>();
 	SwordTopVertex* swordtopvertex = AddGameObject<SwordTopVertex>();
 
-	Collider* collider = AddGameObject<Collider>();
+	//Collider* collider = AddGameObject<Collider>();
 	
 
 	Enemy* enemy = AddGameObject<Enemy>();
-	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));
-	
+	/*enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));*/
+	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 35.0f));
 	
 
 
@@ -127,34 +136,34 @@ void Game::Init()
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
-	//////木
-	for (int i = 0; i < 20; i++)
-	{
-		auto tree = AddGameObject<TreeTexture>();
+	////////木
+	//for (int i = 0; i < 20; i++) 
+	//{
+	//	auto tree = AddGameObject<TreeTexture>();
 
-		D3DXVECTOR3 pos;
-		pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-		pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-		//pos.y = meshfield->GetHeight(pos);
-		pos.y = 0.0f;
-		tree->SetPosition(pos);
-	}
+	//	D3DXVECTOR3 pos;
+	//	pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
+	//	pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
+	//	//pos.y = meshfield->GetHeight(pos);
+	//	pos.y = 0.0f;
+	//	tree->SetPosition(pos);
+	//}
 
-	////////岩
-	for (int i = 0; i < 20; i++)
-	{
-		auto rock = AddGameObject<Rock>();
+	//////////岩
+	//for (int i = 0; i < 20; i++)
+	//{
+	//	auto rock = AddGameObject<Rock>();
 
-		D3DXVECTOR3 pos;
-		pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-		pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-		//pos.y = meshField->GetHeight(pos);
-		rock->SetPosition(pos);
+	//	D3DXVECTOR3 pos;
+	//	pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
+	//	pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
+	//	//pos.y = meshField->GetHeight(pos);
+	//	rock->SetPosition(pos);
 
-		D3DXVECTOR3 scl;
-		scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
-		rock->SetScale(scl);
-	}
+	//	D3DXVECTOR3 scl;
+	//	scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
+	//	rock->SetScale(scl);
+	//}
 	
 	
 }
@@ -204,12 +213,24 @@ void Game::Draw()
 	Scene* scene = Manager::GetScene();
 	D3DXVECTOR3 lighttarget;
 	MeshField* meshfield= GetGameObject<MeshField>();
+	BaseCamp* campfield = GetGameObject<BaseCamp>();
 
 	if (meshfield != nullptr)
 	{
-		//meshfield = GetGameObject<MeshField>();
-		lighttarget = meshfield->GetCenterPosition();
+		if (meshfield->GetMapActive())
+		{
+			lighttarget = meshfield->GetCenterPosition();
+		}
 	}
+	
+	if (campfield != nullptr)
+	{
+		if (campfield->GetMapActive())
+		{
+			lighttarget = campfield->GetCenterPosition();
+		}
+	}
+	
 
 
 	//ライトカメラ構造体の初期化

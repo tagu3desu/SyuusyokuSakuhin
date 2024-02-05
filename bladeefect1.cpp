@@ -1,10 +1,24 @@
 #include "main.h"
 #include "renderer.h"
-#include"explosion.h"
+#include"bladeefect1.h"
 #include"scene.h"
 #include"manager.h"
 #include"camera.h"
-void Explosion::Init()
+
+ID3D11Buffer* BladeEffect1::m_VertexBuffer;
+ID3D11ShaderResourceView* BladeEffect1::m_Texture;
+void BladeEffect1::Init()
+{
+	
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
+		"shader\\unlitTextureVS.cso");
+
+	Renderer::CreatePixelShader(&m_PixelShader,
+		"shader\\unlitTexturePS.cso");
+
+}
+
+void BladeEffect1::Load()
 {
 	VERTEX_3D vertex[4];
 
@@ -51,25 +65,24 @@ void Explosion::Init()
 		NULL);
 	assert(m_Texture);
 
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\unlitTextureVS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\unlitTexturePS.cso");
-
 }
 
-void Explosion::Uninit()
+void BladeEffect1::Unload()
 {
 	m_VertexBuffer->Release();
 	m_Texture->Release();
+}
+
+void BladeEffect1::Uninit()
+{
+	
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
 }
 
-void Explosion::Update()
+void BladeEffect1::Update()
 {
 	m_Count++;
 	//m_Count = m_Count % 16;
@@ -81,7 +94,7 @@ void Explosion::Update()
 	}
 }
 
-void Explosion::Draw()
+void BladeEffect1::Draw()
 {
 	//テクスチャ座標算出
 	float x = m_Count % 3 * (1.0f / 3);
