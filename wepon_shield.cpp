@@ -35,7 +35,7 @@ void Shield::Init()
 	{
 		
 		m_ShieldCollider = scene->AddGameObject<Collider>();
-		m_ShieldCollider->SetScale(D3DXVECTOR3(0.2f, 0.06f, 0.32f));
+		m_ShieldCollider->SetScale(D3DXVECTOR3(0.45f, 0.25f, 0.60f));
 	}
 
 	

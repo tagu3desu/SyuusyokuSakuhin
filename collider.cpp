@@ -10,7 +10,7 @@ void Collider::Load()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\collider.obj");
+	m_Model->Load("asset\\model\\colliderver3.obj");
 };
 
 void Collider::Init()
@@ -83,6 +83,10 @@ void Collider::Draw()
 	world = scale * rot * trans * m_Parent;
 	Renderer::SetWorldMatrix(&world);
 
+	Renderer::SetATCEnable(true);
+
 	m_Model->Draw();
+
+	Renderer::SetATCEnable(false);
 }
 

@@ -20,13 +20,10 @@
 #include"bullet.h"
 #include"field.h"
 #include"campField.h"
+#include"title.h"
+#include"collider.h"
 
 AnimationModel* Enemy::m_Model{};
-//Model* Enemy::m_Model{};
-
-
-
-
 
 void Enemy::Init()
 {
@@ -60,10 +57,18 @@ void Enemy::Init()
 
 	m_lastattackcout = 0;
 
-
+	scene = Manager::GetScene();
 
 	m_HowlSE = AddComponent<Audio>();
 	m_HowlSE->Load("asset\\audio\\bull_monster.wav");
+
+	if (!Title::GetCheckTitle())
+	{
+		m_RightArmCollider = scene->AddGameObject<Collider>();
+		m_RightArmCollider->SetScale(D3DXVECTOR3(50.0f, 170.0f, 50.0f));
+
+	}
+
 }
 
 void Enemy::Load()
@@ -100,11 +105,6 @@ void Enemy::Unload()
 
 void Enemy::Update()
 {
-	Scene* scene = Manager::GetScene();
-	
-	
-
-	
 	
 	GameObject::Update();
 
@@ -337,7 +337,7 @@ void Enemy::Draw()
 
 	//Ž‹Ž‘äƒJƒŠƒ“ƒO
 	{
-		Scene* scene = Manager::GetScene();
+		
 		Camera* camera = scene->GetGameObject<Camera>();
 
 		if (!camera->CheckView(m_Position))
@@ -383,7 +383,7 @@ void Enemy::Draw()
 
 void Enemy::UpdateIdle()
 {
-	Scene* scene = Manager::GetScene();
+	
 
 	if (m_NextAnimationName != "Idle")
 	{
@@ -398,7 +398,7 @@ void Enemy::UpdateIdle()
 
 void Enemy::UpdateHowl()
 {
-	Scene* scene = Manager::GetScene();
+	
 	if (m_NextAnimationName != "Howl")
 	{
 		m_AnimationName = m_NextAnimationName;
@@ -529,7 +529,7 @@ void Enemy::UpdatePunchiAttack(){
 }
 
 void Enemy::UpdateRockAttack() {
-	Scene* scene = Manager::GetScene();
+
 
 	if (m_NextAnimationName != "RockAttack")
 	{
@@ -568,7 +568,7 @@ void Enemy::UpdateRockAttack() {
 
 bool Enemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee)
 {
-	Scene* scene = Manager::GetScene();
+	
 	Player* player = scene->GetGameObject<Player>();
 
 	// Ž‹–ì”ÍˆÍ“à‚©‚Ç‚¤‚©‚Ì”»’è
@@ -590,7 +590,7 @@ bool Enemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, f
 
 void Enemy::SetCollision(aiNode* node, aiMatrix4x4 matrix)
 {
-	Scene* scene = Manager::GetScene();
+	
 	Player* player = scene->GetGameObject<Player>();
 
 	std::string BornName = node->mName.C_Str();

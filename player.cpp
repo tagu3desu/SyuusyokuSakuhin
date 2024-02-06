@@ -116,8 +116,8 @@ void Player::Init()
 	if (!Title::GetCheckTitle())
 	{
 		m_PlayerCollider = scene->AddGameObject<Collider>();
-		m_PlayerCollider->SetScale(D3DXVECTOR3(30.0f, 90.0f, 30.0f));
-		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 95.0f, 0.0f));
+		m_PlayerCollider->SetScale(D3DXVECTOR3(50.0f, 170.0f, 50.0f));
+		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 85.0f, 0.0f));
 	}
 	
 

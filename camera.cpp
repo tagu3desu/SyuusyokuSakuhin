@@ -61,14 +61,22 @@ void Camera::Update()
 		{
 			m_RotationX += 0.1f;
 		}
-		if (Input::GetKeyPress(VK_UP) && m_RotationY < 6.7)
+		if (Input::GetKeyPress(VK_UP))
+		{
+			m_RotationY += 0.1f;
+		}
+		if (Input::GetKeyPress(VK_DOWN))
+		{
+			m_RotationY -= 0.1f;
+		}
+		/*if (Input::GetKeyPress(VK_UP) && m_RotationY < 6.7)
 		{
 			m_RotationY += 0.1f;
 		}
 		if (Input::GetKeyPress(VK_DOWN) && m_RotationY > 1.5)
 		{
 			m_RotationY -= 0.1f;
-		}
+		}*/
 	}
 
 	

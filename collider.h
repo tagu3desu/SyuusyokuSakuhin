@@ -17,7 +17,7 @@ private:
 
 	D3DXMATRIX m_Parent{};
 
-	D3DXCOLOR m_ColliderColor{0.0f,1.0f,0.0f,0.0f};
+	D3DXCOLOR m_ColliderColor{ 0.0f, 1.0f, 0.0f, 1.0f };
 
 	
 	

@@ -43,7 +43,8 @@ void Sword::Init()
 	{
 		
 		m_SwordCollider = scene->AddGameObject<Collider>();
-		m_SwordCollider->SetScale(D3DXVECTOR3(0.07f, 0.045f, 0.5f));
+		/*m_SwordCollider->SetScale(D3DXVECTOR3(0.07f, 0.045f, 0.5f));*/
+		m_SwordCollider->SetScale(D3DXVECTOR3(0.2f, 0.2f, 1.0f));
 		m_SwordCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.2f));
 	}
 }
@@ -70,11 +71,11 @@ void Sword::Update()
 	
 	if (Input::GetKeyPress('8'))
 	{
-		m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 0.5f));
+		m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 	if (Input::GetKeyPress('7'))
 	{
-		m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 0.5f));
+		m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 	
 	AnimationModel* animationmodel;

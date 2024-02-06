@@ -30,6 +30,7 @@ private:
 	D3DXMATRIX m_ViewMatrix{};
 	D3DXMATRIX m_ProjectionMatrix;
 
+	D3DXMATRIX m_ArmColliderMatrix{};
 
 	//static Model* m_Model;
 	ID3D11VertexShader* m_VertexShader{};
@@ -94,6 +95,10 @@ private:
 	int  m_lastattackcout;
 
 	int  m_howlcount = 0;
+
+	class Scene* scene{};
+	class Collider* m_RightArmCollider{};
+
 public:
 	static void Load();
 	static void Unload();
