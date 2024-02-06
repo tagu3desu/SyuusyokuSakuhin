@@ -44,6 +44,7 @@ private:
 
 	class Shadow* m_Shadow{};
 
+	class Collider* m_PlayerCollider{};
 
 	float m_Time{};
 	float m_BlendTime{};
@@ -102,8 +103,8 @@ private:
 	int m_potioncount;
 	int m_Stamina;
 
-	class BoxCollider* m_BoxCollider{};
-
+	class Scene* scene{};
+	
 	float groundHeight = 0.0f;
 
 	//“–‚½‚è”»’è—p

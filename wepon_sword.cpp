@@ -41,8 +41,10 @@ void Sword::Init()
 
 	if (!Title::GetCheckTitle())
 	{
-		swordcollider = new Collider;
-		swordcollider = scene->AddGameObject<Collider>();
+		
+		m_SwordCollider = scene->AddGameObject<Collider>();
+		m_SwordCollider->SetScale(D3DXVECTOR3(0.07f, 0.045f, 0.5f));
+		m_SwordCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.2f));
 	}
 }
 
@@ -63,10 +65,17 @@ void Sword::Update()
 	
 	if (!Title::GetCheckTitle())
 	{
-		swordcollider->SetMatrix(m_Matrix);
+		m_SwordCollider->SetMatrix(m_Matrix);
 	}
 	
-	
+	if (Input::GetKeyPress('8'))
+	{
+		m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 0.5f));
+	}
+	if (Input::GetKeyPress('7'))
+	{
+		m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 0.5f));
+	}
 	
 	AnimationModel* animationmodel;
 	animationmodel = player->GetAnimationModel();
@@ -110,6 +119,7 @@ void Sword::Draw()
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
+	
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;

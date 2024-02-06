@@ -19,8 +19,8 @@ void Collider::Init()
 	
 
 	
-	m_Scale = D3DXVECTOR3(0.07f, 0.05f, 0.5f);
-	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.2f);
+	m_Scale = D3DXVECTOR3(0.00f, 0.00f, 0.00f);
+	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\vertexLightingVS.cso");
@@ -51,21 +51,9 @@ void Collider::Update()
 	Sword* sword = scene->GetGameObject<Sword>();
 	//m_Parent = sword->GetMatrix();
 
-	if (Input::GetKeyPress('8'))
-	{
-		m_ColliderColor = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
-	}
-	if (Input::GetKeyPress('7'))
-	{
-		m_ColliderColor = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
-	}
+	
 
-	////GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Collider");
-	ImGui::InputFloat3("Position", m_Position);	
-	ImGui::InputFloat3("Scale", m_Scale);
-	ImGui::End();
+	
 }
 
 void Collider::Draw()

@@ -7,7 +7,7 @@
 #include"animationModel.h"
 #include"input.h"
 #include"collider.h"
-
+#include"title.h"
 void Shield::Init()
 {
 
@@ -31,8 +31,14 @@ void Shield::Init()
 	
 	scene = Manager::GetScene();
 
-	//shieldcollider = new Collider;
-	//shieldcollider = scene->AddGameObject<Collider>();
+	if (!Title::GetCheckTitle())
+	{
+		
+		m_ShieldCollider = scene->AddGameObject<Collider>();
+		m_ShieldCollider->SetScale(D3DXVECTOR3(0.2f, 0.06f, 0.32f));
+	}
+
+	
 }
 
 void Shield::Uninit()
@@ -54,7 +60,11 @@ void Shield::Update()
 
 	//Collider* collider2 = scene->GetGameObject<Collider>();
 	//collider2->SetMatrix(m_Matrix);
-	//shieldcollider->SetMatrix(m_Matrix);
+	if (!Title::GetCheckTitle())
+	{
+		m_ShieldCollider->SetMatrix(m_Matrix);
+	}
+	
 
 	animationmodel = player->GetAnimationModel();
 	BONE* bone;
@@ -112,6 +122,9 @@ void Shield::Draw()
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans * m_Parent * player->GetMatrix();
+	m_Matrix = world;
+	
+
 	Renderer::SetWorldMatrix(&world);
 
 	m_Model->Draw();

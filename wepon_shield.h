@@ -16,7 +16,7 @@ private:
 	D3DXVECTOR3 m_TrailPosition;
 
 	class Scene* scene{};
-	class Collider* shieldcollider{};
+	class Collider* m_ShieldCollider{};
 
 public:
 	void Init();

@@ -96,6 +96,7 @@ void BladeEffect1::Update()
 
 void BladeEffect1::Draw()
 {
+	Renderer::SetDepthEnable(false);
 	//テクスチャ座標算出
 	float x = m_Count % 3 * (1.0f / 3);
 	float y = m_Count / 5 * (1.0f / 5);
@@ -181,5 +182,7 @@ void BladeEffect1::Draw()
 	//ポリゴン描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
 	Renderer::SetATCEnable(false);
+
+	Renderer::SetDepthEnable(true);
 
 }

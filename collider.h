@@ -19,9 +19,9 @@ private:
 
 	D3DXCOLOR m_ColliderColor{0.0f,1.0f,0.0f,0.0f};
 
-	D3DXVECTOR3 m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	
+	
+	
 
 	
 public:
@@ -41,5 +41,6 @@ public:
 	void Update();
 	void Draw();
 	void SetMatrix(D3DXMATRIX matrix) { m_Parent = matrix; }
+	void SetColliderColor(D3DXCOLOR color) { m_ColliderColor = color; }
 };
 

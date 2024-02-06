@@ -22,7 +22,7 @@ private:
 	VERTEX_3D bottom;
 
 	class Scene* scene{};
-	class Collider* swordcollider{};
+	class Collider* m_SwordCollider{};
 public:
 	
 	D3DXVECTOR3 GetBottomVertexPostion() { return m_BottomVertex; }

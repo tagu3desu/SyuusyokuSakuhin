@@ -111,9 +111,16 @@ void Player::Init()
 	m_sworddrawn = false;
 	m_comboCount=0;
 	m_Stamina = 0;
+	scene = Manager::GetScene();
+	
+	if (!Title::GetCheckTitle())
+	{
+		m_PlayerCollider = scene->AddGameObject<Collider>();
+		m_PlayerCollider->SetScale(D3DXVECTOR3(30.0f, 90.0f, 30.0f));
+		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 95.0f, 0.0f));
+	}
+	
 
-	//Scene* scene = Manager::GetScene();
-	//Collider* collider = scene->AddGameObject<Collider>();
 
 	GameObject::Init();
 }
@@ -143,6 +150,11 @@ void Player::Update()
 		Staminagage* staminagage = scene->GetGameObject<Staminagage>();
 		HPgage* hpgage = scene->GetGameObject<HPgage>();
 		PotionCount* potioncount = scene->GetGameObject<PotionCount>();
+
+
+		
+
+		m_PlayerCollider->SetMatrix(m_Matrix);
 
 		directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		directionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -968,19 +980,6 @@ void Player::UpdateGround()
 	// プレイヤーの移動ベクトルを更新
 	//m_MoveVector = m_Velocity * m_speed;
 
-	/*if (Input::GetKeyTrigger(VK_SPACE) && m_Position.y <= 10.5)
-	{
-		m_Velocity.y = 0.35f;
-		if (m_NextAnimationName != "Jump")
-		{
-			m_AnimationName = m_NextAnimationName;
-			m_NextAnimationName = "Jump";
-			m_BlendTime = 0.0f;
-		}
-		m_idle = false;
-		m_move = true;
-		m_PlayerState = PLAYER_STATE_JUMP;
-	}*/
 
 	D3DXVECTOR3 m_ColliderPos = m_Position + GetForward() * 2.0f;
 
