@@ -1,7 +1,8 @@
 #include"main.h"
+#include"manager.h"
 #include"renderer.h"
 #include"box.h"
-
+#include"collider.h"
 void Box::Init()
 {
 
@@ -15,6 +16,11 @@ void Box::Init()
 
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\vertexLightingPS.cso");
+
+	scene = Manager::GetScene();
+	m_BoxCollider = scene->AddGameObject<Collider>();
+	m_BoxCollider->SetScale(D3DXVECTOR3(1.0f/m_Scale.x, 1.0f/m_Scale.y, 1.0f/m_Scale.z)*2.0f);
+	m_BoxCollider->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 }
 
 void Box::Uninit()
@@ -29,7 +35,7 @@ void Box::Uninit()
 
 void Box::Update()
 {
-
+	m_BoxCollider->SetMatrix(m_Matrix);
 }
 
 void Box::Draw()
@@ -51,8 +57,8 @@ void Box::Draw()
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot * trans;
-	Renderer::SetWorldMatrix(&world);
+	m_Matrix = scale * rot * trans;
+	Renderer::SetWorldMatrix(&m_Matrix);
 
 	m_Model->Draw();
 }

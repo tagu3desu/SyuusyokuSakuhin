@@ -116,8 +116,9 @@ void Game::Init()
 
 	Enemy* enemy = AddGameObject<Enemy>();
 	/*enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));*/
-	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 35.0f));
+	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));
 	
+	Box* box = AddGameObject<Box>();
 
 
 	
@@ -150,20 +151,21 @@ void Game::Init()
 	//}
 
 	//////////Šâ
-	//for (int i = 0; i < 20; i++)
-	//{
-	//	auto rock = AddGameObject<Rock>();
+	for (int i = 0; i < 20; i++)
+	{
+		auto rock = AddGameObject<Rock>();
 
-	//	D3DXVECTOR3 pos;
-	//	pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-	//	pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-	//	//pos.y = meshField->GetHeight(pos);
-	//	rock->SetPosition(pos);
+		D3DXVECTOR3 pos;
+		pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
+		pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
+		//MeshField* meshField = GetGameObject<MeshField>();
+		//pos.y = meshField->GetHeight(pos);
+		rock->SetPosition(pos);
 
-	//	D3DXVECTOR3 scl;
-	//	scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
-	//	rock->SetScale(scl);
-	//}
+		D3DXVECTOR3 scl;
+		scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
+		rock->SetScale(scl);
+	}
 	
 	
 }

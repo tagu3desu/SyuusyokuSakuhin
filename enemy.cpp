@@ -64,9 +64,11 @@ void Enemy::Init()
 
 	if (!Title::GetCheckTitle())
 	{
-		m_RightArmCollider = scene->AddGameObject<Collider>();
-		m_RightArmCollider->SetScale(D3DXVECTOR3(50.0f, 170.0f, 50.0f));
-
+		m_LeftArmCollider = scene->AddGameObject<Collider>();
+		m_LeftArmCollider->SetScale(D3DXVECTOR3(100.0f, 160.0f, 100.0f));
+		m_LeftArmCollider->SetPosition(D3DXVECTOR3(0.0f,80.0f,0.0f));
+		m_LeftArmCollider->SetRotation(D3DXVECTOR3(0.1f, 0.4f, 0.0f));
+		m_LeftArmCollider->SetTag(ENEMY_TAG);
 	}
 
 }
@@ -117,10 +119,14 @@ void Enemy::Update()
 	//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£
 	length = D3DXVec3Length(&direction);
 
-
+	AnimationModel* animationmodel;
+	animationmodel = GetAnimationModel();
 	
 	
+	m_LeftArmCollider->SetMatrix(m_Matrix);
 
+
+	
 
 	if (isAttack)
 	{
@@ -359,6 +365,8 @@ void Enemy::Draw()
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
+
+	m_Matrix = world;
 	Renderer::SetWorldMatrix(&world);
 
 	PARAMETER param;

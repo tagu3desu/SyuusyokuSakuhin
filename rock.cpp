@@ -1,6 +1,9 @@
 #include"main.h"
+#include"manager.h"
 #include"renderer.h"
+#include"scene.h"
 #include"rock.h"
+#include"collider.h"
 
 Model* Rock::m_Model{};
 
@@ -14,6 +17,13 @@ void Rock::Init()
 
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\vertexLightingPS.cso");
+	scene = Manager::GetScene();
+	m_RockCollider = scene->AddGameObject<Collider>();
+	m_RockCollider->SetScale(D3DXVECTOR3(1 / m_Scale.x, 1 / m_Scale.y, 1 / m_Scale.z)*1.3f);
+	m_RockCollider->SetPosition(D3DXVECTOR3(0.0f, 0.3f, 0.0f));
+	m_RockCollider->SetTag(BGOBJ_TAG);
+
+	
 }
 
 void Rock::Load()
@@ -39,7 +49,17 @@ void Rock::Unload()
 
 void Rock::Update()
 {
+	m_RockCollider->SetMatrix(m_Matrix);
 
+	/*m_ColliderScale = m_RockCollider->MatrixtoScale(m_Matrix);
+	m_ColliderPosition = m_RockCollider->MatrixtoPosition(m_Matrix);
+	
+
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("Rock");
+	ImGui::InputFloat3("aCPosition", m_ColliderPosition);
+	ImGui::InputFloat3("CScale", m_ColliderScale);
+	ImGui::End();*/
 }
 
 void Rock::Draw()
@@ -56,8 +76,8 @@ void Rock::Draw()
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot * trans;
-	Renderer::SetWorldMatrix(&world);
+	m_Matrix = scale * rot * trans;
+	Renderer::SetWorldMatrix(&m_Matrix);
 
 	m_Model->Draw();
 }

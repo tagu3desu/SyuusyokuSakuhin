@@ -97,8 +97,11 @@ private:
 	int  m_howlcount = 0;
 
 	class Scene* scene{};
-	class Collider* m_RightArmCollider{};
+	class Collider* m_LeftArmCollider{};
+	
 
+	D3DXVECTOR3 karisize{};
+	D3DXVECTOR3 karipos{};
 public:
 	static void Load();
 	static void Unload();

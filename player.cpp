@@ -26,6 +26,7 @@
 #include"campField.h"
 #include"title.h"
 
+#include"rock.h"
 void Player::Init()
 {
 
@@ -118,6 +119,7 @@ void Player::Init()
 		m_PlayerCollider = scene->AddGameObject<Collider>();
 		m_PlayerCollider->SetScale(D3DXVECTOR3(50.0f, 170.0f, 50.0f));
 		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 85.0f, 0.0f));
+		m_PlayerCollider->SetTag(PLAYER_TAG);
 	}
 	
 
@@ -156,6 +158,9 @@ void Player::Update()
 
 		m_PlayerCollider->SetMatrix(m_Matrix);
 
+		//m_ColliderScale = m_PlayerCollider->MatrixtoScale(m_Matrix);
+		//m_ColliderPosition = m_PlayerCollider->MatrixtoPosition(m_Matrix);
+
 		directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		directionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -183,23 +188,23 @@ void Player::Update()
 		//m_BoxCollider->Update(m_Matrix);
 
 		//GUIにパラメータ表示
-		/*ImGui::SetNextWindowSize(ImVec2(300, 250));
+		ImGui::SetNextWindowSize(ImVec2(300, 250));
 		ImGui::Begin("Player");
-		ImGui::InputFloat3("Position", m_Position);
-		ImGui::InputFloat3("BPosition", m_BonePos);
-		ImGui::InputFloat3("Scale", m_Scale);
-		ImGui::InputInt("HP", &m_HP);
-		ImGui::InputFloat("AnimationDelay", &m_AnimationDelay);
-		ImGui::InputInt("count", &hitcount);
-		ImGui::Checkbox("Collision", &m_Rockhit);
-		ImGui::Checkbox("Move", &m_move);
-		ImGui::Checkbox("Run", &m_run);
-		ImGui::Checkbox("Attack", &m_attack);
-		ImGui::Checkbox("Idle", &m_idle);
-		ImGui::Checkbox("Guard", &m_isGuard);
-		ImGui::Checkbox("EndGuard", &m_EndGuard);
-		ImGui::Checkbox("InpactGuard", &m_InpactGuard);
-		ImGui::End();*/
+		//ImGui::InputFloat3("Position", m_ColliderPosition);
+		//ImGui::InputFloat3("BPosition", m_ColliderScale);
+		//ImGui::InputFloat3("Scale", m_Scale);
+		//ImGui::InputInt("HP", &m_HP);
+		//ImGui::InputFloat("AnimationDelay", &m_AnimationDelay);
+		//ImGui::InputInt("count", &hitcount);
+		//ImGui::Checkbox("Collision", &m_Rockhit);
+		//ImGui::Checkbox("Move", &m_move);
+		//ImGui::Checkbox("Run", &m_run);
+		//ImGui::Checkbox("Attack", &m_attack);
+		//ImGui::Checkbox("Idle", &m_idle);
+		//ImGui::Checkbox("Guard", &m_isGuard);
+		//ImGui::Checkbox("EndGuard", &m_EndGuard);
+		ImGui::Checkbox("hit", &hitflag);
+		ImGui::End();
 
 
 
@@ -244,9 +249,103 @@ void Player::Update()
 			}
 		}
 
+		////岩　
+		std::vector<Rock*> rocks = scene->GetGameObjects<Rock>();
+		{
+			for (Rock* rock : rocks)
+			{
+				D3DXVECTOR3 position = rock->GetPosition();
+				D3DXVECTOR3 scale = rock->GetColliderScale();
+				D3DXVECTOR3 right = rock->GetRight();	//X分離軸
+				D3DXVECTOR3 forward = rock->GetForward();	//Z分離軸
+				D3DXVECTOR3 up = rock->GetUp();	//Y分離軸
+				D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
 
+				float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
+				float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
+
+				//OBB
+				if (fabs(obbx) < scale.x && fabs(obbz) < scale.z)
+				{
+					if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
+					{
+						//// 壁の法線ベクトルを計算
+						//D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
+
+						//// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
+						//D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
+
+						//// プレイヤーの位置を補正
+						//m_Position.x = oldPosition.x + projectedVector.x;
+						//m_Position.z = oldPosition.z + projectedVector.z;
+						//m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+					
+						hitflag = true;
+					}
+					else
+					{
+						groundHeight = position.y + groundHeight + scale.y * 2.0f;
+					}
+					
+					break;
+
+				}
+				else
+				{
+					
+					hitflag = false;
+				}
+			}
+		}
 		
+		
+		
+		////四角柱　
+		std::vector<Box*> boxes = scene->GetGameObjects<Box>();
+		{
+			for (Box* box : boxes)
+			{
+				D3DXVECTOR3 position = box->GetPosition();
+				D3DXVECTOR3 scale = box->GetScale();
+				D3DXVECTOR3 right = box->GetRight();	//X分離軸
+				D3DXVECTOR3 forward = box->GetForward();	//Z分離軸
+				D3DXVECTOR3 up = box->GetUp();	//Y分離軸
+				D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
 
+				float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
+				float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
+
+				//OBB
+				if (fabs(obbx) < scale.x && fabs(obbz) < scale.z)
+				{
+					if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
+					{
+						// 壁の法線ベクトルを計算
+						D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
+
+						// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
+						D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
+
+						// プレイヤーの位置を補正
+						m_Position.x = oldPosition.x + projectedVector.x;
+						m_Position.z = oldPosition.z + projectedVector.z;
+						hitflag = true;
+						m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+					}
+					else
+					{
+						groundHeight = position.y + groundHeight + scale.y * 2.0f;
+					}
+					break;
+
+				}
+				else
+				{
+					m_PlayerCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+					hitflag = false;
+				}
+			}
+		}
 
 		//円柱
 		std::vector<Cylinder*> Cylinders = scene->GetGameObjects<Cylinder>();
@@ -279,47 +378,7 @@ void Player::Update()
 
 
 
-		////四角柱　
-		std::vector<Box*> boxes = scene->GetGameObjects<Box>();
-		{
-			for (Box* box : boxes)
-			{
-
-
-				D3DXVECTOR3 position = box->GetPosition();
-				D3DXVECTOR3 scale = box->GetScale();
-				D3DXVECTOR3 right = box->GetRight();	//X分離軸
-				D3DXVECTOR3 forward = box->GetForward();	//Z分離軸
-				D3DXVECTOR3 up = box->GetUp();	//Y分離軸
-				D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
-
-				float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
-				float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
-
-				//OBB
-				if (fabs(obbx) < scale.x && fabs(obbz) < scale.z)
-				{
-					if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
-					{
-						// 壁の法線ベクトルを計算
-						D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
-
-						// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
-						D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
-
-						// プレイヤーの位置を補正
-						m_Position.x = oldPosition.x + projectedVector.x;
-						m_Position.z = oldPosition.z + projectedVector.z;
-					}
-					else
-					{
-						groundHeight = position.y + groundHeight + scale.y * 2.0f;
-					}
-					break;
-
-				}
-			}
-		}
+		
 
 
 		////敵の弾との判定

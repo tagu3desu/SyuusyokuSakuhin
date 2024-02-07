@@ -3,7 +3,6 @@
 #include"main.h"
 #include"renderer.h"
 #include"compornent.h"
-
 class GameObject
 {
 protected:
@@ -32,6 +31,14 @@ protected:
 	bool m_ReflectEnable = false;
 	bool m_dissolveEnable=false;
 
+
+	D3DXVECTOR3 m_ColliderScale{};
+	D3DXVECTOR3 m_ColliderPosition{};
+	D3DXVECTOR3 m_ColiiderRight{};
+	D3DXVECTOR3 m_ColiiderForward{};
+	D3DXVECTOR3 m_ColiiderUp{};
+
+
 public:
 	bool GetReflectEnable() { return m_ReflectEnable; }
 	bool GetDepthEnable() { return m_DepthEnable; }
@@ -42,6 +49,12 @@ public:
 	void SetScalePosition(D3DXVECTOR3  Scale, D3DXVECTOR3 Position) { m_Scale = Scale; m_Position = Position;}
 	void SetVelocity(D3DXVECTOR3 velocity) { m_Velocity = velocity; }
 	void SetQuaternion(D3DXQUATERNION quaternion) { m_Quaternion = quaternion; }
+
+	D3DXVECTOR3 GetColliderScale() { return m_ColliderScale; }
+	D3DXVECTOR3 GetColliderPosition() { return m_ColliderPosition; }
+	D3DXVECTOR3 GetColliderRight() { return m_ColiiderRight; }
+	D3DXVECTOR3 GetColliderForward() { return m_ColiiderForward; }
+	D3DXVECTOR3 GetColldierUp() { return m_ColiiderUp; }
 
 	GameObject* ParentMatrix;
 	D3DXMATRIX GetMatrix() { return m_Matrix; }

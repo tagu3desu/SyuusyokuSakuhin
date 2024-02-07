@@ -42,10 +42,10 @@ void Sword::Init()
 	if (!Title::GetCheckTitle())
 	{
 		
-		m_SwordCollider = scene->AddGameObject<Collider>();
-		/*m_SwordCollider->SetScale(D3DXVECTOR3(0.07f, 0.045f, 0.5f));*/
+		m_SwordCollider = scene->AddGameObject<Collider>(COLLIDER_LAYER);
 		m_SwordCollider->SetScale(D3DXVECTOR3(0.2f, 0.2f, 1.0f));
 		m_SwordCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.2f));
+		m_SwordCollider->SetTag(ITEM_TAG);
 	}
 }
 

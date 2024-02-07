@@ -34,8 +34,9 @@ void Shield::Init()
 	if (!Title::GetCheckTitle())
 	{
 		
-		m_ShieldCollider = scene->AddGameObject<Collider>();
+		m_ShieldCollider = scene->AddGameObject<Collider>(COLLIDER_LAYER);
 		m_ShieldCollider->SetScale(D3DXVECTOR3(0.45f, 0.25f, 0.60f));
+		m_ShieldCollider->SetTag(ITEM_TAG);
 	}
 
 	

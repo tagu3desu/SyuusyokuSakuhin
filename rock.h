@@ -11,6 +11,8 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
+	class Scene* scene{};
+	class Collider* m_RockCollider{};
 public:
 	static void Load();
 	static void Unload();

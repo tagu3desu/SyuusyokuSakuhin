@@ -29,6 +29,7 @@ private:
 
 	//Model* m_Model{};
 
+	bool hitflag{};
 
 	ID3D11VertexShader* m_VertexShader{};
 	ID3D11PixelShader* m_PixelShader{};
