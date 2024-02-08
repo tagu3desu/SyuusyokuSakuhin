@@ -156,7 +156,7 @@ void Player::Update()
 
 		
 
-		m_PlayerCollider->SetMatrix(m_Matrix);
+		
 
 		//m_ColliderScale = m_PlayerCollider->MatrixtoScale(m_Matrix);
 		//m_ColliderPosition = m_PlayerCollider->MatrixtoPosition(m_Matrix);
@@ -203,11 +203,18 @@ void Player::Update()
 		//ImGui::Checkbox("Idle", &m_idle);
 		//ImGui::Checkbox("Guard", &m_isGuard);
 		//ImGui::Checkbox("EndGuard", &m_EndGuard);
-		ImGui::Checkbox("hit", &hitflag);
+		ImGui::Checkbox("hit", &rockhitflag);
+		ImGui::Checkbox("hit", &boxhitflag);
 		ImGui::End();
 
 
-
+		//プレイヤーコライダー
+		m_PlayerCollider->SetMatrix(m_Matrix);
+		m_ColliderPosition = m_PlayerCollider->MatrixtoPosition(m_Matrix);
+		m_ColliderScale = m_PlayerCollider->MatrixtoScale(m_Matrix);
+		m_ColiiderForward = m_PlayerCollider->MatrixtoForward(m_Matrix);
+		m_ColiiderRight = m_PlayerCollider->MatrixtoRight(m_Matrix);
+		m_ColiiderUp = m_PlayerCollider->MatrixtoUp(m_Matrix);
 
 
 
@@ -254,11 +261,11 @@ void Player::Update()
 		{
 			for (Rock* rock : rocks)
 			{
-				D3DXVECTOR3 position = rock->GetPosition();
+				D3DXVECTOR3 position = rock->GetColliderPosition();
 				D3DXVECTOR3 scale = rock->GetColliderScale();
-				D3DXVECTOR3 right = rock->GetRight();	//X分離軸
-				D3DXVECTOR3 forward = rock->GetForward();	//Z分離軸
-				D3DXVECTOR3 up = rock->GetUp();	//Y分離軸
+				D3DXVECTOR3 right = rock->GetColliderRight();	//X分離軸
+				D3DXVECTOR3 forward = rock->GetColliderForward();	//Z分離軸
+				D3DXVECTOR3 up = rock->GetColliderUp();	//Y分離軸
 				D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
 
 				float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
@@ -269,18 +276,8 @@ void Player::Update()
 				{
 					if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
 					{
-						//// 壁の法線ベクトルを計算
-						//D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
-
-						//// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
-						//D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
-
-						//// プレイヤーの位置を補正
-						//m_Position.x = oldPosition.x + projectedVector.x;
-						//m_Position.z = oldPosition.z + projectedVector.z;
-						//m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-					
-						hitflag = true;
+						rockhitflag = true;
+						
 					}
 					else
 					{
@@ -293,44 +290,91 @@ void Player::Update()
 				else
 				{
 					
-					hitflag = false;
+					rockhitflag = false;
+					
 				}
 			}
 		}
-		
-		
-		
+		//
 		////四角柱　
+		//std::vector<Box*> boxes = scene->GetGameObjects<Box>();
+		//{
+		//	for (Box* box : boxes)
+		//	{
+		//		D3DXVECTOR3 position = box->GetColliderPosition();
+		//		D3DXVECTOR3 scale = box->GetColliderScale();
+		//		D3DXVECTOR3 right = box->GetColliderRight();	//X分離軸
+		//		D3DXVECTOR3 forward = box->GetColliderForward();	//Z分離軸
+		//		D3DXVECTOR3 up = box->GetColliderUp();	//Y分離軸
+		//		D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
+
+		//		float obbx1 = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
+		//		float obbz1 = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
+
+		//		float obbx2 = D3DXVec3Dot(&direction, &m_ColiiderRight);
+		//		float obbz2 = D3DXVec3Dot(&direction, &m_ColiiderForward);
+
+		//		//OBB
+		//		if (fabs(obbx1) < scale.x && fabs(obbz1) < scale.z)
+		//		{
+		//			if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
+		//			{
+		//				//// 壁の法線ベクトルを計算
+		//				//D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
+
+		//				//// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
+		//				//D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
+
+		//				//// プレイヤーの位置を補正
+		//				//m_Position.x = oldPosition.x + projectedVector.x;
+		//				//m_Position.z = oldPosition.z + projectedVector.z;
+		//				boxhitflag = true;
+
+		//			}
+		//			else
+		//			{
+		//				groundHeight = position.y + groundHeight + scale.y * 2.0f;
+		//			}
+		//			break;
+
+		//		}
+		//		else
+		//		{
+
+		//			boxhitflag = false;
+		//		}
+		//	}
+		//}
+		
+		//四角柱　
 		std::vector<Box*> boxes = scene->GetGameObjects<Box>();
 		{
 			for (Box* box : boxes)
 			{
-				D3DXVECTOR3 position = box->GetPosition();
-				D3DXVECTOR3 scale = box->GetScale();
-				D3DXVECTOR3 right = box->GetRight();	//X分離軸
-				D3DXVECTOR3 forward = box->GetForward();	//Z分離軸
-				D3DXVECTOR3 up = box->GetUp();	//Y分離軸
-				D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
+				D3DXVECTOR3 position = box->GetColliderPosition();
+				D3DXVECTOR3 scale = box->GetColliderScale();
+				D3DXVECTOR3 right = box->GetColliderRight();		//X分離軸
+				D3DXVECTOR3 forward = box->GetColliderForward();	//Z分離軸
+				D3DXVECTOR3 up = box->GetColliderUp();				//Y分離軸
+				D3DXVECTOR3 direction = m_ColliderPosition - position; //直方体からプレイヤーまでの方向ベクトル
 
-				float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
-				float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
+				float obbx1 = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
+				float obbz1 = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
+
+
+
+
+
+				float obbx2 = D3DXVec3Dot(&direction, &m_ColiiderRight);
+				float obbz2 = D3DXVec3Dot(&direction, &m_ColiiderForward);
 
 				//OBB
-				if (fabs(obbx) < scale.x && fabs(obbz) < scale.z)
+				if (fabs(obbx1) <= scale.x + m_ColliderScale.x && fabs(obbz1) <= scale.z + m_ColliderScale.z &&
+					fabs(obbx2) <= scale.x + m_ColliderScale.x && fabs(obbz2) <= scale.z + m_ColliderScale.z)
 				{
 					if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
 					{
-						// 壁の法線ベクトルを計算
-						D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
-
-						// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
-						D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
-
-						// プレイヤーの位置を補正
-						m_Position.x = oldPosition.x + projectedVector.x;
-						m_Position.z = oldPosition.z + projectedVector.z;
-						hitflag = true;
-						m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+						boxhitflag = true;
 					}
 					else
 					{
@@ -341,10 +385,19 @@ void Player::Update()
 				}
 				else
 				{
-					m_PlayerCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-					hitflag = false;
+					
+					boxhitflag = false;
 				}
 			}
+		}
+
+		if (boxhitflag || rockhitflag)
+		{
+			m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+		}
+		else if (!boxhitflag && !rockhitflag)
+		{
+			m_PlayerCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 		}
 
 		//円柱

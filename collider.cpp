@@ -16,8 +16,8 @@ void Collider::Load()
 
 void Collider::Init()
 {
-	m_Scale = D3DXVECTOR3(0.00f, 0.00f, 0.00f);
-	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//m_Scale = D3DXVECTOR3(0.0f, 0.00f, 0.0f);
+	//m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\vertexLightingVS.cso");
@@ -53,6 +53,7 @@ void Collider::Update()
 	}
 
 	
+
 	m_ColliderScale = MatrixtoScale(m_Matrix);
 	m_ColliderPosition = MatrixtoPosition(m_Matrix);
 

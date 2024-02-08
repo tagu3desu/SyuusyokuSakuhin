@@ -9,12 +9,12 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{2b57e723-39fb-436d-9791-1b9c4dd07b95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -482,79 +482,85 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\unlitTexturePS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\unlitTextureVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\vertexLightingPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\vertexLightingVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\common.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\DepthShadowMappingPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\DepthShadowMappingVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\dissolvePS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\pixelLightingPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\pixelLightingVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\pixelLightingRimPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\pixelLightingRimVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\envMappingPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\envMappingVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\gaugePS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\gaugeVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\FogPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\FogVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\unlitTexturePS2.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\unlitTextureVS2.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\staminagaugePS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\staminagaugeVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\swordTrailPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\swordTrailVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\collidervertexLightingPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\DepthShadowNormalMappingPS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\DepthShadowNormalMappingVS.hlsl">
+      <Filter>shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

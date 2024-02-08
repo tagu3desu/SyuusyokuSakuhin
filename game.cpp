@@ -65,6 +65,7 @@ void Game::Load()
 	MeshField::Load();
 	Collider::Load();
 	BaseCamp::Load();
+	Box::Load();
 	m_LoadFinish = true;
 }
 
@@ -83,6 +84,7 @@ void Game::Unload()
 	MeshField::Unload();
 	Collider::Unload();
 	BaseCamp::Unload();
+	Box::Unload();
 }
 
 void Game::Init()
@@ -116,11 +118,11 @@ void Game::Init()
 
 	Enemy* enemy = AddGameObject<Enemy>();
 	/*enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));*/
-	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));
+	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 	
 	Box* box = AddGameObject<Box>();
 
-
+	
 	
 	
 	AddGameObject<Trail>();
@@ -149,6 +151,8 @@ void Game::Init()
 	//	pos.y = 0.0f;
 	//	tree->SetPosition(pos);
 	//}
+
+
 
 	//////////Šâ
 	for (int i = 0; i < 20; i++)

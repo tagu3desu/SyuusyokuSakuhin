@@ -15,6 +15,9 @@ private:
 public:
 	void Init();
 	void Uninit();
-	void Update(D3DXMATRIX matrix);
+	void Update();
 	void Draw();
+	void SetMatirx(D3DXMATRIX matrix);
+	void SetPosition(D3DXVECTOR3 position);
+	void SetScale(D3DXVECTOR3 scale);
 };

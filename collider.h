@@ -30,11 +30,11 @@ private:
 	
 	Tag m_Tag = BGOBJ_TAG;
 
-	D3DXVECTOR3 m_ColliderScale{};
+	/*D3DXVECTOR3 m_ColliderScale{};
 	D3DXVECTOR3 m_ColliderPosition{};
 	D3DXVECTOR3 m_ColiiderRight{};
 	D3DXVECTOR3 m_ColiiderForward{};
-	D3DXVECTOR3 m_ColiiderUp{};
+	D3DXVECTOR3 m_ColiiderUp{};*/
 
 public:
 	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix) {
@@ -53,45 +53,77 @@ public:
 		return scale;
 	}
 
-	D3DXVECTOR3 GetCForward() //前方面ベクトルを取得
-	{
-		D3DXMATRIX rot;
-		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	//D3DXVECTOR3 GetCForward() //前方面ベクトルを取得
+	//{
+	//	D3DXMATRIX rot;
+	//	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 
+	//	D3DXVECTOR3 forward;
+	//	forward.x = rot._31;
+	//	forward.y = rot._32;
+	//	forward.z = rot._33;
+
+	//	return forward;
+	//}
+
+	D3DXVECTOR3 MatrixtoForward(D3DXMATRIX matrix) //前方面ベクトルを取得
+	{
 		D3DXVECTOR3 forward;
-		forward.x = rot._31;
-		forward.y = rot._32;
-		forward.z = rot._33;
+		forward.x = matrix._31;
+		forward.y = matrix._32;
+		forward.z = matrix._33;
 
 		return forward;
 	}
 
-	D3DXVECTOR3 GetCRight() //右方面ベクトルを取得
-	{
-		D3DXMATRIX rot;
-		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 
+	//D3DXVECTOR3 GetCRight() //右方面ベクトルを取得
+	//{
+	//	D3DXMATRIX rot;
+	//	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+
+	//	D3DXVECTOR3 right;
+	//	right.x = rot._11;
+	//	right.y = rot._12;
+	//	right.z = rot._13;
+
+	//	return right;
+	//}
+
+	D3DXVECTOR3 MatrixtoRight(D3DXMATRIX matrix) //右方面ベクトルを取得
+	{
+		
 		D3DXVECTOR3 right;
-		right.x = rot._11;
-		right.y = rot._12;
-		right.z = rot._13;
+		right.x = matrix._11;
+		right.y = matrix._12;
+		right.z = matrix._13;
 
 		return right;
 	}
 
-	D3DXVECTOR3 GetCUp() //上方面ベクトル
-	{
-		D3DXMATRIX rot;
-		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	//D3DXVECTOR3 GetCUp() //上方面ベクトル
+	//{
+	//	D3DXMATRIX rot;
+	//	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 
+	//	D3DXVECTOR3 up;
+	//	up.x = rot._21;
+	//	up.y = rot._22;
+	//	up.z = rot._23;
+
+	//	return up;
+	//}
+
+	D3DXVECTOR3 MatrixtoUp(D3DXMATRIX matrix) //上方面ベクトル
+	{
+		
 		D3DXVECTOR3 up;
-		up.x = rot._21;
-		up.y = rot._22;
-		up.z = rot._23;
+		up.x = matrix._21;
+		up.y = matrix._22;
+		up.z = matrix._23;
 
 		return up;
 	}
-
 
 	static void Load();
 	static void Unload();
@@ -107,11 +139,11 @@ public:
 	Tag GetTag() { return m_Tag; }
 
 
-	D3DXVECTOR3 GetColliderScale() { return  m_ColliderScale; }
+	/*D3DXVECTOR3 GetColliderScale() { return  m_ColliderScale; }
 	D3DXVECTOR3 GetColliderPosition() { return m_ColliderPosition; }
 	D3DXVECTOR3 GetColliderUp() { return m_ColiiderUp; }
 	D3DXVECTOR3 GetColliderRight() { return m_ColiiderRight; }
-	D3DXVECTOR3 GetColliderForward() { return m_ColiiderForward; }
+	D3DXVECTOR3 GetColliderForward() { return m_ColiiderForward; }*/
 
 	//template<typename C1,typename C2>
 	//C1* CheckCollidionHit(LAYER layer1 = COLLIDER_LAYER, LAYER layer2 = COLLIDER_LAYER)

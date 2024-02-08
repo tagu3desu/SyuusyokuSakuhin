@@ -214,7 +214,7 @@ void Renderer::Init()
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.MaxAnisotropy = 4;
+	samplerDesc.MaxAnisotropy = 1;
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 	ID3D11SamplerState* samplerState{};

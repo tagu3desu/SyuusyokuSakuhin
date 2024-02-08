@@ -10,6 +10,7 @@ private:
 	static ID3D11Buffer*				m_VertexBuffer;
 	static ID3D11Buffer*				m_IndexBuffer;
 	static ID3D11ShaderResourceView*	m_Texture;
+	static ID3D11ShaderResourceView*	m_NormalTexture;
 
 	static VERTEX_3D					m_Vertex[21][21];
 

@@ -6,6 +6,7 @@
 ID3D11Buffer* MeshField::m_VertexBuffer{};
 ID3D11Buffer* MeshField::m_IndexBuffer{};
 ID3D11ShaderResourceView* MeshField::m_Texture{};
+ID3D11ShaderResourceView* MeshField::m_NormalTexture{};
 VERTEX_3D					MeshField::m_Vertex[21][21]{};
 
 float g_FieldHeight[21][21]
@@ -40,8 +41,8 @@ void MeshField::Init()
 	m_DepthEnable = true;
 	m_ReflectEnable = true;
 
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowMappingVS.cso");
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowMappingPS.cso");
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowNormalMappingVS.cso");
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowNormalMappingPS.cso");
 }
 
 void MeshField::Load()
@@ -140,6 +141,15 @@ void MeshField::Load()
 		&m_Texture,
 		NULL);
 	assert(m_Texture);
+
+	// テクスチャ読み込み
+	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
+		"asset/texture/NormalMapGrass.png",
+		NULL,
+		NULL,
+		&m_NormalTexture,
+		NULL);
+	assert(m_NormalTexture);
 }
 
 void MeshField::Unload()
@@ -201,6 +211,7 @@ void MeshField::Draw()
 
 	// テクスチャ設定
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
+	Renderer::GetDeviceContext()->PSSetShaderResources(2, 1, &m_NormalTexture);
 
 	// プリミティブトポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );

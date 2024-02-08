@@ -54,7 +54,7 @@ public:
 	D3DXVECTOR3 GetColliderPosition() { return m_ColliderPosition; }
 	D3DXVECTOR3 GetColliderRight() { return m_ColiiderRight; }
 	D3DXVECTOR3 GetColliderForward() { return m_ColiiderForward; }
-	D3DXVECTOR3 GetColldierUp() { return m_ColiiderUp; }
+	D3DXVECTOR3 GetColliderUp() { return m_ColiiderUp; }
 
 	GameObject* ParentMatrix;
 	D3DXMATRIX GetMatrix() { return m_Matrix; }

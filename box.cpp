@@ -3,12 +3,10 @@
 #include"renderer.h"
 #include"box.h"
 #include"collider.h"
+#include"boxcollider.h"
+Model* Box::m_Model;
 void Box::Init()
 {
-
-	m_Model = new Model();
-	m_Model->Load("asset\\model\\box.obj");
-
 	m_DepthEnable = true;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
@@ -21,12 +19,27 @@ void Box::Init()
 	m_BoxCollider = scene->AddGameObject<Collider>();
 	m_BoxCollider->SetScale(D3DXVECTOR3(1.0f/m_Scale.x, 1.0f/m_Scale.y, 1.0f/m_Scale.z)*2.0f);
 	m_BoxCollider->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	
+	//m_BoxCollider = AddComponent<BoxCollider>();
+	//m_BoxCollider->SetScale(D3DXVECTOR3(1.0f/m_Scale.x, 1.0f/m_Scale.y, 1.0f/m_Scale.z));
+	//m_BoxCollider->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+}
+
+void Box::Load()
+{
+	m_Model = new Model();
+	m_Model->Load("asset\\model\\box.obj");
+}
+
+void Box::Unload()
+{
+	m_Model->Unload();
+	delete m_Model;
 }
 
 void Box::Uninit()
 {
-	m_Model->Unload();
-	delete m_Model;
+	
 
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
@@ -36,11 +49,17 @@ void Box::Uninit()
 void Box::Update()
 {
 	m_BoxCollider->SetMatrix(m_Matrix);
+	m_ColliderScale = m_BoxCollider->MatrixtoScale(m_Matrix);
+	m_ColliderPosition = m_BoxCollider->MatrixtoPosition(m_Matrix);
+	m_ColiiderRight = m_BoxCollider->MatrixtoRight(m_Matrix);
+	m_ColiiderForward = m_BoxCollider->MatrixtoForward(m_Matrix);
+	m_ColiiderUp = m_BoxCollider->MatrixtoUp(m_Matrix);
+	
 }
 
 void Box::Draw()
 {
-	GameObject::Draw();
+	
 	//入力レイアウト
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
@@ -48,9 +67,7 @@ void Box::Draw()
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-	//// テクスチャ設定
-	/*ID3D11ShaderResourceView* depthShadowTexture = Renderer::GetDepthShadowTexture();
-	Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &depthShadowTexture);*/
+
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;

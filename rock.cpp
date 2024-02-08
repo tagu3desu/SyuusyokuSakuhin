@@ -19,9 +19,9 @@ void Rock::Init()
 		"shader\\vertexLightingPS.cso");
 	scene = Manager::GetScene();
 	m_RockCollider = scene->AddGameObject<Collider>();
-	m_RockCollider->SetScale(D3DXVECTOR3(1 / m_Scale.x, 1 / m_Scale.y, 1 / m_Scale.z)*1.3f);
+	m_RockCollider->SetScale(D3DXVECTOR3(1 / m_Scale.x, 1 / m_Scale.y, 1 / m_Scale.z)*1.5f);
 	m_RockCollider->SetPosition(D3DXVECTOR3(0.0f, 0.3f, 0.0f));
-	m_RockCollider->SetTag(BGOBJ_TAG);
+
 
 	
 }
@@ -50,16 +50,13 @@ void Rock::Unload()
 void Rock::Update()
 {
 	m_RockCollider->SetMatrix(m_Matrix);
-
-	/*m_ColliderScale = m_RockCollider->MatrixtoScale(m_Matrix);
+	m_ColliderScale = m_RockCollider->MatrixtoScale(m_Matrix);
 	m_ColliderPosition = m_RockCollider->MatrixtoPosition(m_Matrix);
-	
+	m_ColiiderRight = m_RockCollider->MatrixtoRight(m_Matrix);
+	m_ColiiderForward = m_RockCollider->MatrixtoForward(m_Matrix);
+	m_ColiiderUp = m_RockCollider->MatrixtoUp(m_Matrix);
 
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Rock");
-	ImGui::InputFloat3("aCPosition", m_ColliderPosition);
-	ImGui::InputFloat3("CScale", m_ColliderScale);
-	ImGui::End();*/
+	
 }
 
 void Rock::Draw()

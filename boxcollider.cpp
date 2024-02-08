@@ -20,14 +20,32 @@ void BoxCollider::Uninit()
 	delete m_Collider;
 }
 
-void BoxCollider::Update(D3DXMATRIX matrix)
+void BoxCollider::Update()
 {
-	m_Collider->SetMatrix(matrix);
 }
 
 void BoxCollider::Draw()
 {
 	m_Collider->Draw();
 }
+
+void BoxCollider::SetMatirx(D3DXMATRIX matrix)
+{
+	m_Collider->SetMatrix(matrix);
+}
+void BoxCollider::SetPosition(D3DXVECTOR3 position)
+{
+	m_Collider->SetScale(position);
+}
+void BoxCollider::SetScale(D3DXVECTOR3 scale)
+{
+	m_Collider->SetScale(scale);
+}
+
+
+
+
+
+
 
 
