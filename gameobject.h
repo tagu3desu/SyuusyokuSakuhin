@@ -73,7 +73,14 @@ public:
 		}
 	}
 			
-		
+	void SetColliderInfo(D3DXMATRIX matrix)
+	{
+		m_ColliderScale = MatrixtoScale(matrix) ;
+		m_ColliderPosition = MatrixtoPosition(matrix);
+		m_ColiiderRight = MatrixtoRight(matrix);
+		m_ColiiderForward = MatrixtoForward(matrix);
+		m_ColiiderUp = MatrixtoUp(matrix);
+	}
 		
 	D3DXVECTOR3 GetPosition()
 	{
@@ -124,13 +131,57 @@ public:
 		return up;
 	}
 
-	D3DXVECTOR3 ExtractTranslationFromMatrix(D3DXMATRIX matrix) {
+	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix) {
 		D3DXVECTOR3 pos;
 		pos.x = matrix._41;
 		pos.y = matrix._42;
 		pos.z = matrix._43;
 		return pos;
 	}
+
+	D3DXVECTOR3 MatrixtoScale(D3DXMATRIX matrix) {
+		D3DXVECTOR3 scale;
+		scale.x = matrix._11;
+		scale.y = matrix._22;
+		scale.z = matrix._33;
+		return scale;
+	}
+
+
+	D3DXVECTOR3 MatrixtoForward(D3DXMATRIX matrix) //前方面ベクトルを取得
+	{
+		D3DXVECTOR3 forward;
+		forward.x = matrix._31;
+		forward.y = matrix._32;
+		forward.z = matrix._33;
+
+		return forward;
+	}
+
+	D3DXVECTOR3 MatrixtoRight(D3DXMATRIX matrix) //右方面ベクトルを取得
+	{
+
+		D3DXVECTOR3 right;
+		right.x = matrix._11;
+		right.y = matrix._12;
+		right.z = matrix._13;
+
+		return right;
+	}
+
+
+	D3DXVECTOR3 MatrixtoUp(D3DXMATRIX matrix) //上方面ベクトル
+	{
+
+		D3DXVECTOR3 up;
+		up.x = matrix._21;
+		up.y = matrix._22;
+		up.z = matrix._23;
+
+		return up;
+	}
+
+
 
 	VERTEX_3D ConvertD3DXVECTOR3ToVERTEX3D(const D3DXVECTOR3& vector3) {
 		VERTEX_3D result;

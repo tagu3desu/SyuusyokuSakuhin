@@ -18,7 +18,8 @@ void Collider::Init()
 {
 	//m_Scale = D3DXVECTOR3(0.0f, 0.00f, 0.0f);
 	//m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
+	m_ScaleOffset = (D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\vertexLightingVS.cso");
 
@@ -51,12 +52,6 @@ void Collider::Update()
 	{
 		m_ColliderEnable = false;
 	}
-
-	
-
-	m_ColliderScale = MatrixtoScale(m_Matrix);
-	m_ColliderPosition = MatrixtoPosition(m_Matrix);
-
 }
 
 	
@@ -82,9 +77,9 @@ void Collider::Draw()
 
 		//ƒ}ƒgƒŠƒNƒXİ’è
 		D3DXMATRIX world, scale, rot, trans;
-		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+		D3DXMatrixScaling(&scale, m_Scale.x , m_Scale.y, m_Scale.z);
 		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-		D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+		D3DXMatrixTranslation(&trans, m_Position.x , m_Position.y, m_Position.z );
 		m_Matrix = scale * rot * trans * m_Parent;
 		Renderer::SetWorldMatrix(&m_Matrix);
 
@@ -95,6 +90,179 @@ void Collider::Draw()
 		Renderer::SetATCEnable(false);
 	}
 	
+}
+
+
+
+//A(obb1)‚ÆB(obb2)‚ÌOBB“–‚½‚è”»’èŠÖ”
+bool Collider::CollisionChecker(GameObject* obb1, GameObject* obb2 ,float offsetscale)
+{
+	//A‚Ì²‚ÉŠi”[
+	D3DXVECTOR3 NAe1 = obb1->GetColliderRight(), Ae1 = NAe1 * (obb1->GetColliderScale().x * offsetscale);
+	D3DXVECTOR3 NAe2 = obb1->GetColliderUp(), Ae2 = NAe2 * (obb1->GetColliderScale().y * offsetscale);
+	D3DXVECTOR3 NAe3 = obb1->GetColliderForward(), Ae3 = NAe3 * (obb1->GetColliderScale().z * offsetscale);
+
+	//B‚Ì²‚ÉŠi”[
+	D3DXVECTOR3 NBe1 = obb2->GetColliderRight(), Be1 = NBe1 * (obb2->GetColliderScale().x * offsetscale);
+	D3DXVECTOR3 NBe2 = obb2->GetColliderUp(), Be2 = NBe2 * (obb2->GetColliderScale().y * offsetscale);
+	D3DXVECTOR3 NBe3 = obb2->GetColliderForward(), Be3 = NBe3 * (obb2->GetColliderScale().z * offsetscale);
+
+	//’†SÀ•W‚Ì‹——£
+	D3DXVECTOR3 Interval = obb1->GetColliderPosition() - obb2->GetColliderPosition();
+
+	//•ª—£²‚ÌŒvZ//
+
+	//“Š‰eü•ª‚Ì’·‚³
+	float rA, rB, L;
+	//ŠOÏ•ª—£²
+	D3DXVECTOR3 Cross;
+
+	//Ae1
+	rA = D3DXVec3Length(&Ae1);
+	rB = LenSegOnSeparateAxis(&NAe1, &Be1, &Be2, &Be3);
+	L = fabs(D3DXVec3Dot(&Interval, &NAe1));
+	//”»’è
+	if (L > rA + rB)
+		return false; // Õ“Ë‚µ‚Ä‚¢‚È‚¢
+
+	//Ae2
+	rA = D3DXVec3Length(&Ae2);
+	rB = LenSegOnSeparateAxis(&NAe2, &Be1, &Be2, &Be3);
+	L = fabs(D3DXVec3Dot(&Interval, &NAe2));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//Ae3
+	rA = D3DXVec3Length(&Ae3);
+	rB = LenSegOnSeparateAxis(&NAe3, &Be1, &Be2, &Be3);
+	L = fabs(D3DXVec3Dot(&Interval, &NAe3));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//Be1
+	rA = LenSegOnSeparateAxis(&NBe1, &Ae1, &Ae2, &Ae3);
+	rB = D3DXVec3Length(&Be1);
+	L = fabs(D3DXVec3Dot(&Interval, &NBe1));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//Be2
+	rA = LenSegOnSeparateAxis(&NBe2, &Ae1, &Ae2, &Ae3);
+	rB = D3DXVec3Length(&Be2);
+	L = fabs(D3DXVec3Dot(&Interval, &NBe2));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//Be3
+	rA = LenSegOnSeparateAxis(&NBe3, &Ae1, &Ae2, &Ae3);
+	rB = D3DXVec3Length(&Be3);
+	L = fabs(D3DXVec3Dot(&Interval, &NBe3));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//C11
+	D3DXVec3Cross(&Cross, &NAe1, &NBe1);
+	rA = LenSegOnSeparateAxis(&Cross, &Ae2, &Ae3, 0);
+	rB = LenSegOnSeparateAxis(&Cross, &Be2, &Be3, 0);
+	L = fabs(D3DXVec3Dot(&Interval, &Cross));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//C12
+	D3DXVec3Cross(&Cross, &NAe1, &NBe2);
+	rA = LenSegOnSeparateAxis(&Cross, &Ae2, &Ae3, 0);
+	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be3, 0);
+	L = fabs(D3DXVec3Dot(&Interval, &Cross));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//C13
+	D3DXVec3Cross(&Cross, &NAe1, &NBe3);
+	rA = LenSegOnSeparateAxis(&Cross, &Ae2, &Ae3, 0);
+	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be2, 0);
+	L = fabs(D3DXVec3Dot(&Interval, &Cross));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//C21
+	D3DXVec3Cross(&Cross, &NAe2, &NBe1);
+	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae3, 0);
+	rB = LenSegOnSeparateAxis(&Cross, &Be2, &Be3, 0);
+	L = fabs(D3DXVec3Dot(&Interval, &Cross));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//C22
+	D3DXVec3Cross(&Cross, &NAe2, &NBe2);
+	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae3, 0);
+	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be3, 0);
+	L = fabs(D3DXVec3Dot(&Interval, &Cross));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//C23
+	D3DXVec3Cross(&Cross, &NAe2, &NBe3);
+	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae3, 0);
+	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be2, 0);
+	L = fabs(D3DXVec3Dot(&Interval, &Cross));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//C31
+	D3DXVec3Cross(&Cross, &NAe3, &NBe1);
+	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae2, 0);
+	rB = LenSegOnSeparateAxis(&Cross, &Be2, &Be3, 0);
+	L = fabs(D3DXVec3Dot(&Interval, &Cross));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//C32
+	D3DXVec3Cross(&Cross, &NAe3, &NBe2);
+	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae2, 0);
+	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be3, 0);
+	L = fabs(D3DXVec3Dot(&Interval, &Cross));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//C33
+	D3DXVec3Cross(&Cross, &NAe3, &NBe3);
+	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae2, 0);
+	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be2, 0);
+	L = fabs(D3DXVec3Dot(&Interval, &Cross));
+	//”»’è
+	if (L > rA + rB)
+		return false;
+
+	//”»’è
+	return true; // Õ“Ë‚µ‚Ä‚¢‚é
+}
+
+// “Š‰eü•ª’·ŠÖ” //
+// •ª—£²‚É“Š‰e‚³‚ê‚½²¬•ª‚©‚ç“Š‰eü•ª’·‚ğZo
+// •ª—£²Sep‚Í•W€‰»‚³‚ê‚Ä‚¢‚é‚±‚Æ
+float Collider::LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECTOR3* e2, D3DXVECTOR3* e3)
+{
+	// 3‚Â‚Ì“àÏ‚Ìâ‘Î’l‚Ì˜a‚Å“Š‰eü•ª’·‚ğŒvZ
+	float r1 = fabs(D3DXVec3Dot(Sep, e1));
+	float r2 = fabs(D3DXVec3Dot(Sep, e2));
+	//e3‚ª0‚¾‚Á‚½0‚ğr3‚É‘ã“ü
+	//0ˆÈŠO‚¾‚Á‚½fabs‚ÌŒvZ‚ğ‚µr3‚É‘ã“ü
+	float r3 = e3 ?  (fabs(D3DXVec3Dot(Sep, e3))) : 0;
+
+	return r1 + r2 + r3;
 }
 
 

@@ -117,7 +117,7 @@ void Player::Init()
 	if (!Title::GetCheckTitle())
 	{
 		m_PlayerCollider = scene->AddGameObject<Collider>();
-		m_PlayerCollider->SetScale(D3DXVECTOR3(50.0f, 170.0f, 50.0f));
+		m_PlayerCollider->SetScale(D3DXVECTOR3(70.0f, 170.0f, 70.0f));
 		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 85.0f, 0.0f));
 		m_PlayerCollider->SetTag(PLAYER_TAG);
 	}
@@ -154,12 +154,6 @@ void Player::Update()
 		PotionCount* potioncount = scene->GetGameObject<PotionCount>();
 
 
-		
-
-		
-
-		//m_ColliderScale = m_PlayerCollider->MatrixtoScale(m_Matrix);
-		//m_ColliderPosition = m_PlayerCollider->MatrixtoPosition(m_Matrix);
 
 		directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		directionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -182,27 +176,9 @@ void Player::Update()
 
 		m_HP = hpgage->GetHp();
 
-		//Collider* collider = scene->GetGameObject<Collider>();
-		//collider->SetMatrix(m_WorldMatrix);
-
-		//m_BoxCollider->Update(m_Matrix);
-
 		//GUIにパラメータ表示
 		ImGui::SetNextWindowSize(ImVec2(300, 250));
 		ImGui::Begin("Player");
-		//ImGui::InputFloat3("Position", m_ColliderPosition);
-		//ImGui::InputFloat3("BPosition", m_ColliderScale);
-		//ImGui::InputFloat3("Scale", m_Scale);
-		//ImGui::InputInt("HP", &m_HP);
-		//ImGui::InputFloat("AnimationDelay", &m_AnimationDelay);
-		//ImGui::InputInt("count", &hitcount);
-		//ImGui::Checkbox("Collision", &m_Rockhit);
-		//ImGui::Checkbox("Move", &m_move);
-		//ImGui::Checkbox("Run", &m_run);
-		//ImGui::Checkbox("Attack", &m_attack);
-		//ImGui::Checkbox("Idle", &m_idle);
-		//ImGui::Checkbox("Guard", &m_isGuard);
-		//ImGui::Checkbox("EndGuard", &m_EndGuard);
 		ImGui::Checkbox("hit", &rockhitflag);
 		ImGui::Checkbox("hit", &boxhitflag);
 		ImGui::End();
@@ -210,11 +186,14 @@ void Player::Update()
 
 		//プレイヤーコライダー
 		m_PlayerCollider->SetMatrix(m_Matrix);
-		m_ColliderPosition = m_PlayerCollider->MatrixtoPosition(m_Matrix);
-		m_ColliderScale = m_PlayerCollider->MatrixtoScale(m_Matrix);
-		m_ColiiderForward = m_PlayerCollider->MatrixtoForward(m_Matrix);
-		m_ColiiderRight = m_PlayerCollider->MatrixtoRight(m_Matrix);
-		m_ColiiderUp = m_PlayerCollider->MatrixtoUp(m_Matrix);
+		SetColliderInfo(m_PlayerCollider->GetMatrix());
+
+
+		/*m_ColliderPosition = m_PlayerCollider->MatrixtoPosition(m_PlayerCollider->GetMatrix());
+		m_ColliderScale = m_PlayerCollider->MatrixtoScale(m_PlayerCollider->GetMatrix());
+		m_ColiiderForward = m_PlayerCollider->MatrixtoForward(m_PlayerCollider->GetMatrix());
+		m_ColiiderRight = m_PlayerCollider->MatrixtoRight(m_PlayerCollider->GetMatrix());
+		m_ColiiderUp = m_PlayerCollider->MatrixtoUp(m_PlayerCollider->GetMatrix() );*/
 
 
 
@@ -256,149 +235,45 @@ void Player::Update()
 			}
 		}
 
-		////岩　
-		std::vector<Rock*> rocks = scene->GetGameObjects<Rock>();
-		{
-			for (Rock* rock : rocks)
-			{
-				D3DXVECTOR3 position = rock->GetColliderPosition();
-				D3DXVECTOR3 scale = rock->GetColliderScale();
-				D3DXVECTOR3 right = rock->GetColliderRight();	//X分離軸
-				D3DXVECTOR3 forward = rock->GetColliderForward();	//Z分離軸
-				D3DXVECTOR3 up = rock->GetColliderUp();	//Y分離軸
-				D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
-
-				float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
-				float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
-
-				//OBB
-				if (fabs(obbx) < scale.x && fabs(obbz) < scale.z)
-				{
-					if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
-					{
-						rockhitflag = true;
-						
-					}
-					else
-					{
-						groundHeight = position.y + groundHeight + scale.y * 2.0f;
-					}
-					
-					break;
-
-				}
-				else
-				{
-					
-					rockhitflag = false;
-					
-				}
-			}
-		}
-		//
-		////四角柱　
-		//std::vector<Box*> boxes = scene->GetGameObjects<Box>();
-		//{
-		//	for (Box* box : boxes)
-		//	{
-		//		D3DXVECTOR3 position = box->GetColliderPosition();
-		//		D3DXVECTOR3 scale = box->GetColliderScale();
-		//		D3DXVECTOR3 right = box->GetColliderRight();	//X分離軸
-		//		D3DXVECTOR3 forward = box->GetColliderForward();	//Z分離軸
-		//		D3DXVECTOR3 up = box->GetColliderUp();	//Y分離軸
-		//		D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
-
-		//		float obbx1 = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
-		//		float obbz1 = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
-
-		//		float obbx2 = D3DXVec3Dot(&direction, &m_ColiiderRight);
-		//		float obbz2 = D3DXVec3Dot(&direction, &m_ColiiderForward);
-
-		//		//OBB
-		//		if (fabs(obbx1) < scale.x && fabs(obbz1) < scale.z)
-		//		{
-		//			if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
-		//			{
-		//				//// 壁の法線ベクトルを計算
-		//				//D3DXVECTOR3 wallNormal(1.0f, 0.0f, 0.0f);
-
-		//				//// プレイヤーの移動ベクトルと壁の法線ベクトルの射影を計算
-		//				//D3DXVECTOR3 projectedVector = m_MoveVector - D3DXVec3Dot(&m_MoveVector, &wallNormal) * wallNormal;
-
-		//				//// プレイヤーの位置を補正
-		//				//m_Position.x = oldPosition.x + projectedVector.x;
-		//				//m_Position.z = oldPosition.z + projectedVector.z;
-		//				boxhitflag = true;
-
-		//			}
-		//			else
-		//			{
-		//				groundHeight = position.y + groundHeight + scale.y * 2.0f;
-		//			}
-		//			break;
-
-		//		}
-		//		else
-		//		{
-
-		//			boxhitflag = false;
-		//		}
-		//	}
-		//}
 		
-		//四角柱　
+		//OBB判定　
 		std::vector<Box*> boxes = scene->GetGameObjects<Box>();
 		{
 			for (Box* box : boxes)
 			{
-				D3DXVECTOR3 position = box->GetColliderPosition();
-				D3DXVECTOR3 scale = box->GetColliderScale();
-				D3DXVECTOR3 right = box->GetColliderRight();		//X分離軸
-				D3DXVECTOR3 forward = box->GetColliderForward();	//Z分離軸
-				D3DXVECTOR3 up = box->GetColliderUp();				//Y分離軸
-				D3DXVECTOR3 direction = m_ColliderPosition - position; //直方体からプレイヤーまでの方向ベクトル
-
-				float obbx1 = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
-				float obbz1 = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
-
-
-
-
-
-				float obbx2 = D3DXVec3Dot(&direction, &m_ColiiderRight);
-				float obbz2 = D3DXVec3Dot(&direction, &m_ColiiderForward);
-
-				//OBB
-				if (fabs(obbx1) <= scale.x + m_ColliderScale.x && fabs(obbz1) <= scale.z + m_ColliderScale.z &&
-					fabs(obbx2) <= scale.x + m_ColliderScale.x && fabs(obbz2) <= scale.z + m_ColliderScale.z)
-				{
-					if (m_Position.y < position.y + scale.y * 2.0f - 0.5f)
-					{
-						boxhitflag = true;
-					}
-					else
-					{
-						groundHeight = position.y + groundHeight + scale.y * 2.0f;
-					}
-					break;
-
-				}
-				else
-				{
-					
-					boxhitflag = false;
-				}
+				boxhitflag=m_PlayerCollider->CollisionChecker(this, box,0.7f);
 			}
 		}
 
-		if (boxhitflag || rockhitflag)
+		std::vector<Rock*> rocks = scene->GetGameObjects<Rock>();
 		{
-			m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+			for (Rock* rock : rocks)
+			{
+				if (!m_PlayerCollider->CollisionChecker(this, rock, 1.5f))
+				{
+					
+				}
+				
+			}
 		}
-		else if (!boxhitflag && !rockhitflag)
+
+		if (enemy != nullptr)
+		{
+			enemyhitflag = m_PlayerCollider->CollisionChecker(this, enemy, 1.5f);
+		}
+		
+	
+
+		/*if (boxhitflag || rockhitflag || enemyhitflag)
 		{
 			m_PlayerCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 		}
+		else if (!boxhitflag && !rockhitflag && !enemyhitflag)
+		{
+			m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+		}*/
+
+
 
 		//円柱
 		std::vector<Cylinder*> Cylinders = scene->GetGameObjects<Cylinder>();
@@ -420,7 +295,6 @@ void Player::Update()
 				}
 				else
 				{
-
 					groundHeight = postion.y + scale.y + groundHeight; //上判定
 				}
 				break;

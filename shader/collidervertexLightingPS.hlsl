@@ -9,9 +9,7 @@ SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
-    //float4 MaterialColor = param.collidercollor;
-
-    //float4 MaterialColor = float4(0.0f,1.0f,0.0f,1.0f);
+   
 	
 	if (Material.TextureEnable)
 	{

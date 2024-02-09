@@ -21,20 +21,12 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
+	D3DXVECTOR3 m_ScaleOffset{};
 	D3DXMATRIX m_Parent{};
 
 	D3DXCOLOR m_ColliderColor{ 0.0f, 1.0f, 0.0f, 1.0f };
-
-	//D3DXVECTOR3 m_ColliderScale{};
-	//D3DXVECTOR3 m_ColliderPosition{};
 	
 	Tag m_Tag = BGOBJ_TAG;
-
-	/*D3DXVECTOR3 m_ColliderScale{};
-	D3DXVECTOR3 m_ColliderPosition{};
-	D3DXVECTOR3 m_ColiiderRight{};
-	D3DXVECTOR3 m_ColiiderForward{};
-	D3DXVECTOR3 m_ColiiderUp{};*/
 
 public:
 	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix) {
@@ -53,18 +45,6 @@ public:
 		return scale;
 	}
 
-	//D3DXVECTOR3 GetCForward() //前方面ベクトルを取得
-	//{
-	//	D3DXMATRIX rot;
-	//	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-
-	//	D3DXVECTOR3 forward;
-	//	forward.x = rot._31;
-	//	forward.y = rot._32;
-	//	forward.z = rot._33;
-
-	//	return forward;
-	//}
 
 	D3DXVECTOR3 MatrixtoForward(D3DXMATRIX matrix) //前方面ベクトルを取得
 	{
@@ -75,20 +55,6 @@ public:
 
 		return forward;
 	}
-
-
-	//D3DXVECTOR3 GetCRight() //右方面ベクトルを取得
-	//{
-	//	D3DXMATRIX rot;
-	//	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-
-	//	D3DXVECTOR3 right;
-	//	right.x = rot._11;
-	//	right.y = rot._12;
-	//	right.z = rot._13;
-
-	//	return right;
-	//}
 
 	D3DXVECTOR3 MatrixtoRight(D3DXMATRIX matrix) //右方面ベクトルを取得
 	{
@@ -101,18 +67,6 @@ public:
 		return right;
 	}
 
-	//D3DXVECTOR3 GetCUp() //上方面ベクトル
-	//{
-	//	D3DXMATRIX rot;
-	//	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-
-	//	D3DXVECTOR3 up;
-	//	up.x = rot._21;
-	//	up.y = rot._22;
-	//	up.z = rot._23;
-
-	//	return up;
-	//}
 
 	D3DXVECTOR3 MatrixtoUp(D3DXMATRIX matrix) //上方面ベクトル
 	{
@@ -139,76 +93,8 @@ public:
 	Tag GetTag() { return m_Tag; }
 
 
-	/*D3DXVECTOR3 GetColliderScale() { return  m_ColliderScale; }
-	D3DXVECTOR3 GetColliderPosition() { return m_ColliderPosition; }
-	D3DXVECTOR3 GetColliderUp() { return m_ColiiderUp; }
-	D3DXVECTOR3 GetColliderRight() { return m_ColiiderRight; }
-	D3DXVECTOR3 GetColliderForward() { return m_ColiiderForward; }*/
-
-	//template<typename C1,typename C2>
-	//C1* CheckCollidionHit(LAYER layer1 = COLLIDER_LAYER, LAYER layer2 = COLLIDER_LAYER)
-	//{
-	//	C1* gameObject1;
-	//	C2* gameObject2;
-	//	m_ColliderObject[layer1].push_back(gameObject1);
-	//	m_ColliderObject[layer2].push_back(gameObject2);
-	//	
-	//	D3DXVECTOR3 objectposition1 = gameObject1->GetGameObject();
-	//	D3DXVECTOR3 objectposition2 = gameObject2->GetGameObject();
-	//}
-
-	//template<typename C1, typename C2>
-	//bool CheckCollisionHit(LAYER layer1 = COLLIDER_LAYER, LAYER layer2 = COLLIDER_LAYER) {
-	//	std::vector<C1*> colliderObjects1 = m_ColliderObject[layer1];
-	//	std::vector<C2*> colliderObjects2 = m_ColliderObject[layer2];
-	//	bool hitflag;
-	//	for (C1* gameObject1 : colliderObjects1) {
-	//		for (C2* gameObject2 : colliderObjects2) {
-	//			// 衝突をチェックする処理を実装
-	//			D3DXVECTOR3 objectPosition1 = gameObject1->GetPosition();
-	//			D3DXVECTOR3 objectPosition2 = gameObject2->GetPosition();
-
-	//			D3DXVECTOR3 scale1 = gameObject1->GetScale();
-	//			D3DXVECTOR3 scale2 = gameObject2->GetScale();
-
-	//			D3DXVECTOR3 right1 = gameObject1->GetRight();
-	//			D3DXVECTOR3 right2 = gameObject2->GetRight();
-
-	//			D3DXVECTOR3 forward1 = gameObject1->GetForward();
-	//			D3DXVECTOR3 forward2 = gameObject2->GetForward();
-
-	//			D3DXVECTOR3 up1 = gameObject1->GetUp();
-	//			D3DXVECTOR3 up2 = gameObject2->GetUp();
-
-	//			D3DXVECTOR3 direction = objectPosition1 - objectPosition2;
-
-	//			float obbx1 = D3DXVec3Dot(&direction, &right1);
-	//			float obbx2 = D3DXVec3Dot(&direction, &right2);
-
-	//			float obbz1 = D3DXVec3Dot(&direction, &forward1);
-	//			float obbz2 = D3DXVec3Dot(&direction, &forward2);
-
-	//			
-	//			if (fabs(obbx2) < fabs(obbx1) && fabs(obbz2) < fabs(obbz2))
-	//			{
-	//				/*if (objectPosition1.y < objectPosition2.y + scale2.y * 2.0f)
-	//				{
-
-
-	//				}*/
-	//				hitflag = true;
-	//			}
-	//			else
-	//			{
-	//				hitflag = false;
-	//			}
-
-
-	//			// ここに衝突をチェックする処理を実装
-	//		}
-	//	}
-	//	return hitflag;
-	//}
+	bool CollisionChecker(GameObject* obb1, GameObject* obb2 , float offsetscale);
+	float LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECTOR3* e2, D3DXVECTOR3* e3);
 
 };
 

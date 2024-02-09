@@ -31,6 +31,7 @@ private:
 
 	bool rockhitflag{};
 	bool boxhitflag{};
+	bool enemyhitflag{};
 
 	ID3D11VertexShader* m_VertexShader{};
 	ID3D11PixelShader* m_PixelShader{};
@@ -159,6 +160,7 @@ public:
 	bool GetPlayerRun() { return m_run; }
 	bool GetPlayerIdle(){return m_idle;}
 
+	
 
 	//D3DXMATRIX GetMatrix() { return m_Matrix;}
 	PLAYER_STATE GetPlayerState() { return m_PlayerState;}

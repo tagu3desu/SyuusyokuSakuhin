@@ -3,7 +3,8 @@
 #include"renderer.h"
 #include"box.h"
 #include"collider.h"
-#include"boxcollider.h"
+
+
 Model* Box::m_Model;
 void Box::Init()
 {
@@ -19,10 +20,6 @@ void Box::Init()
 	m_BoxCollider = scene->AddGameObject<Collider>();
 	m_BoxCollider->SetScale(D3DXVECTOR3(1.0f/m_Scale.x, 1.0f/m_Scale.y, 1.0f/m_Scale.z)*2.0f);
 	m_BoxCollider->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-	
-	//m_BoxCollider = AddComponent<BoxCollider>();
-	//m_BoxCollider->SetScale(D3DXVECTOR3(1.0f/m_Scale.x, 1.0f/m_Scale.y, 1.0f/m_Scale.z));
-	//m_BoxCollider->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 }
 
 void Box::Load()
@@ -49,12 +46,16 @@ void Box::Uninit()
 void Box::Update()
 {
 	m_BoxCollider->SetMatrix(m_Matrix);
-	m_ColliderScale = m_BoxCollider->MatrixtoScale(m_Matrix);
-	m_ColliderPosition = m_BoxCollider->MatrixtoPosition(m_Matrix);
-	m_ColiiderRight = m_BoxCollider->MatrixtoRight(m_Matrix);
-	m_ColiiderForward = m_BoxCollider->MatrixtoForward(m_Matrix);
-	m_ColiiderUp = m_BoxCollider->MatrixtoUp(m_Matrix);
-	
+	SetColliderInfo(m_BoxCollider->GetMatrix());
+
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("Box");
+	ImGui::InputFloat3("Position", m_ColliderPosition);
+	ImGui::InputFloat3("Scale", m_ColliderScale);
+	ImGui::InputFloat3("Forward", m_ColiiderForward);
+	ImGui::InputFloat3("Right", m_ColiiderRight);
+	ImGui::InputFloat3("Up", m_ColiiderUp);
+	ImGui::End();
 }
 
 void Box::Draw()
@@ -66,8 +67,6 @@ void Box::Draw()
 	//シェーダ設定
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
-
-
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;

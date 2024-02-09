@@ -44,7 +44,7 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	groundHeight = 0.0f;
 	m_speed = 0.0f;
-	m_HP = 30;
+	m_HP = 1000 ;
 
 	m_Threshold = 0;
 	m_dissolveEnable = true;
@@ -64,11 +64,11 @@ void Enemy::Init()
 
 	if (!Title::GetCheckTitle())
 	{
-		m_LeftArmCollider = scene->AddGameObject<Collider>();
-		m_LeftArmCollider->SetScale(D3DXVECTOR3(100.0f, 160.0f, 100.0f));
-		m_LeftArmCollider->SetPosition(D3DXVECTOR3(0.0f,80.0f,0.0f));
-		m_LeftArmCollider->SetRotation(D3DXVECTOR3(0.1f, 0.4f, 0.0f));
-		m_LeftArmCollider->SetTag(ENEMY_TAG);
+		m_EnemyCollider = scene->AddGameObject<Collider>();
+		m_EnemyCollider->SetScale(D3DXVECTOR3(100.0f, 160.0f, 100.0f));
+		m_EnemyCollider->SetPosition(D3DXVECTOR3(0.0f,80.0f,0.0f));
+		m_EnemyCollider->SetRotation(D3DXVECTOR3(0.1f, 0.4f, 0.0f));
+		m_EnemyCollider->SetTag(ENEMY_TAG);
 	}
 
 }
@@ -123,8 +123,8 @@ void Enemy::Update()
 	animationmodel = GetAnimationModel();
 	
 	
-	m_LeftArmCollider->SetMatrix(m_Matrix);
-
+	m_EnemyCollider->SetMatrix(m_Matrix);
+	SetColliderInfo(m_EnemyCollider->GetMatrix());
 
 	
 
@@ -165,38 +165,36 @@ void Enemy::Update()
 
 
 
-	//if (length < 8 && !isAttack && m_howlfinish)
-	//{
-	//	m_EnemyState = ENEMY_STATE_ATTACK;
-	//}
-	//else if (m_howlfinish && length < 15 && 9 < length  && !m_dead)
-	//{
-	//	m_EnemyState = ENEMY_STATE_MOVE;
-	//}
 
-	if (length < 15 && !isAttack && m_howlfinish)
+	if (m_EnemyAI)
 	{
-		m_EnemyState = ENEMY_STATE_ATTACK;
-	}
-	else if (m_howlfinish && length < 20 && 16 < length && !m_dead && !isAttack)
-	{
-		m_EnemyState = ENEMY_STATE_MOVE;
-	}
-
-	
-
-	if (IsInFieldOfView(m_Position, direction, 70, 15.0f))
-	{
-		if (!m_howl)
+		if (length < 15 && !isAttack && m_howlfinish)
 		{
-			m_EnemyState = ENEMY_STATE_HOWL;
+			m_EnemyState = ENEMY_STATE_ATTACK;
 		}
-		m_find = true;	
+		else if (m_howlfinish && length < 20 && 16 < length && !m_dead && !isAttack)
+		{
+			m_EnemyState = ENEMY_STATE_MOVE;
+		}
+		if (IsInFieldOfView(m_Position, direction, 70, 15.0f))
+		{
+			if (!m_howl)
+			{
+				m_EnemyState = ENEMY_STATE_HOWL;
+			}
+			m_find = true;
+		}
+		else
+		{
+			m_find = false;
+		}
+
+		if (!m_dead)
+		{
+			m_Rotation.y = atan2f(direction.x, direction.z);
+		}
 	}
-	else
-	{
-		m_find = false;
-	}
+	
 
 
 	m_Position += direction * m_speed;
@@ -303,10 +301,7 @@ void Enemy::Update()
 	
 	//Ž€–SŒn‚Ìˆ—
 	{
-		if (!m_dead)
-		{
-			m_Rotation.y = atan2f(direction.x, direction.z);
-		}
+		
 
 		if (m_HP <= 0)
 		{
@@ -319,9 +314,9 @@ void Enemy::Update()
 	
 
 	//GUI‚Éƒpƒ‰ƒ[ƒ^•\Ž¦
-	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
-	ImGui::InputFloat("Thredhold", &m_Threshold);
+	/*ImGui::InputFloat("Thredhold", &m_Threshold);
 	ImGui::InputFloat3("Position", m_Position);
 	ImGui::InputFloat3("BPosition", m_BonePos);
 	ImGui::InputFloat("Length", &length);
@@ -331,10 +326,11 @@ void Enemy::Update()
 	ImGui::InputInt("HitCount", &hitcout);
 	ImGui::InputFloat3("Scale", m_Scale);
 	ImGui::Checkbox("Find", &m_find);
-	ImGui::Checkbox("Attack", &m_attack);
-	ImGui::Checkbox("Collision", &m_EnemyAttackHit);
-	ImGui::InputInt("Count", &m_InvincibilityTime);
-	ImGui::End();*/
+	ImGui::Checkbox("Attack", &m_attack);*/
+	//ImGui::Checkbox("Collision", &m_EnemyAttackHit);
+	ImGui::Checkbox("EnemyAI", &m_EnemyAI);
+	//ImGui::InputInt("Count", &m_InvincibilityTime);
+	ImGui::End();
 }
 
 void Enemy::Draw()

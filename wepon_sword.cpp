@@ -67,16 +67,29 @@ void Sword::Update()
 	if (!Title::GetCheckTitle())
 	{
 		m_SwordCollider->SetMatrix(m_Matrix);
+		SetColliderInfo(m_SwordCollider->GetMatrix());
+
+		if (enemy != nullptr)
+		{
+			if (m_swordhit = m_SwordCollider->CollisionChecker(this, enemy, 0.6f))
+			{
+				m_swordhit = true;
+				m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+			}
+			else
+			{
+				m_swordhit = false;
+				m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+			}
+		}
 	}
+
+
+
+
+
 	
-	if (Input::GetKeyPress('8'))
-	{
-		m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	}
-	if (Input::GetKeyPress('7'))
-	{
-		m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-	}
+	
 	
 	AnimationModel* animationmodel;
 	animationmodel = player->GetAnimationModel();
@@ -100,10 +113,16 @@ void Sword::Update()
 	m_Parent = animationmodel->ConvertMatrix(bone->WorldMatrix);
 
 	////Œ•‚Ìƒ[ƒ‹ƒhÀ•W
-	D3DXVECTOR3 worldposition = ExtractTranslationFromMatrix(m_Matrix);
+	D3DXVECTOR3 worldposition = MatrixtoPosition(m_Matrix);
 
 
 	m_BottomVertex = worldposition;
+
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("Sword");
+	ImGui::Checkbox("HIt", &m_swordhit);
+	ImGui::End();
+
 }
 
 void Sword::Draw()
@@ -198,7 +217,7 @@ void SwordTopVertex::Update()
 	
 
 	m_Parent = sword->GetMatrix();
-	m_TopVertex = ExtractTranslationFromMatrix(m_Matrix);
+	m_TopVertex = MatrixtoPosition(m_Matrix);
 }
 
 void SwordTopVertex::Draw()

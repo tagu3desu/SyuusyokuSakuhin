@@ -97,8 +97,8 @@ private:
 	int  m_howlcount = 0;
 
 	class Scene* scene{};
-	class Collider* m_LeftArmCollider{};
-	
+	class Collider* m_EnemyCollider{};
+	bool m_EnemyAI = true;
 
 	D3DXVECTOR3 karisize{};
 	D3DXVECTOR3 karipos{};

@@ -113,16 +113,15 @@ void Game::Init()
 	Shield* shield = AddGameObject<Shield>();
 	SwordTopVertex* swordtopvertex = AddGameObject<SwordTopVertex>();
 
-	//Collider* collider = AddGameObject<Collider>();
-	
 
 	Enemy* enemy = AddGameObject<Enemy>();
-	/*enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));*/
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 	
 	Box* box = AddGameObject<Box>();
+	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
 
-	
+	Box* box2 = AddGameObject<Box>();
+	box2->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	
 	
 	AddGameObject<Trail>();
@@ -162,8 +161,8 @@ void Game::Init()
 		D3DXVECTOR3 pos;
 		pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
 		pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-		//MeshField* meshField = GetGameObject<MeshField>();
-		//pos.y = meshField->GetHeight(pos);
+		MeshField* meshField = GetGameObject<MeshField>();
+		pos.y = meshField->GetHeight(pos);
 		rock->SetPosition(pos);
 
 		D3DXVECTOR3 scl;

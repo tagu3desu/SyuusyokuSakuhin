@@ -91,7 +91,7 @@ void Staminagage::Update()
 	if (player->GeiPlayerIdle() && m_stamina <= m_staminaMax)
 	{
 		
-		m_stamina += 1.0f;
+		m_stamina += 3.0f;
 	}
 	
 
