@@ -48,8 +48,24 @@ void Camera::Update()
 
 	if (Title::GetCheckTitle())
 	{
-		m_RotationX = -0.3f;
-		m_RotationY = 6.8f;
+		m_RotationX = 0.1f;
+		m_RotationY = 3.7f;
+		/*if (Input::GetKeyPress(VK_RIGHT))
+		{
+			m_RotationX -= 0.1f;
+		}
+		if (Input::GetKeyPress(VK_LEFT))
+		{
+			m_RotationX += 0.1f;
+		}
+		if (Input::GetKeyPress(VK_UP))
+		{
+			m_RotationY += 0.1f;
+		}
+		if (Input::GetKeyPress(VK_DOWN))
+		{
+			m_RotationY -= 0.1f;
+		}*/
 	}
 	else
 	{
@@ -107,14 +123,16 @@ void Camera::Update()
 
 	//トップビュー	
 	
-	m_Target = player->GetPosition();
+
 	if (!Title::GetCheckTitle())
 	{
+		m_Target = player->GetPosition();
 		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY, -cos(m_RotationX) * 8.0f);
 	}
 	if (Title::GetCheckTitle())
 	{
-		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY, -cos(m_RotationX) * 8.0f);
+		m_Target = player->GetPosition() + D3DXVECTOR3(-2.0f,0.0f,0.0f);
+		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 10.0f, m_RotationY, -cos(m_RotationX) * 4.0f);
 	}
 
 	

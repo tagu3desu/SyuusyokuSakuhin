@@ -12,8 +12,11 @@
 #include<thread>
 #include"textureload.h"
 
+
+
 void Loading::Init()
 {
+	
 	AddGameObject<LoadingLogo>(SPRITE_LAYER);
 	AddGameObject<LoadingTexture>(SPRITE_LAYER);
 	std::thread th(&Game::Load);
@@ -32,6 +35,7 @@ void Loading::Update()
 	//キー入力でゲーム画面に遷移
 	if (Game::GetLoadFinish()) //Enterキー
 	{
+		
 		Manager::SetScene<Game>();
 	} 
 	

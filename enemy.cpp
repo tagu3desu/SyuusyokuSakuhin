@@ -69,6 +69,10 @@ void Enemy::Init()
 		m_EnemyCollider->SetPosition(D3DXVECTOR3(0.0f,80.0f,0.0f));
 		m_EnemyCollider->SetRotation(D3DXVECTOR3(0.1f, 0.4f, 0.0f));
 		m_EnemyCollider->SetTag(ENEMY_TAG);
+
+		m_EnemyLightArmCollider = scene->AddGameObject<Collider>();
+		m_EnemyLightArmCollider->SetScale(D3DXVECTOR3(100.0f, 100.0f, 100.0f));
+		//m_EnemyLightArmCollider->SetPosition(D3DXVECTOR3(0.0f, -120.0f, 0.0f));
 	}
 
 }
@@ -119,14 +123,22 @@ void Enemy::Update()
 	//プレイヤーとの距離
 	length = D3DXVec3Length(&direction);
 
+	
+	//敵本体のコライダー
+	m_EnemyCollider->SetMatrix(m_Matrix);
+	SetColliderInfo(m_EnemyCollider->GetMatrix() ,false);
+
+
+	//敵の腕のコライダー
 	AnimationModel* animationmodel;
 	animationmodel = GetAnimationModel();
-	
-	
-	m_EnemyCollider->SetMatrix(m_Matrix);
-	SetColliderInfo(m_EnemyCollider->GetMatrix());
+	BONE* bone;
+	bone = animationmodel->GetBone("mixamorig:LeftArm");
+	m_EnemyLightArmCollider->SetMatrix(m_Matrix);
+	m_EnemyLightArmCollider->SetColliderInfo(m_EnemyLightArmCollider->GetMatrix(),true);
+	m_EnemyLightArmCollider->SetBoneMatrix(animationmodel->ConvertMatrix(bone->WorldMatrix));
 
-	
+
 
 	if (isAttack)
 	{
@@ -316,17 +328,18 @@ void Enemy::Update()
 	//GUIにパラメータ表示
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
+	ImGui::InputFloat3("ArmPos", m_EnemyLightArmCollider->GetColliderPosition());
 	/*ImGui::InputFloat("Thredhold", &m_Threshold);
 	ImGui::InputFloat3("Position", m_Position);
 	ImGui::InputFloat3("BPosition", m_BonePos);
 	ImGui::InputFloat("Length", &length);
-	ImGui::InputInt("AttackCount", &m_animationdelay);
+	ImGui::InputInt("AttackCount", &m_animationdelay);*/
 	ImGui::InputInt("HP", &m_HP);
-	ImGui::Checkbox("hit", &m_lastattackhit);
-	ImGui::InputInt("HitCount", &hitcout);
-	ImGui::InputFloat3("Scale", m_Scale);
-	ImGui::Checkbox("Find", &m_find);
-	ImGui::Checkbox("Attack", &m_attack);*/
+	//ImGui::Checkbox("hit", &m_lastattackhit);
+	//ImGui::InputInt("HitCount", &hitcout);
+	//ImGui::InputFloat3("Scale", m_Scale);
+	//ImGui::Checkbox("Find", &m_find);
+	//ImGui::Checkbox("Attack", &m_attack);
 	//ImGui::Checkbox("Collision", &m_EnemyAttackHit);
 	ImGui::Checkbox("EnemyAI", &m_EnemyAI);
 	//ImGui::InputInt("Count", &m_InvincibilityTime);

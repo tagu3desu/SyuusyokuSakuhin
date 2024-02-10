@@ -24,9 +24,12 @@ private:
 	D3DXVECTOR3 m_ScaleOffset{};
 	D3DXMATRIX m_Parent{};
 
+	D3DXMATRIX m_BoneMatrix{};
+
 	D3DXCOLOR m_ColliderColor{ 0.0f, 1.0f, 0.0f, 1.0f };
 	
 	Tag m_Tag = BGOBJ_TAG;
+
 
 public:
 	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix) {
@@ -87,6 +90,7 @@ public:
 	void Update();
 	void Draw();
 	void SetMatrix(D3DXMATRIX matrix) { m_Parent = matrix; }
+	void SetBoneMatrix(D3DXMATRIX bonematrix) { m_BoneMatrix = bonematrix;}
 	void SetColliderColor(D3DXCOLOR color) { m_ColliderColor = color; }
 
 	void SetTag(Tag tag) { m_Tag = tag;}

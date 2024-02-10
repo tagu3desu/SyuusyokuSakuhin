@@ -11,10 +11,10 @@ void Wood::Init()
 	m_DepthEnable = true;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\vertexLightingVS.cso");
+		"shader\\DepthShadowMappingVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\vertexLightingPS.cso");
+		"shader\\DepthShadowMappingPS.cso");
 	m_Scale = D3DXVECTOR3(0.7f, 0.7f, 1.3f);
 }
 

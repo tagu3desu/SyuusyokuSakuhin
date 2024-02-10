@@ -18,18 +18,17 @@ private:
 	float m_FloarPosition;
 
 
-	
+	static bool menucontrol;
+
 	
 public:
 	static bool GetCheckTitle() { return m_TitleCheck; }
 
-	
-
-	
 
 	void Init() override;
 	void Update() override;
 	void Uninit() override;
 	void Draw() override;
 
+	static bool GetMenuControl() { return menucontrol; }
 };

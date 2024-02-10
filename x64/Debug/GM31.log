@@ -1,10 +1,2 @@
-﻿  player.cpp
-C:\Users\kousu\Desktop\就職作品\player.cpp(529,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(529,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(535,16): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-C:\Users\kousu\Desktop\就職作品\player.cpp(543,16): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-C:\Users\kousu\Desktop\就職作品\player.cpp(1438,30): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(1450,31): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(1461,31): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(1472,31): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
+﻿  titletexturemanager.cpp
   GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Debug\GM31.exe

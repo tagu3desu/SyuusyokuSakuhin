@@ -9,9 +9,6 @@
 
 Scene* Manager::m_Scene{};	//静的メンバ変数は再宣言が必要
 Scene* Manager::m_NextScene{}; 
-
-
-
 void Manager::Init()
 {
 	Renderer::Init();

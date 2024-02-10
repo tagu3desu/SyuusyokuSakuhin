@@ -20,5 +20,8 @@ public:
 	{
 		m_NextScene = new T();
 	}
+
+
+	
 	
 };

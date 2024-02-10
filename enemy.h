@@ -30,7 +30,7 @@ private:
 	D3DXMATRIX m_ViewMatrix{};
 	D3DXMATRIX m_ProjectionMatrix;
 
-	D3DXMATRIX m_ArmColliderMatrix{};
+	
 
 	//static Model* m_Model;
 	ID3D11VertexShader* m_VertexShader{};
@@ -98,10 +98,10 @@ private:
 
 	class Scene* scene{};
 	class Collider* m_EnemyCollider{};
-	bool m_EnemyAI = true;
+	class Collider* m_EnemyLightArmCollider{};
 
-	D3DXVECTOR3 karisize{};
-	D3DXVECTOR3 karipos{};
+	bool m_EnemyAI = true;
+	
 public:
 	static void Load();
 	static void Unload();
@@ -125,6 +125,8 @@ public:
 	//ìGÇÃçUåÇÇÃÉpÉ^Å[Éì
 	void UpdatePunchiAttack();
 	void UpdateRockAttack();
+
+	void SetDamage(int hp) { m_HP -= hp;}
 
 	bool IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee);
 	bool GetEnemyHitPlayer() { return m_EnemyAttackHit;}

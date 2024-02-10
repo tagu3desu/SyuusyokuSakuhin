@@ -4,7 +4,7 @@
 #include"scene.h"
 #include"rock.h"
 #include"collider.h"
-
+#include"title.h"
 Model* Rock::m_Model{};
 
 void Rock::Init()
@@ -19,11 +19,11 @@ void Rock::Init()
 		"shader\\vertexLightingPS.cso");
 
 	scene = Manager::GetScene();
+
+
 	m_RockCollider = scene->AddGameObject<Collider>();
-	m_RockCollider->SetScale(D3DXVECTOR3(1 / m_Scale.x, 1 / m_Scale.y, 1 / m_Scale.z)*1.5f);
+	m_RockCollider->SetScale(D3DXVECTOR3(1 / m_Scale.x, 1 / m_Scale.y, 1 / m_Scale.z) * 1.5f);
 	m_RockCollider->SetPosition(D3DXVECTOR3(0.0f, 0.3f, 0.0f));
-
-
 	
 }
 
@@ -50,17 +50,13 @@ void Rock::Unload()
 
 void Rock::Update()
 {
+	
 	m_RockCollider->SetMatrix(m_Matrix);
-	SetColliderInfo(m_RockCollider->GetMatrix());
+	SetColliderInfo(m_RockCollider->GetMatrix(), false);
 
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Rock");
-	ImGui::InputFloat3("Position", m_ColliderPosition);
-	ImGui::InputFloat3("Scale", m_ColliderScale);
-	ImGui::InputFloat3("Forward", m_ColiiderForward);
-	ImGui::InputFloat3("Right", m_ColiiderRight);
-	ImGui::InputFloat3("Up", m_ColiiderUp);
-	ImGui::End();
+	
+	
+	
 }
 
 void Rock::Draw()

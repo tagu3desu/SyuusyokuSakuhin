@@ -64,6 +64,7 @@ void Shield::Update()
 	if (!Title::GetCheckTitle())
 	{
 		m_ShieldCollider->SetMatrix(m_Matrix);
+		m_ShieldCollider->SetColliderInfo(m_ShieldCollider->GetMatrix(), false);
 	}
 	
 

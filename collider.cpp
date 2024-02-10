@@ -80,7 +80,17 @@ void Collider::Draw()
 		D3DXMatrixScaling(&scale, m_Scale.x , m_Scale.y, m_Scale.z);
 		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 		D3DXMatrixTranslation(&trans, m_Position.x , m_Position.y, m_Position.z );
-		m_Matrix = scale * rot * trans * m_Parent;
+		
+		if (!m_BoneEnable)
+		{
+			m_Matrix = scale * rot * trans * m_Parent;
+		}
+		else
+		{
+			m_Matrix = scale * rot * trans * m_Parent * m_BoneMatrix;
+		}
+		
+		
 		Renderer::SetWorldMatrix(&m_Matrix);
 
 		Renderer::SetATCEnable(true);
@@ -247,6 +257,7 @@ bool Collider::CollisionChecker(GameObject* obb1, GameObject* obb2 ,float offset
 		return false;
 
 	//îªíË
+
 	return true; // è’ìÀÇµÇƒÇ¢ÇÈ
 }
 
@@ -265,5 +276,9 @@ float Collider::LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECT
 	return r1 + r2 + r3;
 }
 
+//bool OBBvsOBB(GameObject* obb1, GameObject* obb2)
+//{
+//	//
+//}
 
 

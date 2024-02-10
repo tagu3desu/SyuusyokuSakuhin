@@ -38,7 +38,7 @@ protected:
 	D3DXVECTOR3 m_ColiiderForward{};
 	D3DXVECTOR3 m_ColiiderUp{};
 
-
+	bool m_BoneEnable{};
 public:
 	bool GetReflectEnable() { return m_ReflectEnable; }
 	bool GetDepthEnable() { return m_DepthEnable; }
@@ -73,8 +73,9 @@ public:
 		}
 	}
 			
-	void SetColliderInfo(D3DXMATRIX matrix)
+	void SetColliderInfo(D3DXMATRIX matrix , bool boneEnable)
 	{
+		m_BoneEnable = boneEnable;
 		m_ColliderScale = MatrixtoScale(matrix) ;
 		m_ColliderPosition = MatrixtoPosition(matrix);
 		m_ColiiderRight = MatrixtoRight(matrix);

@@ -25,7 +25,7 @@
 #include"collider.h"
 #include"campField.h"
 #include"title.h"
-
+#include"game.h"
 #include"rock.h"
 void Player::Init()
 {
@@ -146,7 +146,7 @@ void Player::Update()
 	Scene* scene = Manager::GetScene();
 	Camera* camera = scene->GetGameObject<Camera>();
 
-	if (!Title::GetCheckTitle())
+	if ( !Title::GetCheckTitle())
 	{
 		Enemy* enemy = scene->GetGameObject<Enemy>();
 		Staminagage* staminagage = scene->GetGameObject<Staminagage>();
@@ -186,14 +186,8 @@ void Player::Update()
 
 		//プレイヤーコライダー
 		m_PlayerCollider->SetMatrix(m_Matrix);
-		SetColliderInfo(m_PlayerCollider->GetMatrix());
+		SetColliderInfo(m_PlayerCollider->GetMatrix(),false);
 
-
-		/*m_ColliderPosition = m_PlayerCollider->MatrixtoPosition(m_PlayerCollider->GetMatrix());
-		m_ColliderScale = m_PlayerCollider->MatrixtoScale(m_PlayerCollider->GetMatrix());
-		m_ColiiderForward = m_PlayerCollider->MatrixtoForward(m_PlayerCollider->GetMatrix());
-		m_ColiiderRight = m_PlayerCollider->MatrixtoRight(m_PlayerCollider->GetMatrix());
-		m_ColiiderUp = m_PlayerCollider->MatrixtoUp(m_PlayerCollider->GetMatrix() );*/
 
 
 
@@ -435,6 +429,11 @@ void Player::Update()
 	{
 		m_PlayerState = PLAYER_STATE_TITLEIDLE;
 	}
+	/*if (Manager::CheckScene<Title>())
+	{
+		m_PlayerState = PLAYER_STATE_TITLEIDLE;
+	}*/
+
 
 	//メッシュフィールドとの衝突判定
 	groundHeight = 0.0f;
@@ -512,7 +511,7 @@ void Player::Draw()
 	{
 		m_Matrix = scale * euler * trans;
 	}
-	else
+	else if(!Title::GetCheckTitle())
 	{
 		m_Matrix = scale * rot * trans;
 	}

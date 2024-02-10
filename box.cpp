@@ -46,7 +46,7 @@ void Box::Uninit()
 void Box::Update()
 {
 	m_BoxCollider->SetMatrix(m_Matrix);
-	SetColliderInfo(m_BoxCollider->GetMatrix());
+	SetColliderInfo(m_BoxCollider->GetMatrix(),false);
 
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Box");

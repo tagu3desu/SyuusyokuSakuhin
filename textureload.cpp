@@ -85,26 +85,20 @@ void TextureLoad::Draw(float m_x, float m_y)
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-	//頂点バッファ設定
-	UINT stride = sizeof(VERTEX_3D);
-	UINT offset = 0;
-	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
+	
 
 	//マテリアル設定
 	Renderer::SetWorldViewProjection2D();
 
-	MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.Diffuse =m_Color;
-	material.TextureEnable = true;
-	Renderer::SetMaterial(material);
-
-	D3DXMATRIX world, scale, rot, trans;
+	D3DXMATRIX world, scale, rot, trans, offset2;
+	D3DXMatrixTranslation(&offset2, m_OffsetX, m_OffsetY, 0);
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_x, m_y, m_Position.z);
-	world = scale * rot * trans;
+	world = offset2 * scale * rot * trans;
 	Renderer::SetWorldMatrix(&world);
+
+	
 
 	VERTEX_3D vertex[4];
 
@@ -142,6 +136,18 @@ void TextureLoad::Draw(float m_x, float m_y)
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
 
+
+
+	//頂点バッファ設定
+	UINT stride = sizeof(VERTEX_3D);
+	UINT offset = 0;
+	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
+
+	MATERIAL material;
+	ZeroMemory(&material, sizeof(material));
+	material.Diffuse = m_Color;
+	material.TextureEnable = true;
+	Renderer::SetMaterial(material);
 
 	//テクスチャ設定
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);

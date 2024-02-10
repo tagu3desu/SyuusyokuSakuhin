@@ -67,7 +67,7 @@ void Sword::Update()
 	if (!Title::GetCheckTitle())
 	{
 		m_SwordCollider->SetMatrix(m_Matrix);
-		SetColliderInfo(m_SwordCollider->GetMatrix());
+		SetColliderInfo(m_SwordCollider->GetMatrix(),false);
 
 		if (enemy != nullptr)
 		{
@@ -75,6 +75,7 @@ void Sword::Update()
 			{
 				m_swordhit = true;
 				m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+				//enemy->SetDamage(20);
 			}
 			else
 			{
@@ -85,12 +86,6 @@ void Sword::Update()
 	}
 
 
-
-
-
-	
-	
-	
 	AnimationModel* animationmodel;
 	animationmodel = player->GetAnimationModel();
 	BONE* bone;

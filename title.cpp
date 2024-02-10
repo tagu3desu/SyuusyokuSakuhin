@@ -30,8 +30,10 @@
 
 #include"wood.h"
 #include"treeobj.h"
+#include"titletexturemanager.h"
+#include"rock.h"
 bool Title::m_TitleCheck = false;
-
+bool Title::menucontrol = false;
 
 void Title::Init()
 {
@@ -59,15 +61,11 @@ void Title::Init()
 	AddGameObject<Shield>();
 
 	Wood* wood =AddGameObject<Wood>();
-	wood->SetPosition(D3DXVECTOR3(-0.3f, 1.0f, 0.0f));
+	wood->SetPosition(D3DXVECTOR3(-0.3f, 0.3f, 0.0f));
 	wood->SetRotation(D3DXVECTOR3(0.0f, -0.9f, 0.0f));
 
-	//TreeOBJ* tree = AddGameObject<TreeOBJ>();
-	
 
-	//AddGameObject<TitleLogo>(SPRITE_LAYER);
-	TitleButton*  m_StartButton = AddGameObject<TitleButton>(SPRITE_LAYER);
-
+	AddGameObject<TitleTexture>(SPRITE_LAYER);
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 	buttonOverLapping = false;
 	int num = 0;
@@ -83,10 +81,10 @@ void Title::Update()
 	m_MouseposX = GetMouseCursorPosXinWnd();
 	m_MouseposY = GetMouseCursorPosYinWnd();
 
-	
-	
-	
-	
+	ImGui::Begin("Mouse");
+	ImGui::InputFloat3("PositionX", &m_MouseposX);
+	ImGui::InputFloat3("PositionY", &m_MouseposY);
+	ImGui::End();
 
 	if (430 <= m_MouseposX && m_MouseposX<= 930 && 425 <= m_MouseposY&& m_MouseposY <= 515)
 	{
@@ -97,16 +95,24 @@ void Title::Update()
 		buttonOverLapping = false;
 	}
 
+	
 	//キー入力でゲーム画面に遷移
-	if (Input::GetKeyTrigger(VK_SPACE) ||  Input::GetKeyTrigger(VK_LBUTTON) && buttonOverLapping) //Enterキー
+	if (Input::GetKeyTrigger(VK_SPACE)  && menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && buttonOverLapping && menucontrol) //Enterキー
 	{
 		m_Fade->FadeOut();
 	} 
 	if (m_Fade->GetFadeFinish())
 	{
 		m_TitleCheck = false;
+	
 		Manager::SetScene<Loading>();
 	}
+
+	if (Input::GetKeyTrigger(VK_SPACE) && !menucontrol || Input::GetKeyTrigger(VK_LBUTTON) && menucontrol )
+	{
+		menucontrol = true;
+	}
+
 }
 
 void Title::Uninit()

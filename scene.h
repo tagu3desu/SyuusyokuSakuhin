@@ -19,11 +19,12 @@ class Scene
 {
 private:
 	int m_framecount;
+
+	
 protected:
 	std::list<GameObject*> m_GameObject[MAX_LAYER];	//レイヤー有のSTLのリスト構造
 public:
 	
-
 	 virtual void Init() {}
 	 virtual void Uninit()
 	 {

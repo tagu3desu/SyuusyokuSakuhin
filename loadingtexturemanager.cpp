@@ -42,7 +42,7 @@ void LoadingTexture::Uninit()
 
 void LoadingTexture::Update()
 {
-	
+
 }
 
 void LoadingTexture::Draw()
