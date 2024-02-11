@@ -74,25 +74,6 @@ void Title::Update()
 	Scene::Update();
 	
 	Scene* scene = Manager::GetScene();
-
-	//m_MouseposX = GetMouseCursorPosXinWnd();
-	//m_MouseposY = GetMouseCursorPosYinWnd();
-
-	//ImGui::Begin("Mouse");
-	//ImGui::InputFloat3("PositionX", &m_MouseposX);
-	//ImGui::InputFloat3("PositionY", &m_MouseposY);
-	//ImGui::End();
-
-	//if (430 <= m_MouseposX && m_MouseposX<= 930 && 425 <= m_MouseposY&& m_MouseposY <= 515)
-	//{
-	//	buttonOverLapping = true;
-	//}
-	//else
-	//{
-	//	buttonOverLapping = false;
-	//}
-
-	
 	//キー入力でゲーム画面に遷移
 	if (Input::GetKeyTrigger(VK_SPACE)  && menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && buttonOverLapping && menucontrol) //Enterキー
 	{

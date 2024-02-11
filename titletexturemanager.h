@@ -14,6 +14,10 @@ private:
 	float m_MouseposX;
 	float m_MouseposY;
 
+	bool m_GameButtonOverlap{};
+	bool m_OptionButtonOverlap{};
+	bool m_OptionFlag{};
+
 public:
 	void Init();
 	void Uninit();

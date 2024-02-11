@@ -212,7 +212,6 @@ public:
 	};
 	virtual void Update() 
 	{
-
 		for (Component* component : m_Component)
 		{
 

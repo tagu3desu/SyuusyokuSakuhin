@@ -30,10 +30,10 @@ void TextureLoad::Init(const char* TextureName)
 	//頂点バッファ設定
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.Usage = D3D11_USAGE_DYNAMIC;
 	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	D3D11_SUBRESOURCE_DATA sd;
 	ZeroMemory(&sd, sizeof(sd));
@@ -70,9 +70,6 @@ void TextureLoad::Uninit()
 
 void TextureLoad::Update()
 {
-	
-	
-
 	GameObject::Update();
 }
 
@@ -96,11 +93,31 @@ void TextureLoad::Draw(float m_x, float m_y)
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_x, m_y, m_Position.z);
 	world = offset2 * scale * rot * trans;
-	Renderer::SetWorldMatrix(&world);
+	Renderer::SetWorldMatrix(&world);	
+
+	//頂点バッファ設定
+	UINT stride = sizeof(VERTEX_3D);
+	UINT offset = 0;
+	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
+
+	MATERIAL material;
+	ZeroMemory(&material, sizeof(material));
+	material.Diffuse = m_Color;
+	material.TextureEnable = true;
+	Renderer::SetMaterial(material);
+
+	//テクスチャ設定
+	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
+
+	//プリミティブトポロジ設定
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	// 頂点データ書き換え
+	D3D11_MAPPED_SUBRESOURCE msr;
+	Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
 	
-
-	VERTEX_3D vertex[4];
 
 	vertex[0].Position = D3DXVECTOR3(m_x, m_y, 0.0f);
 	vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -122,38 +139,7 @@ void TextureLoad::Draw(float m_x, float m_y)
 	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
 
-	//頂点バッファ設定
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.pSysMem = vertex;
-
-	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
-
-
-
-	//頂点バッファ設定
-	UINT stride = sizeof(VERTEX_3D);
-	UINT offset = 0;
-	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
-
-	MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = m_Color;
-	material.TextureEnable = true;
-	Renderer::SetMaterial(material);
-
-	//テクスチャ設定
-	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-
-	//プリミティブトポロジ設定
-	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
 	//ポリゴン描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
