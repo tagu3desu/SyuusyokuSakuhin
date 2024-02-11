@@ -34,6 +34,7 @@ private:
 
 	int m_FlashInterval;
 
+	
 
 public:
 	void Init(const char* TextureName);

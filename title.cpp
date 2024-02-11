@@ -40,9 +40,6 @@ void Title::Init()
 	
 
 	Scene::Init();
-
-	
-
 	m_framecount = 0;
 	m_FloarPosition = 0;
 	m_TitleCheck = true;
@@ -78,22 +75,22 @@ void Title::Update()
 	
 	Scene* scene = Manager::GetScene();
 
-	m_MouseposX = GetMouseCursorPosXinWnd();
-	m_MouseposY = GetMouseCursorPosYinWnd();
+	//m_MouseposX = GetMouseCursorPosXinWnd();
+	//m_MouseposY = GetMouseCursorPosYinWnd();
 
-	ImGui::Begin("Mouse");
-	ImGui::InputFloat3("PositionX", &m_MouseposX);
-	ImGui::InputFloat3("PositionY", &m_MouseposY);
-	ImGui::End();
+	//ImGui::Begin("Mouse");
+	//ImGui::InputFloat3("PositionX", &m_MouseposX);
+	//ImGui::InputFloat3("PositionY", &m_MouseposY);
+	//ImGui::End();
 
-	if (430 <= m_MouseposX && m_MouseposX<= 930 && 425 <= m_MouseposY&& m_MouseposY <= 515)
-	{
-		buttonOverLapping = true;
-	}
-	else
-	{
-		buttonOverLapping = false;
-	}
+	//if (430 <= m_MouseposX && m_MouseposX<= 930 && 425 <= m_MouseposY&& m_MouseposY <= 515)
+	//{
+	//	buttonOverLapping = true;
+	//}
+	//else
+	//{
+	//	buttonOverLapping = false;
+	//}
 
 	
 	//キー入力でゲーム画面に遷移
@@ -108,10 +105,14 @@ void Title::Update()
 		Manager::SetScene<Loading>();
 	}
 
-	if (Input::GetKeyTrigger(VK_SPACE) && !menucontrol || Input::GetKeyTrigger(VK_LBUTTON) && menucontrol )
+	//最初の画面から選択画面へ
+	if (Input::GetKeyTrigger(VK_SPACE) && !menucontrol || Input::GetKeyTrigger(VK_LBUTTON) && !menucontrol )
 	{
 		menucontrol = true;
 	}
+
+	
+
 
 }
 

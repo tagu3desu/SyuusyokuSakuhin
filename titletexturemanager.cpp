@@ -27,6 +27,11 @@ void TitleTexture::Init()
 
 	texture_TitleSelect->Init("asset/texture/UI/menuselect.png");
 	texture_TitleSelect->SetTextureScale(800.0f, 115.0f);
+
+
+
+	m_X = 50.0f;
+	m_Y = 312.0f;
 }
 
 void TitleTexture::Uninit()
@@ -41,26 +46,28 @@ void TitleTexture::Uninit()
 
 void TitleTexture::Update()
 {
+	m_MouseposX = GetMouseCursorPosXinWnd();
+	m_MouseposY = GetMouseCursorPosYinWnd();
+
+	ImGui::Begin("Mouse");
+	ImGui::InputFloat3("PositionX", &m_MouseposX);
+	ImGui::InputFloat3("PositionY", &m_MouseposY);
+	ImGui::End();
+
 	if (Title::GetMenuControl())
 	{
-		if (!texture_TitleSelect->CheckMenuSelectPosition(50.0f, 382.0f) &&  !texture_TitleSelect->CheckMenuSelectPosition(50.0f, 312.0f))
-		{
-			m_X = 50.0f;
-			m_Y = 312.0f;
-		}
-
-		if (Input::GetKeyTrigger(VK_UP) &&  texture_TitleSelect->CheckMenuSelectPosition(50.0f,382.0f) )
+		if (Input::GetKeyTrigger(VK_UP) ||  (130< m_MouseposX &&  m_MouseposX < 860 &&  620 < m_MouseposY && m_MouseposY <720))
 		{		
 			m_X = 50.0f;
 			m_Y = 312.0f;
 		}
-		else if (Input::GetKeyTrigger(VK_DOWN) && texture_TitleSelect->CheckMenuSelectPosition(50.0f, 312.0f))
+		else if (Input::GetKeyTrigger(VK_DOWN) ||   (130 < m_MouseposX && m_MouseposX < 860 && 760 < m_MouseposY && m_MouseposY < 860))
 		{
 			m_X = 50.0f;
 			m_Y = 382.0f;
 		}
 	}
-
+	
 
 
 	texture_TitleSelect->TextureFlashing(90);
@@ -80,6 +87,5 @@ void TitleTexture::Draw() //50,312 || 382
 		texture_GameStart->Draw(40.0f, 300.0f);
 		texture_OPTION->Draw(40.0f, 372.0f);
 	}
-
 	texture_TitleLogo->Draw(100.0f, 0.0f);
 }

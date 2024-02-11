@@ -7,8 +7,8 @@ class Title:public Scene
 private:
 	class Fade* m_Fade{};
 
-	float m_MouseposX;
-	float m_MouseposY;
+	/*float m_MouseposX;
+	float m_MouseposY;*/
 
 	class  TitleButton* m_StartButton{};
 	bool  buttonOverLapping;

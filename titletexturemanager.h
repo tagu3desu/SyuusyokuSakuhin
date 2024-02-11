@@ -11,6 +11,9 @@ private:
 	float m_X;
 	float m_Y;
 
+	float m_MouseposX;
+	float m_MouseposY;
+
 public:
 	void Init();
 	void Uninit();
