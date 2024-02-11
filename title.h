@@ -20,7 +20,7 @@ private:
 
 	static bool menucontrol;
 
-	
+	class Scene* scene{};
 public:
 	static bool GetCheckTitle() { return m_TitleCheck; }
 

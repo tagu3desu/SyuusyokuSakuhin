@@ -1,2 +1,4 @@
 ﻿  titletexturemanager.cpp
+C:\Users\kousu\Desktop\就職作品\titletexturemanager.cpp(131,41): warning C4244: '=': 'double' から 'FLOAT' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\titletexturemanager.cpp(156,40): warning C4244: '=': 'double' から 'FLOAT' への変換です。データが失われる可能性があります。
   GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Debug\GM31.exe

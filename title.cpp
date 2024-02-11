@@ -35,9 +35,11 @@
 bool Title::m_TitleCheck = false;
 bool Title::menucontrol = false;
 
+TitleTexture* titletexture;
+
 void Title::Init()
 {
-	
+	Scene* scene = Manager::GetScene();
 
 	Scene::Init();
 	m_framecount = 0;
@@ -62,7 +64,7 @@ void Title::Init()
 	wood->SetRotation(D3DXVECTOR3(0.0f, -0.9f, 0.0f));
 
 
-	AddGameObject<TitleTexture>(SPRITE_LAYER);
+	titletexture = AddGameObject<TitleTexture>(SPRITE_LAYER);
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 	buttonOverLapping = false;
 	int num = 0;
@@ -73,9 +75,10 @@ void Title::Update()
 {
 	Scene::Update();
 	
-	Scene* scene = Manager::GetScene();
+	
+
 	//キー入力でゲーム画面に遷移
-	if (Input::GetKeyTrigger(VK_SPACE)  && menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && buttonOverLapping && menucontrol) //Enterキー
+	if (Input::GetKeyTrigger(VK_SPACE)  && menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && titletexture->GetGameButtonOverLap() && menucontrol) //Enterキー
 	{
 		m_Fade->FadeOut();
 	} 

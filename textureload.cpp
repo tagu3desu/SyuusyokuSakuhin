@@ -92,8 +92,8 @@ void TextureLoad::Draw(float m_x, float m_y)
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_x, m_y, m_Position.z);
-	world = offset2 * scale * rot * trans;
-	Renderer::SetWorldMatrix(&world);	
+	m_Matrix = offset2 * scale * rot * trans;
+	Renderer::SetWorldMatrix(&m_Matrix);	
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);

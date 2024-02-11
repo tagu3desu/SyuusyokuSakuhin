@@ -46,6 +46,8 @@ float GetMouseCursorPosY();
 float GetMouseCursorPosXinWnd();
 float GetMouseCursorPosYinWnd();
 
+
+float GetCursorPosX();
 /*void GetMouseCursorPositionInWindow(HWND hWnd, int& mouseX, int& mouseY)
 {
     POINT cursorScreenPos;

@@ -1,6 +1,10 @@
 #pragma once
 #include"gameobject.h"
 
+
+#define MAX_ThubPosition 145
+#define MIN_ThubPosition 325
+
 class TitleTexture: public GameObject
 {
 private:
@@ -10,6 +14,18 @@ private:
 
 	float m_X;
 	float m_Y;
+
+	float m_OldX;
+	float m_NewX;
+	float difference;
+
+	D3DXVECTOR2 m_MenuSelectPosition{};
+
+	D3DXVECTOR2 m_BGMThumbPosition{};
+	D3DXVECTOR2 m_SEThumbPosition{};
+
+	float m_BGM_Volume{};
+	float m_SE_Volume{};
 
 	float m_MouseposX;
 	float m_MouseposY;
@@ -23,4 +39,6 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-};
+
+	bool GetGameButtonOverLap() { return m_GameButtonOverlap; }
+};  

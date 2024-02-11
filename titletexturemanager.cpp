@@ -12,8 +12,8 @@ TextureLoad* texture_TitleLogo = new TextureLoad;
 TextureLoad* texture_TitleSelect = new TextureLoad;
 TextureLoad* texture_OPTIONUI = new TextureLoad;
 TextureLoad* texture_BuckButton = new TextureLoad;
-TextureLoad* texture_BGMTumb = new TextureLoad;
-TextureLoad* texture_SETumb = new TextureLoad;
+TextureLoad* texture_BGMThumb = new TextureLoad;
+TextureLoad* texture_SEThumb = new TextureLoad;
 
 void TitleTexture::Init()
 {
@@ -38,14 +38,17 @@ void TitleTexture::Init()
 	texture_BuckButton->Init("asset/texture/UI/BackButton.png"); 
 	texture_BuckButton->SetTextureScale(120.0f, 50.0f);
 
-	texture_BGMTumb->Init("asset/texture/UI/OptionThumb.png");
-	texture_BGMTumb->SetTextureScale(100.0f, 100.0f);
+	texture_BGMThumb->Init("asset/texture/UI/OptionThumb.png");
+	texture_BGMThumb->SetTextureScale(30.0f, 30.0f);
 
-	texture_SETumb->Init("asset/texture/UI/OptionThumb.png");
-	texture_SETumb->SetTextureScale(100.0f, 100.0f);
+	texture_SEThumb->Init("asset/texture/UI/OptionThumb.png");
+	texture_SEThumb->SetTextureScale(30.0f, 30.0f);
 
-	m_X = 50.0f;
-	m_Y = 312.0f;
+	/*m_X = 50.0f;
+	m_Y = 312.0f;*/
+	//145Å`325
+	m_BGMThumbPosition = D3DXVECTOR2(145.0f, 154.0f);
+	m_SEThumbPosition = D3DXVECTOR2(145.0f, 273.0f);
 }
 
 void TitleTexture::Uninit()
@@ -63,24 +66,36 @@ void TitleTexture::Update()
 	m_MouseposX = GetMouseCursorPosXinWnd();
 	m_MouseposY = GetMouseCursorPosYinWnd();
 
+	
+
+
+
 	ImGui::Begin("Mouse");
 	ImGui::InputFloat3("PositionX", &m_MouseposX);
 	ImGui::InputFloat3("PositionY", &m_MouseposY);
+
+	float hoseiX = m_MouseposX - 155.0f;
+	//float hoseiY = m_MouseposY - 159.0f;
+	ImGui::InputFloat2("BGMPos", m_BGMThumbPosition);
+	ImGui::InputFloat2("SEPos", m_SEThumbPosition);
+	ImGui::InputFloat("bgmvolume", &m_BGM_Volume);
+	ImGui::InputFloat("sevolume", &m_SE_Volume);
+	//ImGui::InputFloat("Pos", &hoseiY);
 	ImGui::End();
+
+
 
 	if (Title::GetMenuControl())
 	{
-		if (Input::GetKeyTrigger(VK_UP) ||  (130< m_MouseposX &&  m_MouseposX < 860 &&  620 < m_MouseposY && m_MouseposY <720))
+		if (Input::GetKeyTrigger(VK_UP) ||  (130< m_MouseposX &&  m_MouseposX < 860 &&  620 < m_MouseposY && m_MouseposY <720) && !m_OptionFlag )
 		{		
-			m_X = 50.0f;
-			m_Y = 312.0f;
+			m_MenuSelectPosition =(D3DXVECTOR2(50.0f, 312.0f));
 			m_GameButtonOverlap = true;
 			m_OptionButtonOverlap = false;
 		}
 		else if (Input::GetKeyTrigger(VK_DOWN) ||   (130 < m_MouseposX && m_MouseposX < 860 && 760 < m_MouseposY && m_MouseposY < 860))
 		{
-			m_X = 50.0f;
-			m_Y = 382.0f;
+			m_MenuSelectPosition = (D3DXVECTOR2(50.0f, 382.0f));
 			m_GameButtonOverlap = false;
 			m_OptionButtonOverlap = true;
 		}
@@ -107,6 +122,73 @@ void TitleTexture::Update()
 			{
 				texture_BuckButton->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 			}
+			
+			if (300 < m_MouseposY && m_MouseposY < 325)
+			{
+				if (MAX_ThubPosition-1 < m_BGMThumbPosition.x && m_BGMThumbPosition.x < MIN_ThubPosition+1 && Input::GetKeyPress(VK_LBUTTON))
+				{
+					texture_BGMThumb->SetColor(D3DXCOLOR(0.9f, 0.6f, 0.2f, 1.0f));
+					m_BGMThumbPosition.x = m_MouseposX * 0.47;
+					m_BGM_Volume = ((m_BGMThumbPosition.x - MAX_ThubPosition) / (MIN_ThubPosition - MAX_ThubPosition) * 100);
+				}
+				else
+				{
+					texture_BGMThumb->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+				}
+
+				if (m_BGMThumbPosition.x <= MAX_ThubPosition)
+				{
+					m_BGMThumbPosition.x = MAX_ThubPosition;
+				}
+				else if (m_BGMThumbPosition.x >= MIN_ThubPosition)
+				{
+					m_BGMThumbPosition.x = MIN_ThubPosition;
+				}
+
+			}
+
+			
+			if (535 < m_MouseposY && m_MouseposY < 560)
+			{
+				if (MAX_ThubPosition-1 < m_SEThumbPosition.x && m_SEThumbPosition.x < MIN_ThubPosition+1 && Input::GetKeyPress(VK_LBUTTON))
+				{
+					texture_SEThumb->SetColor(D3DXCOLOR(0.9f, 0.6f, 0.2f, 1.0f));
+					m_SEThumbPosition.x = m_MouseposX * 0.47;
+					m_SE_Volume = ((m_SEThumbPosition.x - MAX_ThubPosition) / (MIN_ThubPosition - MAX_ThubPosition) * 100);
+				}
+				else
+				{
+					texture_SEThumb->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+				}
+
+				if (m_SEThumbPosition.x <= MAX_ThubPosition)
+				{
+					m_SEThumbPosition.x = MAX_ThubPosition;
+				}
+				else if (m_SEThumbPosition.x >= MIN_ThubPosition)
+				{
+					m_SEThumbPosition.x = MIN_ThubPosition;
+				}
+			}
+		}
+
+		//âπó ÇÃï‚ê≥
+		if (m_BGM_Volume < 0)
+		{
+			m_BGM_Volume = 0;
+		}
+		else if (m_BGM_Volume > 100)
+		{
+			m_BGM_Volume = 100;
+		}
+
+		if (m_SE_Volume < 0)
+		{
+			m_SE_Volume = 0;
+		}
+		else if (m_SE_Volume > 100)
+		{
+			m_SE_Volume = 100;
 		}
 
 	}
@@ -125,7 +207,7 @@ void TitleTexture::Draw() //50,312 || 382
 		}
 		if (Title::GetMenuControl())
 		{
-			texture_TitleSelect->Draw(m_X, m_Y);
+			texture_TitleSelect->Draw(m_MenuSelectPosition.x, m_MenuSelectPosition.y);
 			texture_GameStart->Draw(40.0f, 300.0f);
 			texture_OPTION->Draw(40.0f, 372.0f);
 			texture_TitleLogo->Draw(100.0f, 0.0f);
@@ -135,7 +217,8 @@ void TitleTexture::Draw() //50,312 || 382
 	{
 		texture_OPTIONUI->Draw(100.0f, 60.0f);
 		texture_BuckButton->Draw(110.0f, 320.0f);
-		texture_BGMTumb->Draw(150.0f, 320.0f);
+		texture_BGMThumb->Draw(m_BGMThumbPosition.x, m_BGMThumbPosition.y);  //150,154
+		texture_SEThumb->Draw(m_SEThumbPosition.x, m_SEThumbPosition.y);	//150,273
 
 	}
 	
