@@ -28,7 +28,7 @@
 #include"game.h"
 #include"rock.h"
 #include"titletexturemanager.h"
-
+#include"rockeffect.h"
 
 
 
@@ -108,7 +108,7 @@ void Player::Init()
 	m_BlendTime = 0.0f;
 	m_AnimationDelay = 0.0f;
 	m_ConboNumber = 0;
-	m_HP = 0;
+	
 	m_hitInpactDelay = 0;
 
 	directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -157,8 +157,8 @@ void Player::Update()
 		Staminagage* staminagage = scene->GetGameObject<Staminagage>();
 		HPgage* hpgage = scene->GetGameObject<HPgage>();
 		PotionCount* potioncount = scene->GetGameObject<PotionCount>();
-
-
+		RockEffect* rockeffect = scene->GetGameObject<RockEffect>();
+		Bullet* bullet = scene->GetGameObject<Bullet>();
 
 		directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		directionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -189,11 +189,64 @@ void Player::Update()
 		ImGui::End();
 
 
+		switch (m_PlayerState)
+		{
+		case PLAYER_STATE_GROUND:
+			UpdateGround();
+			break;
+		case PLAYER_STATE_ATTACK:
+			UpdateAttack();
+			break;
+		case PLAYER_STATE_ATTACK2:
+			UpdateAttack2();
+			break;
+		case PLAYER_STATE_ATTACK3:
+			UpdateAttack3();
+			break;
+		case PLAYER_STATE_ROLL:
+			UpdateRoll();
+			break;
+		case PLAYER_STATE_DEAD:
+			UpdateDead();
+			break;
+		case PLAYER_STATE_GUARD:
+			UpdateGuard();
+			break;
+		case PLAYER_STATE_TITLEIDLE:
+			UpdateTitleIdle();
+			break;
+		default:
+			break;
+		}
+
+
+		if (m_SuccessGuard)
+		{
+			m_InviciblilityStartFlag = true;
+		}
+
+
 		//プレイヤーコライダー
 		m_PlayerCollider->SetMatrix(m_Matrix);
 		SetColliderInfo(m_PlayerCollider->GetMatrix(),false);
 
 
+
+
+
+		//OBB判定　
+		std::vector<Box*> boxes = scene->GetGameObjects<Box>();
+		{
+			for (Box* box : boxes)
+			{
+				boxhitflag = m_PlayerCollider->CollisionChecker(this, box, 0.7f);
+			}
+		}
+
+		if (enemy != nullptr)
+		{
+			enemyhitflag = m_PlayerCollider->CollisionChecker(this, enemy, 1.5f);
+		}
 
 
 		m_potioncount = potioncount->GetCount();
@@ -206,17 +259,32 @@ void Player::Update()
 			}
 		}
 
-		if (m_PlayerHitEnemy)
-		{
-			m_InviciblilityStartFlag = true;
-		}
+	
 		if (enemy != nullptr)
 		{
 			direction = enemy->GetPosition() - m_Position;
 			length = D3DXVec3Length(&direction);
 		}
 
-
+		if (rockeffect != nullptr)
+		{
+			if (!m_InvincibilityFlag && rockeffect->GetHit() && !m_SuccessGuard)
+			{
+				hpgage->SetDamage(100);
+				m_InviciblilityStartFlag = true;
+				m_DamageReaction = true;
+			}
+		}
+		if (bullet != nullptr)
+		{
+			if (!m_InvincibilityFlag && bullet->GetHit() && !m_SuccessGuard)
+			{
+				hpgage->SetDamage(100);
+				m_InviciblilityStartFlag = true;
+				m_DamageReaction = true;
+			}
+		}
+		
 
 
 		if (m_InviciblilityStartFlag)
@@ -235,115 +303,47 @@ void Player::Update()
 		}
 
 		
-		//OBB判定　
-		std::vector<Box*> boxes = scene->GetGameObjects<Box>();
-		{
-			for (Box* box : boxes)
-			{
-				boxhitflag=m_PlayerCollider->CollisionChecker(this, box,0.7f);
-			}
-		}
-
-		std::vector<Rock*> rocks = scene->GetGameObjects<Rock>();
-		{
-			for (Rock* rock : rocks)
-			{
-				if (!m_PlayerCollider->CollisionChecker(this, rock, 1.5f))
-				{
-					
-				}
-				
-			}
-		}
-
-		if (enemy != nullptr)
-		{
-			enemyhitflag = m_PlayerCollider->CollisionChecker(this, enemy, 1.5f);
-		}
+	
 		
 	
 
 	
 
 
-		//円柱
-		std::vector<Cylinder*> Cylinders = scene->GetGameObjects<Cylinder>();
-		for (Cylinder* cylinder : Cylinders)//範囲for
-		{
-			D3DXVECTOR3 postion = cylinder->GetPosition();
-			D3DXVECTOR3 scale = cylinder->GetScale();
+		////円柱
+		//std::vector<Cylinder*> Cylinders = scene->GetGameObjects<Cylinder>();
+		//for (Cylinder* cylinder : Cylinders)//範囲for
+		//{
+		//	D3DXVECTOR3 postion = cylinder->GetPosition();
+		//	D3DXVECTOR3 scale = cylinder->GetScale();
 
-			D3DXVECTOR3 direction2 = m_Position - postion;
-			direction2.y = 0.0f;
-			float length = D3DXVec3Length(&direction2);
+		//	D3DXVECTOR3 direction2 = m_Position - postion;
+		//	direction2.y = 0.0f;
+		//	float length = D3DXVec3Length(&direction2);
 
-			if (length < scale.x)
-			{
-				if (m_Position.y < postion.y + scale.y - 0.5f)
-				{
-					m_Position.x = oldPosition.x;
-					m_Position.z = oldPosition.z;
-				}
-				else
-				{
-					groundHeight = postion.y + scale.y + groundHeight; //上判定
-				}
-				break;
-			}
+		//	if (length < scale.x)
+		//	{
+		//		if (m_Position.y < postion.y + scale.y - 0.5f)
+		//		{
+		//			m_Position.x = oldPosition.x;
+		//			m_Position.z = oldPosition.z;
+		//		}
+		//		else
+		//		{
+		//			groundHeight = postion.y + scale.y + groundHeight; //上判定
+		//		}
+		//		break;
+		//	}
 
-		}
-
-
+		//}
 
 
-		
-
-
-		////敵の弾との判定
-		{
-			std::vector<Bullet*> bullets = scene->GetGameObjects<Bullet>();
-			for (Bullet* bullet : bullets)
-			{
-				D3DXVECTOR3 position = bullet->GetPosition();
-				D3DXVECTOR3 scale = bullet->GetScale() * 0.5;
-				D3DXVECTOR3 right = bullet->GetRight();	//X分離軸
-				D3DXVECTOR3 forward = bullet->GetForward();	//Z分離軸
-				D3DXVECTOR3 up = bullet->GetUp();	//Y分離軸
-				D3DXVECTOR3 direction = m_Position - position; //直方体からプレイヤーまでの方向ベクトル
-
-				float obbx = D3DXVec3Dot(&direction, &right);	//X分離軸方向プレイヤー距離
-				float obbz = D3DXVec3Dot(&direction, &forward); //Z分離軸方向プレイヤー距離
-				float obby = D3DXVec3Dot(&direction, &up);
-
-				//OBB
-				if (fabs(obbx) < scale.x && fabs(obbz) < scale.z && fabs(obby) < scale.y)
-				{
-					m_Rockhit = true;
-
-				}
-				else
-				{
-					m_Rockhit = false;
-					break;
-				}
-
-			}
-		}
 
 		//ダメージ処理
 		{
 			if (enemy != nullptr)
 			{
-				if (m_HP > 0)
-				{
-					if (enemy->GetEnemyHitPlayer() && !m_SuccessGuard || m_Rockhit && !m_SuccessGuard) {
-						hpgage->SetDamage(-80);
-					}
-				}
-			}
-			if (enemy != nullptr)
-			{
-				if (enemy->GetEnemyHitPlayer() && !m_SuccessGuard && !m_HitInpact || m_Rockhit && !m_SuccessGuard && !m_HitInpact)
+				if (m_DamageReaction && !m_SuccessGuard && !m_HitInpact)
 				{
 
 					if (m_NextAnimationName != "HitSmallImpact")
@@ -356,14 +356,13 @@ void Player::Update()
 					}
 				}
 			}
-
-
 			if (m_HitInpact)
 			{
 				m_hitInpactDelay++;
 				if (m_hitInpactDelay > 30)
 				{
 					m_hitInpactDelay = 0;
+					m_DamageReaction = false;
 					m_HitInpact = false;
 				}
 			}
@@ -388,48 +387,11 @@ void Player::Update()
 	
 
 
-
-	switch (m_PlayerState)
-	{
-	case PLAYER_STATE_GROUND:
-		UpdateGround();
-		break;
-	case PLAYER_STATE_ATTACK:
-		UpdateAttack();
-		break;
-	case PLAYER_STATE_ATTACK2:
-		UpdateAttack2();
-		break;
-	case PLAYER_STATE_ATTACK3:
-		UpdateAttack3();
-		break;
-	case PLAYER_STATE_ROLL:
-		UpdateRoll();
-		break;
-	case PLAYER_STATE_DEAD:
-		UpdateDead();
-		break;
-	case PLAYER_STATE_GUARD:
-		UpdateGuard();
-		break;
-	case PLAYER_STATE_TITLEIDLE:
-		UpdateTitleIdle();
-		break;
-	case PLAYER_STATE_TITLESTART:
-		UpdateTitleStart();
-		break;
-	default:
-		break;
-	}
-
 	if (Title::GetCheckTitle())
 	{
 		m_PlayerState = PLAYER_STATE_TITLEIDLE;
 	}
-	/*if (Manager::CheckScene<Title>())
-	{
-		m_PlayerState = PLAYER_STATE_TITLEIDLE;
-	}*/
+
 
 
 	//メッシュフィールドとの衝突判定
@@ -1242,23 +1204,45 @@ void Player::UpdateGuard()
 {
 	m_idle = false;
 	Scene* scene = Manager::GetScene();
-	Enemy* enemy = scene->GetGameObject<Enemy>();
+	RockEffect* rockeffect = scene->GetGameObject<RockEffect>();
+	Bullet* bullet = scene->GetGameObject<Bullet>();
 
-	if (m_startGuard && enemy->GetEnemyHitPlayer() && !m_InpactGuard || 
-		m_startGuard && m_Rockhit && !m_InpactGuard)
+	if (rockeffect != nullptr)
 	{
-		if (m_NextAnimationName != "GuardImpact")
+		if (m_startGuard && rockeffect->GetHit() && !m_InpactGuard)
 		{
-			m_Time = 0.0f;
-			m_AnimationName = m_NextAnimationName;
-			m_NextAnimationName = "GuardImpact";
-			m_move = true;
-			m_InpactGuard = true;
-			m_SuccessGuard = true;
+			if (m_NextAnimationName != "GuardImpact")
+			{
+				m_Time = 0.0f;
+				m_AnimationName = m_NextAnimationName;
+				m_NextAnimationName = "GuardImpact";
+				m_move = true;
+				m_InpactGuard = true;
+				m_SuccessGuard = true;
+			}
 
-			
 		}
+	}
+
+	if (bullet != nullptr)
+	{
 		
+
+		if (m_startGuard && bullet->GetHit() && !m_InpactGuard)
+		{
+			if (m_NextAnimationName != "GuardImpact")
+			{
+				m_Time = 0.0f;
+				m_AnimationName = m_NextAnimationName;
+				m_NextAnimationName = "GuardImpact";
+				m_move = true;
+				m_InpactGuard = true;
+				m_SuccessGuard = true;
+
+
+			}
+
+		}
 	}
 
 	
@@ -1336,10 +1320,7 @@ void Player::UpdateTitleIdle()
 	}
 }
 
-void Player::UpdateTitleStart()
-{
 
-}
 
 void Player::UpdateDead()
 {
@@ -1356,111 +1337,4 @@ void Player::UpdateDead()
 	
 }
 
-void Player::SetCollision(aiNode* node, aiMatrix4x4 matrix)
-{
-	Scene* scene = Manager::GetScene();
-	Enemy* enemy = scene->GetGameObject<Enemy>();
 
-	std::string BoneName = node->mName.C_Str();
-
-	//boneの位置特定
-	if (BoneName == "mixamorig:RightHandPinky4")
-	{
-
-		if (m_BonePos.x - m_BoneScale.x - 0.5f < enemy->GetPosition().x &&
-			enemy->GetPosition().x < m_BonePos.x + m_BoneScale.x + 0.5f &&
-			m_BonePos.z - m_BoneScale.z - 0.5f < enemy->GetPosition().z &&
-			enemy->GetPosition().z < m_BonePos.z + m_BoneScale.z + 0.5f && !m_InvincibilityFlag
-			&& length<5.0f)
-		{
-			m_PlayerHitEnemy = true;
-		}
-		else
-		{
-			m_PlayerHitEnemy = false;
-		}
-	}
-
-	if (BoneName == "mixamorig:RightFoot")
-	{
-
-	}
-
-	//Matrix変換
-	m_WorldMatrix._11 = matrix.a1; 
-	m_WorldMatrix._12 = matrix.b1; 
-	m_WorldMatrix._13 = matrix.c1; 
-	m_WorldMatrix._14 = matrix.d1;
-
-	m_WorldMatrix._21 = matrix.a2; 
-	m_WorldMatrix._22 = matrix.b2; 
-	m_WorldMatrix._23 = matrix.c2; 
-	m_WorldMatrix._24 = matrix.d2;
-
-	m_WorldMatrix._31 = matrix.a3; 
-	m_WorldMatrix._32 = matrix.b3;
-	m_WorldMatrix._33 = matrix.c3; 
-	m_WorldMatrix._34 = matrix.d3;
-
-
-	m_WorldMatrix._41 = matrix.a4; 
-	m_WorldMatrix._42 = matrix.b4; 
-	m_WorldMatrix._43 = matrix.c4; 
-	m_WorldMatrix._44 = matrix.d4;
-
-	//posの変換
-	m_BonePos.x = m_WorldMatrix._41; // 行列の右下の要素がX軸方向の移動成分
-	m_BonePos.y = m_WorldMatrix._42; // 行列の右下の要素がY軸方向の移動成分
-	m_BonePos.z = m_WorldMatrix._43; // 行列の右下の要素がZ軸方向の移動成分
-
-	//scale変換
-	D3DXVECTOR3 x = D3DXVECTOR3(m_WorldMatrix._11, m_WorldMatrix._12, m_WorldMatrix._13);
-	D3DXVECTOR3 y = D3DXVECTOR3(m_WorldMatrix._21, m_WorldMatrix._22, m_WorldMatrix._23);
-	D3DXVECTOR3 z = D3DXVECTOR3(m_WorldMatrix._31, m_WorldMatrix._32, m_WorldMatrix._33);
-
-	if (m_comboCount == 0)
-	{
-		m_BoneScale.x = D3DXVec3Length(&x) + 0.1f; //数値は微調整
-		m_BoneScale.y = D3DXVec3Length(&y) + 0.1f;
-		m_BoneScale.z = D3DXVec3Length(&z) + 0.1f;
-
-		m_BonePos.x += m_Position.x-36.5; //微調整
-		m_BonePos.y += m_Position.y;
-		m_BonePos.z += m_Position.z-22;
-	}
-
-
-	if (m_comboCount == 1)
-	{
-		m_BoneScale.x = (D3DXVec3Length(&x) + 9.8f)*10; //数値は微調整
-		m_BoneScale.y = (D3DXVec3Length(&y) + 9.8f)*10;
-		m_BoneScale.z = (D3DXVec3Length(&z) + 9.8f)*10;
-
-		m_BonePos.x += m_Position.x - 36.5; //微調整
-		m_BonePos.y += m_Position.y;
-		m_BonePos.z += m_Position.z-22;
-	}
-
-	if (m_comboCount == 2)
-	{
-		m_BoneScale.x = (D3DXVec3Length(&x) + 9.8f) * 10; //数値は微調整
-		m_BoneScale.y = (D3DXVec3Length(&y) + 9.8f) * 10;
-		m_BoneScale.z = (D3DXVec3Length(&z) + 9.8f) * 10;
-
-		m_BonePos.x += m_Position.x - 36.5; //微調整
-		m_BonePos.y += m_Position.y;
-		m_BonePos.z += m_Position.z - 22;
-	}
-
-	if (m_comboCount == 3)
-	{
-		m_BoneScale.x = (D3DXVec3Length(&x) + 9.8f) * 10; //数値は微調整
-		m_BoneScale.y = (D3DXVec3Length(&y) + 9.8f) * 10;
-		m_BoneScale.z = (D3DXVec3Length(&z) + 9.8f) * 10;
-
-		m_BonePos.x += m_Position.x - 36.5; //微調整
-		m_BonePos.y += m_Position.y;
-		m_BonePos.z += m_Position.z - 22;
-	}
-	
-}

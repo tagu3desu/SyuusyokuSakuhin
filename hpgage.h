@@ -24,7 +24,7 @@ private:
 public:
 	int GetHp() { return m_hp; }
 	void SetHealPoint(int Heal) { m_hp += Heal; m_befor_hp += Heal; }
-	void SetDamage(int damage) { m_hp += damage;}
+	void SetDamage(int damage) { m_hp -= damage;}
 	void SetTexturePostion(float X, float Y) { X = m_x; Y = m_y; }
 	void SetTextureScale(float width, float height) { m_width = width; m_height = height; }
 

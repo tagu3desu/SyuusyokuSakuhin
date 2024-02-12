@@ -30,7 +30,7 @@ void Rock::Init()
 void Rock::Load()
 {
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\Rock1.obj");
+	m_Model->Load("asset\\model\\Rock.obj");
 }
 
 void Rock::Uninit()

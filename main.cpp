@@ -13,11 +13,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 POINT lastmousePos;
 POINT cursorPos;
 POINT cursorPosinWnd;
-POINT lastcurorPosinWnd;
+
 HWND g_Window;
 
 int mouseX;
 int mouseY;
+
+short rot;
+float hweel;
 
 HWND GetWindow()
 {
@@ -126,8 +129,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//ImGUIのウィンドウ処理をプロシージャに追加
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
 		return true;
-	GetCursorPos(&lastcurorPosinWnd);
-	ScreenToClient(hWnd, &lastcurorPosinWnd);
+
+	
 	switch (uMsg)
 	{
 	case WM_DESTROY:
@@ -142,7 +145,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		break;
-
+	case WM_MOUSEHWHEEL:
+		rot = GET_WHEEL_DELTA_WPARAM(wParam);
+		hweel += -rot;
+		if (hweel < 5.0f * 100)
+		{
+			hweel = 5.0f * 100;
+		}
+		else if (hweel > 50.0f * 100)
+		{
+			hweel = 50.0f * 100;
+		}
+		break;
 	default:
 		break;
 	}
@@ -158,6 +172,8 @@ float GetMouseCursorPosY() { return cursorPos.y - lastmousePos.y; }
 float GetMouseCursorPosXinWnd() { return cursorPosinWnd.x; }
 float GetMouseCursorPosYinWnd() { return cursorPosinWnd.y; }
 
+//カメラで100はいらない
+float GetHweel() { return hweel;}
 
 
 

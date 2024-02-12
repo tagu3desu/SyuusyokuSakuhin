@@ -17,14 +17,14 @@ enum ENEMY_STATE
 
 enum ENEMY_ATTACK_PATARN
 {
-	ENEMY_ATTACK_PUNCHI,
+	ENEMY_ATTACK_SLAP,
 	ENEMY_ATTCK_ROCK
 };
 class Enemy : public GameObject
 {
 private:
 	ENEMY_STATE  m_EnemyState = ENEMY_STATE_IDLE;
-	ENEMY_ATTACK_PATARN m_EnemyAttackPatarn = ENEMY_ATTACK_PUNCHI;
+	ENEMY_ATTACK_PATARN m_EnemyAttackPatarn = ENEMY_ATTACK_SLAP;
 
 
 	D3DXMATRIX m_ViewMatrix{};
@@ -65,6 +65,11 @@ private:
 	bool m_DeadmotionFinish=false;
 
 	
+	bool m_Attacking=false;
+
+	bool m_RockAttackFlag=false;
+	float m_Rockattacklimit{};
+
 	int m_animationdelay = 0;
 	int m_deadanimationdelay = 0;
 	float groundHeight;

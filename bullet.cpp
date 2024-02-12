@@ -7,12 +7,13 @@
 #include"bladeefect1.h"
 #include"enemy.h"
 #include"score.h"
+#include"collider.h"
 
 Model* Bullet::m_Model{};
 
 void Bullet::Init()
 {
-	m_Scale = D3DXVECTOR3(1.2f, 1.2f, 1.2f);
+	m_Scale = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
 	
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
@@ -24,13 +25,18 @@ void Bullet::Init()
 	m_MaxAccleration = 15.0f;
 	m_Idlecount = 0;
 	m_Period = 2.0;
+
+	scene = Manager::GetScene();
+	m_BulletCollider = scene->AddGameObject<Collider>();
+	m_BulletCollider->SetScale(D3DXVECTOR3(1.0f / m_Scale.x, 1.0f / m_Scale.y , 1.0f / m_Scale.z) * 4.0f);
+	m_BulletCollider->SetPosition(D3DXVECTOR3(0.0f, 0.3f, 0.0f));
 	
 }
 
 void Bullet::Load()
 {
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\Rock1.obj");
+	m_Model->Load("asset\\model\\Rock.obj");
 }
 
 void Bullet::Uninit()
@@ -53,7 +59,8 @@ void Bullet::Update()
 	Scene* scene = Manager::GetScene();
 	Player* player=scene->GetGameObject<Player>();
 
-
+	m_BulletCollider->SetMatrix(m_Matrix);
+	SetColliderInfo(m_BulletCollider->GetMatrix(), false);
 
 	switch (m_BulletState)
 	{
@@ -71,19 +78,18 @@ void Bullet::Update()
 	{
 		m_BulletState = BULLET_STATE_ATTACK;
 	}
-
-	////GUIにパラメータ表示
-	//ImGui::SetNextWindowSize(ImVec2(400, 250));
-	//ImGui::Begin("Bullet");
-	//ImGui::InputFloat3("Direction", m_direction);
-	//ImGui::InputFloat3("Position", m_Position);	
-	//ImGui::InputFloat3("Ratation", m_Rotation);
-	//ImGui::InputFloat3("Scale", m_Scale);
-	//ImGui::InputFloat("Length", &m_BulletLife);
-	//ImGui::InputFloat("m_FrameWait", &m_FrameWait);
-	//ImGui::Checkbox("hit", &hit);
-	//ImGui::End();
 	
+	if (m_BulletCollider->CollisionChecker(this, player, 0.7f))
+	{
+		m_BulletCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+		m_Hit = true;
+	}
+	else
+	{
+		m_BulletCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+		m_Hit = false;
+	}
+
 }
 
 void Bullet::Draw()
@@ -100,8 +106,8 @@ void Bullet::Draw()
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot * trans;
-	Renderer::SetWorldMatrix(&world);
+	m_Matrix = scale * rot * trans;
+	Renderer::SetWorldMatrix(&m_Matrix);
 
 	m_Model->Draw();
 }
@@ -119,7 +125,9 @@ void Bullet::UpdateAttack()
 
 	D3DXVECTOR3 m_Accleleration{ 0.0f,0.0f,0.0f };
 
-	m_FrameWait += 0.0005f;
+	m_Rotation.x += 0.1f;
+
+	m_FrameWait += 0.00008f;
 
 
 	m_direction = player->GetPosition() - m_Position;
@@ -131,6 +139,7 @@ void Bullet::UpdateAttack()
 	m_BulletLife++;
 	if (m_BulletLife > 300.0f)
 	{
+		m_BulletCollider->SetDestroy();
 		SetDestroy();
 		return;
 	}
@@ -149,11 +158,6 @@ void Bullet::UpdateAttack()
 	m_Velocity += m_Accleleration * m_FrameWait;
 	m_Position += m_Velocity * m_FrameWait;
 
-	D3DXVECTOR3 hitposition;
-	if (player->GetPosition() == m_Position)
-	{
-		hit = true;
-		SetDestroy();
-		return;
-	}
+	
+
 }

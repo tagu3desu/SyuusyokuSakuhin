@@ -230,6 +230,7 @@
     <ClCompile Include="result.cpp" />
     <ClCompile Include="result_gameover.cpp" />
     <ClCompile Include="rock.cpp" />
+    <ClCompile Include="rockeffect.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="shadow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -352,6 +353,7 @@
     <ClInclude Include="result.h" />
     <ClInclude Include="result_gameover.h" />
     <ClInclude Include="rock.h" />
+    <ClInclude Include="rockeffect.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="shadow.h" />

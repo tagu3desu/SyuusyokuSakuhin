@@ -575,17 +575,17 @@ void AnimationModel::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 
 	bone->CollitionMatrix = worldMatrix;
 
-	if (!player->GetPlayerlive() && enemy != NULL)
-	{
-		player->SetCollision(node, bone->CollitionMatrix);
-		//player->SetCollision(node, bone->CollitionMatrix, "mixamorig:RightHandPinky4");
-		//player->SetCollision(node, bone->CollitionMatrix, "mixamorig:RightFoot");
-	}
-	
-	if (m_EnemyFlg == true)
-	{
-		enemy->SetCollision(node, bone->CollitionMatrix);
-	}
+	//if (!player->GetPlayerlive() && enemy != NULL)
+	//{
+	//	player->SetCollision(node, bone->CollitionMatrix);
+	//	//player->SetCollision(node, bone->CollitionMatrix, "mixamorig:RightHandPinky4");
+	//	//player->SetCollision(node, bone->CollitionMatrix, "mixamorig:RightFoot");
+	//}
+	//
+	//if (m_EnemyFlg == true)
+	//{
+	//	enemy->SetCollision(node, bone->CollitionMatrix);
+	//}
 	
 
 	bone->Matrix = worldMatrix;

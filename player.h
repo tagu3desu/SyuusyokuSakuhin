@@ -16,7 +16,6 @@ enum PLAYER_STATE
 	PLAYER_STATE_DEAD,
 	PLAYER_STATE_GUARD,
 	PLAYER_STATE_TITLEIDLE,
-	PLAYER_STATE_TITLESTART,
 };
 class Player :public GameObject
 {
@@ -101,7 +100,7 @@ private:
 	int  m_ConboNumber;
 	bool m_fainalAttack = false;
 
-	int m_HP;
+	int m_HP{};
 
 	int m_potioncount;
 	int m_Stamina;
@@ -120,6 +119,7 @@ private:
 	bool m_Rockhit = false;
 	int hitcount = 0;
 
+	bool m_DamageReaction = false;
 
 	//サウンド処理
 	class Audio* m_OnWeponSE{};
@@ -198,6 +198,20 @@ public:
 
 		return right;
 	}
+
+	D3DXVECTOR3 GetEulerForward() //右方面ベクトルを取得
+	{
+		D3DXMATRIX euler;
+		D3DXMatrixRotationYawPitchRoll(&euler, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+
+		D3DXVECTOR3 forward;
+		forward.x = euler._31;
+		forward.y = euler._32;
+		forward.z = euler._33;
+
+		return forward;
+	}
+
 
 	D3DXVECTOR3 GetEulerRight() //右方面ベクトルを取得
 	{

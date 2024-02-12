@@ -44,6 +44,9 @@ protected:
 	bool m_InvincibilityFlag = false;
 	bool m_InviciblilityStartFlag = false;
 
+	float m_Framwait{};
+
+	bool m_Hit{};
 public:
 	bool GetReflectEnable() { return m_ReflectEnable; }
 	bool GetDepthEnable() { return m_DepthEnable; }
@@ -64,7 +67,7 @@ public:
 	GameObject* ParentMatrix;
 	D3DXMATRIX GetMatrix() { return m_Matrix; }
 
-
+	bool GetHit() { return m_Hit; }
 
 	bool Destroy()
 	{

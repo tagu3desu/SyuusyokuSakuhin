@@ -24,6 +24,7 @@
 #include"collider.h"
 
 #include"wepon_sword.h"
+#include"rockeffect.h"
 AnimationModel* Enemy::m_Model{};
 
 void Enemy::Init()
@@ -81,7 +82,7 @@ void Enemy::Load()
 	m_Model->Load("asset\\model\\Mutant.fbx");
 	m_Model->LoadAnimation("asset\\model\\Mutant Breathing Idle.fbx", "Idle");
 	m_Model->LoadAnimation("asset\\model\\Mutant Walking.fbx", "Walk");
-	m_Model->LoadAnimation("asset\\model\\Mutant Swiping.fbx", "Attack");
+	m_Model->LoadAnimation("asset\\model\\SlapAttack.fbx", "Attack");
 	m_Model->LoadAnimation("asset\\model\\Jump Attack.fbx", "JumpAttack");
 	m_Model->LoadAnimation("asset\\model\\Standing 2H Magiccharge shot.fbx", "RockAttack");
 	m_Model->LoadAnimation("asset\\model\\Mutant Roaring.fbx", "Howl");
@@ -116,7 +117,6 @@ void Enemy::Update()
 	auto sword = scene->GetGameObject<Sword>();
 
 	direction = player->GetPosition() - m_Position;
-	//sabun = m_Position - player->GetPosition();
 	//プレイヤーとの距離
 	length = D3DXVec3Length(&direction);
 
@@ -179,7 +179,7 @@ void Enemy::Update()
 		{
 			m_EnemyState = ENEMY_STATE_MOVE;
 		}
-		if (IsInFieldOfView(m_Position, direction, 70, 15.0f))
+		if (IsInFieldOfView(m_Position, direction, 70, 25.0f))
 		{
 			if (!m_howl)
 			{
@@ -236,8 +236,11 @@ void Enemy::Update()
 				groundHeight = meshField->GetHeight(m_Position);
 			}
 		}
-		
-
+		//position+ forward * 数値
+		if (Input::GetKeyTrigger('B'))
+		{
+			
+		}
 
 
 		//重力
@@ -249,36 +252,6 @@ void Enemy::Update()
 
 			m_Position.y = groundHeight;
 			m_Velocity.y = 0.0f;
-		}
-
-		D3DXVECTOR3 ExplosionPosition = m_Position;
-		if (sword->GetSwordHit() && player->GetPlayerAttack() && player->GetPlayerAttackNumber() == 3)
-		{
-			m_lastattackhit = true;
-		}
-		else if (sword->GetSwordHit() && player->GetPlayerAttack() && player->GetPlayerAttackNumber() != 3)
-		{
-			//BladeEffect1* bladeeffect1 = scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
-			//bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
-			//bladeeffect1->SetPosition(ExplosionPosition += D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-			//m_HP -= 10;
-			hitcout += 1;
-		}
-
-		if (m_lastattackhit)
-		{
-			m_lastattackcout++;
-		}
-
-		if (m_lastattackcout >= 20)
-		{
-			//BladeEffect2* bladeeffect2 = scene->AddGameObject<BladeEffect2>(EFFECT_LAYER);
-			//bladeeffect2->SetScale(D3DXVECTOR3(8.0f, 8.0f, 8.0f));
-			//bladeeffect2->SetPosition(ExplosionPosition += D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-			//m_HP -= 10;
-			hitcout += 1;
-			m_lastattackcout = 0;
-			m_lastattackhit = false;
 		}
 
 		if (sword->GetSwordHit())
@@ -318,11 +291,11 @@ void Enemy::Update()
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
 	//ImGui::InputFloat3("ArmPos", m_EnemyLightArmCollider->GetColliderPosition());
-	/*ImGui::InputFloat("Thredhold", &m_Threshold);
-	ImGui::InputFloat3("Position", m_Position);
-	ImGui::InputFloat3("BPosition", m_BonePos);
-	ImGui::InputFloat("Length", &length);
-	ImGui::InputInt("AttackCount", &m_animationdelay);*/
+	//ImGui::InputFloat("Thredhold", &m_Threshold);
+	//ImGui::InputFloat3("Position", m_Position);
+	//ImGui::InputFloat3("BPosition", m_BonePos);
+	//ImGui::InputFloat("Length", &length);
+	ImGui::InputInt("AnimationCount", &m_animationdelay);
 	ImGui::InputInt("HP", &m_HP);
 	//ImGui::Checkbox("hit", &m_lastattackhit);
 	//ImGui::InputInt("HitCount", &hitcout);
@@ -439,20 +412,35 @@ void Enemy::UpdateHowl()
 
 void Enemy::UpdateAttack() {
 
+	
 
-	if (length < 5)
+	if (!m_Attacking)
 	{
-		m_EnemyAttackPatarn = ENEMY_ATTACK_PUNCHI;
+		if (length < 10)
+		{
+			m_EnemyAttackPatarn = ENEMY_ATTACK_SLAP;
+		}
+		else if (length >= 11 && length < 25 && !m_RockAttackFlag)
+		{
+			m_EnemyAttackPatarn = ENEMY_ATTCK_ROCK;
+			m_RockAttackFlag = true;
+		}
 	}
-	else if(length>=6 && length <14)
+	
+	if (m_RockAttackFlag)
 	{
-		m_EnemyAttackPatarn = ENEMY_ATTCK_ROCK;
+		m_Rockattacklimit++;
+		if (m_Rockattacklimit > 1200)
+		{
+			m_RockAttackFlag = false;
+		}
 	}
+
 
 
 	switch (m_EnemyAttackPatarn)
 	{
-	case ENEMY_ATTACK_PUNCHI:
+	case ENEMY_ATTACK_SLAP:
 		UpdatePunchiAttack();
 		break;
 	case ENEMY_ATTCK_ROCK:
@@ -526,10 +514,20 @@ void Enemy::UpdatePunchiAttack(){
 		isAttack = true;
 	}
 	m_animationdelay++;
-	if (m_animationdelay >= 140)
+
+	if (m_animationdelay >= 100 && !m_Attacking)
+	{
+		RockEffect* rockeffect = scene->AddGameObject<RockEffect>();
+		rockeffect->SetPosition(m_Position + (D3DXVECTOR3(0.0f, -1.5f, 0.0f)) + GetForward() * 5.0f);
+		rockeffect->SetRotation(m_Rotation);
+		m_Attacking = true;
+	}
+
+	if (m_animationdelay >= 200)
 	{
 		m_animationdelay = 0;
 		m_attack = false;
+		m_Attacking = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
 }
@@ -546,21 +544,13 @@ void Enemy::UpdateRockAttack() {
 		m_speed = 0.0f;
 		isAttack = true;
 		m_shotflag = true;
+		m_Attacking = true;
 	}
 	if (m_shotflag && m_shotcount==0)
 	{
 		m_shotcount = 1;
 		Bullet* bullet = scene->AddGameObject<Bullet>();
 		bullet->SetPosition(m_Position + D3DXVECTOR3(0.0f, -2.0f, 0.0f));
-		//bullet->SetVelocity(/*-GetForward() * 6.0f + GetUp() *7.0f + */GetRight() * 4.2f);
-
-		Bullet* bullet1 = scene->AddGameObject<Bullet>();
-		bullet1->SetPosition(m_Position + D3DXVECTOR3(0.0f, -2.0f, 0.0f) + GetRight() * 4.2f);
-		//bullet1->SetVelocity(-GetForward() * 6.0f + GetUp() * 7.0f + -GetRight() * 4.2f);
-
-		Bullet* bullet2 = scene->AddGameObject<Bullet>();
-		bullet2->SetPosition(m_Position + D3DXVECTOR3(0.0f, -2.0f, 0.0f) - GetRight() * 4.2f);
-		//bullet2->SetVelocity(GetUp() * 5.0f +  -GetForward() * 6.0f);
 	}
 	m_animationdelay++;
 	if (m_animationdelay >= 220)
@@ -568,6 +558,7 @@ void Enemy::UpdateRockAttack() {
 		m_animationdelay = 0;
 		m_shotcount = 0;
 		m_attack = false;
+		m_Attacking = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
 }
@@ -594,64 +585,3 @@ bool Enemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, f
 	return isInFieldOfView && isInViewDistance;
 }
 
-void Enemy::SetCollision(aiNode* node, aiMatrix4x4 matrix)
-{
-	
-	Player* player = scene->GetGameObject<Player>();
-
-	std::string BornName = node->mName.C_Str();
-
-	//boneの位置特定
-	if (BornName == "mixamorig:LeftArm")
-	{
-		
-		if (m_BonePos.x - m_BoneScale.x - 0.5f < player->GetPosition().x &&
-			player->GetPosition().x < m_BonePos.x + m_BoneScale.x + 0.5f &&
-			m_BonePos.z - m_BoneScale.z - 0.5f < player->GetPosition().z &&
-			player->GetPosition().z < m_BonePos.z + m_BoneScale.z + 0.5f && !m_InvincibilityFlag
-			&& length < 5.5f)
-		{
-			m_EnemyAttackHit = true;
-		}
-		else 
-		{
-			m_EnemyAttackHit = false;
-		}
-
-	}
-
-
-
-	//Matrix変換
-	m_WorldMatrix._11 = matrix.a1; m_WorldMatrix._12 = matrix.b1; m_WorldMatrix._13 = matrix.c1; m_WorldMatrix._14 = matrix.d1;
-	m_WorldMatrix._21 = matrix.a2; m_WorldMatrix._22 = matrix.b2; m_WorldMatrix._23 = matrix.c2; m_WorldMatrix._24 = matrix.d2;
-	m_WorldMatrix._31 = matrix.a3; m_WorldMatrix._32 = matrix.b3; m_WorldMatrix._33 = matrix.c3; m_WorldMatrix._34 = matrix.d3;
-	m_WorldMatrix._41 = matrix.a4; m_WorldMatrix._42 = matrix.b4; m_WorldMatrix._43 = matrix.c4; m_WorldMatrix._44 = matrix.d4;
-
-	//posの変換
-	m_BonePos.x = m_WorldMatrix._41; // 行列の右下の要素がX軸方向の移動成分
-	m_BonePos.y = m_WorldMatrix._42; // 行列の右下の要素がY軸方向の移動成分
-	m_BonePos.z = m_WorldMatrix._43; // 行列の右下の要素がZ軸方向の移動成分
-
-	//scale変換
-	D3DXVECTOR3 x = D3DXVECTOR3(m_WorldMatrix._11, m_WorldMatrix._12, m_WorldMatrix._13);
-	D3DXVECTOR3 y = D3DXVECTOR3(m_WorldMatrix._21, m_WorldMatrix._22, m_WorldMatrix._23);
-	D3DXVECTOR3 z = D3DXVECTOR3(m_WorldMatrix._31, m_WorldMatrix._32, m_WorldMatrix._33);
-
-	m_BoneScale.x = D3DXVec3Length(&x) + 8.9f; //数値は微調整 //15
-	m_BoneScale.y = D3DXVec3Length(&y) + 8.9f;
-	m_BoneScale.z = D3DXVec3Length(&z) + 8.9f;
-
-	//m_BoneScale.x = D3DXVec3Length(&x) + 8.9f; //数値は微調整 //15
-	//m_BoneScale.y = D3DXVec3Length(&y) + 8.9f;
-	//m_BoneScale.z = D3DXVec3Length(&z) + 8.9f;
-
-	//m_BonePos.x += m_Position.x; //微調整
-	//m_BonePos.z += m_Position.z;
-
-	//m_BonePos.x += m_Position.x -36.0f; //微調整 //-36
-	//m_BonePos.z += m_Position.z -21.0f;			//-21
-
-	m_BonePos.x += m_Position.x-20; //微調整 //-36
-	m_BonePos.z += m_Position.z - 24.0f;
-}

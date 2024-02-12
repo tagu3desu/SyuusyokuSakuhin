@@ -30,7 +30,11 @@ private:
 	float m_Period;
 	float m_BulletLife;
 	float m_MaxAccleration;
-	bool hit;
+	
+
+	class Scene* scene{};
+	class Collider* m_BulletCollider{};
+
 public:
 	static void Load();
 	static void Unload();

@@ -122,8 +122,6 @@ void Camera::Update()
 	
 
 	//トップビュー	
-	
-
 	if (!Title::GetCheckTitle())
 	{
 		m_Target = player->GetPosition();
@@ -132,7 +130,7 @@ void Camera::Update()
 	if (Title::GetCheckTitle())
 	{
 		m_Target = player->GetPosition() + D3DXVECTOR3(-2.0f,0.0f,0.0f);
-		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 10.0f, m_RotationY, -cos(m_RotationX) * 4.0f);
+		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 10.0f, m_RotationY, -cos(m_RotationX) * 4.0f)  ;
 	}
 
 	

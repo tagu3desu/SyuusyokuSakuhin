@@ -47,6 +47,9 @@
 #include"gametexturemanager.h"
 #include"collider.h"
 #include"campField.h"
+
+#include"rockeffect.h"
+
 Torus* torus;
 Player* player;
 
@@ -66,6 +69,7 @@ void Game::Load()
 	Collider::Load();
 	BaseCamp::Load();
 	Box::Load();
+	RockEffect::Load();
 	m_LoadFinish = true;
 }
 
@@ -85,6 +89,7 @@ void Game::Unload()
 	Collider::Unload();
 	BaseCamp::Unload();
 	Box::Unload();
+	RockEffect::Unload();
 }
 
 void Game::Init()
@@ -120,10 +125,9 @@ void Game::Init()
 	Box* box = AddGameObject<Box>();
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
 
-	Box* box2 = AddGameObject<Box>();
-	box2->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	
-	
+
+
+
 	AddGameObject<Trail>();
 
 	AddGameObject<GameTexture>(SPRITE_LAYER);
