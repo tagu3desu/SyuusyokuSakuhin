@@ -376,8 +376,8 @@ void TitlePlayer::UpdateGround()
 				m_Time = 0.0f;
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "onSword";
-				m_OnWeponSE->Volume(0.01f);
-				m_OnWeponSE->Play();
+				//m_OnWeponSE->Volume(0.01f);
+				//m_OnWeponSE->Play();
 				m_BlendTime = 0.0f;
 			}
 			m_onSword = true;
@@ -394,8 +394,8 @@ void TitlePlayer::UpdateGround()
 				m_Time = 0.0f;
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "offSword";
-				m_OffWeponSE->Volume(0.01f);
-				m_OffWeponSE->Play();
+				//m_OffWeponSE->Volume(0.01f);
+				//m_OffWeponSE->Play();
 				m_BlendTime = 0.0f;
 			}
 			m_offSword = true;

@@ -2,6 +2,7 @@
 #include"scene.h"
 #include"polygon2D.h"
 #include"sprite.h"
+
 class Title:public Scene
 {
 private:
@@ -21,6 +22,9 @@ private:
 	static bool menucontrol;
 
 	class Scene* scene{};
+
+	class Audio* m_TitleBGM{};
+	class Audio* m_DecisiveSE{};
 public:
 	static bool GetCheckTitle() { return m_TitleCheck; }
 

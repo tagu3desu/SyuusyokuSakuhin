@@ -16,7 +16,10 @@ private:
 	int						m_Length{};
 	int						m_PlayLength{};
 
+	float m_MasterVolume = 0.1f;
+	
 
+	class Scene* scene{};
 public:
 	static void InitMaster();
 	static void UninitMaster();
@@ -24,9 +27,11 @@ public:
 	using Component::Component;
 
 	void Uninit();
+	void Update();
 
 	void Load(const char *FileName);
-	void Play(bool Loop = false);
+	void PlayBGM(bool Loop = true);
+	void PlaySE();
 	void Volume(float vol);
 	void Stop();
 

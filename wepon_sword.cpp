@@ -10,6 +10,8 @@
 #include"enemy.h"
 #include"collider.h"
 #include"title.h"
+#include"bladeefect1.h"
+#include"bladeefect2.h"
 ID3D11Buffer* SwordTopVertex::m_VertexBuffer;
 
 
@@ -71,19 +73,51 @@ void Sword::Update()
 
 		if (enemy != nullptr)
 		{
-			if (m_swordhit = m_SwordCollider->CollisionChecker(this, enemy, 0.6f))
+			if (m_SwordCollider->CollisionChecker(this, enemy, 0.6f))
 			{
-				m_swordhit = true;
+				
 				m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-				//enemy->SetDamage(20);
+				if (player->GetPlayerAttack() && !m_InvincibilityFlag)
+				{
+					m_swordhit = true;
+					enemy->SetDamage(20);
+					BladeEffect1* bladeeffect1 = scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
+					SwordTopVertex* swordvertex = scene->GetGameObject<SwordTopVertex>();
+					bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
+					bladeeffect1->SetPosition(swordvertex->GetTopVertexPostion());
+				}
+				
 			}
 			else
 			{
 				m_swordhit = false;
 				m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 			}
+
+			if (m_swordhit)
+			{
+				m_InviciblilityStartFlag = true;
+			}
+			if (m_InviciblilityStartFlag)
+			{
+				m_InvincibilityTime++;
+				if (m_InvincibilityTime <= 60)
+				{
+					m_InvincibilityFlag = true;
+				}
+				else
+				{
+					m_InvincibilityFlag = false;
+					m_InviciblilityStartFlag = false;
+					m_InvincibilityTime = 0;
+				}
+			}
+
 		}
+
 	}
+
+
 
 
 	AnimationModel* animationmodel;

@@ -1,9 +1,12 @@
 #include"main.h"
 #include"renderer.h"
+#include"scene.h"
+#include"manager.h"
 #include"titletexturemanager.h"
 #include"textureload.h"
 #include"title.h"
 #include"input.h"
+#include"audio.h"
 
 TextureLoad* texture_PushSpace = new TextureLoad;
 TextureLoad* texture_GameStart = new TextureLoad;
@@ -14,6 +17,9 @@ TextureLoad* texture_OPTIONUI = new TextureLoad;
 TextureLoad* texture_BuckButton = new TextureLoad;
 TextureLoad* texture_BGMThumb = new TextureLoad;
 TextureLoad* texture_SEThumb = new TextureLoad;
+
+float Scene::m_BGMVolume;
+float Scene::m_SEVolume;
 
 void TitleTexture::Init()
 {
@@ -44,11 +50,15 @@ void TitleTexture::Init()
 	texture_SEThumb->Init("asset/texture/UI/OptionThumb.png");
 	texture_SEThumb->SetTextureScale(30.0f, 30.0f);
 
-	/*m_X = 50.0f;
-	m_Y = 312.0f;*/
+	scene = Manager::GetScene();
+	
 	//145Å`325
-	m_BGMThumbPosition = D3DXVECTOR2(145.0f, 154.0f);
-	m_SEThumbPosition = D3DXVECTOR2(145.0f, 273.0f);
+	m_BGMThumbPosition = D3DXVECTOR2(157.0f, 154.0f);
+	m_SEThumbPosition = D3DXVECTOR2(157.0f, 273.0f);
+
+	m_DecisiveSE = AddComponent<Audio>();
+	m_DecisiveSE->Load("asset\\audio\\SE\\åàíËâπ.wav");
+
 }
 
 void TitleTexture::Uninit()
@@ -67,20 +77,13 @@ void TitleTexture::Update()
 	m_MouseposY = GetMouseCursorPosYinWnd();
 
 	
-
+	
 
 
 	ImGui::Begin("Mouse");
-	ImGui::InputFloat3("PositionX", &m_MouseposX);
-	ImGui::InputFloat3("PositionY", &m_MouseposY);
-
-	float hoseiX = m_MouseposX - 155.0f;
-	//float hoseiY = m_MouseposY - 159.0f;
-	ImGui::InputFloat2("BGMPos", m_BGMThumbPosition);
-	ImGui::InputFloat2("SEPos", m_SEThumbPosition);
+	ImGui::InputFloat3("pos", m_BGMThumbPosition);
 	ImGui::InputFloat("bgmvolume", &m_BGM_Volume);
 	ImGui::InputFloat("sevolume", &m_SE_Volume);
-	//ImGui::InputFloat("Pos", &hoseiY);
 	ImGui::End();
 
 
@@ -95,15 +98,26 @@ void TitleTexture::Update()
 		}
 		else if (Input::GetKeyTrigger(VK_DOWN) ||   (130 < m_MouseposX && m_MouseposX < 860 && 760 < m_MouseposY && m_MouseposY < 860))
 		{
+			
+			
+
 			m_MenuSelectPosition = (D3DXVECTOR2(50.0f, 382.0f));
+
+			
 			m_GameButtonOverlap = false;
 			m_OptionButtonOverlap = true;
+		}
+		else
+		{
+			m_MenuSelectPosition = (D3DXVECTOR2(50.0f, 312.0f));
 		}
 
 		if (m_OptionButtonOverlap)
 		{
 			if (Input::GetKeyTrigger(VK_SPACE) || Input::GetKeyPress(VK_LBUTTON))
 			{
+				m_DecisiveSE->PlaySE();
+				m_DecisiveSE->Volume(GetSEVolume());
 				m_OptionFlag = true;
 			}
 		}
@@ -115,6 +129,9 @@ void TitleTexture::Update()
 				texture_BuckButton->SetColor(D3DXCOLOR(0.9f, 0.5f, 0.1f,1.0f));
 				if (Input::GetKeyTrigger(VK_LBUTTON))
 				{
+					m_DecisiveSE->PlaySE();
+					m_DecisiveSE->Volume(GetSEVolume());
+				
 					m_OptionFlag = false;
 				}
 			}
@@ -190,6 +207,9 @@ void TitleTexture::Update()
 		{
 			m_SE_Volume = 100;
 		}
+
+		Scene::m_BGMVolume = m_BGM_Volume;
+		Scene::m_SEVolume = m_SE_Volume;
 
 	}
 	texture_TitleSelect->TextureFlashing(90);

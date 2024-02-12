@@ -23,6 +23,7 @@
 #include"title.h"
 #include"collider.h"
 
+#include"wepon_sword.h"
 AnimationModel* Enemy::m_Model{};
 
 void Enemy::Init()
@@ -69,10 +70,6 @@ void Enemy::Init()
 		m_EnemyCollider->SetPosition(D3DXVECTOR3(0.0f,80.0f,0.0f));
 		m_EnemyCollider->SetRotation(D3DXVECTOR3(0.1f, 0.4f, 0.0f));
 		m_EnemyCollider->SetTag(ENEMY_TAG);
-
-		m_EnemyLightArmCollider = scene->AddGameObject<Collider>();
-		m_EnemyLightArmCollider->SetScale(D3DXVECTOR3(100.0f, 100.0f, 100.0f));
-		//m_EnemyLightArmCollider->SetPosition(D3DXVECTOR3(0.0f, -120.0f, 0.0f));
 	}
 
 }
@@ -116,7 +113,7 @@ void Enemy::Update()
 
 	
 	auto player = scene->GetGameObject<Player>();
-	
+	auto sword = scene->GetGameObject<Sword>();
 
 	direction = player->GetPosition() - m_Position;
 	//sabun = m_Position - player->GetPosition();
@@ -129,14 +126,8 @@ void Enemy::Update()
 	SetColliderInfo(m_EnemyCollider->GetMatrix() ,false);
 
 
-	//敵の腕のコライダー
-	AnimationModel* animationmodel;
-	animationmodel = GetAnimationModel();
-	BONE* bone;
-	bone = animationmodel->GetBone("mixamorig:LeftArm");
-	m_EnemyLightArmCollider->SetMatrix(m_Matrix);
-	m_EnemyLightArmCollider->SetColliderInfo(m_EnemyLightArmCollider->GetMatrix(),true);
-	m_EnemyLightArmCollider->SetBoneMatrix(animationmodel->ConvertMatrix(bone->WorldMatrix));
+	
+	
 
 
 
@@ -261,16 +252,16 @@ void Enemy::Update()
 		}
 
 		D3DXVECTOR3 ExplosionPosition = m_Position;
-		if (player->GetPlayerHitEnemy() && player->GetPlayerAttack() && player->GetPlayerAttackNumber() == 3)
+		if (sword->GetSwordHit() && player->GetPlayerAttack() && player->GetPlayerAttackNumber() == 3)
 		{
 			m_lastattackhit = true;
 		}
-		else if (player->GetPlayerHitEnemy() && player->GetPlayerAttack() && player->GetPlayerAttackNumber() != 3)
+		else if (sword->GetSwordHit() && player->GetPlayerAttack() && player->GetPlayerAttackNumber() != 3)
 		{
-			BladeEffect1* bladeeffect1 = scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
-			bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
-			bladeeffect1->SetPosition(ExplosionPosition += D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-			m_HP -= 10;
+			//BladeEffect1* bladeeffect1 = scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
+			//bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
+			//bladeeffect1->SetPosition(ExplosionPosition += D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+			//m_HP -= 10;
 			hitcout += 1;
 		}
 
@@ -279,18 +270,18 @@ void Enemy::Update()
 			m_lastattackcout++;
 		}
 
-		if (m_lastattackcout >= 50)
+		if (m_lastattackcout >= 20)
 		{
-			BladeEffect2* bladeeffect2 = scene->AddGameObject<BladeEffect2>(EFFECT_LAYER);
-			bladeeffect2->SetScale(D3DXVECTOR3(8.0f, 8.0f, 8.0f));
-			bladeeffect2->SetPosition(ExplosionPosition += D3DXVECTOR3(0.0f, 1.0f, 0.0f));
-			m_HP -= 10;
+			//BladeEffect2* bladeeffect2 = scene->AddGameObject<BladeEffect2>(EFFECT_LAYER);
+			//bladeeffect2->SetScale(D3DXVECTOR3(8.0f, 8.0f, 8.0f));
+			//bladeeffect2->SetPosition(ExplosionPosition += D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+			//m_HP -= 10;
 			hitcout += 1;
 			m_lastattackcout = 0;
 			m_lastattackhit = false;
 		}
 
-		if (m_EnemyAttackHit)
+		if (sword->GetSwordHit())
 		{
 			m_InviciblilityStartFlag = true;
 		}
@@ -313,8 +304,6 @@ void Enemy::Update()
 	
 	//死亡系の処理
 	{
-		
-
 		if (m_HP <= 0)
 		{
 			m_dead = true;
@@ -328,7 +317,7 @@ void Enemy::Update()
 	//GUIにパラメータ表示
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
-	ImGui::InputFloat3("ArmPos", m_EnemyLightArmCollider->GetColliderPosition());
+	//ImGui::InputFloat3("ArmPos", m_EnemyLightArmCollider->GetColliderPosition());
 	/*ImGui::InputFloat("Thredhold", &m_Threshold);
 	ImGui::InputFloat3("Position", m_Position);
 	ImGui::InputFloat3("BPosition", m_BonePos);

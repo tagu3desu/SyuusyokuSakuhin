@@ -1,7 +1,10 @@
 
 #include "main.h"
+#include"renderer.h"
+#include"manager.h"
+#include"scene.h"
 #include "audio.h"
-
+#include"titletexturemanager.h"
 
 
 
@@ -20,6 +23,8 @@ void Audio::InitMaster()
 
 	// マスタリングボイス生成
 	m_Xaudio->CreateMasteringVoice(&m_MasteringVoice);
+
+	
 }
 
 
@@ -40,7 +45,7 @@ void Audio::UninitMaster()
 
 void Audio::Load(const char *FileName)
 {
-
+	
 	// サウンドデータ読込
 	WAVEFORMATEX wfx = { 0 };
 
@@ -109,6 +114,12 @@ void Audio::Uninit()
 	delete[] m_SoundData;
 }
 
+void Audio::Update()
+{
+	scene = Manager::GetScene();
+	TitleTexture* titletexture = scene->GetGameObject<TitleTexture>();
+}
+
 void Audio::Volume(float vol)
 {
 	m_SourceVoice->SetVolume(vol);
@@ -116,8 +127,11 @@ void Audio::Volume(float vol)
 
 
 
-void Audio::Play(bool Loop)
+void Audio::PlayBGM(bool Loop)
 {
+	scene = Manager::GetScene();
+	TitleTexture * titletexture = scene->GetGameObject<TitleTexture>();
+
 	m_SourceVoice->Stop();
 	m_SourceVoice->FlushSourceBuffers();
 
@@ -141,17 +155,69 @@ void Audio::Play(bool Loop)
 
 	m_SourceVoice->SubmitSourceBuffer(&bufinfo, NULL);
 
-/*
-	float outputMatrix[4] = { 0.0f , 0.0f, 1.0f , 0.0f };
-	m_SourceVoice->SetOutputMatrix(m_MasteringVoice, 2, 2, outputMatrix);
+	//Volume(titletexture->GetBGMVolume());
+
+	//m_SourceVoice->SetVolume(titletexture->GetBGMVolume());
+
+	/*m_BGMVolume = titletexture->GetBGMVolume();
+	
+	m_SourceVoice->SetVolume(m_MasterVolume*m_BGMVolume);*/
+
+	//float outputMatrix[4] = { 0.0f , 0.0f, 1.0f , 0.0f };
+	//m_SourceVoice->SetOutputMatrix(m_MasteringVoice, 2, 2, outputMatrix);
 	//m_SourceVoice->SetVolume(0.1f);
-*/
+
 
 
 	// 再生
 	m_SourceVoice->Start();
 
 }
+
+
+void Audio::PlaySE()
+{
+	scene = Manager::GetScene();
+	TitleTexture* titletexture = scene->GetGameObject<TitleTexture>();
+
+	m_SourceVoice->Stop();
+	m_SourceVoice->FlushSourceBuffers();
+
+
+	// バッファ設定
+	XAUDIO2_BUFFER bufinfo;
+
+	memset(&bufinfo, 0x00, sizeof(bufinfo));
+	bufinfo.AudioBytes = m_Length;
+	bufinfo.pAudioData = m_SoundData;
+	bufinfo.PlayBegin = 0;
+	bufinfo.PlayLength = m_PlayLength;
+
+	//// ループ設定
+	//if (Loop)
+	//{
+	//	bufinfo.LoopBegin = 0;
+	//	bufinfo.LoopLength = m_PlayLength;
+	//	bufinfo.LoopCount = XAUDIO2_LOOP_INFINITE;
+	//}
+
+	m_SourceVoice->SubmitSourceBuffer(&bufinfo, NULL);
+
+	/*m_SEVolume = titletexture->GetSEVolume();
+
+	m_SourceVoice->SetVolume(m_MasterVolume * m_SEVolume);*/
+
+	//float outputMatrix[4] = { 0.0f , 0.0f, 1.0f , 0.0f };
+	//m_SourceVoice->SetOutputMatrix(m_MasteringVoice, 2, 2, outputMatrix);
+	//m_SourceVoice->SetVolume(0.1f);
+
+
+
+	// 再生
+	m_SourceVoice->Start();
+
+}
+
 
 void Audio::Stop()
 {

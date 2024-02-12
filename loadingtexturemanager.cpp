@@ -13,6 +13,8 @@ TextureLoad* texture_I = new TextureLoad;
 TextureLoad* texture_N2 = new TextureLoad;
 TextureLoad* texture_G = new TextureLoad;
 
+TextureLoad* texture_Load = new TextureLoad;
+
 void LoadingTexture::Init()
 {
 	texture_N->Init("asset/texture/LoadTexture/N.png");	
@@ -24,6 +26,9 @@ void LoadingTexture::Init()
 	texture_I->Init("asset/texture/LoadTexture/I.png");
 	texture_N2->Init("asset/texture/LoadTexture/N.png");
 	texture_G->Init("asset/texture/LoadTexture/G.png");
+
+	texture_Load->Init("asset/texture/LoadTexture/loadUI.png");
+	texture_Load->SetTextureScale(1000.0f, 200.0f);
 }
 
 void LoadingTexture::Uninit()
@@ -38,11 +43,21 @@ void LoadingTexture::Uninit()
 	delete texture_N2;
 	delete texture_G;
 
+	delete texture_Load;
 }
 
 void LoadingTexture::Update()
 {
-
+	
+	texture_N->TextureFlashing(90);
+	texture_O->TextureFlashing(90);
+	texture_W->TextureFlashing(90);
+	texture_L->TextureFlashing(90);
+	texture_O2->TextureFlashing(90);
+	texture_D->TextureFlashing(90);
+	texture_I->TextureFlashing(90);
+	texture_N2->TextureFlashing(90);
+	texture_G->TextureFlashing(90);
 }
 
 void LoadingTexture::Draw()
@@ -56,4 +71,6 @@ void LoadingTexture::Draw()
 	texture_I->Draw(750, 400);
 	texture_N2->Draw(800, 400);
 	texture_G->Draw(850, 400);
+
+	texture_Load->Draw(250,200);
 }

@@ -21,10 +21,16 @@ private:
 	int m_framecount;
 
 	
+
 protected:
 	std::list<GameObject*> m_GameObject[MAX_LAYER];	//レイヤー有のSTLのリスト構造
-public:
+
 	
+public:
+	static float m_BGMVolume;
+	static float m_SEVolume;
+	
+
 	 virtual void Init() {}
 	 virtual void Uninit()
 	 {

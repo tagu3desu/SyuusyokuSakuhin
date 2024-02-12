@@ -27,6 +27,11 @@
 #include"title.h"
 #include"game.h"
 #include"rock.h"
+#include"titletexturemanager.h"
+
+
+
+
 void Player::Init()
 {
 
@@ -258,15 +263,7 @@ void Player::Update()
 		
 	
 
-		/*if (boxhitflag || rockhitflag || enemyhitflag)
-		{
-			m_PlayerCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-		}
-		else if (!boxhitflag && !rockhitflag && !enemyhitflag)
-		{
-			m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-		}*/
-
+	
 
 
 		//‰~’Œ
@@ -551,7 +548,7 @@ void Player::UpdateGround()
 	
 	Scene* scene = Manager::GetScene();
 	Enemy* enemy = scene->GetGameObject<Enemy>();
-	
+
 
 	//•Ší‚ÌŽæ‚èo‚µ
 	if (Input::GetKeyTrigger('Y')/*(VK_LBUTTON)*/ && !m_sworddrawn)
@@ -562,8 +559,8 @@ void Player::UpdateGround()
 				m_Time = 0.0f;
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "onSword";
-				m_OnWeponSE->Volume(0.01f);
-				m_OnWeponSE->Play();
+				m_OnWeponSE->Volume(Scene::m_SEVolume * 0.2);
+				m_OnWeponSE->PlaySE();
 				m_BlendTime = 0.0f;
 			}
 			m_onSword = true;
@@ -580,8 +577,8 @@ void Player::UpdateGround()
 				m_Time = 0.0f;
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "offSword";
-				m_OffWeponSE->Volume(0.01f);
-				m_OffWeponSE->Play();
+				m_OffWeponSE->Volume(Scene::m_SEVolume * 0.2);
+				m_OffWeponSE->PlaySE();
 				m_BlendTime = 0.0f;
 			}
 			m_offSword = true;
@@ -1012,8 +1009,8 @@ void Player::UpdateGround()
 			m_comboCount = 1;
 			m_move = true;		
 			m_idle = false;
-			m_AttackSE->Volume(0.1f);
-			m_AttackSE->Play();
+			//m_AttackSE->Volume(0.1f);
+			//m_AttackSE->Play();
 			m_PlayerState = PLAYER_STATE_ATTACK;
 		}
 
@@ -1152,8 +1149,8 @@ void Player::UpdateAttack()
 					m_attack = true;
 					m_comboCount = 2;
 					m_AnimationDelay = 0;
-					m_AttackSE->Volume(0.1f);
-					m_AttackSE->Play();
+					//m_AttackSE->Volume(0.1f);
+					//m_AttackSE->Play();
 					m_move = true;
 				}
 				m_PlayerState = PLAYER_STATE_ATTACK2;
@@ -1192,8 +1189,8 @@ void Player::UpdateAttack2()
 					m_NextAnimationName = "SlashAttack3";
 					m_attack = true;
 					m_comboCount = 3;
-					m_AttackSE->Volume(0.1f);
-					m_AttackSE->Play();
+					//m_AttackSE->Volume(0.1f);
+					//m_AttackSE->Play();
 					m_move = true;
 
 					

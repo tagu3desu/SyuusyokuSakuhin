@@ -32,6 +32,9 @@
 #include"treeobj.h"
 #include"titletexturemanager.h"
 #include"rock.h"
+
+#include"audio.h"
+
 bool Title::m_TitleCheck = false;
 bool Title::menucontrol = false;
 
@@ -53,13 +56,13 @@ void Title::Init()
 	skydome->SetScale(D3DXVECTOR3(300.0f, 300.0f, 300.0f));
 
 	Field* meshfield = AddGameObject<Field>();
-	
+
 	Player* player = AddGameObject<Player>();
 	player->SetRotation(D3DXVECTOR3(0.0f, -2.4f, 0.0f));
 	AddGameObject<Sword>();
 	AddGameObject<Shield>();
 
-	Wood* wood =AddGameObject<Wood>();
+	Wood* wood = AddGameObject<Wood>();
 	wood->SetPosition(D3DXVECTOR3(-0.3f, 0.3f, 0.0f));
 	wood->SetRotation(D3DXVECTOR3(0.0f, -0.9f, 0.0f));
 
@@ -68,18 +71,26 @@ void Title::Init()
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 	buttonOverLapping = false;
 	int num = 0;
-}
 
+	m_TitleBGM = AddGameObject<GameObject>()->AddComponent<Audio>();
+	m_TitleBGM->Load("asset\\audio\\BGM\\メインタイトル.wav");
+	m_TitleBGM->PlayBGM(true);
+
+	m_DecisiveSE = AddGameObject<GameObject>()->AddComponent<Audio>();
+	m_DecisiveSE->Load("asset\\audio\\SE\\決定音.wav");
+}
 
 void Title::Update()
 {
 	Scene::Update();
 	
-	
+	m_TitleBGM->Volume(titletexture->GetBGMVolume());
+
 
 	//キー入力でゲーム画面に遷移
 	if (Input::GetKeyTrigger(VK_SPACE)  && menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && titletexture->GetGameButtonOverLap() && menucontrol) //Enterキー
 	{
+		menucontrol = false;
 		m_Fade->FadeOut();
 	} 
 	if (m_Fade->GetFadeFinish())
@@ -92,6 +103,8 @@ void Title::Update()
 	//最初の画面から選択画面へ
 	if (Input::GetKeyTrigger(VK_SPACE) && !menucontrol || Input::GetKeyTrigger(VK_LBUTTON) && !menucontrol )
 	{
+		m_DecisiveSE->PlaySE();
+		m_DecisiveSE->Volume(titletexture->GetSEVolume());
 		menucontrol = true;
 	}
 

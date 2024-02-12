@@ -28,6 +28,8 @@ public:
 	D3DXVECTOR3 GetBottomVertexPostion() { return m_BottomVertex; }
 	D3DXMATRIX GetChild() { return m_ChildMatrix;}
 
+	bool GetSwordHit() { return m_swordhit; }
+
 	void Init();
 	void Uninit();
 	void Update();

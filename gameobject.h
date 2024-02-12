@@ -39,6 +39,11 @@ protected:
 	D3DXVECTOR3 m_ColiiderUp{};
 
 	bool m_BoneEnable{};
+
+	int m_InvincibilityTime = 0;
+	bool m_InvincibilityFlag = false;
+	bool m_InviciblilityStartFlag = false;
+
 public:
 	bool GetReflectEnable() { return m_ReflectEnable; }
 	bool GetDepthEnable() { return m_DepthEnable; }
@@ -58,6 +63,8 @@ public:
 
 	GameObject* ParentMatrix;
 	D3DXMATRIX GetMatrix() { return m_Matrix; }
+
+
 
 	bool Destroy()
 	{

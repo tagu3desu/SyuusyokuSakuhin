@@ -111,10 +111,12 @@ private:
 	float groundHeight = 0.0f;
 
 	//“–‚½‚è”»’è—p
-	int m_InvincibilityTime = 0;
+
+
 	bool m_PlayerHitEnemy = false;
-	bool m_InvincibilityFlag = false;
-	bool m_InviciblilityStartFlag = false;
+	
+
+
 	bool m_Rockhit = false;
 	int hitcount = 0;
 
