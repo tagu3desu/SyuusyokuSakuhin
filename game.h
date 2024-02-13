@@ -16,6 +16,8 @@ private:
 	float y = -1.0f;
 	float z = 1.0f;
 	float a = 0.0f;
+
+	class Scene* scene{};
 public:
 	static void Load();
 	static void Unload();

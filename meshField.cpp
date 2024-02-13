@@ -43,6 +43,9 @@ void MeshField::Init()
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowNormalMappingVS.cso");
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowNormalMappingPS.cso");
+
+	//Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowMappingVS.cso");
+	//Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowMappingPS.cso");
 }
 
 void MeshField::Load()
@@ -144,7 +147,7 @@ void MeshField::Load()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/NormalMapGrass.png",
+		"asset/texture/NormalMapGrass2.png",
 		NULL,
 		NULL,
 		&m_NormalTexture,

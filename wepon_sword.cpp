@@ -24,6 +24,7 @@ void Sword::Init()
 
 	
 	m_DepthEnable = true;
+	m_ReflectEnable = true;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\unlitTextureVS.cso");

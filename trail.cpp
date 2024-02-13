@@ -49,7 +49,7 @@ void Trail::Init()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/redtrail.png",
+		"asset/texture/skybruetrail.png",
 		NULL,
 		NULL,
 		&m_Texture,

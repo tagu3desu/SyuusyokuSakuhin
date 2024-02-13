@@ -574,6 +574,12 @@
     <FxCompile Include="shader\DepthShadowNormalMappingVS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
+    <FxCompile Include="shader\sasakiPS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\sasakiVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\imgui.ini">

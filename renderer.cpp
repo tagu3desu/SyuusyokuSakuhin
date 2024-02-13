@@ -210,7 +210,7 @@ void Renderer::Init()
 	// サンプラーステート設定
 	D3D11_SAMPLER_DESC samplerDesc{};
 	ZeroMemory(&samplerDesc, sizeof(samplerDesc));//shader
-	samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -431,6 +431,30 @@ void Renderer::Uninit()
 
 void Renderer::Begin()
 {
+	
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::SetNextWindowPos(ImVec2(100, 100));
+	ImGui::SetNextWindowSize(ImVec2(400,100));
+	ImGui::Begin("Renderer");
+	ImGui::Text("%.3f  ms/frame(%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	
+	static float value[180];
+	for (int i = 0; i < 179; i++)
+		value[i] = value[i + 1];
+
+	//value[179] = 1000.0f / ImGui::GetIO().Framerate;
+	value[179] = ImGui::GetIO().DeltaTime *1000.0f;
+
+
+	//第2引数は表示したいデータ,第3引数は要素数
+	ImGui::PlotLines("", value, sizeof(value) / sizeof(float), 0, NULL, 0.0f, 100.0f, ImVec2(0, 50));
+
+	ImGui::End();
+
+
 	//SPデフォルトのバックバッファと深度バッファにレンダリングターゲットを設定する
 	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
 

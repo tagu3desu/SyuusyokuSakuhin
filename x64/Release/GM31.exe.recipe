@@ -2,81 +2,87 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\x64\Release\GM31.exe</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Release\GM31.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\collidervertexLightingPS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\collidervertexLightingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\DepthShadowMappingPS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\DepthShadowMappingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\DepthShadowMappingVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\DepthShadowMappingVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\DepthShadowNormalMappingPS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\DepthShadowNormalMappingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\DepthShadowNormalMappingVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\DepthShadowNormalMappingVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\envMappingPS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\envMappingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\envMappingVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\envMappingVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\FogPS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\FogPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\FogVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\FogVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\gaugePS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\gaugePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\gaugeVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\gaugeVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\pixelLightingPS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\pixelLightingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\pixelLightingRimPS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\pixelLightingRimPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\pixelLightingRimVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\pixelLightingRimVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\pixelLightingVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\pixelLightingVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\staminagaugePS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\sasakiPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\staminagaugeVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\sasakiVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\unlitTexturePS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\staminagaugePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\unlitTexturePS2.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\staminagaugeVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\unlitTextureVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\unlitTexturePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\unlitTextureVS2.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\unlitTexturePS2.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\vertexLightingPS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\unlitTextureVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\vertexLightingVS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\unlitTextureVS2.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\dissolvePS.cso</FullPath>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\vertexLightingPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\vertexLightingVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\kousu\OneDrive\デスクトップ\就職作品\shader\dissolvePS.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

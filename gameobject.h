@@ -246,7 +246,10 @@ public:
 			Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &m_DisolveTexture);
 		}
 		
-		
+		if(m_ReflectEnable)
+		{
+			Renderer::GetDeviceContext()->PSSetShaderResources(2, 1, Renderer::GetCubeReflectShaderResourceView());
+		}
 
 		for (Component* component : m_Component)
 		{

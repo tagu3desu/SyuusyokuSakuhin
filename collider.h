@@ -30,7 +30,8 @@ private:
 	
 	Tag m_Tag = BGOBJ_TAG;
 
-
+	float m_MinDirection{};
+	
 public:
 	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix) {
 		D3DXVECTOR3 pos;
@@ -96,6 +97,20 @@ public:
 	void SetTag(Tag tag) { m_Tag = tag;}
 	Tag GetTag() { return m_Tag; }
 
+
+	float Comparison(float a1, float a2)
+	{
+		if (a1 > a2)
+		{
+			m_MinDirection = a2;
+		}
+		else
+		{
+			m_MinDirection = a1;
+		}
+
+		return m_MinDirection;
+	}
 
 	bool CollisionChecker(GameObject* obb1, GameObject* obb2 , float offsetscale);
 	float LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECTOR3* e2, D3DXVECTOR3* e3);

@@ -68,7 +68,7 @@ void Player::Init()
 
 	//タイトル用のモーション
 	m_Model->LoadAnimation("asset\\model\\Sitting.fbx", "TitleIdle");
-	m_Model->LoadAnimation("asset\\model\\Sit To Stand.fbx", "TitleStart");
+	//m_Model->LoadAnimation("asset\\model\\Sit To Stand.fbx", "TitleStart");
 
 
 	m_AnimationName = "Idle";
@@ -80,7 +80,7 @@ void Player::Init()
 	m_speed = 0.1f;
 
 	m_DepthEnable = true;
-	m_ReflectEnable = true;
+	
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\DepthShadowMappingVS.cso");
@@ -189,35 +189,7 @@ void Player::Update()
 		ImGui::End();
 
 
-		switch (m_PlayerState)
-		{
-		case PLAYER_STATE_GROUND:
-			UpdateGround();
-			break;
-		case PLAYER_STATE_ATTACK:
-			UpdateAttack();
-			break;
-		case PLAYER_STATE_ATTACK2:
-			UpdateAttack2();
-			break;
-		case PLAYER_STATE_ATTACK3:
-			UpdateAttack3();
-			break;
-		case PLAYER_STATE_ROLL:
-			UpdateRoll();
-			break;
-		case PLAYER_STATE_DEAD:
-			UpdateDead();
-			break;
-		case PLAYER_STATE_GUARD:
-			UpdateGuard();
-			break;
-		case PLAYER_STATE_TITLEIDLE:
-			UpdateTitleIdle();
-			break;
-		default:
-			break;
-		}
+		
 
 
 		if (m_SuccessGuard)
@@ -239,7 +211,14 @@ void Player::Update()
 		{
 			for (Box* box : boxes)
 			{
-				boxhitflag = m_PlayerCollider->CollisionChecker(this, box, 0.7f);
+				if (m_PlayerCollider->CollisionChecker(this, box, 0.7f))
+				{
+					m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+				}
+				else
+				{
+					m_PlayerCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+				}
 			}
 		}
 
@@ -385,7 +364,35 @@ void Player::Update()
 		}
 	}
 	
-
+	switch (m_PlayerState)
+	{
+	case PLAYER_STATE_GROUND:
+		UpdateGround();
+		break;
+	case PLAYER_STATE_ATTACK:
+		UpdateAttack();
+		break;
+	case PLAYER_STATE_ATTACK2:
+		UpdateAttack2();
+		break;
+	case PLAYER_STATE_ATTACK3:
+		UpdateAttack3();
+		break;
+	case PLAYER_STATE_ROLL:
+		UpdateRoll();
+		break;
+	case PLAYER_STATE_DEAD:
+		UpdateDead();
+		break;
+	case PLAYER_STATE_GUARD:
+		UpdateGuard();
+		break;
+	case PLAYER_STATE_TITLEIDLE:
+		UpdateTitleIdle();
+		break;
+	default:
+		break;
+	}
 
 	if (Title::GetCheckTitle())
 	{
@@ -1315,7 +1322,6 @@ void Player::UpdateTitleIdle()
 	{
 		m_AnimationName = m_NextAnimationName;
 		m_NextAnimationName = "TitleIdle";
-		m_comboCount = 0;
 		m_BlendTime = 0.0f;
 	}
 }
