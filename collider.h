@@ -33,6 +33,7 @@ private:
 	float m_MinDirection{};
 	
 public:
+	
 	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix) {
 		D3DXVECTOR3 pos;
 		pos.x = matrix._41;
@@ -93,6 +94,7 @@ public:
 	void SetMatrix(D3DXMATRIX matrix) { m_Parent = matrix; }
 	void SetBoneMatrix(D3DXMATRIX bonematrix) { m_BoneMatrix = bonematrix;}
 	void SetColliderColor(D3DXCOLOR color) { m_ColliderColor = color; }
+	float GetMinDirection() { return m_MinDirection; }
 
 	void SetTag(Tag tag) { m_Tag = tag;}
 	Tag GetTag() { return m_Tag; }
@@ -100,16 +102,17 @@ public:
 
 	float Comparison(float a1, float a2)
 	{
+		float a3;
 		if (a1 > a2)
 		{
-			m_MinDirection = a2;
+			a3 = a2;
 		}
 		else
 		{
-			m_MinDirection = a1;
+			a3 = a1;
 		}
 
-		return m_MinDirection;
+		return a3;
 	}
 
 	bool CollisionChecker(GameObject* obb1, GameObject* obb2 , float offsetscale);

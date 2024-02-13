@@ -113,7 +113,7 @@ public:
 
 	static class AnimationModel* m_Model;
 
-	
+	bool GetDead() { return m_dead;}
 
 	void Init();
 	void Uninit();

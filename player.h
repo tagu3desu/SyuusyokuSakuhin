@@ -132,6 +132,8 @@ private:
 	class AnimationModel* m_Model{};
 
 	class Title* title;
+
+	float pa{};
 public:
 
 

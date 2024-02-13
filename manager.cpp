@@ -83,7 +83,23 @@ void Manager::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	ImGui::SetNextWindowPos(ImVec2(100, 100));
+	ImGui::SetNextWindowSize(ImVec2(400,100));
+	ImGui::Begin("Renderer");
+	ImGui::Text("%.3f  ms/frame(%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	
+	static float value[180];
+	for (int i = 0; i < 179; i++)
+		value[i] = value[i + 1];
 
+	//value[179] = 1000.0f / ImGui::GetIO().Framerate;
+	value[179] = ImGui::GetIO().DeltaTime *1000.0f;
+
+
+	//第2引数は表示したいデータ,第3引数は要素数
+	ImGui::PlotLines("", value, sizeof(value) / sizeof(float), 0, NULL, 0.0f, 100.0f, ImVec2(0, 50));
+
+	ImGui::End();
 
 	m_Scene->Update();
 	

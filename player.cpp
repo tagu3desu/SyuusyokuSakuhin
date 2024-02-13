@@ -181,13 +181,7 @@ void Player::Update()
 
 		m_HP = hpgage->GetHp();
 
-		//GUIにパラメータ表示
-		ImGui::SetNextWindowSize(ImVec2(300, 250));
-		ImGui::Begin("Player");
-		ImGui::Checkbox("hit", &rockhitflag);
-		ImGui::Checkbox("hit", &boxhitflag);
-		ImGui::End();
-
+		
 
 		
 
@@ -226,6 +220,14 @@ void Player::Update()
 		{
 			enemyhitflag = m_PlayerCollider->CollisionChecker(this, enemy, 1.5f);
 		}
+		pa = m_PlayerCollider->GetMinDirection();
+
+		//GUIにパラメータ表示
+		ImGui::SetNextWindowSize(ImVec2(300, 250));
+		ImGui::Begin("Player");
+		ImGui::InputFloat("Direction", &pa);
+		ImGui::End();
+
 
 
 		m_potioncount = potioncount->GetCount();

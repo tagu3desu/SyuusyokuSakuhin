@@ -46,7 +46,7 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	groundHeight = 0.0f;
 	m_speed = 0.0f;
-	m_HP = 1000 ;
+	m_HP = 100 ;
 
 	m_Threshold = 0;
 	m_dissolveEnable = true;

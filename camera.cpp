@@ -6,6 +6,7 @@
 #include"scene.h"
 #include"input.h"
 #include"title.h"
+#include"enemy.h"
 void Camera::Init()
 {	
 	
@@ -21,7 +22,7 @@ void Camera::Update()
 {
 	Scene* scene = Manager::GetScene();
 	Player* player = scene->GetGameObject<Player>();
-
+	Enemy* enemy = scene->GetGameObject<Enemy>();
 	
 
 
@@ -124,6 +125,7 @@ void Camera::Update()
 	//トップビュー	
 	if (!Title::GetCheckTitle())
 	{
+		
 		m_Target = player->GetPosition();
 		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY, -cos(m_RotationX) * 8.0f);
 	}

@@ -188,10 +188,7 @@ void Game::Update()
 	
 	
 	
-
-	
-
-	if (player->GetOverFlag())
+	if (Input::GetKeyTrigger('0'))
 	{
 		m_Fade->FadeOut();
 	}
@@ -199,6 +196,16 @@ void Game::Update()
 	{
 		Manager::SetScene<Result>();
 	}
+	
+
+	/*if (player->GetOverFlag())
+	{
+		m_Fade->FadeOut();
+	}
+	if (m_Fade->GetFadeFinish())
+	{
+		Manager::SetScene<Result>();
+	}*/
 
 	
 }
