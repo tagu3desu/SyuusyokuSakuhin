@@ -47,8 +47,10 @@
 #include"gametexturemanager.h"
 #include"collider.h"
 #include"campField.h"
-
 #include"rockeffect.h"
+#include"basecamptent.h"
+#include"treasurebox.h"
+#include"areachangecollider.h"
 
 Torus* torus;
 Player* player;
@@ -70,6 +72,9 @@ void Game::Load()
 	BaseCamp::Load();
 	Box::Load();
 	RockEffect::Load();
+	BaceCampTent::Load();
+	TreasureBox::Load();
+	AreaChange::Load();
 	m_LoadFinish = true;
 }
 
@@ -90,6 +95,9 @@ void Game::Unload()
 	BaseCamp::Unload();
 	Box::Unload();
 	RockEffect::Unload();
+	BaceCampTent::Unload();
+	TreasureBox::Unload();
+	AreaChange::Unload();
 }
 
 void Game::Init()
@@ -105,13 +113,15 @@ void Game::Init()
 	//フィールド関連
 	//Field* field = AddGameObject<Field>();
 	MeshField*  meshfield = AddGameObject<MeshField>();
+	//meshfield->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 400.0f));
 	meshfield->SetMapActive(true);
 
-	//BaseCamp* campfield = AddGameObject<BaseCamp>();
-	//campfield->SetMapActive(true);
+	BaseCamp* basecamp = AddGameObject<BaseCamp>();
+	basecamp->SetMapActive(false);
 
 	player =  AddGameObject<Player>();
 	player->SetPosition(D3DXVECTOR3(-1,0,-4));
+	//player->SetPosition(D3DXVECTOR3(-1, 0, 400));
 
 	//Gun* gun = AddGameObject<Gun>();
 	Sword*sword =AddGameObject<Sword>();
@@ -125,8 +135,15 @@ void Game::Init()
 	Box* box = AddGameObject<Box>();
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
 
+	
 
-
+	if (basecamp->GetMapActive())
+	{
+		AddGameObject<AreaChange>()->SetPosition(D3DXVECTOR3(-1.0f, 6.0f, 43.0f));
+		AddGameObject<BaceCampTent>();
+		AddGameObject<TreasureBox>();
+	}
+	
 
 	AddGameObject<Trail>();
 
@@ -158,7 +175,7 @@ void Game::Init()
 
 
 	//////////岩
-	for (int i = 0; i < 20; i++)
+	/*for (int i = 0; i < 20; i++)
 	{
 		auto rock = AddGameObject<Rock>();
 
@@ -172,7 +189,7 @@ void Game::Init()
 		D3DXVECTOR3 scl;
 		scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
 		rock->SetScale(scl);
-	}
+	}*/
 	
 	
 }
@@ -188,7 +205,7 @@ void Game::Update()
 	
 	
 	
-	if (Input::GetKeyTrigger('0'))
+	if (Input::GetKeyTrigger('@'))
 	{
 		m_Fade->FadeOut();
 	}

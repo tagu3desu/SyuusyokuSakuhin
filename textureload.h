@@ -34,8 +34,10 @@ private:
 
 	int m_FlashInterval;
 
-	
+	class Audio* m_UiSe{};
 
+	float m_MoveHeight;
+	bool m_Up;
 public:
 	void Init(const char* TextureName);
 	void Uninit();
@@ -80,4 +82,7 @@ public:
 
 		SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, m_AlfaColor));
 	}
+
+
+	float UiMove(int heightlimit, GameObject* object1);
 };

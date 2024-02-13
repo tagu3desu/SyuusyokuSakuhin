@@ -1,7 +1,9 @@
 
 #include "main.h"
+#include"manager.h"
 #include "renderer.h"
 #include "meshField.h"
+#include"campField.h"
 
 ID3D11Buffer* MeshField::m_VertexBuffer{};
 ID3D11Buffer* MeshField::m_IndexBuffer{};
@@ -160,6 +162,7 @@ void MeshField::Unload()
 	m_VertexBuffer->Release();
 	m_IndexBuffer->Release();
 	m_Texture->Release();
+	m_NormalTexture->Release();
 }
 
 void MeshField::Uninit()
@@ -177,6 +180,8 @@ void MeshField::Update()
 
 void MeshField::Draw()
 {
+	
+
 	GameObject::Draw();
 
 	// 入力レイアウト設定
@@ -219,8 +224,12 @@ void MeshField::Draw()
 	// プリミティブトポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
 
-	// ポリゴン描画
-	Renderer::GetDeviceContext()->DrawIndexed((22 * 2) * 20 - 2, 0, 0);
+	if (GetMapActive())
+	{
+		// ポリゴン描画
+		Renderer::GetDeviceContext()->DrawIndexed((22 * 2) * 20 - 2, 0, 0);
+	}
+	
 
 }
 

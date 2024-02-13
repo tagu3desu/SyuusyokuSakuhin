@@ -10,7 +10,9 @@ class BaseCamp : public GameObject
 private:
 	static ID3D11Buffer*				m_VertexBuffer;
 	static ID3D11Buffer*				m_IndexBuffer;
+
 	static ID3D11ShaderResourceView*	m_Texture;
+	
 
 	static VERTEX_3D					m_BaseCampVertex[21][21];
 
@@ -18,6 +20,8 @@ private:
 	ID3D11PixelShader*			m_PixelShader{};
 	ID3D11InputLayout*			m_VertexLayout{};
 	
+	class Scene* scene{};
+
 	bool m_BattleMapFlag = false;
 public:
 	static void Load();

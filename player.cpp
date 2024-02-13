@@ -404,7 +404,7 @@ void Player::Update()
 
 
 	//メッシュフィールドとの衝突判定
-	groundHeight = 0.0f;
+	//groundHeight = 0.0f;
 	MeshField* meshField = scene->GetGameObject<MeshField>();
 	BaseCamp* campField = scene->GetGameObject<BaseCamp>();
 	

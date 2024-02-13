@@ -105,7 +105,7 @@ private:
 	class Collider* m_EnemyCollider{};
 	class Collider* m_EnemyLightArmCollider{};
 
-	bool m_EnemyAI = true;
+	bool m_EnemyAI = false;
 	
 public:
 	static void Load();

@@ -2,7 +2,8 @@
 #include"renderer.h"
 #include "sprite.h"
 #include"textureload.h"
-
+#include"audio.h"
+#include"scene.h"
 void TextureLoad::Init(const char* TextureName)
 {
 	VERTEX_3D vertex[4];
@@ -55,6 +56,9 @@ void TextureLoad::Init(const char* TextureName)
 
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\unlitTexturePS.cso");
+
+	m_UiSe = AddComponent<Audio>();
+	m_UiSe->Load("asset\\audio\\SE\\カーソル移動8.wav");
 
 	GameObject::Init();
 }
@@ -145,6 +149,42 @@ void TextureLoad::Draw(float m_x, float m_y)
 	Renderer::GetDeviceContext()->Draw(4, 0);
 
 	GameObject::Draw();
+}
+
+//死んだときなどのテクスチャ上げ下げ用
+float TextureLoad::UiMove(int heightlimit, GameObject* object1)
+{
+	
+	
+	if (m_MoveHeight <= heightlimit && !m_Up)
+	{
+		m_MoveHeight += 5.0f;
+	}
+
+
+	if (heightlimit <= m_MoveHeight && !m_Up)
+	{	
+		m_UiSe->Volume(Scene::m_SEVolume * 0.5);
+		m_UiSe->PlaySE();
+		m_Up = true;
+	}
+
+	if (m_Up)
+	{
+		m_Framwait++;
+	}
+
+	if (90 <= m_Framwait)
+	{
+		m_MoveHeight += -8.0f;
+	}
+
+	if (m_MoveHeight < -50)
+	{
+		m_Framwait = 0;
+		object1->SetDestroy();
+	}
+	return m_MoveHeight;
 }
 
 

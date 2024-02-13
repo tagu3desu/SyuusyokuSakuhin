@@ -1,8 +1,2 @@
-﻿  player.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(480,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(480,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(486,16): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(494,16): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(524,43): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(542,44): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-  GM31.vcxproj -> C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Debug\GM31.exe
+﻿  textureload.cpp
+  GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Debug\GM31.exe

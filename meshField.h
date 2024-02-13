@@ -19,6 +19,8 @@ private:
 	ID3D11InputLayout*			m_VertexLayout{};
 	
 	bool m_BattleMapFlag = false;
+
+	class Scene* scene{};
 public:
 	static void Load();
 	static void Unload();

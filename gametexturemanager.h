@@ -8,6 +8,10 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
+
+	float m_y;
+	bool up{};
+
 public:
 	void Init();
 	void Uninit();

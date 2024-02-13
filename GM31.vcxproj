@@ -157,7 +157,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="animationModel.cpp" />
+    <ClCompile Include="areachangecollider.cpp" />
     <ClCompile Include="audio.cpp" />
+    <ClCompile Include="basecamptent.cpp" />
     <ClCompile Include="bladeefect2.cpp" />
     <ClCompile Include="box.cpp" />
     <ClCompile Include="boxcollider.cpp" />
@@ -272,6 +274,7 @@
     <ClCompile Include="titletexturemanager.cpp" />
     <ClCompile Include="torus.cpp" />
     <ClCompile Include="trail.cpp" />
+    <ClCompile Include="treasurebox.cpp" />
     <ClCompile Include="treeobj.cpp" />
     <ClCompile Include="treetexture.cpp" />
     <ClCompile Include="watersurface.cpp">
@@ -287,7 +290,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animationModel.h" />
+    <ClInclude Include="areachangecollider.h" />
     <ClInclude Include="audio.h" />
+    <ClInclude Include="basecamptent.h" />
     <ClInclude Include="bladeefect2.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="boxcollider.h" />
@@ -387,6 +392,7 @@
     <ClInclude Include="titletexturemanager.h" />
     <ClInclude Include="torus.h" />
     <ClInclude Include="trail.h" />
+    <ClInclude Include="treasurebox.h" />
     <ClInclude Include="treeobj.h" />
     <ClInclude Include="treetexture.h" />
     <ClInclude Include="watersurface.h">
