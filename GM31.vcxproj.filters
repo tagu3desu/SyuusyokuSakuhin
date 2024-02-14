@@ -16,6 +16,66 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\プレイヤー関連">
+      <UniqueIdentifier>{a424a58b-957f-4dea-ba61-35dbd08c24cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\敵関連">
+      <UniqueIdentifier>{96deecd8-70af-46d4-b1bc-1eb304905bbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フィールドオブジェクト">
+      <UniqueIdentifier>{fed08818-1c7c-4484-965f-10be64e7fa8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\シーン">
+      <UniqueIdentifier>{ed667e87-d9d7-4615-8c0c-a78c3c10a9f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\テクスチャ">
+      <UniqueIdentifier>{64db39c9-00ee-4460-ae9b-3ceb11c32631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\テクスチャ\テクスチャ管理">
+      <UniqueIdentifier>{98fdc34c-6f1d-45c8-9a04-5c46527a30e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\カメラ">
+      <UniqueIdentifier>{da6b4d75-8a1c-436c-8206-f0df67b1073c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\テクスチャ\エフェクト">
+      <UniqueIdentifier>{8d1e1ccb-322d-4e6b-9ac9-19082a7898d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\テクスチャ\UI">
+      <UniqueIdentifier>{fff92287-9ae5-42cf-b4b1-5c6d92289170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\カメラ">
+      <UniqueIdentifier>{aaeb14fe-9e94-4a0e-b1da-5ca48b3c091f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\PS">
+      <UniqueIdentifier>{d4800d43-8544-477a-b9f6-c027e4bd0d53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\VS">
+      <UniqueIdentifier>{e350e6a4-4b17-409c-b862-5544dea81be7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\テクスチャ">
+      <UniqueIdentifier>{982ad5fd-81b3-4f90-9c84-a042ffaf67c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\テクスチャ\UI">
+      <UniqueIdentifier>{e450412a-6aba-4f50-8b6f-8d2c7578af86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\敵関連">
+      <UniqueIdentifier>{83a40b33-4980-4edd-8922-536368ff0644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\シーン">
+      <UniqueIdentifier>{e3721c64-0c14-4527-9af6-63c49c979172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\テクスチャ\エフェクト">
+      <UniqueIdentifier>{96e19cc8-b932-4f77-b448-f554ddc3f538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\フィールドオブジェクト">
+      <UniqueIdentifier>{b9c137c5-7c79-41bf-813d-5d485fbaceea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\テクスチャ\テクスチャ管理">
+      <UniqueIdentifier>{da15786a-d157-48e0-a1d2-6ff66c6c421f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\プレイヤ―関連">
+      <UniqueIdentifier>{12708ad4-b37d-4e42-8013-62a9734b088f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,82 +87,19 @@
     <ClCompile Include="renderer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="polygon2D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="field.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="model.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="sprite.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="bullet.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="bladeefect1.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="cylinder.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="box.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="title.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="result.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="titleLogo.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="score.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="audio.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="sky.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="fade.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="shadow.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="child.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="animationModel.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="meshField.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="rock.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="treetexture.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
@@ -126,136 +123,160 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="potion.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="playerHPGage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="collisionHit.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="button.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="titlebutton.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="spherecomponent.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="torus.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Loading.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadingLogo.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="spherecollider.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="hpgage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="watersurface.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="floar.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="door.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="doorframe.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="grass.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="staminagage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="bladeefect2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="potioncount.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="wepon_sword.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="swordtrail.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="wepon_gun.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="wepon_galbert.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="wepon_shield.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="result_gameover.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="treeobj.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="howleffect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="wepon_axe.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="collider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="titleplayer.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="wepon_shield.cpp">
+      <Filter>ソース ファイル\プレイヤー関連</Filter>
+    </ClCompile>
+    <ClCompile Include="wepon_sword.cpp">
+      <Filter>ソース ファイル\プレイヤー関連</Filter>
+    </ClCompile>
+    <ClCompile Include="wepon_gun.cpp">
+      <Filter>ソース ファイル\プレイヤー関連</Filter>
+    </ClCompile>
+    <ClCompile Include="wepon_galbert.cpp">
+      <Filter>ソース ファイル\プレイヤー関連</Filter>
+    </ClCompile>
+    <ClCompile Include="wepon_axe.cpp">
+      <Filter>ソース ファイル\プレイヤー関連</Filter>
     </ClCompile>
     <ClCompile Include="trail.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\プレイヤー関連</Filter>
     </ClCompile>
-    <ClCompile Include="textureload.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="bullet.cpp">
+      <Filter>ソース ファイル\敵関連</Filter>
     </ClCompile>
-    <ClCompile Include="loadingtexturemanager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="enemy.cpp">
+      <Filter>ソース ファイル\敵関連</Filter>
     </ClCompile>
-    <ClCompile Include="gametexturemanager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="campField.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="boxcollider.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="wood.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="titletexturemanager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="enemy2.cpp">
+      <Filter>ソース ファイル\敵関連</Filter>
     </ClCompile>
     <ClCompile Include="rockeffect.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\敵関連</Filter>
     </ClCompile>
     <ClCompile Include="basecamptent.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="sky.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
     <ClCompile Include="treasurebox.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="treeobj.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="treetexture.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="wood.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="watersurface.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="Loading.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="title.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="result_gameover.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\プレイヤー関連</Filter>
+    </ClCompile>
+    <ClCompile Include="box.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="door.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="doorframe.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="field.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="floar.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="grass.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
     <ClCompile Include="areachangecollider.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="meshField.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="bladeefect1.cpp">
+      <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="bladeefect2.cpp">
+      <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="howleffect.cpp">
+      <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="gametexturemanager.cpp">
+      <Filter>ソース ファイル\テクスチャ\テクスチャ管理</Filter>
+    </ClCompile>
+    <ClCompile Include="loadingtexturemanager.cpp">
+      <Filter>ソース ファイル\テクスチャ\テクスチャ管理</Filter>
+    </ClCompile>
+    <ClCompile Include="titletexturemanager.cpp">
+      <Filter>ソース ファイル\テクスチャ\テクスチャ管理</Filter>
+    </ClCompile>
+    <ClCompile Include="campField.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>ソース ファイル\カメラ</Filter>
+    </ClCompile>
+    <ClCompile Include="shieldefect.cpp">
+      <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="hpgage.cpp">
+      <Filter>ソース ファイル\プレイヤー関連</Filter>
+    </ClCompile>
+    <ClCompile Include="staminagage.cpp">
+      <Filter>ソース ファイル\プレイヤー関連</Filter>
+    </ClCompile>
+    <ClCompile Include="rock.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="torus.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="potion.cpp">
+      <Filter>ソース ファイル\テクスチャ\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="potioncount.cpp">
+      <Filter>ソース ファイル\テクスチャ\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="fade.cpp">
+      <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="cylinder.cpp">
+      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="score.cpp">
+      <Filter>ソース ファイル\テクスチャ\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="textureload.cpp">
+      <Filter>ソース ファイル\テクスチャ\テクスチャ管理</Filter>
+    </ClCompile>
+    <ClCompile Include="polygon2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -269,19 +290,7 @@
     <ClInclude Include="renderer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="polygon2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="field.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="model.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="gameobject.h">
@@ -296,64 +305,13 @@
     <ClInclude Include="sprite.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="input.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="bullet.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="bladeefect1.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="cylinder.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="box.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="title.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="result.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="titleLogo.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="score.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="audio.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sky.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="fade.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="shadow.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="child.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="animationModel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="meshField.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="rock.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="treetexture.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
@@ -380,223 +338,250 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="potion.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="playerHPGage.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy2.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="collisionHit.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="button.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="titlebutton.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="spherecomponent.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="torus.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Loading.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingLogo.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="hpgage.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="watersurface.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="floar.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="door.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="doorframe.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="grass.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="staminagage.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="bladeefect2.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="potioncount.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_sword.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="swordtrail.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_gun.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_galbert.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_shield.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="result_gameover.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="treeobj.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="howleffect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_axe.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="collider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="titleplayer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="trail.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="textureload.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="camera.h">
+      <Filter>ヘッダー ファイル\カメラ</Filter>
     </ClInclude>
-    <ClInclude Include="loadingtexturemanager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="potion.h">
+      <Filter>ヘッダー ファイル\テクスチャ\UI</Filter>
     </ClInclude>
-    <ClInclude Include="gametexturemanager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="potioncount.h">
+      <Filter>ヘッダー ファイル\テクスチャ\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ヘッダー ファイル\敵関連</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy2.h">
+      <Filter>ヘッダー ファイル\敵関連</Filter>
+    </ClInclude>
+    <ClInclude Include="bladeefect1.h">
+      <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="bladeefect2.h">
+      <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="howleffect.h">
+      <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="shieldefect.h">
+      <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="fade.h">
+      <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
     </ClInclude>
     <ClInclude Include="campField.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\シーン</Filter>
     </ClInclude>
-    <ClInclude Include="boxcollider.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="game.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
     </ClInclude>
-    <ClInclude Include="wood.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="title.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
     </ClInclude>
-    <ClInclude Include="titletexturemanager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Loading.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
     </ClInclude>
-    <ClInclude Include="rockeffect.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="box.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
     <ClInclude Include="basecamptent.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
-    <ClInclude Include="treasurebox.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="cylinder.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="door.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="doorframe.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="grass.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="result_gameover.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="textureload.h">
+      <Filter>ヘッダー ファイル\テクスチャ\テクスチャ管理</Filter>
+    </ClInclude>
+    <ClInclude Include="gametexturemanager.h">
+      <Filter>ヘッダー ファイル\テクスチャ\テクスチャ管理</Filter>
+    </ClInclude>
+    <ClInclude Include="loadingtexturemanager.h">
+      <Filter>ヘッダー ファイル\テクスチャ\テクスチャ管理</Filter>
+    </ClInclude>
+    <ClInclude Include="titletexturemanager.h">
+      <Filter>ヘッダー ファイル\テクスチャ\テクスチャ管理</Filter>
     </ClInclude>
     <ClInclude Include="areachangecollider.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>ヘッダー ファイル\敵関連</Filter>
+    </ClInclude>
+    <ClInclude Include="field.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="floar.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="meshField.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
+    </ClInclude>
+    <ClInclude Include="rock.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="rockeffect.h">
+      <Filter>ヘッダー ファイル\敵関連</Filter>
+    </ClInclude>
+    <ClInclude Include="hpgage.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
+    </ClInclude>
+    <ClInclude Include="wepon_axe.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
+    </ClInclude>
+    <ClInclude Include="wepon_galbert.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
+    </ClInclude>
+    <ClInclude Include="wepon_gun.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
+    </ClInclude>
+    <ClInclude Include="wepon_shield.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
+    </ClInclude>
+    <ClInclude Include="wepon_sword.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
+    </ClInclude>
+    <ClInclude Include="sky.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="staminagage.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
+    </ClInclude>
+    <ClInclude Include="treasurebox.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="watersurface.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="wood.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="treeobj.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="treetexture.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="score.h">
+      <Filter>ヘッダー ファイル\テクスチャ\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="polygon2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shader\unlitTexturePS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\unlitTextureVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\vertexLightingPS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\vertexLightingVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
     <FxCompile Include="shader\common.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
-    <FxCompile Include="shader\DepthShadowMappingPS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
     <FxCompile Include="shader\DepthShadowMappingVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\dissolvePS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\pixelLightingPS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\pixelLightingVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\pixelLightingRimPS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\pixelLightingRimVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\envMappingPS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\envMappingVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\gaugePS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\gaugeVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\FogPS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\FogVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\unlitTexturePS2.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\unlitTextureVS2.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\staminagaugePS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\staminagaugeVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\swordTrailPS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\swordTrailVS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\collidervertexLightingPS.hlsl">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\DepthShadowNormalMappingPS.hlsl">
-      <Filter>shader</Filter>
+      <Filter>shader\VS</Filter>
     </FxCompile>
     <FxCompile Include="shader\DepthShadowNormalMappingVS.hlsl">
-      <Filter>shader</Filter>
+      <Filter>shader\VS</Filter>
     </FxCompile>
-    <FxCompile Include="shader\sasakiPS.hlsl">
-      <Filter>shader</Filter>
+    <FxCompile Include="shader\envMappingVS.hlsl">
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\FogVS.hlsl">
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\gaugeVS.hlsl">
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\pixelLightingRimVS.hlsl">
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\pixelLightingVS.hlsl">
+      <Filter>shader\VS</Filter>
     </FxCompile>
     <FxCompile Include="shader\sasakiVS.hlsl">
-      <Filter>shader</Filter>
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\staminagaugeVS.hlsl">
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\swordTrailVS.hlsl">
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureVS2.hlsl">
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\vertexLightingVS.hlsl">
+      <Filter>shader\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\collidervertexLightingPS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\DepthShadowMappingPS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\DepthShadowNormalMappingPS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\dissolvePS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\envMappingPS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\FogPS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\gaugePS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\pixelLightingPS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\pixelLightingRimPS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\sasakiPS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\staminagaugePS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\swordTrailPS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTexturePS.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTexturePS2.hlsl">
+      <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\vertexLightingPS.hlsl">
+      <Filter>shader\PS</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

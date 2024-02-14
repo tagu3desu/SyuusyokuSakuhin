@@ -18,16 +18,13 @@
 #include"audio.h"
 #include"sky.h"
 #include"fade.h"
-#include"child.h"
 #include"meshField.h"
 #include"rock.h"
 #include"treetexture.h"
-#include"playerHPGage.h"
 #include"potion.h"
 #include"enemy2.h"
 #include"collider.h"
 #include"animationModel.h"
-#include"collisionHit.h"
 #include"torus.h"
 #include"hpgage.h"
 #include"staminagage.h"
@@ -113,11 +110,12 @@ void Game::Init()
 	//フィールド関連
 	//Field* field = AddGameObject<Field>();
 	MeshField*  meshfield = AddGameObject<MeshField>();
-	//meshfield->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 400.0f));
 	meshfield->SetMapActive(true);
 
 	BaseCamp* basecamp = AddGameObject<BaseCamp>();
 	basecamp->SetMapActive(false);
+
+	
 
 	player =  AddGameObject<Player>();
 	player->SetPosition(D3DXVECTOR3(-1,0,-4));
@@ -135,17 +133,18 @@ void Game::Init()
 	Box* box = AddGameObject<Box>();
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
 
-	
+	AddGameObject<BaceCampTent>();
+	AddGameObject<TreasureBox>();
 
-	if (basecamp->GetMapActive())
-	{
-		AddGameObject<AreaChange>()->SetPosition(D3DXVECTOR3(-1.0f, 6.0f, 43.0f));
-		AddGameObject<BaceCampTent>();
-		AddGameObject<TreasureBox>();
-	}
-	
+
+
 
 	AddGameObject<Trail>();
+
+	//AddGameObject<AreaChange>()->SetPosition(D3DXVECTOR3(-1.0f, 6.0f, 43.0f));
+
+
+	
 
 	AddGameObject<GameTexture>(SPRITE_LAYER);
 	
@@ -252,7 +251,7 @@ void Game::Draw()
 	
 	if (campfield != nullptr)
 	{
-		if (campfield->GetMapActive())
+		if (!meshfield->GetMapActive())
 		{
 			lighttarget = campfield->GetCenterPosition();
 		}

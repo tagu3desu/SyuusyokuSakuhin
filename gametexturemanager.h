@@ -11,10 +11,13 @@ private:
 
 	float m_y;
 	bool up{};
+	bool m_GameStart{};
 
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
+
+	bool GetGameStart() { return m_GameStart; }
 };

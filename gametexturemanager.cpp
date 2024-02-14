@@ -45,7 +45,10 @@ void GameTexture::Update()
 	ImGui::End();
 
 	m_y = texture_TimelimitUI->UiMove(160, texture_TimelimitUI);
-
+	if (m_y < -50)
+	{
+		m_GameStart = true;
+	}
 
 }
 

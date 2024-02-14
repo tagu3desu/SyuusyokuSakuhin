@@ -5,6 +5,7 @@
 #include "campField.h"
 #include"meshField.h"
 
+
 ID3D11Buffer* BaseCamp::m_VertexBuffer{};
 ID3D11Buffer* BaseCamp::m_IndexBuffer{};
 ID3D11ShaderResourceView* BaseCamp::m_Texture{};

@@ -10,7 +10,6 @@
 #include<cmath>
 #include"spherecomponent.h"
 #include"input.h"
-#include"collisionHit.h"
 #include"boxcomponent.h"
 #include"bladeefect1.h"
 #include"bladeefect2.h"
@@ -22,9 +21,9 @@
 #include"campField.h"
 #include"title.h"
 #include"collider.h"
-
 #include"wepon_sword.h"
 #include"rockeffect.h"
+#include"areachangecollider.h"
 AnimationModel* Enemy::m_Model{};
 
 void Enemy::Init()
@@ -34,7 +33,7 @@ void Enemy::Init()
 	m_AnimationName = "Idle";
 	m_NextAnimationName = "Idle";
 
-	m_Scale = D3DXVECTOR3(0.03f, 0.03f, 0.03f);
+	m_Scale = D3DXVECTOR3(0.05f, 0.05f, 0.05f);
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\pixelLightingVS.cso");
 
@@ -46,7 +45,7 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	groundHeight = 0.0f;
 	m_speed = 0.0f;
-	m_HP = 100 ;
+	m_HP = 1000;
 
 	m_Threshold = 0;
 	m_dissolveEnable = true;
@@ -115,6 +114,7 @@ void Enemy::Update()
 	
 	auto player = scene->GetGameObject<Player>();
 	auto sword = scene->GetGameObject<Sword>();
+	AreaChange* areachange = scene->GetGameObject<AreaChange>();
 
 	direction = player->GetPosition() - m_Position;
 	//プレイヤーとの距離
@@ -124,10 +124,6 @@ void Enemy::Update()
 	//敵本体のコライダー
 	m_EnemyCollider->SetMatrix(m_Matrix);
 	SetColliderInfo(m_EnemyCollider->GetMatrix() ,false);
-
-
-	
-	
 
 
 
@@ -311,6 +307,7 @@ void Enemy::Update()
 void Enemy::Draw()
 {
 	GameObject::Draw();
+	MeshField* meshfield = scene->GetGameObject<MeshField>();
 
 	//視錘台カリング
 	{
@@ -357,7 +354,10 @@ void Enemy::Draw()
 
 
 	//Initで用意したモデルの読み込み切り替え
+
+	
 	m_Model->Draw();
+
 }
 
 void Enemy::UpdateIdle()

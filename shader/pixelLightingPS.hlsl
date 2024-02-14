@@ -25,8 +25,14 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	float3 halfv = eyev + Light.Direction.xyz;
 	halfv = normalize(halfv);
 
+    float rim = 1.0f + dot(eyev, normal.xyz);
+    rim = pow(rim, 3) * 2.0f;
+    rim = saturate(rim);
+	
     float specular = -dot(halfv, normal.xyz);
 	saturate(specular);
 	specular = pow(specular, 30);
+	
+
 	outDiffuse.rgb = saturate(outDiffuse.rgb + specular);
 }

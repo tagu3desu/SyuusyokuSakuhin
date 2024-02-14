@@ -6,6 +6,8 @@
 #include"player.h"
 #include"meshField.h"
 #include"campField.h"
+#include"gametexturemanager.h"
+#include"fade.h"
 
 Model* AreaChange::m_Model;
 void AreaChange::Init()
@@ -22,6 +24,8 @@ void AreaChange::Init()
 	m_AreaChangeCollider = scene->AddGameObject<Collider>();
 	m_AreaChangeCollider->SetScale(D3DXVECTOR3(1.0f/m_Scale.x, 1.0f/m_Scale.y * 3.0f, 1.0f/m_Scale.z * 3.0f)*2.0f);
 	m_AreaChangeCollider->SetPosition(D3DXVECTOR3(0.0f, 2.0f, 0.0f));
+
+	
 }
 
 void AreaChange::Load()
@@ -51,24 +55,28 @@ void AreaChange::Update()
 	Player* player = scene->GetGameObject<Player>();
 	MeshField* meshfield = scene->GetGameObject<MeshField>();
 	BaseCamp* basecamp = scene->GetGameObject<BaseCamp>();
-
+	GameTexture* gameflag = scene->GetGameObject<GameTexture>();
 
 	m_AreaChangeCollider->SetMatrix(m_Matrix);
 	SetColliderInfo(m_AreaChangeCollider->GetMatrix(),false);
 
-	if (m_AreaChangeCollider->CollisionChecker(this, player, 0.9f))
+	if (m_AreaChangeCollider->CollisionChecker(this, player, 0.9f) && gameflag->GetGameStart())
 	{
-		
-
 		m_AreaChangeCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-
+		meshfield->SetMapActive(true);
+		basecamp->SetMapActive(false);
+		m_AreaChangeFlag = true;
+		
 	}
 	else
 	{
 		m_AreaChangeCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 
-
+	if (m_Fade->GetFadeFinish())
+	{
+	
+	}
 
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Area");

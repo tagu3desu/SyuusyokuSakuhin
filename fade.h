@@ -12,6 +12,7 @@ private:
 	class Sprite* m_Sprite{};
 	float m_AlfaColor = 1.0f;
 	bool m_FadeOut = false;
+	bool m_FadeIn = false;
 	bool m_FadeFinish = false;
 public:
 	void Init();
@@ -21,4 +22,6 @@ public:
 
 	void FadeOut() { m_FadeOut = true;}
 	bool GetFadeFinish() { return m_FadeFinish;}
+
 };
+

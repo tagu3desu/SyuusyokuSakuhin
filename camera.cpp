@@ -125,9 +125,9 @@ void Camera::Update()
 	//トップビュー	
 	if (!Title::GetCheckTitle())
 	{
-		
-		m_Target = player->GetPosition();
-		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY, -cos(m_RotationX) * 8.0f);
+		//トップビュー
+		m_Target = player->GetPosition() + player->GetUp()* 3.0f;
+		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY*1.0f, -cos(m_RotationX) * 8.0f);
 	}
 	if (Title::GetCheckTitle())
 	{

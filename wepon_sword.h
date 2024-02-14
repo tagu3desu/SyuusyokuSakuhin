@@ -17,6 +17,8 @@ private:
 	// 先端と終わりの頂点を格納する変数を定義
 	D3DXVECTOR3  m_BottomVertex;
 
+	
+
 	bool m_swordhit;
 
 	VERTEX_3D bottom;

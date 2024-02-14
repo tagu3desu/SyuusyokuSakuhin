@@ -83,7 +83,7 @@ void Manager::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::SetNextWindowPos(ImVec2(100, 100));
+	ImGui::SetNextWindowPos(ImVec2(300, 100));
 	ImGui::SetNextWindowSize(ImVec2(400,100));
 	ImGui::Begin("Renderer");
 	ImGui::Text("%.3f  ms/frame(%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);

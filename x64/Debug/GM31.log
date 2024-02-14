@@ -1,2 +1,36 @@
-﻿  textureload.cpp
+﻿  areachangecollider.cpp
+  basecamptent.cpp
+  campField.cpp
+  enemy.cpp
+  enemy2.cpp
+  game.cpp
+  gametexturemanager.cpp
+  meshField.cpp
+  player.cpp
+  textureload.cpp
+  title.cpp
+C:\Users\kousu\Desktop\就職作品\campField.cpp(225,24): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\campField.cpp(226,25): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\meshField.cpp(242,24): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\meshField.cpp(243,25): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\textureload.cpp(167,36): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\playerHPGage.h(16,16): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
+C:\Users\kousu\Desktop\就職作品\playerHPGage.h(18,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
+C:\Users\kousu\Desktop\就職作品\playerHPGage.h(32,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
+C:\Users\kousu\Desktop\就職作品\potion.h(15,23): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
+C:\Users\kousu\Desktop\就職作品\potion.h(16,24): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
+C:\Users\kousu\Desktop\就職作品\potion.h(17,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
+C:\Users\kousu\Desktop\就職作品\potion.h(18,14): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。 (ソース ファイルをコンパイルしています game.cpp)
+C:\Users\kousu\Desktop\就職作品\enemy2.cpp(115,22): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+C:\Users\kousu\Desktop\就職作品\enemy2.cpp(157,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\enemy2.cpp(157,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\enemy.cpp(349,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\enemy.cpp(349,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\player.cpp(489,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\player.cpp(489,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\player.cpp(495,16): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+C:\Users\kousu\Desktop\就職作品\player.cpp(503,16): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+C:\Users\kousu\Desktop\就職作品\player.cpp(533,43): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\player.cpp(551,44): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\enemy.cpp(494,23): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
   GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Debug\GM31.exe

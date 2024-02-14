@@ -53,7 +53,7 @@ private:
 	std::string m_AnimationName;
 	std::string m_NextAnimationName;
 
-	bool m_AttackMotion{};
+	//bool m_AttackMotion{};
 	float m_AnimationDelay;
 	int m_hitInpactDelay;
 
@@ -75,6 +75,8 @@ private:
 
 	bool m_SuccessGuard = false;
 	bool m_HitInpact = false;
+
+	bool m_AnimationInterpolation = false;
 
 	D3DXVECTOR3 directionX;
 	D3DXVECTOR3 directionZ;
@@ -109,9 +111,9 @@ private:
 	
 	float groundHeight = 0.0f;
 
+	
+
 	//当たり判定用
-
-
 	bool m_PlayerHitEnemy = false;
 	
 
@@ -134,6 +136,19 @@ private:
 	class Title* title;
 
 	float pa{};
+
+	//ヒットストップ用変数
+	bool m_HitStopFlag = false;
+	float m_HitStopTime = false;
+
+	//コンボフラグ　
+	bool m_AttackMotion1 = false;
+	bool m_ConboflagisAttack2 = false;
+	bool m_AttackMotion2 = false;
+	bool m_ConboflagisAttack3 = false;
+
+
+	bool m_AttackCollisionFlag = false;
 public:
 
 
@@ -165,12 +180,23 @@ public:
 	bool GetSuccessGuard() { return m_SuccessGuard; }
 	bool GetPlayerRun() { return m_run; }
 	bool GetPlayerIdle(){return m_idle;}
+	bool GetPlayerAttackCollider() { return m_AttackCollisionFlag; }
+	bool GetHitStopFlag() { return m_HitStopFlag; }
 
-	
+	void SetHitStop(bool hitstopflag){m_HitStopFlag = hitstopflag;}
+
+	void SetHitStopTime(float hitstoptime)
+	{
+		m_HitStopTime++;
+		if (hitstoptime <= m_HitStopTime)
+		{
+			m_HitStopTime = 0.0f;
+			m_HitStopFlag = false;
+		}
+	}
 
 	//D3DXMATRIX GetMatrix() { return m_Matrix;}
 	PLAYER_STATE GetPlayerState() { return m_PlayerState;}
-
 	D3DXVECTOR3 GetBonePosition() { return m_BonePos;}
 	D3DXVECTOR3 GetBoneScale() { return m_BoneScale; }
 

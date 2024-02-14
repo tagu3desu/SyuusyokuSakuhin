@@ -79,6 +79,8 @@ struct PARAMETER
 	D3DXCOLOR	staminabasecolor; //スタミナゲージの色
 
 	D3DXCOLOR	collidercollor; //コライダーの色
+
+	D3DXCOLOR	weponcolor; //武器のオーラの色
 };
 
 

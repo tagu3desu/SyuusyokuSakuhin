@@ -8,7 +8,6 @@
 #include"box.h"
 #include"cylinder.h"
 #include"audio.h"
-#include"shadow.h"
 #include"animationModel.h"
 #include"meshField.h"
 #include"camera.h"
@@ -21,7 +20,6 @@
 #include"GuardInpacteffect.h"
 #include"wepon_sword.h"
 #include"trail.h"
-#include"boxcollider.h"
 #include"collider.h"
 #include"campField.h"
 #include"title.h"
@@ -29,7 +27,7 @@
 #include"rock.h"
 #include"titletexturemanager.h"
 #include"rockeffect.h"
-
+#include"areachangecollider.h"
 
 
 void Player::Init()
@@ -159,6 +157,8 @@ void Player::Update()
 		PotionCount* potioncount = scene->GetGameObject<PotionCount>();
 		RockEffect* rockeffect = scene->GetGameObject<RockEffect>();
 		Bullet* bullet = scene->GetGameObject<Bullet>();
+		AreaChange* areachange = scene->GetGameObject<AreaChange>();
+
 
 		directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		directionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -182,8 +182,12 @@ void Player::Update()
 		m_HP = hpgage->GetHp();
 
 		
-
 		
+	/*	if (areachange->GetAreaChangeFlag())
+		{
+			m_Position = D3DXVECTOR3(1.4f, 0.0f, -36.0f);
+			areachange->SetAreaChangeFlag(false);
+		}*/
 
 
 		if (m_SuccessGuard)
@@ -226,6 +230,8 @@ void Player::Update()
 		ImGui::SetNextWindowSize(ImVec2(300, 250));
 		ImGui::Begin("Player");
 		ImGui::InputFloat("Direction", &pa);
+		ImGui::InputFloat3("Position", m_Position);
+		ImGui::InputFloat("Frame", &m_AnimationDelay);
 		ImGui::End();
 
 
@@ -428,8 +434,37 @@ void Player::Update()
 
 	}
 	
+	//コンボの入力用
+	if (m_AttackMotion1)
+	{
+		m_ConboflagisAttack2 = true;
+	}
 
+	if (m_ConboflagisAttack2)
+	{
+		m_Framwait++;
+		if (m_Framwait > 60)
+		{
+			m_Framwait = 0;
+			m_ConboflagisAttack2 = false;
+		}
+	}
 
+	if (m_AttackMotion2)
+	{
+		m_ConboflagisAttack3 = true;	
+	}
+
+	if (m_ConboflagisAttack3)
+	{
+		m_Framwait++;
+		if (m_Framwait > 60)
+		{
+			m_Framwait = 0;
+			m_ConboflagisAttack3 = false;
+		}
+
+	}
 
 	//重力
 	m_Velocity.y -= 0.015f;
@@ -489,10 +524,22 @@ void Player::Draw()
 	m_Model->Update(m_AnimationName.c_str(), m_Time, m_NextAnimationName.c_str(), m_Time, m_BlendTime);
 
 
-
-	if (m_PlayerState == PLAYER_STATE_ATTACK3)
+	/*if (!m_HitStopFlag)
 	{
-		m_Time += 0.6;
+		
+	}*/
+	/*else if(m_HitStopFlag)
+	{
+		m_Time += 0.0f;
+	}*/
+	
+	if (m_HitStopFlag)
+	{
+		m_Time += 0.0f;
+	}
+	else if (m_PlayerState == PLAYER_STATE_ATTACK3)
+	{
+		m_Time += 0.6f;
 	}
 	else if (m_run || m_walk)
 	{
@@ -500,8 +547,16 @@ void Player::Draw()
 	}
 	else
 	{
-		m_Time += 0.7;
+		m_Time += 0.7f;
 	}
+
+	/*else
+	{
+		
+	}*/
+
+
+	
 	
 
 	if (m_BlendTime < 1.0f)
@@ -520,6 +575,11 @@ void Player::UpdateGround()
 	Scene* scene = Manager::GetScene();
 	Enemy* enemy = scene->GetGameObject<Enemy>();
 
+	if (m_AnimationInterpolation)
+	{
+		m_speed = 4.0f;
+		m_AnimationInterpolation = false;
+	}
 
 	//武器の取り出し
 	if (Input::GetKeyTrigger('Y')/*(VK_LBUTTON)*/ && !m_sworddrawn)
@@ -589,7 +649,7 @@ void Player::UpdateGround()
 			directionZ = cameraFoward * m_speed;
 			if (m_sworddrawn)
 			{
-				m_speed = 0.1f;
+				m_speed = 0.15f;
 				if (m_NextAnimationName != "SwordRun")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -599,7 +659,7 @@ void Player::UpdateGround()
 			}
 			else
 			{
-				m_speed = 0.15f;
+				m_speed = 0.2f;
 				if (m_NextAnimationName != "Run")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -619,7 +679,7 @@ void Player::UpdateGround()
 		}
 		else
 		{
-			m_speed = 0.05f;
+			m_speed = 0.1f;
 			directionZ = cameraFoward * m_speed;
 
 			if (m_sworddrawn)
@@ -663,7 +723,7 @@ void Player::UpdateGround()
 			directionZ = -cameraFoward * m_speed;
 			if (m_sworddrawn)
 			{
-				m_speed = 0.1f;
+				m_speed = 0.15f;
 				if (m_NextAnimationName != "SwordRun")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -673,7 +733,7 @@ void Player::UpdateGround()
 			}
 			else
 			{
-				m_speed = 0.15f;
+				m_speed = 0.2f;
 				if (m_NextAnimationName != "Run")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -694,7 +754,7 @@ void Player::UpdateGround()
 		}
 		else
 		{
-			m_speed = 0.05f;
+			m_speed = 0.1f;
 			directionZ = -cameraFoward * m_speed;
 
 			if (m_sworddrawn)
@@ -746,7 +806,7 @@ void Player::UpdateGround()
 
 			if (m_sworddrawn)
 			{
-				m_speed = 0.1f;
+				m_speed = 0.15f;
 				if (m_NextAnimationName != "SwordRun")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -756,7 +816,7 @@ void Player::UpdateGround()
 			}
 			else
 			{
-				m_speed = 0.15f;
+				m_speed = 0.2f;
 				if (m_NextAnimationName != "Run")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -771,7 +831,7 @@ void Player::UpdateGround()
 		}
 		else
 		{
-			m_speed = 0.05f;
+			m_speed = 0.1f;
 			directionX = -cameraRight * m_speed;
 
 			D3DXQUATERNION quat;
@@ -825,7 +885,7 @@ void Player::UpdateGround()
 
 			if (m_sworddrawn)
 			{
-				m_speed = 0.1f;
+				m_speed = 0.15f;
 				if (m_NextAnimationName != "SwordRun")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -835,7 +895,7 @@ void Player::UpdateGround()
 			}
 			else
 			{
-				m_speed = 0.15f;
+				m_speed = 0.2f;
 				if (m_NextAnimationName != "Run")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -851,7 +911,7 @@ void Player::UpdateGround()
 		}
 		else
 		{
-			m_speed = 0.05f;
+			m_speed = 0.1f;
 			directionX = cameraRight * m_speed;
 
 			D3DXQUATERNION quat;
@@ -950,25 +1010,8 @@ void Player::UpdateGround()
 	}
 
 
-
-	//回転攻撃
-	/*if (Input::GetKeyTrigger(VK_LBUTTON) && m_run)
-	{
-		if (m_NextAnimationName != "RotationAttack")
-		{
-			m_Time = 0.0f;
-			m_BlendTime = 0.0f;
-			m_AnimationName = m_NextAnimationName;
-			m_NextAnimationName = "RotationAttack";
-			m_attack = true;
-			m_move = true;
-			m_PlayerState = PLAYER_STATE_ATTACK;
-		}
-	}*/
-			
-	
-	//コンボ攻撃
-	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword)
+	//通常攻撃
+	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3)
 	{
 		if (m_NextAnimationName != "SlashAttack")
 		{
@@ -980,15 +1023,45 @@ void Player::UpdateGround()
 			m_comboCount = 1;
 			m_move = true;		
 			m_idle = false;
-			//m_AttackSE->Volume(0.1f);
-			//m_AttackSE->Play();
+			m_AttackMotion1 = true;
 			m_PlayerState = PLAYER_STATE_ATTACK;
 		}
-
 	}
 
+	//2段目攻撃
+	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword && m_ConboflagisAttack2)
+	{
+		if (m_NextAnimationName != "SlashAttack2")
+		{
+			m_Time = 0.0f;
+			m_BlendTime = 0.0f;
+			m_AnimationName = m_NextAnimationName;
+			m_NextAnimationName = "SlashAttack2";
+			m_attack = true;
+			m_comboCount = 2;
+			m_move = true;
+			m_idle = false;
+			m_AttackMotion2 = true;
+			m_PlayerState = PLAYER_STATE_ATTACK2;
+		}
+	}
 	
-	
+	////3段目攻撃
+	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword && m_ConboflagisAttack3)
+	{
+		if (m_NextAnimationName != "SlashAttack3")
+		{
+			m_Time = 0.0f;
+			m_BlendTime = 0.0f;
+			m_AnimationName = m_NextAnimationName;
+			m_NextAnimationName = "SlashAttack3";
+			m_attack = true;
+			m_comboCount = 3;
+			m_move = true;
+			m_idle = false;
+			m_PlayerState = PLAYER_STATE_ATTACK3;
+		}
+	}
 
 	if (Input::GetKeyPress(VK_SPACE))
 	{
@@ -1053,82 +1126,31 @@ void Player::UpdateAttack()
 	if (m_attack)
 	{
 		m_AnimationDelay++;
-		
-		if (m_HitInpact)
-		{
-			if (m_AnimationDelay >= 30)
-			{
-				m_Time = 0;
-				m_AnimationDelay = 0;
-				m_attack = false;
-				m_move = false;
 
-				m_PlayerState = PLAYER_STATE_GROUND;
-			}
+		if (m_AnimationDelay < 50 && 65 <= m_AnimationDelay)
+		{
+			m_AttackMotion1 = true;
 		}
-		else if (m_AnimationDelay >= 185 && !m_HitInpact)
+		
+		//攻撃判定が発生する時間設定
+		if (21 < m_AnimationDelay && m_AnimationDelay < 33)
+		{
+			m_AttackCollisionFlag = true;
+		}
+		else
+		{
+			m_AttackCollisionFlag = false;
+		}
+
+		if (m_AnimationDelay >=65 && m_comboCount == 1)
 		{
 			m_Time = 0;
 			m_AnimationDelay = 0;
 			m_attack = false;
 			m_move = false;
-			
-			m_PlayerState = PLAYER_STATE_GROUND;
+			m_AttackMotion1 = false;
+			m_PlayerState = PLAYER_STATE_GROUND;	
 		}
-
-		
-
-		//攻撃モーション1
-		if (m_HitInpact)
-		{
-			if (m_AnimationDelay >= 30)
-			{
-				m_Time = 0;
-				m_AnimationDelay = 0;
-				m_attack = false;
-				m_move = false;
-
-				m_PlayerState = PLAYER_STATE_GROUND;
-			}
-		}
-		else if (m_AnimationDelay >= 70 && m_comboCount == 1 && !m_HitInpact)
-		{
-			m_Time = 0;
-			m_AnimationDelay = 0;
-			m_attack = false;
-			m_move = false;
-			m_PlayerState = PLAYER_STATE_GROUND;
-		}
-
-		
-
-
-
-		if (60 <= m_AnimationDelay && m_AnimationDelay < 80)
-		{
-			//コンボアニメーション2
-			if (Input::GetKeyTrigger(VK_LBUTTON) && m_comboCount == 1 )
-			{
-				m_attack = false;
-				if (m_NextAnimationName != "SlashAttack2")
-				{
-					m_Time = 0.0f;
-					m_BlendTime = 0.0f;
-					m_AnimationDelay = 0;
-					m_AnimationName = m_NextAnimationName;
-					m_NextAnimationName = "SlashAttack2";
-					m_attack = true;
-					m_comboCount = 2;
-					m_AnimationDelay = 0;
-					//m_AttackSE->Volume(0.1f);
-					//m_AttackSE->Play();
-					m_move = true;
-				}
-				m_PlayerState = PLAYER_STATE_ATTACK2;
-			}
-		}
-
-		
 	}
 }
 
@@ -1138,38 +1160,33 @@ void Player::UpdateAttack2()
 	if (m_attack)
 	{
 		m_AnimationDelay++;
+
+		if (m_AnimationDelay < 50 && 70 <= m_AnimationDelay)
+		{
+			m_AttackMotion2 = true;
+		}
+
+
+		//攻撃判定が発生する時間設定
+		if (30 < m_AnimationDelay && m_AnimationDelay < 40)
+		{
+			m_AttackCollisionFlag = true;
+		}
+		else
+		{
+			m_AttackCollisionFlag = false;
+		}
+
+
 		if (m_AnimationDelay >= 70 && m_comboCount == 2)
 		{
 			m_AnimationDelay = 0;
 			m_attack = false;
 			m_fainalAttack = true;
 			m_move = false;
+			m_ConboflagisAttack2 = false;
+			m_AttackMotion2 = false;
 			m_PlayerState = PLAYER_STATE_GROUND;
-		}
-		//コンボアニメーション3
-		if (60 <= m_AnimationDelay && m_AnimationDelay < 85)
-		{
-			if (Input::GetKeyTrigger(VK_LBUTTON) && m_fainalAttack)
-			{
-				m_attack = false;
-				if (m_NextAnimationName != "SlashAttack3")
-				{
-					m_Time = 0.0f;
-					m_BlendTime = 0.0f;
-					m_AnimationName = m_NextAnimationName;
-					m_NextAnimationName = "SlashAttack3";
-					m_attack = true;
-					m_comboCount = 3;
-					//m_AttackSE->Volume(0.1f);
-					//m_AttackSE->Play();
-					m_move = true;
-
-					
-					
-
-				}
-				m_PlayerState = PLAYER_STATE_ATTACK3;
-			}
 		}
 	}
 	
@@ -1182,9 +1199,19 @@ void Player::UpdateAttack3()
 	{
 		m_AnimationDelay++;
 		m_fainalAttack = false;
-		/*m_speed = 0.1f;
-		directionZ = cameraFoward * m_speed;*/
-		if (m_AnimationDelay >= 180 && m_comboCount == 3)
+		
+
+		//攻撃判定が発生する時間設定
+		if (65 < m_AnimationDelay && m_AnimationDelay < 80)
+		{
+			m_AttackCollisionFlag = true;
+		}
+		else
+		{
+			m_AttackCollisionFlag = false;
+		}
+
+		if (m_AnimationDelay >= 105 && m_comboCount == 3)
 		{	
 			m_AnimationDelay = 0;
 			m_attack = false;
@@ -1192,16 +1219,21 @@ void Player::UpdateAttack3()
 			m_comboCount = 0;
 			m_speed = 0.3f;
 			directionZ = m_speed * GetForward();
+			m_ConboflagisAttack3 = false;
+			m_AnimationInterpolation = true;
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
-		if (m_AnimationDelay >= 140 && m_AnimationDelay <=150)
+		if (m_AnimationDelay >= 80 && m_AnimationDelay <=85)
 		{
 			Scene* scene = Manager::GetScene();
 			Camera* camera = scene->GetGameObject<Camera>();
-			camera->Shake(0.1f);
+			camera->Shake(0.03f);
 			
 		}
 	}
+
+	
+
 	D3DXVECTOR3 direction = directionX + directionZ;
 	//正規化します
 	D3DXVec3Normalize(&direction, &direction);

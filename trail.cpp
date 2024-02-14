@@ -47,14 +47,24 @@ void Trail::Init()
 
 
 
+	//// テクスチャ読み込み
+	//D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
+	//	"asset/texture/defolttrail.png",
+	//	NULL,
+	//	NULL,
+	//	&m_Texture,
+	//	NULL);
+	//assert(m_Texture);
+
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/skybruetrail.png",
+		"asset/texture/testtrail2.png",
 		NULL,
 		NULL,
 		&m_Texture,
 		NULL);
 	assert(m_Texture);
+
 	
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\unlitTextureVS.cso");
@@ -179,7 +189,7 @@ void Trail::Draw()
 		// マテリアル設定
 		MATERIAL material;
 		ZeroMemory(&material, sizeof(material));
-		material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		material.Diffuse = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 		material.TextureEnable = true;
 		Renderer::SetMaterial(material);
 

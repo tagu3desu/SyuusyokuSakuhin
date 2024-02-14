@@ -27,10 +27,10 @@ void Sword::Init()
 	m_ReflectEnable = true;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\unlitTextureVS.cso");
+		"shader\\pixelLightingVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\unlitTexturePS.cso");
+		"shader\\pixelLightingRimPS.cso");
 
 	//納刀時
 	m_Scale = D3DXVECTOR3(110.0f, 110.0f, 1.0f / 0.01f);
@@ -72,20 +72,25 @@ void Sword::Update()
 		m_SwordCollider->SetMatrix(m_Matrix);
 		SetColliderInfo(m_SwordCollider->GetMatrix(),false);
 
+		
+
+
 		if (enemy != nullptr)
 		{
-			if (m_SwordCollider->CollisionChecker(this, enemy, 0.6f))
+			if (m_SwordCollider->CollisionChecker(this, enemy, 0.7f))
 			{
 				
 				m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-				if (player->GetPlayerAttack() && !m_InvincibilityFlag)
+				if (player->GetPlayerAttackCollider() && !m_InvincibilityFlag)
 				{
 					m_swordhit = true;
+					
 					enemy->SetDamage(20);
 					BladeEffect1* bladeeffect1 = scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
 					SwordTopVertex* swordvertex = scene->GetGameObject<SwordTopVertex>();
 					bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
 					bladeeffect1->SetPosition(swordvertex->GetTopVertexPostion());
+					player->SetHitStop(true);
 				}
 				
 			}
@@ -95,6 +100,12 @@ void Sword::Update()
 				m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 			}
 
+			if (player->GetHitStopFlag())
+			{
+				player->SetHitStopTime(15);
+			}
+			
+
 			if (m_swordhit)
 			{
 				m_InviciblilityStartFlag = true;
@@ -102,7 +113,7 @@ void Sword::Update()
 			if (m_InviciblilityStartFlag)
 			{
 				m_InvincibilityTime++;
-				if (m_InvincibilityTime <= 60)
+				if (m_InvincibilityTime <= 15)
 				{
 					m_InvincibilityFlag = true;
 				}
@@ -114,6 +125,15 @@ void Sword::Update()
 				}
 			}
 
+		}
+
+		if (player->GetSwordDrawn())
+		{
+			m_ModelRimColor = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+		}
+		else
+		{
+			m_ModelRimColor = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 		}
 
 	}
@@ -170,6 +190,9 @@ void Sword::Draw()
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
 	
+	PARAMETER parameter;
+	parameter.weponcolor = D3DXCOLOR(m_ModelRimColor.r, m_ModelRimColor.g, m_ModelRimColor.b, m_ModelRimColor.a);
+	Renderer::SetParameter(parameter);
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;

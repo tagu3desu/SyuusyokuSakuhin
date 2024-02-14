@@ -32,8 +32,10 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     rim = pow(rim, 3) * 2.0f;
     rim = saturate(rim);
 	
-    outDiffuse.r += rim;
-    outDiffuse.b += rim;
-    outDiffuse.g += 0;
+   
+    
+    outDiffuse.r += rim * param.weponaura.r;
+    outDiffuse.b += rim * param.weponaura.g;
+    outDiffuse.g += rim * param.weponaura.b;
     outDiffuse.a = In.Diffuse.a;
 }

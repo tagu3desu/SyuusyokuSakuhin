@@ -14,6 +14,10 @@ private:
 	class Scene* scene{};
 	class Collider* m_AreaChangeCollider{};
 	
+	bool m_AreaChangeFlag = false;
+
+	class Fade* m_Fade{};
+
 public:
 	static void Load();
 	static void Unload();
@@ -22,5 +26,8 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+
+	bool GetAreaChangeFlag() { return m_AreaChangeFlag; }
+	void SetAreaChangeFlag(bool flag) { m_AreaChangeFlag = flag; }
 };
 

@@ -52,6 +52,9 @@ void Fade::Update()
 			m_FadeFinish = true;
 		}
 	}
+
+	
+
 	m_Sprite->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f,m_AlfaColor));
 
 }

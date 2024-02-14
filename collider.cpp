@@ -60,8 +60,8 @@ void Collider::Update()
 
 void Collider::Draw()
 {
-	if (!m_ColliderEnable)
-	{
+	
+		Renderer::SetRssetEnable(true);
 		GameObject::Draw();
 		//入力レイアウト
 		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
@@ -96,10 +96,13 @@ void Collider::Draw()
 
 		Renderer::SetATCEnable(true);
 
+		if (!m_ColliderEnable)
+		{
 		m_Model->Draw();
-
+		}
+		Renderer::SetRssetEnable(false);
 		Renderer::SetATCEnable(false);
-	}
+	
 	
 }
 

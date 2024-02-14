@@ -3,7 +3,7 @@
 #include"renderer.h"
 #include"treasurebox.h"
 #include"collider.h"
-
+#include"campField.h"
 
 Model* TreasureBox::m_Model;
 void TreasureBox::Init()
@@ -61,7 +61,9 @@ void TreasureBox::Update()
 
 void TreasureBox::Draw()
 {
-	
+	scene = Manager::GetScene();
+	BaseCamp* basecamp = scene->GetGameObject<BaseCamp>();
+
 	//入力レイアウト
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
@@ -77,5 +79,9 @@ void TreasureBox::Draw()
 	m_Matrix = scale * rot * trans;
 	Renderer::SetWorldMatrix(&m_Matrix);
 
-	m_Model->Draw();
+	if (basecamp->GetMapActive())
+	{
+		m_Model->Draw();
+	}
+	
 }

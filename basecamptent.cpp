@@ -3,7 +3,7 @@
 #include"renderer.h"
 #include"basecamptent.h"
 #include"collider.h"
-
+#include"campField.h"
 
 Model* BaceCampTent::m_Model;
 void BaceCampTent::Init()
@@ -53,7 +53,11 @@ void BaceCampTent::Update()
 
 void BaceCampTent::Draw()
 {
-	
+	scene = Manager::GetScene();
+	BaseCamp* basecamp = scene->GetGameObject<BaseCamp>();
+
+
+	Renderer::SetRssetEnable(true);
 	//入力レイアウト
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
@@ -68,6 +72,14 @@ void BaceCampTent::Draw()
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	m_Matrix = scale * rot * trans;
 	Renderer::SetWorldMatrix(&m_Matrix);
+	
+	if (basecamp->GetMapActive())
+	{
+		m_Model->Draw();
+	}
+	
+	
+	
 
-	m_Model->Draw();
+	Renderer::SetRssetEnable(false);
 }

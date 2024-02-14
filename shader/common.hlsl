@@ -73,6 +73,8 @@ struct PARAMETER
     float4 baseStaminaColor;
 	
     float4 collidercollor;
+	
+    float4 weponaura;
 };
 
 cbuffer ParamBuffer : register(b6)

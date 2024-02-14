@@ -31,6 +31,7 @@ protected:
 	bool m_ReflectEnable = false;
 	bool m_dissolveEnable=false;
 
+	D3DXCOLOR m_ModelRimColor{ 0.0f, 0.0f, 0.0f, 1.0f };
 
 	D3DXVECTOR3 m_ColliderScale{};
 	D3DXVECTOR3 m_ColliderPosition{};

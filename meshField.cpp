@@ -140,7 +140,7 @@ void MeshField::Load()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/grass.jpg",
+		"asset/texture/Rock.jpg",
 		NULL,
 		NULL,
 		&m_Texture,
@@ -149,7 +149,7 @@ void MeshField::Load()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/NormalMapGrass2.png",
+		"asset/texture/NormalMapRock.png",
 		NULL,
 		NULL,
 		&m_NormalTexture,
