@@ -48,15 +48,14 @@ void Player::Init()
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Walk.fbx", "SwordWalk");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Run.fbx", "SwordRun");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Idle.fbx", "SwordIdle");
+	m_Model->LoadAnimation("asset\\model\\Sword And Shield Idle2.fbx", "SwordIdle2");
 	m_Model->LoadAnimation("asset\\model\\Sheath Sword 2.fbx", "onSword");
 	m_Model->LoadAnimation("asset\\model\\Sheath Sword 1.fbx", "offSword");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Slash.fbx", "SlashAttack");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Slash2.fbx", "SlashAttack2");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Slash3.fbx", "SlashAttack3");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield RotAttack.fbx", "RotationAttack");
-	m_Model->LoadAnimation("asset\\model\\ComboAttack1.fbx", "ComboAttack1");
-	m_Model->LoadAnimation("asset\\model\\ComboAttack2.fbx", "ComboAttack2");
-	m_Model->LoadAnimation("asset\\model\\ComboAttack3.fbx", "ComboAttack3");
+	m_Model->LoadAnimation("asset\\model\\RotationAttack.fbx", "RotationAttack");
+	m_Model->LoadAnimation("asset\\model\\Stable Sword Inward Slash.fbx", "CounterAttack");
 	m_Model->LoadAnimation("asset\\model\\GreatSwordBackWalk.fbx", "BackWalk");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield BlockStart.fbx", "StartGuard");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Block Idle.fbx", "IsGuard");
@@ -80,12 +79,16 @@ void Player::Init()
 	m_DepthEnable = true;
 	
 
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\DepthShadowMappingVS.cso");
+	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
+		"shader\\DepthShadowMappingVS.cso");*/
+
+	/*Renderer::CreatePixelShader(&m_PixelShader,
+		"shader\\DepthShadowMappingPS.cso");*/
+	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout, 
+		"shader\\skiningVertexLightingVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\DepthShadowMappingPS.cso");
-
+		"shader\\VertexLightingPS.cso");
 
 	m_OnWeponSE = AddComponent<Audio>();
 	m_OnWeponSE->Load("asset\\audio\\åïÇî≤Ç≠.wav");
@@ -226,13 +229,7 @@ void Player::Update()
 		}
 		pa = m_PlayerCollider->GetMinDirection();
 
-		//GUIÇ…ÉpÉâÉÅÅ[É^ï\é¶
-		ImGui::SetNextWindowSize(ImVec2(300, 250));
-		ImGui::Begin("Player");
-		ImGui::InputFloat("Direction", &pa);
-		ImGui::InputFloat3("Position", m_Position);
-		ImGui::InputFloat("Frame", &m_AnimationDelay);
-		ImGui::End();
+		
 
 
 
@@ -290,11 +287,15 @@ void Player::Update()
 		}
 
 		
-	
-		
-	
 
-	
+		//GUIÇ…ÉpÉâÉÅÅ[É^ï\é¶
+		ImGui::SetNextWindowSize(ImVec2(300, 250));
+		ImGui::Begin("Player");
+		ImGui::InputFloat("Direction", &pa);
+		ImGui::InputFloat3("Position", m_Position);
+		ImGui::InputFloat("Frame", &m_AnimationDelay);
+		ImGui::InputFloat3("HipPosition", m_HipBonePosition);
+		ImGui::End();
 
 
 		////â~íå
@@ -385,6 +386,12 @@ void Player::Update()
 		break;
 	case PLAYER_STATE_ATTACK3:
 		UpdateAttack3();
+		break;
+	case PLAYER_STATE_ROTATION_ATTACK:
+		UpdateRotationAttack();
+		break;
+	case PLAYER_STATE_COUNTER_ATTACK:
+		UpdateCounterAttack();
 		break;
 	case PLAYER_STATE_ROLL:
 		UpdateRoll();
@@ -950,7 +957,7 @@ void Player::UpdateGround()
 	}
 
 
-
+	//ë“ã@èÛë‘
 	if (m_move == false && m_attack == false && !m_onSword && !m_offSword && !m_HitInpact)
 	{
 		m_run = false;
@@ -1009,23 +1016,40 @@ void Player::UpdateGround()
 		m_PlayerState = PLAYER_STATE_GUARD;
 	}
 
+	
 
-	//í èÌçUåÇ
-	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3)
+
+	//ÉJÉEÉìÉ^Å[çUåÇ
+	if (Input::GetKeyTrigger(VK_LBUTTON) && Input::GetKeyPress(VK_LCONTROL) && !m_run && m_sworddrawn && !m_onSword)
 	{
-		if (m_NextAnimationName != "SlashAttack")
+		if (m_NextAnimationName != "CounterAttack")
 		{
 			m_Time = 0.0f;
 			m_BlendTime = 0.0f;
 			m_AnimationName = m_NextAnimationName;
-			m_NextAnimationName = "SlashAttack";
+			m_NextAnimationName = "CounterAttack";
 			m_attack = true;
-			m_comboCount = 1;
-			m_move = true;		
+			m_move = true;
 			m_idle = false;
-			m_AttackMotion1 = true;
-			m_PlayerState = PLAYER_STATE_ATTACK;
+			m_PlayerState = PLAYER_STATE_COUNTER_ATTACK;
 		}
+	}
+	//í èÌçUåÇ
+	else if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3)
+	{
+	    	if (m_NextAnimationName != "SlashAttack")
+	    	{
+	    		m_Time = 0.0f;
+	    		m_BlendTime = 0.0f;
+	    		m_AnimationName = m_NextAnimationName;
+	    		m_NextAnimationName = "SlashAttack";
+	    		m_attack = true;
+	    		m_comboCount = 1;
+	    		m_move = true;
+	    		m_idle = false;
+	    		m_AttackMotion1 = true;
+	    		m_PlayerState = PLAYER_STATE_ATTACK;
+	    	}
 	}
 
 	//2íiñ⁄çUåÇ
@@ -1045,7 +1069,7 @@ void Player::UpdateGround()
 			m_PlayerState = PLAYER_STATE_ATTACK2;
 		}
 	}
-	
+
 	////3íiñ⁄çUåÇ
 	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword && m_ConboflagisAttack3)
 	{
@@ -1063,6 +1087,25 @@ void Player::UpdateGround()
 		}
 	}
 
+
+
+	//âÒì]çUåÇ
+	if (Input::GetKeyTrigger('T') && !m_run && m_sworddrawn && !m_onSword)
+	{
+		if (m_NextAnimationName != "RotationAttack")
+		{
+			m_Time = 0.0f;
+			m_BlendTime = 0.0f;
+			m_AnimationName = m_NextAnimationName;
+			m_NextAnimationName = "RotationAttack";
+			m_attack = true;
+			m_move = true;
+			m_idle = false;
+			m_PlayerState = PLAYER_STATE_ROTATION_ATTACK;
+		}
+	}
+
+	
 	if (Input::GetKeyPress(VK_SPACE))
 	{
 		if (m_NextAnimationName != "IsRoll")
@@ -1168,7 +1211,7 @@ void Player::UpdateAttack2()
 
 
 		//çUåÇîªíËÇ™î≠ê∂Ç∑ÇÈéûä‘ê›íË
-		if (30 < m_AnimationDelay && m_AnimationDelay < 40)
+		if (30 < m_AnimationDelay && m_AnimationDelay < 50)
 		{
 			m_AttackCollisionFlag = true;
 		}
@@ -1200,6 +1243,25 @@ void Player::UpdateAttack3()
 		m_AnimationDelay++;
 		m_fainalAttack = false;
 		
+		/*D3DXMATRIX hipmatrix;
+		AnimationModel* animationmodel;
+		animationmodel = GetAnimationModel();
+		BONE* bone;
+		bone = animationmodel->GetBone("mixamorig:Hips");
+		hipmatrix = animationmodel->ConvertMatrix(bone->WorldMatrix);*/
+		
+		D3DXMATRIX hipmatrix;
+		AnimationModel* animationmodel;
+		animationmodel = GetAnimationModel();
+		BONE* bone;
+		bone = animationmodel->GetBone("mixamorig:Hips");
+		hipmatrix = animationmodel->ConvertMatrix(bone->WorldMatrix);
+
+
+		if (98 <= m_AnimationDelay && m_AnimationDelay < 100)
+		{
+			m_HipBonePosition = MatrixtoPosition(hipmatrix);
+		}
 
 		//çUåÇîªíËÇ™î≠ê∂Ç∑ÇÈéûä‘ê›íË
 		if (65 < m_AnimationDelay && m_AnimationDelay < 80)
@@ -1211,7 +1273,7 @@ void Player::UpdateAttack3()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (m_AnimationDelay >= 105 && m_comboCount == 3)
+		if (m_AnimationDelay >= 100 && m_comboCount == 3)
 		{	
 			m_AnimationDelay = 0;
 			m_attack = false;
@@ -1221,6 +1283,7 @@ void Player::UpdateAttack3()
 			directionZ = m_speed * GetForward();
 			m_ConboflagisAttack3 = false;
 			m_AnimationInterpolation = true;
+			
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
 		if (m_AnimationDelay >= 80 && m_AnimationDelay <=85)
@@ -1239,6 +1302,67 @@ void Player::UpdateAttack3()
 	D3DXVec3Normalize(&direction, &direction);
 	//PositonÇ…Speedâ¡éZÇµÇ‹Ç∑
 	m_Position += direction * m_speed;
+}
+
+void Player::UpdateRotationAttack()
+{
+	m_idle = true;
+	if (m_attack)
+	{
+		m_AnimationDelay++;
+
+		
+
+		//çUåÇîªíËÇ™î≠ê∂Ç∑ÇÈéûä‘ê›íË
+		if (35 < m_AnimationDelay && m_AnimationDelay < 55)
+		{
+			m_AttackCollisionFlag = true;
+		}
+		else
+		{
+			m_AttackCollisionFlag = false;
+		}
+
+		if (m_AnimationDelay >= 100)
+		{
+			m_Time = 0;
+			m_AnimationDelay = 0;
+			m_attack = false;
+			m_move = false;
+			m_AttackMotion1 = false;
+			m_PlayerState = PLAYER_STATE_GROUND;
+		}
+	}
+}
+
+void Player::UpdateCounterAttack()
+{
+	m_idle = true;
+	if (m_attack)
+	{
+		m_AnimationDelay++;
+
+		//çUåÇîªíËÇ™î≠ê∂Ç∑ÇÈéûä‘ê›íË
+		if (55 < m_AnimationDelay && m_AnimationDelay < 85)
+		{
+			m_AttackCollisionFlag = true;
+		}
+		else
+		{
+			m_AttackCollisionFlag = false;
+		}
+
+		if (m_AnimationDelay >= 90)
+		{
+			m_Time = 0;
+			m_AnimationDelay = 0;
+			m_attack = false;
+			m_move = false;
+			m_AttackMotion1 = false;
+			m_PlayerState = PLAYER_STATE_GROUND;
+		}
+	}
+
 }
 
 void Player::UpdateGuard()
@@ -1359,8 +1483,6 @@ void Player::UpdateTitleIdle()
 		m_BlendTime = 0.0f;
 	}
 }
-
-
 
 void Player::UpdateDead()
 {

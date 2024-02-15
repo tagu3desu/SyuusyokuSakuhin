@@ -1,5 +1,5 @@
 #pragma once
-
+#include"animationModel.h"
 
 
 
@@ -83,7 +83,10 @@ struct PARAMETER
 	D3DXCOLOR	weponcolor; //武器のオーラの色
 };
 
-
+struct SININGBUFFER
+{
+	D3DXMATRIX SkiningMatrix[200];	//
+};
 
 class CVertexBuffer;
 class CIndexBuffer;
@@ -109,7 +112,7 @@ private:
 	static ID3D11Buffer*			m_MaterialBuffer;
 	static ID3D11Buffer*			m_LightBuffer;
 	
-
+	static ID3D11Buffer* m_SkiningBuffer;
 
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
@@ -134,6 +137,7 @@ private:
 	static ID3D11RasterizerState* m_rsbuck;
 	static ID3D11RasterizerState* m_rsnone;
 
+	
 public:
 	static void Init();
 	static void Uninit();
@@ -149,6 +153,8 @@ public:
 	static void SetMaterial(MATERIAL Material);
 	static void SetLight(LIGHT Light);
 
+	static void SetSkiningBuffer(SININGBUFFER* skinigbuffer);
+
 	static ID3D11Device* GetDevice( void ){ return m_Device; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }
 
@@ -156,6 +162,8 @@ public:
 
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
+
+	static void CreateSkiningVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 
 	//デプスシャドウ
 	static void SetParameter(PARAMETER param);

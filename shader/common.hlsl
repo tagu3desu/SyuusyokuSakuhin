@@ -120,4 +120,26 @@ struct PS_IN
 };
 
 
+struct VS_SKINIG_IN
+{
+    float4 Position : POSITION0;
+    float4 Normal : NORMAL0;
+    float4 Diffuse : COLOR0;
+    float2 TexCoord : TEXCOORD0;
+	
+    float4 Tangent : TANGENT0;
+    float4 Binormal : BINORMAL0;
+    uint4  Index : INDEX0;
+    float4 Weight : WEIGHT0;
+    
+    uint Instanceld : SV_InstanceID;
+};
+
+
+cbuffer BoneBuffer : register(b7)
+{
+    float4x4 bonrTransform[200];
+}
+
+
 StructuredBuffer<float3> Position : register(t2);

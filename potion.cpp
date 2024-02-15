@@ -28,7 +28,7 @@ void Potion::Init()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/potion2.png",
+		"asset/texture/potion.png",
 		NULL,
 		NULL,
 		&m_Texture,

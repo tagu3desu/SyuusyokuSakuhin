@@ -48,6 +48,7 @@
 #include"basecamptent.h"
 #include"treasurebox.h"
 #include"areachangecollider.h"
+#include"dummy.h"
 
 Torus* torus;
 Player* player;
@@ -72,6 +73,7 @@ void Game::Load()
 	BaceCampTent::Load();
 	TreasureBox::Load();
 	AreaChange::Load();
+	Dummy::Load();
 	m_LoadFinish = true;
 }
 
@@ -95,6 +97,7 @@ void Game::Unload()
 	BaceCampTent::Unload();
 	TreasureBox::Unload();
 	AreaChange::Unload();
+	Dummy::Unload();
 }
 
 void Game::Init()
@@ -118,7 +121,7 @@ void Game::Init()
 	
 
 	player =  AddGameObject<Player>();
-	player->SetPosition(D3DXVECTOR3(-1,0,-4));
+	player->SetPosition(D3DXVECTOR3(-1,0,-20));
 	//player->SetPosition(D3DXVECTOR3(-1, 0, 400));
 
 	//Gun* gun = AddGameObject<Gun>();
@@ -127,8 +130,8 @@ void Game::Init()
 	SwordTopVertex* swordtopvertex = AddGameObject<SwordTopVertex>();
 
 
-	Enemy* enemy = AddGameObject<Enemy>();
-	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
+	//Enemy* enemy = AddGameObject<Enemy>();
+	//enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 	
 	Box* box = AddGameObject<Box>();
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
@@ -137,7 +140,7 @@ void Game::Init()
 	AddGameObject<TreasureBox>();
 
 
-
+	AddGameObject<Dummy>();
 
 	AddGameObject<Trail>();
 

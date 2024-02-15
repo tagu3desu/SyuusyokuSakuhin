@@ -17,6 +17,7 @@ struct DEFORM_VERTEX
 	int				BoneNum;
 	std::string		BoneName[4];//本来はボーンインデックスで管理するべき
 	float			BoneWeight[4];
+	int				BoneCount[4];
 };
 
 //ボーン構造体
@@ -27,6 +28,24 @@ struct BONE
 	aiMatrix4x4 CollitionMatrix;
 	aiMatrix4x4 OffsetMatrix;
 	aiMatrix4x4 WorldMatrix;
+
+	int BoneIndex;;
+};
+
+struct SKININGVERTEX
+{
+	D3DXVECTOR3 Position;
+	D3DXVECTOR3 Normal;
+	
+	D3DXVECTOR4 Diffuse;
+	D3DXVECTOR2 TexCoord;
+	
+	D3DXVECTOR3 Tangent;
+	D3DXVECTOR3  Binormal;
+
+	unsigned int			BoneNumSkining[4];
+	float		BoneWeightSkining[4];
+	
 };
 
 class AnimationModel
@@ -42,6 +61,10 @@ private:
 
 	std::vector<DEFORM_VERTEX>* m_DeformVertex;//変形後頂点データ
 	std::unordered_map<std::string, BONE> m_Bone;//ボーンデータ（名前で参照）
+	std::unordered_map<int , aiMatrix4x4> m_BoneMatrix;//ボーンデータ
+
+
+	int m_Indexcount;
 
 	void CreateBone(aiNode* Node);
 	void UpdateBoneMatrix(aiNode* Node, aiMatrix4x4 Matrix);
@@ -94,7 +117,7 @@ public:
 		return convermatrix;
 	}
 
-
+	aiMatrix4x4 TransposeMatrix(const aiMatrix4x4 aimatrix);
 
 
 	aiMatrix4x4* GetBoneMatrix(const char* bone) { return &m_Bone[bone].Matrix;}

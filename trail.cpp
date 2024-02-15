@@ -15,7 +15,7 @@ void Trail::Init()
 	//Sword* bottomposition = scene->GetGameObject<Sword>();
 	// 頂点バッファ生成
 	{
-		for (int i = 0; i < KEEP_VERTEX / 2; i++)
+		for (int i = 0; i < VERTEX_NUMBER / 2; i++)
 		{
 
 			m_Vertex[i * 2].Position = D3DXVECTOR3((i - 10) * 5.0f, 2.0f, 0);
@@ -58,7 +58,7 @@ void Trail::Init()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/testtrail2.png",
+		"asset/texture/testtrail3.png",
 		NULL,
 		NULL,
 		&m_Texture,
@@ -123,7 +123,7 @@ void Trail::Draw()
 	m_TopVertexArrayCopy = m_TopVertexArray;
 	m_BottomVertexArrayCopy = m_BottomVertexArray;
 
-	if (player->GetPlayerAttack())
+	if (player->GetPlayerAttackCollider())
 	{
 
 		//// 頂点データ書き換え// ここにメンバ変数で保存した頂点データを変える
@@ -137,7 +137,7 @@ void Trail::Draw()
 			if (!m_TopVertexArrayCopy.empty())
 			{
 				vertex[i * 2].Position = m_TopVertexArrayCopy.front();
-				vertex[i * 2].TexCoord = D3DXVECTOR2(/*i * 1.0f*/0.2f, 0.0f);
+				vertex[i * 2].TexCoord = D3DXVECTOR2(i * 1.0f, 0.0f);
 				vertex[i * 2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 				vertex[i * 2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 				m_TopVertexArrayCopy.pop();
@@ -146,7 +146,7 @@ void Trail::Draw()
 			if (!m_BottomVertexArrayCopy.empty())
 			{
 				vertex[i * 2 + 1].Position = m_BottomVertexArrayCopy.front();
-				vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(/*i * 1.0f*/0.2f, 1.0f);
+				vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(i * 1.0f, 1.0f);
 				vertex[i * 2 + 1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 				vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 				m_BottomVertexArrayCopy.pop();
@@ -189,7 +189,8 @@ void Trail::Draw()
 		// マテリアル設定
 		MATERIAL material;
 		ZeroMemory(&material, sizeof(material));
-		material.Diffuse = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+		//material.Diffuse = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+		material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		material.TextureEnable = true;
 		Renderer::SetMaterial(material);
 

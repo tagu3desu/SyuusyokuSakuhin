@@ -12,6 +12,8 @@ enum PLAYER_STATE
 	PLAYER_STATE_ATTACK,
 	PLAYER_STATE_ATTACK2,
 	PLAYER_STATE_ATTACK3,
+	PLAYER_STATE_ROTATION_ATTACK,
+	PLAYER_STATE_COUNTER_ATTACK,
 	PLAYER_STATE_ROLL,
 	PLAYER_STATE_DEAD,
 	PLAYER_STATE_GUARD,
@@ -92,6 +94,8 @@ private:
 	bool m_attackfinish = false;
 
 
+
+
 	D3DXVECTOR3 direction;
 	float length = 0;
 
@@ -111,7 +115,7 @@ private:
 	
 	float groundHeight = 0.0f;
 
-	
+	D3DXVECTOR3 m_HipBonePosition{ 0.0f,0.0f,0.0f };
 
 	//“–‚½‚è”»’è—p
 	bool m_PlayerHitEnemy = false;
@@ -164,11 +168,14 @@ public:
 	void UpdateAttack();
 	void UpdateAttack2();
 	void UpdateAttack3();
+	void UpdateRotationAttack();
+	void UpdateCounterAttack();
 	void UpdateRoll();
 	void UpdateDead();
 	void UpdateGuard();
 	void UpdateTitleIdle();
-	void UpdateTitleStart();
+	
+
 
 	int GetPlayerAttackNumber() { return m_comboCount; }
 	bool GetOverFlag() { return m_GameOver; }

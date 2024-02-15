@@ -4,8 +4,8 @@
 #include<queue>
 #include<deque>
 
-#define VERTEX_NUMBER			14
-#define KEEP_VERTEX				14
+#define VERTEX_NUMBER			18
+
 
 class Trail : public GameObject
 {

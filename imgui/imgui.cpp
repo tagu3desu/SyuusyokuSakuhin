@@ -973,6 +973,7 @@ CODE
 #define NOMINMAX
 #endif
 #ifndef __MINGW32__
+#define NOMINMAX
 #include <Windows.h>        // _wfopen, OpenClipboard
 #else
 #include <windows.h>

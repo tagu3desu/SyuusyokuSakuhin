@@ -76,6 +76,18 @@
     <Filter Include="ヘッダー ファイル\プレイヤ―関連">
       <UniqueIdentifier>{12708ad4-b37d-4e42-8013-62a9734b088f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\敵関連\敵">
+      <UniqueIdentifier>{d5297d6a-52d5-4685-b758-b4fcc3ad04cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\敵関連\敵">
+      <UniqueIdentifier>{838f8f3a-7022-4e0c-9c5d-60197657d489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\敵関連\デコイ">
+      <UniqueIdentifier>{53094f4e-f333-497a-81b7-a8ccca6e051c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\敵関連\デコイ">
+      <UniqueIdentifier>{f10492f5-3a98-4cca-b3ab-ab21d1d78330}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -143,18 +155,6 @@
     </ClCompile>
     <ClCompile Include="trail.cpp">
       <Filter>ソース ファイル\プレイヤー関連</Filter>
-    </ClCompile>
-    <ClCompile Include="bullet.cpp">
-      <Filter>ソース ファイル\敵関連</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>ソース ファイル\敵関連</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy2.cpp">
-      <Filter>ソース ファイル\敵関連</Filter>
-    </ClCompile>
-    <ClCompile Include="rockeffect.cpp">
-      <Filter>ソース ファイル\敵関連</Filter>
     </ClCompile>
     <ClCompile Include="basecamptent.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
@@ -279,6 +279,21 @@
     <ClCompile Include="polygon2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>ソース ファイル\敵関連\敵</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>ソース ファイル\敵関連\敵</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy2.cpp">
+      <Filter>ソース ファイル\敵関連\敵</Filter>
+    </ClCompile>
+    <ClCompile Include="rockeffect.cpp">
+      <Filter>ソース ファイル\敵関連\敵</Filter>
+    </ClCompile>
+    <ClCompile Include="dummy.cpp">
+      <Filter>ソース ファイル\敵関連\デコイ</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -344,9 +359,6 @@
     <ClInclude Include="collider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="trail.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>ヘッダー ファイル\カメラ</Filter>
     </ClInclude>
@@ -355,12 +367,6 @@
     </ClInclude>
     <ClInclude Include="potioncount.h">
       <Filter>ヘッダー ファイル\テクスチャ\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>ヘッダー ファイル\敵関連</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy2.h">
-      <Filter>ヘッダー ファイル\敵関連</Filter>
     </ClInclude>
     <ClInclude Include="bladeefect1.h">
       <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
@@ -428,9 +434,6 @@
     <ClInclude Include="areachangecollider.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
-    <ClInclude Include="bullet.h">
-      <Filter>ヘッダー ファイル\敵関連</Filter>
-    </ClInclude>
     <ClInclude Include="field.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
@@ -445,9 +448,6 @@
     </ClInclude>
     <ClInclude Include="rock.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="rockeffect.h">
-      <Filter>ヘッダー ファイル\敵関連</Filter>
     </ClInclude>
     <ClInclude Include="hpgage.h">
       <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
@@ -493,6 +493,24 @@
     </ClInclude>
     <ClInclude Include="polygon2D.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="trail.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>ヘッダー ファイル\敵関連\敵</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ヘッダー ファイル\敵関連\敵</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy2.h">
+      <Filter>ヘッダー ファイル\敵関連\敵</Filter>
+    </ClInclude>
+    <ClInclude Include="rockeffect.h">
+      <Filter>ヘッダー ファイル\敵関連\敵</Filter>
+    </ClInclude>
+    <ClInclude Include="dummy.h">
+      <Filter>ヘッダー ファイル\敵関連\デコイ</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -582,6 +600,9 @@
     </FxCompile>
     <FxCompile Include="shader\vertexLightingPS.hlsl">
       <Filter>shader\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\skiningVertexLightingVS.hlsl">
+      <Filter>shader\VS</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

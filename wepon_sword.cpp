@@ -12,6 +12,8 @@
 #include"title.h"
 #include"bladeefect1.h"
 #include"bladeefect2.h"
+#include"dummy.h"
+
 ID3D11Buffer* SwordTopVertex::m_VertexBuffer;
 
 
@@ -72,9 +74,7 @@ void Sword::Update()
 		m_SwordCollider->SetMatrix(m_Matrix);
 		SetColliderInfo(m_SwordCollider->GetMatrix(),false);
 
-		
-
-
+		//敵との当たり判定
 		if (enemy != nullptr)
 		{
 			if (m_SwordCollider->CollisionChecker(this, enemy, 0.7f))
@@ -99,37 +99,74 @@ void Sword::Update()
 				m_swordhit = false;
 				m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 			}
+		}
 
-			if (player->GetHitStopFlag())
-			{
-				player->SetHitStopTime(15);
-			}
-			
 
-			if (m_swordhit)
+		//ダミーとの当たり判定
+		std::vector<Dummy*>Dummies = scene->GetGameObjects<Dummy>();
+		for (Dummy* dummy : Dummies)
+		{
+			if (dummy != nullptr)
 			{
-				m_InviciblilityStartFlag = true;
-			}
-			if (m_InviciblilityStartFlag)
-			{
-				m_InvincibilityTime++;
-				if (m_InvincibilityTime <= 15)
+				if (m_SwordCollider->CollisionChecker(this, dummy, 0.7f))
 				{
-					m_InvincibilityFlag = true;
+
+					m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+					if (player->GetPlayerAttackCollider() && !m_InvincibilityFlag)
+					{
+						m_swordhit = true;
+
+						
+						BladeEffect1* bladeeffect1 = scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
+						SwordTopVertex* swordvertex = scene->GetGameObject<SwordTopVertex>();
+						bladeeffect1->SetScale(D3DXVECTOR3(4.5f, 4.5f, 4.5f));
+						bladeeffect1->SetPosition(swordvertex->GetTopVertexPostion());
+						player->SetHitStop(true);
+					}
+
 				}
 				else
 				{
-					m_InvincibilityFlag = false;
-					m_InviciblilityStartFlag = false;
-					m_InvincibilityTime = 0;
+					m_swordhit = false;
+					m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 				}
 			}
+		}
 
+		
+
+
+
+
+		//当たり判定のリセット
+		if (player->GetHitStopFlag())
+		{
+			player->SetHitStopTime(15);
+		}
+
+
+		if (m_swordhit)
+		{
+			m_InviciblilityStartFlag = true;
+		}
+		if (m_InviciblilityStartFlag)
+		{
+			m_InvincibilityTime++;
+			if (m_InvincibilityTime <= 20)
+			{
+				m_InvincibilityFlag = true;
+			}
+			else
+			{
+				m_InvincibilityFlag = false;
+				m_InviciblilityStartFlag = false;
+				m_InvincibilityTime = 0;
+			}
 		}
 
 		if (player->GetSwordDrawn())
 		{
-			m_ModelRimColor = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+			m_ModelRimColor = D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f);
 		}
 		else
 		{
@@ -140,7 +177,7 @@ void Sword::Update()
 
 
 
-
+	//プレイヤーにくっつける処理
 	AnimationModel* animationmodel;
 	animationmodel = player->GetAnimationModel();
 	BONE* bone;

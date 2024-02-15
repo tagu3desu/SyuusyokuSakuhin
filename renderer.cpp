@@ -27,6 +27,9 @@ ID3D11DepthStencilState* Renderer::m_DepthStateDisable{};
 ID3D11BlendState*		Renderer::m_BlendState{};
 ID3D11BlendState*		Renderer::m_BlendStateATC{};
 
+ID3D11Buffer*			Renderer::m_SkiningBuffer{};
+
+
 //デプスシャドウ
 ID3D11Buffer* Renderer::m_CameraBuffer = NULL;
 ID3D11Buffer* Renderer::m_ParameterBuffer = NULL;
@@ -42,6 +45,9 @@ ID3D11ShaderResourceView* Renderer::m_CubeReflectShaderResourceView = NULL;
 
 ID3D11RasterizerState* Renderer::m_rsbuck=NULL;
 ID3D11RasterizerState* Renderer::m_rsnone = NULL;
+
+
+
 
 void Renderer::Init()
 {
@@ -243,6 +249,7 @@ void Renderer::Init()
 	m_DeviceContext->VSSetConstantBuffers( 2, 1, &m_ProjectionBuffer );
 
 
+
 	bufferDesc.ByteWidth = sizeof(MATERIAL);
 
 	m_Device->CreateBuffer( &bufferDesc, NULL, &m_MaterialBuffer );
@@ -270,6 +277,11 @@ void Renderer::Init()
 	m_DeviceContext->PSSetConstantBuffers(6, 1, &m_ParameterBuffer);
 
 
+	bufferDesc.ByteWidth = sizeof(aiMatrix4x4)*200;
+
+	m_Device->CreateBuffer(&bufferDesc, NULL, &m_SkiningBuffer);
+	m_DeviceContext->VSSetConstantBuffers(7, 1, &m_SkiningBuffer);
+	m_DeviceContext->PSSetConstantBuffers(7, 1, &m_SkiningBuffer);
 
 #if 0
 	// ライト初期化
@@ -416,7 +428,9 @@ void Renderer::Uninit()
 	m_ProjectionBuffer->Release();
 	m_LightBuffer->Release();
 	m_MaterialBuffer->Release();
-
+	m_ParameterBuffer->Release();
+	m_CameraBuffer->Release();
+	m_SkiningBuffer->Release();
 
 	m_DeviceContext->ClearState();
 	m_RenderTargetView->Release();
@@ -541,6 +555,11 @@ void Renderer::SetLight( LIGHT Light )
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 }
 
+void Renderer::SetSkiningBuffer(SININGBUFFER* skinigbuffer)
+{
+	m_DeviceContext->UpdateSubresource(m_SkiningBuffer, 0, NULL, &skinigbuffer, 0, 0);
+}
+
 
 //ディゾルブ処理
 void Renderer::SetParameter(PARAMETER param)
@@ -617,7 +636,49 @@ void Renderer::CreateVertexShader( ID3D11VertexShader** VertexShader, ID3D11Inpu
 	delete[] buffer;
 }
 
+void Renderer::CreateSkiningVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)
+{
 
+	FILE* file;
+	long int fsize;
+
+	file = fopen(FileName, "rb");
+	assert(file);
+
+	fsize = _filelength(_fileno(file));
+	unsigned char* buffer = new unsigned char[fsize];
+	fread(buffer, fsize, 1, file);
+	fclose(file);
+
+	m_Device->CreateVertexShader(buffer, fsize, NULL, VertexShader);
+
+
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 3, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 4 * 6, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 4 * 10, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+
+		
+
+		//shader
+		{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 15, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+
+		{ "INDEX",  0, DXGI_FORMAT_R32G32B32A32_UINT, 0, 4 * 18, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "WEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 4 * 22, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+	UINT numElements = ARRAYSIZE(layout);
+
+	m_Device->CreateInputLayout(layout,
+		numElements,
+		buffer,
+		fsize,
+		VertexLayout);
+
+	delete[] buffer;
+}
 
 void Renderer::CreatePixelShader( ID3D11PixelShader** PixelShader, const char* FileName )
 {
