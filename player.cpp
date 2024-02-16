@@ -752,7 +752,7 @@ void Player::UpdateGround()
 		else
 		{
 			m_Speed = 0.1f;
-			 m_DirectionX = -m_CameraRight * m_Speed;
+			m_DirectionX = -m_CameraRight * m_Speed;
 
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);

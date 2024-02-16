@@ -16,12 +16,17 @@ private:
 	D3DXVECTOR3  m_BottomVertex;
 	bool m_Swordhit;
 
-	
-
 	class Scene* m_Scene{};
 	class Collider* m_SwordCollider{};
 	class Trail* m_SwordTrail{};
 	class SwordTopVertex* m_SwordTopVertex{};
+
+
+	class Audio* m_SmallAttackHitSE{};
+	class Audio* m_NormalAttackHitSE{};
+	class Audio* m_BigAttackHitSE{};
+	class Camera* m_Camera{};
+	
 public:
 	
 	D3DXVECTOR3 GetBottomVertexPostion() { return m_BottomVertex; }
@@ -48,6 +53,8 @@ private:
 
 public:
 	D3DXVECTOR3 GetTopVertexPostion() { return m_TopVertex; }
+
+	
 
 	static void Load();
 	static void Unload();

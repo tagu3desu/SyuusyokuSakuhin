@@ -15,6 +15,8 @@
 #include"dummy.h"
 #include"trail.h"
 #include"camera.h"
+#include"audio.h"
+
 ID3D11Buffer* SwordTopVertex::m_VertexBuffer;
 
 
@@ -55,6 +57,15 @@ void Sword::Init()
 		m_SwordCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.2f));
 		m_SwordCollider->SetTag(ITEM_TAG);
 	}
+
+	m_SmallAttackHitSE = AddComponent<Audio>();
+	m_SmallAttackHitSE->Load("asset\\audio\\SE\\刀剣・斬る08.wav");
+
+	m_NormalAttackHitSE = AddComponent<Audio>();
+	m_NormalAttackHitSE->Load("asset\\audio\\SE\\刀剣・斬る06.wav");
+
+	m_BigAttackHitSE = AddComponent<Audio>();
+	m_BigAttackHitSE->Load("asset\\audio\\SE\\刀剣・斬る07.wav");
 }
 
 void Sword::Uninit()
@@ -71,7 +82,7 @@ void Sword::Update()
 {
 	Player* player = m_Scene->GetGameObject<Player>();
 	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
-	
+	m_Camera = m_Scene->GetGameObject<Camera>();
 
 
 	if (!Title::GetCheckTitle())
@@ -91,11 +102,25 @@ void Sword::Update()
 				m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 				if (player->GetPlayerAttackCollider() && !m_InvincibilityFlag)
 				{
+					if (player->GetPlayerAttackNumber() == 1)
+					{
+						m_NormalAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
+						m_NormalAttackHitSE->PlaySE();
+					}
+
+					if (player->GetPlayerAttackNumber() == 2)
+					{
+						m_SmallAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
+						m_SmallAttackHitSE->PlaySE();
+					}
+
 					if (player->GetPlayerAttackNumber() == 3)
 					{
-						Camera* m_Camera = m_Scene->GetGameObject<Camera>();
-						m_Camera->Shake(0.1f);
+						m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
+						m_BigAttackHitSE->PlaySE();
 					}
+					
+					m_Camera->Shake(0.1f);
 					m_Swordhit = true;
 					enemy->SetDamage(20);
 					BladeEffect1* bladeeffect1 = m_Scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
@@ -126,9 +151,28 @@ void Sword::Update()
 					m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 					if (player->GetPlayerAttackCollider() && !m_InvincibilityFlag)
 					{
-						m_Swordhit = true;
+						if (player->GetPlayerAttackNumber() == 1)
+						{
+							m_NormalAttackHitSE->Volume(Scene::m_SEVolume);
+							m_NormalAttackHitSE->PlaySE();
+						}
 
-						
+						if (player->GetPlayerAttackNumber() == 2)
+						{
+							m_SmallAttackHitSE->Volume(Scene::m_SEVolume);
+							m_SmallAttackHitSE->PlaySE();
+						}
+
+						if (player->GetPlayerAttackNumber() == 3)
+						{
+							m_BigAttackHitSE->Volume(Scene::m_SEVolume);
+							m_BigAttackHitSE->PlaySE();
+						}
+
+						m_Swordhit = true;
+						m_NormalAttackHitSE->Volume(Scene::m_SEVolume*0.2f);
+						m_NormalAttackHitSE->PlaySE();
+						m_Camera->Shake(0.1f);
 						BladeEffect1* bladeeffect1 = m_Scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
 						SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
 						bladeeffect1->SetScale(D3DXVECTOR3(4.5f, 4.5f, 4.5f));
@@ -145,10 +189,6 @@ void Sword::Update()
 			}
 		}
 
-		
-
-
-
 
 		//当たり判定のリセット
 		if (player->GetHitStopFlag())
@@ -164,7 +204,7 @@ void Sword::Update()
 		if (m_InviciblilityStartFlag)
 		{
 			m_InvincibilityTime++;
-			if (m_InvincibilityTime <= 20)
+			if (m_InvincibilityTime <= 15)
 			{
 				m_InvincibilityFlag = true;
 			}
@@ -220,6 +260,7 @@ void Sword::Update()
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Sword");
 	ImGui::Checkbox("HIt", &m_Swordhit);
+	ImGui::InputInt("無敵時間", &m_InvincibilityTime);
 	ImGui::End();
 
 }

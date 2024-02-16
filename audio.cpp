@@ -122,7 +122,7 @@ void Audio::Update()
 
 void Audio::Volume(float vol)
 {
-	m_SourceVoice->SetVolume(vol);
+	m_SourceVoice->SetVolume(vol * 0.1f);
 }
 
 
