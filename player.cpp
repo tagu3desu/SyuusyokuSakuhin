@@ -78,17 +78,25 @@ void Player::Init()
 
 	m_DepthEnable = true;
 	
+#if 1
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
+		"shader\\DepthShadowMappingVS.cso");
 
-	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\DepthShadowMappingVS.cso");*/
+	Renderer::CreatePixelShader(&m_PixelShader,
+			"shader\\DepthShadowMappingPS.cso");
 
-	/*Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\DepthShadowMappingPS.cso");*/
-	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout, 
+#else
+	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\skiningVertexLightingVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\VertexLightingPS.cso");
+
+#endif // 0
+
+	
+
+	
 
 	m_OnWeponSE = AddComponent<Audio>();
 	m_OnWeponSE->Load("asset\\audio\\Œ•‚ð”²‚­.wav");
