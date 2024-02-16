@@ -11,22 +11,22 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
-	float m_x=230; //50
-	float m_y=22; //25
-	float m_width=690;
-	float m_height=8;
+	float m_X=230; 
+	float m_Y=22;
+	float m_Width=690;
+	float m_Height=8;
 
 
-	int m_hp;			//現在のヒットポイント
-	int m_hpMax;		//最大ヒットポイント
-	int m_befor_hp;		//前回のHP
+	int m_Hp;			//現在のヒットポイント
+	int m_HpMax;		//最大ヒットポイント
+	int m_BeforHp;		//前回のHP
 
 public:
-	int GetHp() { return m_hp; }
-	void SetHealPoint(int Heal) { m_hp += Heal; m_befor_hp += Heal; }
-	void SetDamage(int damage) { m_hp -= damage;}
-	void SetTexturePostion(float X, float Y) { X = m_x; Y = m_y; }
-	void SetTextureScale(float width, float height) { m_width = width; m_height = height; }
+	int GetHp() { return m_Hp; }
+	void SetHealPoint(int Heal) { m_Hp += Heal; m_BeforHp += Heal; }
+	void SetDamage(int damage) { m_Hp -= damage;}
+	void SetTexturePostion(float X, float Y) { X = m_X; Y = m_Y; }
+	void SetTextureScale(float width, float height) { m_Width = width; m_Height = height; }
 
 
 	void Init();

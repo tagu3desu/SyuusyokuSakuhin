@@ -11,18 +11,18 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
-	float m_x = 230; //150
-	float m_y = 40; //50
-	float m_width = 690;
-	float m_height = 8;
+	float m_X = 230; //150
+	float m_Y = 40; //50
+	float m_Width = 690;
+	float m_Height = 8;
 
-	int m_stamina;			//現在のスタミナポイント
-	int m_staminaMax;		//最大スタミナポイント
-	bool staminaheru=false;
+	int m_Stamina;			//現在のスタミナポイント
+	int m_StaminaMax;		//最大スタミナポイント
+	bool m_StaminaDecrease =false;
 
 public:
-	int GetStamina() { return m_stamina;}
-	void SetStaminaPoint(int stamina) { m_stamina += stamina; }
+	int GetStamina() { return m_Stamina;}
+	void SetStaminaPoint(int stamina) { m_Stamina += stamina; }
 
 	void Init();
 	void Uninit();

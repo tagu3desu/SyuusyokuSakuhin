@@ -22,109 +22,75 @@ enum PLAYER_STATE
 class Player :public GameObject
 {
 private:
-	bool m_sworddrawn = false;
-
-
 	PLAYER_STATE  m_PlayerState = PLAYER_STATE_GROUND;
-	bool m_IsGround{};
-
-	//Model* m_Model{};
-
-	bool rockhitflag{};
-	bool boxhitflag{};
-	bool enemyhitflag{};
-
+	
 	ID3D11VertexShader* m_VertexShader{};
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
-	int m_comboCount{};
+	
 
+	//ステータス
+	int m_HP;
+	int m_Stamina;
+	int m_Potioncount;
+	bool m_GameOver = false;
 
-	float m_speed; //移動速度
-
+	//移動関連
+	float m_Speed; 
+	float m_GroundHeight = 0.0f;
+	bool m_Move = false;
+	bool m_IsGround{}; 
+	bool m_Run = false;
+	bool m_Walk = false;
+	D3DXVECTOR3 m_DirectionX;
+	D3DXVECTOR3 m_DirectionZ;
 	D3DXVECTOR3 m_Velocity{};
 
-
-	class Shadow* m_Shadow{};
-
-	class Collider* m_PlayerCollider{};
-
+	//アニメーション関連
 	float m_Time{};
 	float m_BlendTime{};
 	std::string m_AnimationName;
 	std::string m_NextAnimationName;
-
-	//bool m_AttackMotion{};
 	float m_AnimationDelay;
-	int m_hitInpactDelay;
+	int m_HitInpactDelay;
 
-	bool m_attack = false;
-	bool m_move = false;
-	bool m_run = false;
-	bool m_walk = false;
-	bool m_guard = false;
-	bool m_isDead = false;
-	bool m_roll = false;
-	bool m_onSword = false;
-	bool m_offSword = false;
-
-	bool m_idle = false;
-	bool m_startGuard = false;
-	bool m_isGuard = false;
+	//アニメーション用フラグ
+	bool m_Idle = false;
+	bool m_Roll = false;
+	bool m_StartGuard = false;
+	bool m_IsGuard = false;
 	bool m_EndGuard = false;
 	bool m_InpactGuard = false;
-
 	bool m_SuccessGuard = false;
 	bool m_HitInpact = false;
 
-	bool m_AnimationInterpolation = false;
+	//攻撃関連
+	bool m_Attack = false;
+	int m_ComboCount{}; 
+	bool m_Sworddrawn = false;
+	bool m_OnSword = false;
+	bool m_OffSword = false;
+	//ヒットストップ関連
+	bool m_HitStopFlag = false;
+	float m_HitStopTime = false;
+	//コンボ関連　
+	bool m_AttackMotion1 = false;
+	bool m_ConboflagisAttack2 = false;
+	bool m_AttackMotion2 = false;
+	bool m_ConboflagisAttack3 = false;
 
-	D3DXVECTOR3 directionX;
-	D3DXVECTOR3 directionZ;
-
-	bool m_attackNow = false;
-
-	bool m_GameOver=false;
-	//カメラ制御
-	D3DXVECTOR3 cameraFoward;
-	D3DXVECTOR3 cameraRight;
-
-	int m_ConboChainCounter;
-	bool m_attackfinish = false;
-
-
-
-
-	D3DXVECTOR3 direction;
-	float length = 0;
-
-	D3DXMATRIX m_WorldMatrix{};
-	D3DXVECTOR3 m_BonePos{};
-	D3DXVECTOR3 m_BoneScale{};
-
-	int  m_ConboNumber;
-	bool m_fainalAttack = false;
-
-	int m_HP{};
-
-	int m_potioncount;
-	int m_Stamina;
-
-	class Scene* scene{};
+	//コライダー
+	class Collider* m_PlayerCollider{};
+	bool m_AttackCollisionFlag = false;
 	
-	float groundHeight = 0.0f;
-
-	D3DXVECTOR3 m_HipBonePosition{ 0.0f,0.0f,0.0f };
+	//カメラ制御
+	D3DXVECTOR3 m_CameraFoward;
+	D3DXVECTOR3 m_CameraRight;
 
 	//当たり判定用
 	bool m_PlayerHitEnemy = false;
-	
-
-
 	bool m_Rockhit = false;
-	int hitcount = 0;
-
 	bool m_DamageReaction = false;
 
 	//サウンド処理
@@ -134,35 +100,21 @@ private:
 	class Audio* m_WalkSoundBGM{};
 	class Audio* m_AttackSE{};
 
-
+	//ポインタ変数
+	class Scene* m_Scene{};
 	class AnimationModel* m_Model{};
+	class Title* m_Title;
+	class Camera* m_Camera;
+	class Enemy* m_Enemy;
+	class MeshField* m_MeshField;
+	class RockEffect* m_RockEffect;
+	class Bullet* m_Bullet;
 
-	class Title* title;
-
-	float pa{};
-
-	//ヒットストップ用変数
-	bool m_HitStopFlag = false;
-	float m_HitStopTime = false;
-
-	//コンボフラグ　
-	bool m_AttackMotion1 = false;
-	bool m_ConboflagisAttack2 = false;
-	bool m_AttackMotion2 = false;
-	bool m_ConboflagisAttack3 = false;
-
-
-	bool m_AttackCollisionFlag = false;
 public:
-
-
-
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
-
-
 
 	void UpdateGround();
 	void UpdateAttack();
@@ -174,19 +126,16 @@ public:
 	void UpdateDead();
 	void UpdateGuard();
 	void UpdateTitleIdle();
-	
 
-
-	int GetPlayerAttackNumber() { return m_comboCount; }
+	int GetPlayerAttackNumber() { return m_ComboCount; }
 	bool GetOverFlag() { return m_GameOver; }
-	bool GeiPlayerIdle() { return m_idle; }
-	bool GetSwordDrawn() { return m_sworddrawn; }
+	bool GeiPlayerIdle() { return m_Idle; }
+	bool GetSwordDrawn() { return m_Sworddrawn; }
 	bool GetPlayerHitEnemy() { return m_PlayerHitEnemy; }
-	bool GetPlayerAttack() { return m_attack; }
-	bool GetPlayerlive() { return m_isDead; }
+	bool GetPlayerAttack() { return m_Attack; }
 	bool GetSuccessGuard() { return m_SuccessGuard; }
-	bool GetPlayerRun() { return m_run; }
-	bool GetPlayerIdle(){return m_idle;}
+	bool GetPlayerRun() { return m_Run; }
+	bool GetPlayerIdle(){return m_Idle;}
 	bool GetPlayerAttackCollider() { return m_AttackCollisionFlag; }
 	bool GetHitStopFlag() { return m_HitStopFlag; }
 
@@ -201,12 +150,6 @@ public:
 			m_HitStopFlag = false;
 		}
 	}
-
-	//D3DXMATRIX GetMatrix() { return m_Matrix;}
-	PLAYER_STATE GetPlayerState() { return m_PlayerState;}
-	D3DXVECTOR3 GetBonePosition() { return m_BonePos;}
-	D3DXVECTOR3 GetBoneScale() { return m_BoneScale; }
-
 
 	D3DXVECTOR3 GetForward()//前方面ベクトルを取得
 	{
@@ -261,11 +204,7 @@ public:
 		return right;
 	}
 
-	void SetCollision(aiNode* node, aiMatrix4x4 matrix);
-
-	//void SetCollision(aiNode* node, aiMatrix4x4 matrix, std::string RigName);
-
-
 	AnimationModel* GetAnimationModel() { return m_Model; }
+	PLAYER_STATE GetPlayerState() { return m_PlayerState; }
 };
 

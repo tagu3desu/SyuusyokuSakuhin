@@ -18,10 +18,10 @@ void Rock::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\vertexLightingPS.cso");
 
-	scene = Manager::GetScene();
+	m_Scene = Manager::GetScene();
 
 
-	m_RockCollider = scene->AddGameObject<Collider>();
+	m_RockCollider = m_Scene->AddGameObject<Collider>();
 	m_RockCollider->SetScale(D3DXVECTOR3(1 / m_Scale.x, 1 / m_Scale.y, 1 / m_Scale.z) * 1.5f);
 	m_RockCollider->SetPosition(D3DXVECTOR3(0.0f, 0.3f, 0.0f));
 	

@@ -21,7 +21,6 @@
 #include"meshField.h"
 #include"rock.h"
 #include"treetexture.h"
-#include"potion.h"
 #include"enemy2.h"
 #include"collider.h"
 #include"animationModel.h"
@@ -47,7 +46,6 @@
 #include"rockeffect.h"
 #include"basecamptent.h"
 #include"treasurebox.h"
-#include"areachangecollider.h"
 #include"dummy.h"
 
 Torus* torus;
@@ -72,7 +70,6 @@ void Game::Load()
 	RockEffect::Load();
 	BaceCampTent::Load();
 	TreasureBox::Load();
-	AreaChange::Load();
 	Dummy::Load();
 	m_LoadFinish = true;
 }
@@ -96,7 +93,6 @@ void Game::Unload()
 	RockEffect::Unload();
 	BaceCampTent::Unload();
 	TreasureBox::Unload();
-	AreaChange::Unload();
 	Dummy::Unload();
 }
 
@@ -115,20 +111,17 @@ void Game::Init()
 	MeshField*  meshfield = AddGameObject<MeshField>();
 	meshfield->SetMapActive(true);
 
-	BaseCamp* basecamp = AddGameObject<BaseCamp>();
-	basecamp->SetMapActive(false);
+	
 
 	
 
 	player =  AddGameObject<Player>();
 	player->SetPosition(D3DXVECTOR3(-1,0,-20));
-	//player->SetPosition(D3DXVECTOR3(-1, 0, 400));
-
-	//Gun* gun = AddGameObject<Gun>();
+	
+	
 	Sword*sword =AddGameObject<Sword>();
 	Shield* shield = AddGameObject<Shield>();
-	SwordTopVertex* swordtopvertex = AddGameObject<SwordTopVertex>();
-
+	
 
 	//Enemy* enemy = AddGameObject<Enemy>();
 	//enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
@@ -136,18 +129,10 @@ void Game::Init()
 	Box* box = AddGameObject<Box>();
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
 
-	AddGameObject<BaceCampTent>();
-	AddGameObject<TreasureBox>();
+	
 
 
 	AddGameObject<Dummy>();
-
-	AddGameObject<Trail>();
-
-	//AddGameObject<AreaChange>()->SetPosition(D3DXVECTOR3(-1.0f, 6.0f, 43.0f));
-
-
-	
 
 	AddGameObject<GameTexture>(SPRITE_LAYER);
 	
@@ -155,9 +140,9 @@ void Game::Init()
 
 	AddGameObject<Staminagage>(SPRITE_LAYER);
 
-	AddGameObject<Potion>(SPRITE_LAYER);
-	AddGameObject<PotionCount>(SPRITE_LAYER);
 
+	AddGameObject<PotionCount>(SPRITE_LAYER)->SetTexturePostion(1701.0f,895.0f);
+	
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
@@ -207,7 +192,7 @@ void Game::Update()
 	
 	
 	
-	if (Input::GetKeyTrigger('@'))
+	if (Input::GetKeyTrigger('M'))
 	{
 		m_Fade->FadeOut();
 	}
@@ -238,27 +223,14 @@ void Game::Uninit()
 
 void Game::Draw()
 {
-	scene = Manager::GetScene();
+	m_Scene = Manager::GetScene();
 	D3DXVECTOR3 lighttarget;
 	MeshField* meshfield= GetGameObject<MeshField>();
-	BaseCamp* campfield = GetGameObject<BaseCamp>();
-	Sword* sword = GetGameObject<Sword>();
-
-	if (meshfield != nullptr)
-	{
-		if (meshfield->GetMapActive())
-		{
-			lighttarget = meshfield->GetCenterPosition();
-		}
-	}
 	
-	if (campfield != nullptr)
-	{
-		if (!meshfield->GetMapActive())
-		{
-			lighttarget = campfield->GetCenterPosition();
-		}
-	}
+	
+	lighttarget = meshfield->GetCenterPosition();
+
+	
 	
 	////////reflect
  //   //ビュー変換行列を作成する
@@ -320,11 +292,11 @@ void Game::Draw()
 
 	//ライトカメラ構造体の初期化
 	//LIGHT light;
-	light.Enable = true;
-	light.Direction = D3DXVECTOR4(x, y, z, a);	//方向
-	D3DXVec4Normalize(&light.Direction, &light.Direction);
-	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);	//環境光の色
-	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);	//拡散光の色
+	m_Light.Enable = true;
+	m_Light.Direction = D3DXVECTOR4(m_X, m_Y, m_Z, m_A);	//方向
+	D3DXVec4Normalize(&m_Light.Direction, &m_Light.Direction);
+	m_Light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);	//環境光の色
+	m_Light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);	//拡散光の色
 
 
 	//ライトカメラのビュー行列を作成
@@ -332,18 +304,18 @@ void Game::Draw()
 	//D3DXVECTOR3 lightPos = D3DXVECTOR3(lighttarget.x, 30.0f,lighttarget.z);
 	D3DXVECTOR3 lightTarget = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	D3DXMatrixLookAtLH(&light.ViewMatrix, &lightPos, &lightTarget, &lightUp);
+	D3DXMatrixLookAtLH(&m_Light.ViewMatrix, &lightPos, &lightTarget, &lightUp);
 	//ライトカメラのプロジェクション行列を作成(マトリックス,視野角,アスペクト比,ニアクリップ,ファークリップ(描画距離))
-	D3DXMatrixPerspectiveFovLH(&light.ProjectionMatrix, 1.0f,(float)1.0f, 35.0f, 400.0f);
-	Renderer::SetLight(light);
+	D3DXMatrixPerspectiveFovLH(&m_Light.ProjectionMatrix, 1.0f,(float)1.0f, 35.0f, 400.0f);
+	Renderer::SetLight(m_Light);
 
 	//** 1パス目 シャドウバッファの作成 **//
 	Renderer::BeginDepth();
 	Renderer::SetDepthViewport();
 
 	//ライトカメラの行列をセット
-	Renderer::SetViewMatrix(&light.ViewMatrix);
-	Renderer::SetProjectionMatrix(&light.ProjectionMatrix);
+	Renderer::SetViewMatrix(&m_Light.ViewMatrix);
+	Renderer::SetProjectionMatrix(&m_Light.ProjectionMatrix);
 
 	//影を落としたいオブジェクトの描画
 	Scene::DepthDraw();
@@ -356,8 +328,8 @@ void Game::Draw()
 	//本来のカメラ&プロジェクション行列をセット
 	
 
-	light.Enable = false;
-	Renderer::SetLight(light);
+	m_Light.Enable = false;
+	Renderer::SetLight(m_Light);
 
 	
 	

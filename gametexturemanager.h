@@ -9,8 +9,7 @@ private:
 	ID3D11InputLayout* m_VertexLayout{};
 
 
-	float m_y;
-	bool up{};
+	float m_Y;
 	bool m_GameStart{};
 
 public:

@@ -37,75 +37,61 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
+	//ディゾルブ処理
 	float m_Threshold;
 
+	//ステータス
+	int m_HP;
+	float m_GroundHeight;
+	float m_Speed;
 
-	D3DXVECTOR3 direction = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 sabun = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	class Audio* m_HowlSE{};
+	//視野
+	D3DXVECTOR3 m_Direction = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float m_Length = 0;
+	
 
-	//D3DXMATRIX m_Matrix{};
+	//アニメーション関連
+	bool m_EnemyAI = false;
 	float m_Time{};
 	float m_BlendTime{};
 	std::string m_AnimationName;
 	std::string m_NextAnimationName;
+	int m_DeadAnimationdelay = 0;
 
-	bool m_attack = false;
-	bool m_howlfinish = false;
-	bool m_howl = false;
-	bool m_deadfinish = false;
-	bool m_dead = false;
-	bool m_find = false;
-	bool m_move = false;
-	bool m_shotflag = false;
-	bool m_shotcount = 0;
-	
-	bool m_isdead = false;
-	bool m_DeadmotionFinish=false;
 
-	
-	bool m_Attacking=false;
 
-	bool m_RockAttackFlag=false;
-	float m_Rockattacklimit{};
+	//アニメーション用フラグ
+	bool m_IsAttack = false;
+	bool m_HowlFinish = false;
+	bool m_Howl = false;
+	bool m_DeadFinish = false;
+	bool m_Dead = false;
+	bool m_Find = false;
+	bool m_Move = false;
+	bool m_ShotFlag = false;
+	bool m_ShotCount = 0;
+	float m_RockattackLimit{};
+	int m_AnimationDelay = 0;
 
-	int m_animationdelay = 0;
-	int m_deadanimationdelay = 0;
-	float groundHeight;
-	float m_speed;
+	//攻撃関連
+	bool m_Attacking = false;
+	int m_Attackdelay = 0;
+	bool m_RockAttackFlag = false;
 
-	int m_HP;
 
-	int m_InvincibilityTime = 0;
-	bool m_EnemyAttackHit = false;
-	bool m_InvincibilityFlag=false;
-	bool m_InviciblilityStartFlag = false;
-
-	float length = 0;
-
-	
-	int m_randomNumber = 0;
-	int m_attackdelay = 0;
-
-	bool isAttack=false;
-
-	D3DXMATRIX m_WorldMatrix{};
-	D3DXVECTOR3 m_BonePos{};
-	D3DXVECTOR3 m_BoneScale{};
-
-	int hitcout;
-
-	bool m_lastattackhit=false;
-	int  m_lastattackcout;
-
-	int  m_howlcount = 0;
-
-	class Scene* scene{};
+	//コライダー関連
 	class Collider* m_EnemyCollider{};
 	class Collider* m_EnemyLightArmCollider{};
+	int m_InvincibilityTime = 0;
+	bool m_EnemyAttackHit = false;
+	bool m_InvincibilityFlag = false;
+	bool m_InviciblilityStartFlag = false;
 
-	bool m_EnemyAI = false;
+
+	//ポインタ変数
+	class Scene* m_Scene{};
+	class Audio* m_HowlSE{};
 	
 public:
 	static void Load();
@@ -113,7 +99,7 @@ public:
 
 	static class AnimationModel* m_Model;
 
-	bool GetDead() { return m_dead;}
+	bool GetDead() { return m_Dead;}
 
 	void Init();
 	void Uninit();
@@ -135,21 +121,7 @@ public:
 
 	bool IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee);
 	bool GetEnemyHitPlayer() { return m_EnemyAttackHit;}
-	
-
-	void SetCollision(aiNode* node, aiMatrix4x4 matrix);
 
 	AnimationModel* GetAnimationModel() { return m_Model; }
-	//D3DXVECTOR3 GetForward() //前方面ベクトルを取得
-	//{
-	//	D3DXMATRIX rot;
-	//	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-
-	//	D3DXVECTOR3 forward;
-	//	forward.x = rot._31;
-	//	forward.y = rot._32;
-	//	forward.z = rot._33;
-
-	//	return forward;
-	//}
+	
 };

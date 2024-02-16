@@ -10,22 +10,22 @@ void HPgage::Init()
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3(m_x, m_y, 0.0f);
+	vertex[0].Position = D3DXVECTOR3(m_X, m_Y, 0.0f);
 	vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
 
-	vertex[1].Position = D3DXVECTOR3(m_x+m_width, m_y, 0.0f);
+	vertex[1].Position = D3DXVECTOR3(m_X+m_Width, m_Y, 0.0f);
 	vertex[1].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
 
-	vertex[2].Position = D3DXVECTOR3(m_x, m_y+m_height, 0.0f);
+	vertex[2].Position = D3DXVECTOR3(m_X, m_Y+m_Height, 0.0f);
 	vertex[2].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
 
-	vertex[3].Position = D3DXVECTOR3(m_x+ m_width, m_y+ m_height, 0.0f);
+	vertex[3].Position = D3DXVECTOR3(m_X+ m_Width, m_Y+ m_Height, 0.0f);
 	vertex[3].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
@@ -52,7 +52,7 @@ void HPgage::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\gaugePS.cso");
 
-	m_hp = m_hpMax = m_befor_hp = 100;
+	m_Hp = m_HpMax = m_BeforHp = 100;
 
 
 	
@@ -81,14 +81,14 @@ void HPgage::Update()
 	Enemy* enemy = scene->GetGameObject<Enemy>();
 	Player* player = scene->GetGameObject<Player>();
 
-	if (m_hp > m_hpMax)
+	if (m_Hp > m_HpMax)
 	{
-		m_hp = m_hpMax;
+		m_Hp = m_HpMax;
 	}
 
-	if (m_hp != m_befor_hp)
+	if (m_Hp != m_BeforHp)
 	{
-		m_befor_hp -= 1.0f;
+		m_BeforHp -= 1.0f;
 	}
 }
 
@@ -120,9 +120,9 @@ void HPgage::Draw()
 
 	//HPÉpÉâÉÅÅ[É^ê›íË
 	PARAMETER param;
-	param.hitpoint.x = m_hp;
-	param.hitpoint.y = m_hpMax;
-	param.hitpoint.z = m_befor_hp;
+	param.hitpoint.x = m_Hp;
+	param.hitpoint.y = m_HpMax;
+	param.hitpoint.z = m_BeforHp;
 	param.basecolor = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f); //óŒ
 	param.lostColor = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.0f); //äD
 	param.dissColor = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f); //ê‘

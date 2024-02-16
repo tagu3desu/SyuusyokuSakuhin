@@ -19,19 +19,23 @@
 #include"howleffect.h"
 #include"GuardInpacteffect.h"
 #include"wepon_sword.h"
-#include"trail.h"
 #include"collider.h"
-#include"campField.h"
 #include"title.h"
 #include"game.h"
 #include"rock.h"
 #include"titletexturemanager.h"
 #include"rockeffect.h"
-#include"areachangecollider.h"
+
 
 
 void Player::Init()
 {
+	m_Scene = Manager::GetScene();
+	m_Camera = m_Scene->GetGameObject<Camera>();
+	m_Enemy = m_Scene->GetGameObject<Enemy>();
+	m_MeshField = m_Scene->GetGameObject<MeshField>();
+	m_Bullet = m_Scene->GetGameObject<Bullet>();
+	m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 
 	m_Model = new AnimationModel();
 	m_Model->Load("asset\\model\\Paladin J Nordstrom.fbx");
@@ -65,16 +69,14 @@ void Player::Init()
 
 	//タイトル用のモーション
 	m_Model->LoadAnimation("asset\\model\\Sitting.fbx", "TitleIdle");
-	//m_Model->LoadAnimation("asset\\model\\Sit To Stand.fbx", "TitleStart");
-
+	
 
 	m_AnimationName = "Idle";
 	m_NextAnimationName = "Idle";
 
 	
 	m_Scale = D3DXVECTOR3(0.015f, 0.015f, 0.015f);
-	//m_MoveVector = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_speed = 0.1f;
+	m_Speed = 0.1f;
 
 	m_DepthEnable = true;
 	
@@ -116,21 +118,20 @@ void Player::Init()
 	m_Time = 0.0f;
 	m_BlendTime = 0.0f;
 	m_AnimationDelay = 0.0f;
-	m_ConboNumber = 0;
 	
-	m_hitInpactDelay = 0;
+	m_HitInpactDelay = 0;
 
-	directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	directionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	 m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	 m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	m_sworddrawn = false;
-	m_comboCount=0;
+	m_Sworddrawn = false;
+	m_ComboCount=0;
 	m_Stamina = 0;
-	scene = Manager::GetScene();
+	
 	
 	if (!Title::GetCheckTitle())
 	{
-		m_PlayerCollider = scene->AddGameObject<Collider>();
+		m_PlayerCollider = m_Scene->AddGameObject<Collider>();
 		m_PlayerCollider->SetScale(D3DXVECTOR3(70.0f, 170.0f, 70.0f));
 		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 85.0f, 0.0f));
 		m_PlayerCollider->SetTag(PLAYER_TAG);
@@ -151,54 +152,41 @@ void Player::Uninit()
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
-
-	//m_BoxCollider->Uninit();
+	
+	
 }
 
 void Player::Update()
 {
-	Scene* scene = Manager::GetScene();
-	Camera* camera = scene->GetGameObject<Camera>();
+
+
 
 	if ( !Title::GetCheckTitle())
 	{
-		Enemy* enemy = scene->GetGameObject<Enemy>();
-		Staminagage* staminagage = scene->GetGameObject<Staminagage>();
-		HPgage* hpgage = scene->GetGameObject<HPgage>();
-		PotionCount* potioncount = scene->GetGameObject<PotionCount>();
-		RockEffect* rockeffect = scene->GetGameObject<RockEffect>();
-		Bullet* bullet = scene->GetGameObject<Bullet>();
-		AreaChange* areachange = scene->GetGameObject<AreaChange>();
+		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
+		PotionCount* potioncount = m_Scene->GetGameObject<PotionCount>();
+		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
 
+		 m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		 m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-		directionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		directionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-		m_move = false;
+		m_Move = false;
 
 		GameObject::Update();
-		D3DXVECTOR3 oldPosition = m_Position;
+		
 
 		m_Stamina = staminagage->GetStamina();
 
-		cameraFoward = camera->GetForward();
-		cameraRight = camera->GetRight();
-		cameraFoward.y = 0.0f;
-		cameraRight.y = 0.0f;
-		D3DXVec3Normalize(&cameraRight, &cameraRight);
-		D3DXVec3Normalize(&cameraFoward, &cameraFoward);
+		m_CameraFoward = m_Camera->GetForward();
+		m_CameraRight = m_Camera->GetRight();
+		m_CameraFoward.y = 0.0f;
+		m_CameraRight.y = 0.0f;
+		D3DXVec3Normalize(&m_CameraRight, &m_CameraRight);
+		D3DXVec3Normalize(&m_CameraFoward, &m_CameraFoward);
 
 		//HP関連
 
 		m_HP = hpgage->GetHp();
-
-		
-		
-	/*	if (areachange->GetAreaChangeFlag())
-		{
-			m_Position = D3DXVECTOR3(1.4f, 0.0f, -36.0f);
-			areachange->SetAreaChangeFlag(false);
-		}*/
 
 
 		if (m_SuccessGuard)
@@ -216,7 +204,7 @@ void Player::Update()
 
 
 		//OBB判定　
-		std::vector<Box*> boxes = scene->GetGameObjects<Box>();
+		std::vector<Box*> boxes = m_Scene->GetGameObjects<Box>();
 		{
 			for (Box* box : boxes)
 			{
@@ -231,18 +219,10 @@ void Player::Update()
 			}
 		}
 
-		if (enemy != nullptr)
-		{
-			enemyhitflag = m_PlayerCollider->CollisionChecker(this, enemy, 1.5f);
-		}
-		pa = m_PlayerCollider->GetMinDirection();
+	
 
-		
-
-
-
-		m_potioncount = potioncount->GetCount();
-		if (m_potioncount > 0)
+		m_Potioncount = potioncount->GetCount();
+		if (m_Potioncount > 0)
 		{
 			if (Input::GetKeyTrigger('F'))
 			{
@@ -252,24 +232,20 @@ void Player::Update()
 		}
 
 	
-		if (enemy != nullptr)
-		{
-			direction = enemy->GetPosition() - m_Position;
-			length = D3DXVec3Length(&direction);
-		}
+		
 
-		if (rockeffect != nullptr)
+		if (m_RockEffect != nullptr)
 		{
-			if (!m_InvincibilityFlag && rockeffect->GetHit() && !m_SuccessGuard)
+			if (!m_InvincibilityFlag && m_RockEffect->GetHit() && !m_SuccessGuard)
 			{
 				hpgage->SetDamage(100);
 				m_InviciblilityStartFlag = true;
 				m_DamageReaction = true;
 			}
 		}
-		if (bullet != nullptr)
+		if (m_Bullet != nullptr)
 		{
-			if (!m_InvincibilityFlag && bullet->GetHit() && !m_SuccessGuard)
+			if (!m_InvincibilityFlag && m_Bullet->GetHit() && !m_SuccessGuard)
 			{
 				hpgage->SetDamage(100);
 				m_InviciblilityStartFlag = true;
@@ -299,45 +275,14 @@ void Player::Update()
 		//GUIにパラメータ表示
 		ImGui::SetNextWindowSize(ImVec2(300, 250));
 		ImGui::Begin("Player");
-		ImGui::InputFloat("Direction", &pa);
 		ImGui::InputFloat3("Position", m_Position);
 		ImGui::InputFloat("Frame", &m_AnimationDelay);
-		ImGui::InputFloat3("HipPosition", m_HipBonePosition);
 		ImGui::End();
-
-
-		////円柱
-		//std::vector<Cylinder*> Cylinders = scene->GetGameObjects<Cylinder>();
-		//for (Cylinder* cylinder : Cylinders)//範囲for
-		//{
-		//	D3DXVECTOR3 postion = cylinder->GetPosition();
-		//	D3DXVECTOR3 scale = cylinder->GetScale();
-
-		//	D3DXVECTOR3 direction2 = m_Position - postion;
-		//	direction2.y = 0.0f;
-		//	float length = D3DXVec3Length(&direction2);
-
-		//	if (length < scale.x)
-		//	{
-		//		if (m_Position.y < postion.y + scale.y - 0.5f)
-		//		{
-		//			m_Position.x = oldPosition.x;
-		//			m_Position.z = oldPosition.z;
-		//		}
-		//		else
-		//		{
-		//			groundHeight = postion.y + scale.y + groundHeight; //上判定
-		//		}
-		//		break;
-		//	}
-
-		//}
-
 
 
 		//ダメージ処理
 		{
-			if (enemy != nullptr)
+			if (m_Enemy != nullptr)
 			{
 				if (m_DamageReaction && !m_SuccessGuard && !m_HitInpact)
 				{
@@ -354,10 +299,10 @@ void Player::Update()
 			}
 			if (m_HitInpact)
 			{
-				m_hitInpactDelay++;
-				if (m_hitInpactDelay > 30)
+				m_HitInpactDelay++;
+				if (m_HitInpactDelay > 30)
 				{
-					m_hitInpactDelay = 0;
+					m_HitInpactDelay = 0;
 					m_DamageReaction = false;
 					m_HitInpact = false;
 				}
@@ -424,30 +369,15 @@ void Player::Update()
 
 
 
-	//メッシュフィールドとの衝突判定
-	//groundHeight = 0.0f;
-	MeshField* meshField = scene->GetGameObject<MeshField>();
-	BaseCamp* campField = scene->GetGameObject<BaseCamp>();
+	if (m_MeshField != nullptr)
+	{
+		
+		m_MeshField = m_Scene->GetGameObject<MeshField>();
+		m_GroundHeight = m_MeshField->GetHeight(m_Position);
+		
+	}
+
 	
-
-	if (meshField != nullptr)
-	{
-		if (meshField->GetMapActive())
-		{
-			meshField = scene->GetGameObject<MeshField>();
-			groundHeight = meshField->GetHeight(m_Position);
-		}
-	}
-
-	if (campField != nullptr)
-	{
-		if (campField->GetMapActive())
-		{
-			campField = scene->GetGameObject<BaseCamp>();
-			groundHeight = campField->GetHeight(m_Position);
-		}
-
-	}
 	
 	//コンボの入力用
 	if (m_AttackMotion1)
@@ -488,10 +418,10 @@ void Player::Update()
 	m_Position += m_Velocity;
 
 	//接地
-	if (m_Position.y < groundHeight && m_Velocity.y < 0.0f)
+	if (m_Position.y < m_GroundHeight && m_Velocity.y < 0.0f)
 	{
 		m_IsGround = true;
-		m_Position.y = groundHeight;
+		m_Position.y = m_GroundHeight;
 		m_Velocity.y = 0.0f;
 	}
 	else
@@ -539,14 +469,7 @@ void Player::Draw()
 	m_Model->Update(m_AnimationName.c_str(), m_Time, m_NextAnimationName.c_str(), m_Time, m_BlendTime);
 
 
-	/*if (!m_HitStopFlag)
-	{
-		
-	}*/
-	/*else if(m_HitStopFlag)
-	{
-		m_Time += 0.0f;
-	}*/
+	
 	
 	if (m_HitStopFlag)
 	{
@@ -556,7 +479,7 @@ void Player::Draw()
 	{
 		m_Time += 0.6f;
 	}
-	else if (m_run || m_walk)
+	else if (m_Run || m_Walk)
 	{
 		m_Time += 0.5f;
 	}
@@ -565,13 +488,7 @@ void Player::Draw()
 		m_Time += 0.7f;
 	}
 
-	/*else
-	{
-		
-	}*/
 
-
-	
 	
 
 	if (m_BlendTime < 1.0f)
@@ -586,18 +503,8 @@ void Player::Draw()
 
 void Player::UpdateGround()
 {
-	
-	Scene* scene = Manager::GetScene();
-	Enemy* enemy = scene->GetGameObject<Enemy>();
-
-	if (m_AnimationInterpolation)
-	{
-		m_speed = 4.0f;
-		m_AnimationInterpolation = false;
-	}
-
 	//武器の取り出し
-	if (Input::GetKeyTrigger('Y')/*(VK_LBUTTON)*/ && !m_sworddrawn)
+	if (Input::GetKeyTrigger('Y')/*(VK_LBUTTON)*/ && !m_Sworddrawn)
 	{
 		
 			if (m_NextAnimationName != "onSword")
@@ -609,14 +516,14 @@ void Player::UpdateGround()
 				m_OnWeponSE->PlaySE();
 				m_BlendTime = 0.0f;
 			}
-			m_onSword = true;
-			m_sworddrawn = true;
+			m_OnSword = true;
+			m_Sworddrawn = true;
 		
 	}
 
 	if (Input::GetKeyTrigger('R'))
 	{
-		if (m_sworddrawn)//納刀
+		if (m_Sworddrawn)//納刀
 		{
 			if (m_NextAnimationName != "offSword")
 			{
@@ -627,30 +534,30 @@ void Player::UpdateGround()
 				m_OffWeponSE->PlaySE();
 				m_BlendTime = 0.0f;
 			}
-			m_offSword = true;
+			m_OffSword = true;
 			
 		}
 		
 	}
 	
-	if (m_onSword)
+	if (m_OnSword)
 	{
 		m_AnimationDelay++;
 		if (m_AnimationDelay > 35)
 		{
-			m_onSword = false;
+			m_OnSword = false;
 			m_AnimationDelay = 0;
 		}
 	
 	}
-	if (m_offSword)
+	if (m_OffSword)
 	{
 		m_AnimationDelay++;
 		if (m_AnimationDelay > 50)
 		{
-			m_sworddrawn = false;
+			m_Sworddrawn = false;
 			m_AnimationDelay = 0;
-			m_offSword = false;
+			m_OffSword = false;
 		}
 
 	}
@@ -661,10 +568,10 @@ void Player::UpdateGround()
 		if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina>0)
 		{
 			
-			directionZ = cameraFoward * m_speed;
-			if (m_sworddrawn)
+			 m_DirectionZ = m_CameraFoward * m_Speed;
+			if (m_Sworddrawn)
 			{
-				m_speed = 0.15f;
+				m_Speed = 0.15f;
 				if (m_NextAnimationName != "SwordRun")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -674,7 +581,7 @@ void Player::UpdateGround()
 			}
 			else
 			{
-				m_speed = 0.2f;
+				m_Speed = 0.2f;
 				if (m_NextAnimationName != "Run")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -684,20 +591,20 @@ void Player::UpdateGround()
 			}	
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-			float angle = atan2f(cameraFoward.x, cameraFoward.z);
+			float angle = atan2f(m_CameraFoward.x, m_CameraFoward.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
-			m_idle = false;
-			m_move = true;
-			m_walk = false;
-			m_run = true;
+			m_Idle = false;
+			m_Move = true;
+			m_Walk = false;
+			m_Run = true;
 		}
 		else
 		{
-			m_speed = 0.1f;
-			directionZ = cameraFoward * m_speed;
+			m_Speed = 0.1f;
+			 m_DirectionZ = m_CameraFoward * m_Speed;
 
-			if (m_sworddrawn)
+			if (m_Sworddrawn)
 			{
 				if (m_NextAnimationName != "SwordWalk")
 				{
@@ -718,13 +625,13 @@ void Player::UpdateGround()
 			
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-			float angle = atan2f(cameraFoward.x, cameraFoward.z);
+			float angle = atan2f(m_CameraFoward.x, m_CameraFoward.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
-			m_idle = true;
-			m_move = true;
-			m_walk = true;
-			m_run = false;
+			m_Idle = true;
+			m_Move = true;
+			m_Walk = true;
+			m_Run = false;
 		}
 		
 
@@ -734,11 +641,11 @@ void Player::UpdateGround()
 		
 		if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina > 0)
 		{
-			m_speed = 0.1f;
-			directionZ = -cameraFoward * m_speed;
-			if (m_sworddrawn)
+			m_Speed = 0.1f;
+			 m_DirectionZ = -m_CameraFoward * m_Speed;
+			if (m_Sworddrawn)
 			{
-				m_speed = 0.15f;
+				m_Speed = 0.15f;
 				if (m_NextAnimationName != "SwordRun")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -748,7 +655,7 @@ void Player::UpdateGround()
 			}
 			else
 			{
-				m_speed = 0.2f;
+				m_Speed = 0.2f;
 				if (m_NextAnimationName != "Run")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -758,21 +665,21 @@ void Player::UpdateGround()
 			}
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-			float angle = atan2f(-cameraFoward.x, -cameraFoward.z);
+			float angle = atan2f(-m_CameraFoward.x, -m_CameraFoward.z);
 			/*D3DXQuaternionRotationAxis(&quat, &axis, D3DX_PI);*/
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
-			m_idle = false;
-			m_move = true;
-			m_walk = false;
-			m_run = true;
+			m_Idle = false;
+			m_Move = true;
+			m_Walk = false;
+			m_Run = true;
 		}
 		else
 		{
-			m_speed = 0.1f;
-			directionZ = -cameraFoward * m_speed;
+			m_Speed = 0.1f;
+			 m_DirectionZ = -m_CameraFoward * m_Speed;
 
-			if (m_sworddrawn)
+			if (m_Sworddrawn)
 			{
 				if (m_NextAnimationName != "SwordWalk")
 				{
@@ -792,14 +699,13 @@ void Player::UpdateGround()
 			}
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-			float angle = atan2f(-cameraFoward.x, -cameraFoward.z);
-			/*D3DXQuaternionRotationAxis(&quat, &axis, D3DX_PI);*/
+			float angle = atan2f(-m_CameraFoward.x, -m_CameraFoward.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
-			m_idle = true;
-			m_run = false;
-			m_walk = true;
-			m_move = true;
+			m_Idle = true;
+			m_Run = false;
+			m_Walk = true;
+			m_Move = true;
 		}
 		
 	}
@@ -808,20 +714,19 @@ void Player::UpdateGround()
 	
 		if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina > 0)
 		{
-			m_speed = 0.1f;
-			directionX = -cameraRight * m_speed;
+			m_Speed = 0.1f;
+			 m_DirectionX = -m_CameraRight * m_Speed;
 
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-			float angle = atan2f(-cameraRight.x, -cameraRight.z);
-			/*D3DXQuaternionRotationAxis(&quat, &axis, -D3DX_PI/2.0f);*/
+			float angle = atan2f(-m_CameraRight.x, -m_CameraRight.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
 			
 
-			if (m_sworddrawn)
+			if (m_Sworddrawn)
 			{
-				m_speed = 0.15f;
+				m_Speed = 0.15f;
 				if (m_NextAnimationName != "SwordRun")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -831,7 +736,7 @@ void Player::UpdateGround()
 			}
 			else
 			{
-				m_speed = 0.2f;
+				m_Speed = 0.2f;
 				if (m_NextAnimationName != "Run")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -839,25 +744,24 @@ void Player::UpdateGround()
 					m_BlendTime = 0.0f;
 				}
 			}
-			m_idle = false;
-			m_move = true;
-			m_walk = false;
-			m_run = true;
+			m_Idle = false;
+			m_Move = true;
+			m_Walk = false;
+			m_Run = true;
 		}
 		else
 		{
-			m_speed = 0.1f;
-			directionX = -cameraRight * m_speed;
+			m_Speed = 0.1f;
+			 m_DirectionX = -m_CameraRight * m_Speed;
 
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-			float angle = atan2f(-cameraRight.x, -cameraRight.z);
-			/*D3DXQuaternionRotationAxis(&quat, &axis, -D3DX_PI/2.0f);*/
+			float angle = atan2f(-m_CameraRight.x, -m_CameraRight.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
 			
 
-			if (m_sworddrawn)
+			if (m_Sworddrawn)
 			{
 				if (m_NextAnimationName != "SwordWalk")
 				{
@@ -875,10 +779,10 @@ void Player::UpdateGround()
 					m_BlendTime = 0.0f;
 				}
 			}
-			m_idle = true;
-			m_run = false;
-			m_walk = true;
-			m_move = true;
+			m_Idle = true;
+			m_Run = false;
+			m_Walk = true;
+			m_Move = true;
 		}
 		
 	}
@@ -887,20 +791,19 @@ void Player::UpdateGround()
 	
 		if (Input::GetKeyPress(VK_SHIFT) && m_Stamina > 0)
 		{
-			m_speed = 0.1f;
-			directionX = cameraRight * m_speed;
+			m_Speed = 0.1f;
+			 m_DirectionX = m_CameraRight * m_Speed;
 
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-			float angle = atan2f(cameraRight.x, cameraRight.z);
-			/*D3DXQuaternionRotationAxis(&quat, &axis, D3DX_PI / 2.0f);*/
+			float angle = atan2f(m_CameraRight.x, m_CameraRight.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
 			
 
-			if (m_sworddrawn)
+			if (m_Sworddrawn)
 			{
-				m_speed = 0.15f;
+				m_Speed = 0.15f;
 				if (m_NextAnimationName != "SwordRun")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -910,7 +813,7 @@ void Player::UpdateGround()
 			}
 			else
 			{
-				m_speed = 0.2f;
+				m_Speed = 0.2f;
 				if (m_NextAnimationName != "Run")
 				{
 					m_AnimationName = m_NextAnimationName;
@@ -919,25 +822,24 @@ void Player::UpdateGround()
 				}
 			}
 
-			m_idle = false;
-			m_move = true;
-			m_walk = false;
-			m_run = true;
+			m_Idle = false;
+			m_Move = true;
+			m_Walk = false;
+			m_Run = true;
 		}
 		else
 		{
-			m_speed = 0.1f;
-			directionX = cameraRight * m_speed;
+			m_Speed = 0.1f;
+			 m_DirectionX = m_CameraRight * m_Speed;
 
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-			float angle = atan2f(cameraRight.x, cameraRight.z);
-			/*D3DXQuaternionRotationAxis(&quat, &axis, D3DX_PI / 2.0f);*/
+			float angle = atan2f(m_CameraRight.x, m_CameraRight.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
 		
 
-			if (m_sworddrawn)
+			if (m_Sworddrawn)
 			{
 				if (m_NextAnimationName != "SwordWalk")
 				{
@@ -956,30 +858,28 @@ void Player::UpdateGround()
 				}
 			}
 
-			m_idle = true;
-			m_run = false;
-			m_walk = true;
-			m_move = true;
+			m_Idle = true;
+			m_Run = false;
+			m_Walk = true;
+			m_Move = true;
 		}
 		
 	}
 
 
 	//待機状態
-	if (m_move == false && m_attack == false && !m_onSword && !m_offSword && !m_HitInpact)
+	if (m_Move == false && m_Attack == false && !m_OnSword && !m_OffSword && !m_HitInpact)
 	{
-		m_run = false;
-		m_walk = false;
-		m_idle = true;
-		//m_WalkSoundBGM->Stop();
-		//m_RunSoundBGM->Stop();
-		if (m_sworddrawn)
+		m_Run = false;
+		m_Walk = false;
+		m_Idle = true;
+		if (m_Sworddrawn)
 		{
 			if (m_NextAnimationName != "SwordIdle")
 			{
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "SwordIdle";
-				m_comboCount = 0;
+				m_ComboCount = 0;
 				m_BlendTime = 0.0f;
 			}
 		}
@@ -989,29 +889,29 @@ void Player::UpdateGround()
 			{
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "Idle";
-				m_comboCount = 0;
+				m_ComboCount = 0;
 				m_BlendTime = 0.0f;
 			}
 		}
 		
 	}
 	//x,zを加算します
-	D3DXVECTOR3 direction = directionX + directionZ;
+	D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
 
 
 	//正規化します
 	D3DXVec3Normalize(&direction, &direction);
 
 	//PositonにSpeed加算します
-	m_Position += direction *m_speed;
+	m_Position += direction *m_Speed;
 
 	// プレイヤーの移動ベクトルを更新
-	//m_MoveVector = m_Velocity * m_speed;
+	//m_MoveVector = m_Velocity * m_Speed;
 
 
 	D3DXVECTOR3 m_ColliderPos = m_Position + GetForward() * 2.0f;
 
-	if (Input::GetKeyPress(VK_RBUTTON) && !m_startGuard && m_sworddrawn)
+	if (Input::GetKeyPress(VK_RBUTTON) && !m_StartGuard && m_Sworddrawn)
 	{
 		if (m_NextAnimationName != "StartGuard")
 		{
@@ -1019,8 +919,8 @@ void Player::UpdateGround()
 			m_NextAnimationName = "StartGuard";
 			m_BlendTime = 0.0f;
 		}
-		m_idle = false;
-		m_startGuard = true;
+		m_Idle = false;
+		m_StartGuard = true;
 		m_PlayerState = PLAYER_STATE_GUARD;
 	}
 
@@ -1028,7 +928,7 @@ void Player::UpdateGround()
 
 
 	//カウンター攻撃
-	if (Input::GetKeyTrigger(VK_LBUTTON) && Input::GetKeyPress(VK_LCONTROL) && !m_run && m_sworddrawn && !m_onSword)
+	if (Input::GetKeyTrigger(VK_LBUTTON) && Input::GetKeyPress(VK_LCONTROL) && !m_Run && m_Sworddrawn && !m_OnSword)
 	{
 		if (m_NextAnimationName != "CounterAttack")
 		{
@@ -1036,14 +936,14 @@ void Player::UpdateGround()
 			m_BlendTime = 0.0f;
 			m_AnimationName = m_NextAnimationName;
 			m_NextAnimationName = "CounterAttack";
-			m_attack = true;
-			m_move = true;
-			m_idle = false;
+			m_Attack = true;
+			m_Move = true;
+			m_Idle = false;
 			m_PlayerState = PLAYER_STATE_COUNTER_ATTACK;
 		}
 	}
 	//通常攻撃
-	else if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3)
+	else if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3)
 	{
 	    	if (m_NextAnimationName != "SlashAttack")
 	    	{
@@ -1051,17 +951,17 @@ void Player::UpdateGround()
 	    		m_BlendTime = 0.0f;
 	    		m_AnimationName = m_NextAnimationName;
 	    		m_NextAnimationName = "SlashAttack";
-	    		m_attack = true;
-	    		m_comboCount = 1;
-	    		m_move = true;
-	    		m_idle = false;
+	    		m_Attack = true;
+	    		m_ComboCount = 1;
+	    		m_Move = true;
+	    		m_Idle = false;
 	    		m_AttackMotion1 = true;
 	    		m_PlayerState = PLAYER_STATE_ATTACK;
 	    	}
 	}
 
 	//2段目攻撃
-	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword && m_ConboflagisAttack2)
+	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2)
 	{
 		if (m_NextAnimationName != "SlashAttack2")
 		{
@@ -1069,17 +969,17 @@ void Player::UpdateGround()
 			m_BlendTime = 0.0f;
 			m_AnimationName = m_NextAnimationName;
 			m_NextAnimationName = "SlashAttack2";
-			m_attack = true;
-			m_comboCount = 2;
-			m_move = true;
-			m_idle = false;
+			m_Attack = true;
+			m_ComboCount = 2;
+			m_Move = true;
+			m_Idle = false;
 			m_AttackMotion2 = true;
 			m_PlayerState = PLAYER_STATE_ATTACK2;
 		}
 	}
 
 	////3段目攻撃
-	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_run && m_sworddrawn && !m_onSword && m_ConboflagisAttack3)
+	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack3)
 	{
 		if (m_NextAnimationName != "SlashAttack3")
 		{
@@ -1087,10 +987,10 @@ void Player::UpdateGround()
 			m_BlendTime = 0.0f;
 			m_AnimationName = m_NextAnimationName;
 			m_NextAnimationName = "SlashAttack3";
-			m_attack = true;
-			m_comboCount = 3;
-			m_move = true;
-			m_idle = false;
+			m_Attack = true;
+			m_ComboCount = 3;
+			m_Move = true;
+			m_Idle = false;
 			m_PlayerState = PLAYER_STATE_ATTACK3;
 		}
 	}
@@ -1098,7 +998,7 @@ void Player::UpdateGround()
 
 
 	//回転攻撃
-	if (Input::GetKeyTrigger('T') && !m_run && m_sworddrawn && !m_onSword)
+	if (Input::GetKeyTrigger('T') && !m_Run && m_Sworddrawn && !m_OnSword)
 	{
 		if (m_NextAnimationName != "RotationAttack")
 		{
@@ -1106,9 +1006,9 @@ void Player::UpdateGround()
 			m_BlendTime = 0.0f;
 			m_AnimationName = m_NextAnimationName;
 			m_NextAnimationName = "RotationAttack";
-			m_attack = true;
-			m_move = true;
-			m_idle = false;
+			m_Attack = true;
+			m_Move = true;
+			m_Idle = false;
 			m_PlayerState = PLAYER_STATE_ROTATION_ATTACK;
 		}
 	}
@@ -1121,9 +1021,9 @@ void Player::UpdateGround()
 			m_Time = 0.0f;
 			m_AnimationName = m_NextAnimationName;
 			m_NextAnimationName = "IsRoll";
-			m_move = true;
-			m_roll = true;
-			m_idle = false;
+			m_Move = true;
+			m_Roll = true;
+			m_Idle = false;
 			m_PlayerState = PLAYER_STATE_ROLL;
 		}
 	}
@@ -1131,50 +1031,50 @@ void Player::UpdateGround()
 
 void Player::UpdateRoll()
 {
-	if (m_roll==true)
+	if (m_Roll==true)
 	{
 		m_AnimationDelay++;
 		if (Input::GetKeyPress('W')) {
-			directionZ = cameraFoward * 0.1f;
+			 m_DirectionZ = m_CameraFoward * 0.1f;
 		}
 		else
 		{
-			directionZ = GetForward() * 0.1f;
+			 m_DirectionZ = GetForward() * 0.1f;
 		}
 		if (Input::GetKeyPress('S')) {
-			directionZ = -cameraFoward * 0.1f;
+			 m_DirectionZ = -m_CameraFoward * 0.1f;
 		}
 		if (Input::GetKeyPress('A')) {
-			directionX = -cameraRight * 0.1f;
+			 m_DirectionX = -m_CameraRight * 0.1f;
 		}
 		if (Input::GetKeyPress('D')) {
-			directionX = cameraRight * 0.1f;
+			 m_DirectionX = m_CameraRight * 0.1f;
 		}
 		if (m_AnimationDelay >= 65)
 		{
 			m_AnimationDelay = 0;
-			m_roll = false;
-			m_move = false;
-			m_idle = true;
+			m_Roll = false;
+			m_Move = false;
+			m_Idle = true;
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}	
 
 		//x,zを加算します
-		D3DXVECTOR3 direction = directionX + directionZ;
+		D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
 
 
 		//正規化します
 		D3DXVec3Normalize(&direction, &direction);
 
 		//PositonにSpeed加算します
-		m_Position += direction * m_speed;
+		m_Position += direction * m_Speed;
 	}
 }
 
 void Player::UpdateAttack()
 {
-	m_idle = true;
-	if (m_attack)
+	m_Idle = true;
+	if (m_Attack)
 	{
 		m_AnimationDelay++;
 
@@ -1184,7 +1084,7 @@ void Player::UpdateAttack()
 		}
 		
 		//攻撃判定が発生する時間設定
-		if (21 < m_AnimationDelay && m_AnimationDelay < 33)
+		if (25 < m_AnimationDelay && m_AnimationDelay < 35)
 		{
 			m_AttackCollisionFlag = true;
 		}
@@ -1193,12 +1093,12 @@ void Player::UpdateAttack()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (m_AnimationDelay >=65 && m_comboCount == 1)
+		if (m_AnimationDelay >=65 && m_ComboCount == 1)
 		{
 			m_Time = 0;
 			m_AnimationDelay = 0;
-			m_attack = false;
-			m_move = false;
+			m_Attack = false;
+			m_Move = false;
 			m_AttackMotion1 = false;
 			m_PlayerState = PLAYER_STATE_GROUND;	
 		}
@@ -1207,8 +1107,8 @@ void Player::UpdateAttack()
 
 void Player::UpdateAttack2()
 {
-	m_idle = true;
-	if (m_attack)
+	m_Idle = true;
+	if (m_Attack)
 	{
 		m_AnimationDelay++;
 
@@ -1219,7 +1119,7 @@ void Player::UpdateAttack2()
 
 
 		//攻撃判定が発生する時間設定
-		if (30 < m_AnimationDelay && m_AnimationDelay < 50)
+		if (35 < m_AnimationDelay && m_AnimationDelay < 50)
 		{
 			m_AttackCollisionFlag = true;
 		}
@@ -1229,12 +1129,11 @@ void Player::UpdateAttack2()
 		}
 
 
-		if (m_AnimationDelay >= 70 && m_comboCount == 2)
+		if (m_AnimationDelay >= 70 && m_ComboCount == 2)
 		{
 			m_AnimationDelay = 0;
-			m_attack = false;
-			m_fainalAttack = true;
-			m_move = false;
+			m_Attack = false;
+			m_Move = false;
 			m_ConboflagisAttack2 = false;
 			m_AttackMotion2 = false;
 			m_PlayerState = PLAYER_STATE_GROUND;
@@ -1245,34 +1144,13 @@ void Player::UpdateAttack2()
 
 void Player::UpdateAttack3()
 {
-	m_idle = true;
-	if (m_attack)
+	m_Idle = true;
+	if (m_Attack)
 	{
 		m_AnimationDelay++;
-		m_fainalAttack = false;
-		
-		/*D3DXMATRIX hipmatrix;
-		AnimationModel* animationmodel;
-		animationmodel = GetAnimationModel();
-		BONE* bone;
-		bone = animationmodel->GetBone("mixamorig:Hips");
-		hipmatrix = animationmodel->ConvertMatrix(bone->WorldMatrix);*/
-		
-		D3DXMATRIX hipmatrix;
-		AnimationModel* animationmodel;
-		animationmodel = GetAnimationModel();
-		BONE* bone;
-		bone = animationmodel->GetBone("mixamorig:Hips");
-		hipmatrix = animationmodel->ConvertMatrix(bone->WorldMatrix);
-
-
-		if (98 <= m_AnimationDelay && m_AnimationDelay < 100)
-		{
-			m_HipBonePosition = MatrixtoPosition(hipmatrix);
-		}
 
 		//攻撃判定が発生する時間設定
-		if (65 < m_AnimationDelay && m_AnimationDelay < 80)
+		if (70 < m_AnimationDelay && m_AnimationDelay < 80)
 		{
 			m_AttackCollisionFlag = true;
 		}
@@ -1281,48 +1159,48 @@ void Player::UpdateAttack3()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (m_AnimationDelay >= 100 && m_comboCount == 3)
+		if (m_AnimationDelay >= 100 && m_ComboCount == 3)
 		{	
 			m_AnimationDelay = 0;
-			m_attack = false;
-			m_move = false;
-			m_comboCount = 0;
-			m_speed = 0.3f;
-			directionZ = m_speed * GetForward();
+			m_Attack = false;
+			m_Move = false;
+			m_ComboCount = 0;
+			m_Speed = 0.3f;
+			 m_DirectionZ = m_Speed * GetForward();
 			m_ConboflagisAttack3 = false;
-			m_AnimationInterpolation = true;
+	
 			
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
 		if (m_AnimationDelay >= 80 && m_AnimationDelay <=85)
 		{
-			Scene* scene = Manager::GetScene();
-			Camera* camera = scene->GetGameObject<Camera>();
-			camera->Shake(0.03f);
+			
+			Camera* m_Camera = m_Scene->GetGameObject<Camera>();
+			m_Camera->Shake(0.05f);
 			
 		}
 	}
 
 	
 
-	D3DXVECTOR3 direction = directionX + directionZ;
+	D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
 	//正規化します
 	D3DXVec3Normalize(&direction, &direction);
 	//PositonにSpeed加算します
-	m_Position += direction * m_speed;
+	m_Position += direction * m_Speed;
 }
 
 void Player::UpdateRotationAttack()
 {
-	m_idle = true;
-	if (m_attack)
+	m_Idle = true;
+	if (m_Attack)
 	{
 		m_AnimationDelay++;
 
 		
 
 		//攻撃判定が発生する時間設定
-		if (35 < m_AnimationDelay && m_AnimationDelay < 55)
+		if (40 < m_AnimationDelay && m_AnimationDelay < 55)
 		{
 			m_AttackCollisionFlag = true;
 		}
@@ -1335,8 +1213,8 @@ void Player::UpdateRotationAttack()
 		{
 			m_Time = 0;
 			m_AnimationDelay = 0;
-			m_attack = false;
-			m_move = false;
+			m_Attack = false;
+			m_Move = false;
 			m_AttackMotion1 = false;
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
@@ -1345,8 +1223,8 @@ void Player::UpdateRotationAttack()
 
 void Player::UpdateCounterAttack()
 {
-	m_idle = true;
-	if (m_attack)
+	m_Idle = true;
+	if (m_Attack)
 	{
 		m_AnimationDelay++;
 
@@ -1364,8 +1242,8 @@ void Player::UpdateCounterAttack()
 		{
 			m_Time = 0;
 			m_AnimationDelay = 0;
-			m_attack = false;
-			m_move = false;
+			m_Attack = false;
+			m_Move = false;
 			m_AttackMotion1 = false;
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
@@ -1375,21 +1253,19 @@ void Player::UpdateCounterAttack()
 
 void Player::UpdateGuard()
 {
-	m_idle = false;
-	Scene* scene = Manager::GetScene();
-	RockEffect* rockeffect = scene->GetGameObject<RockEffect>();
-	Bullet* bullet = scene->GetGameObject<Bullet>();
+	m_Idle = false;
+	
 
-	if (rockeffect != nullptr)
+	if (m_RockEffect != nullptr)
 	{
-		if (m_startGuard && rockeffect->GetHit() && !m_InpactGuard)
+		if (m_StartGuard && m_RockEffect->GetHit() && !m_InpactGuard)
 		{
 			if (m_NextAnimationName != "GuardImpact")
 			{
 				m_Time = 0.0f;
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "GuardImpact";
-				m_move = true;
+				m_Move = true;
 				m_InpactGuard = true;
 				m_SuccessGuard = true;
 			}
@@ -1397,18 +1273,18 @@ void Player::UpdateGuard()
 		}
 	}
 
-	if (bullet != nullptr)
+	if (m_Bullet != nullptr)
 	{
 		
 
-		if (m_startGuard && bullet->GetHit() && !m_InpactGuard)
+		if (m_StartGuard && m_Bullet->GetHit() && !m_InpactGuard)
 		{
 			if (m_NextAnimationName != "GuardImpact")
 			{
 				m_Time = 0.0f;
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "GuardImpact";
-				m_move = true;
+				m_Move = true;
 				m_InpactGuard = true;
 				m_SuccessGuard = true;
 
@@ -1420,15 +1296,15 @@ void Player::UpdateGuard()
 
 	
 
-	if (Input::GetKeyPress(VK_RBUTTON) && m_startGuard && !m_InpactGuard)
+	if (Input::GetKeyPress(VK_RBUTTON) && m_StartGuard && !m_InpactGuard)
 	{
 		if (m_NextAnimationName != "IsGuard")
 		{
 			m_Time = 0.0f;
 			m_AnimationName = m_NextAnimationName;
 			m_NextAnimationName = "IsGuard";
-			m_move = true;
-			m_isGuard = true;
+			m_Move = true;
+			m_IsGuard = true;
 		}
 	}
 	else if(!Input::GetKeyPress(VK_RBUTTON))
@@ -1438,7 +1314,7 @@ void Player::UpdateGuard()
 			m_Time = 0.0f;
 			m_AnimationName = m_NextAnimationName;
 			m_NextAnimationName = "EndGuard";
-			m_move = false;
+			m_Move = false;
 			m_EndGuard = true;
 
 		}	
@@ -1447,8 +1323,8 @@ void Player::UpdateGuard()
 	if (m_InpactGuard)
 	{
 		m_AnimationDelay++;
-		m_speed = 0.1f;
-		directionZ = -cameraFoward * m_speed;
+		m_Speed = 0.1f;
+		 m_DirectionZ = -m_CameraFoward * m_Speed;
 	}
 
 	if (m_AnimationDelay > 40 && m_InpactGuard)
@@ -1467,19 +1343,18 @@ void Player::UpdateGuard()
 	if (m_AnimationDelay > 20 && m_EndGuard)
 	{
 		m_AnimationDelay = 0;
-		m_isGuard = m_startGuard = m_EndGuard = m_InpactGuard =  m_SuccessGuard = false;
+		m_IsGuard = m_StartGuard = m_EndGuard = m_InpactGuard =  m_SuccessGuard = false;
 		m_PlayerState = PLAYER_STATE_GROUND;
 	}
 
 	//x,zを加算します
-	D3DXVECTOR3 direction = directionX + directionZ;
-
+	D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
 
 	//正規化します
 	D3DXVec3Normalize(&direction, &direction);
 
 	//PositonにSpeed加算します
-	m_Position += direction * m_speed;
+	m_Position += direction * m_Speed;
 }
 
 void Player::UpdateTitleIdle()

@@ -15,8 +15,7 @@ TextureLoad* texture_TimeLimit = new TextureLoad;
 TextureLoad* texture_TimeHand = new TextureLoad;
 TextureLoad* texture_GageBase = new TextureLoad;
 TextureLoad* texture_TimelimitUI = new TextureLoad;
-
-
+TextureLoad* texture_PotionUI = new TextureLoad;
 void GameTexture::Init()
 {
 	texture_Dragon->Init("asset/texture/UI/dragonUI.png");
@@ -25,15 +24,16 @@ void GameTexture::Init()
 	texture_TimeHand->Init("asset/texture/UI/ClockHand2.png");
 	texture_GageBase->Init("asset/texture/UI/gagebase.png");
 	texture_TimelimitUI->Init("asset/texture/UI/timelimit.png");
+	texture_PotionUI->Init("asset/texture/UI/potion.png");
 }
 
 void GameTexture::Uninit()
 {
-	delete texture_Dragon;
-	delete texture_Clock;
-	delete texture_TimeLimit;
-	delete texture_TimeHand;
-	delete texture_GageBase;
+	texture_Dragon->Uninit();
+	texture_Clock->Uninit();
+	texture_TimeLimit->Uninit();
+	texture_TimeHand->Uninit();
+	texture_GageBase->Uninit();
 }
 
 void GameTexture::Update()
@@ -44,8 +44,8 @@ void GameTexture::Update()
 	ImGui::InputFloat("frame", &m_Framwait);
 	ImGui::End();
 
-	m_y = texture_TimelimitUI->UiMove(160, texture_TimelimitUI);
-	if (m_y < -50)
+	m_Y = texture_TimelimitUI->UiMove(160, texture_TimelimitUI);
+	if (m_Y < -50)
 	{
 		m_GameStart = true;
 	}
@@ -76,6 +76,9 @@ void GameTexture::Draw()
 	texture_GageBase->Draw(80.0f, 5.0f);
 
 	texture_TimelimitUI->SetTextureScale(300.0f, 80.0f);
-	texture_TimelimitUI->Draw(400.0f, m_y);
+	texture_TimelimitUI->Draw(400.0f, m_Y);
+
+	texture_PotionUI->SetTextureScale(150.0f, 150.0f);
+	texture_PotionUI->Draw(800.0f, 400.0f);
 	
 }

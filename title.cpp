@@ -34,7 +34,7 @@
 #include"audio.h"
 
 bool Title::m_TitleCheck = false;
-bool Title::menucontrol = false;
+bool Title::m_Menucontrol = false;
 
 TitleTexture* titletexture;
 
@@ -43,7 +43,7 @@ void Title::Init()
 	Scene* scene = Manager::GetScene();
 
 	Scene::Init();
-	m_framecount = 0;
+
 	m_FloarPosition = 0;
 	m_TitleCheck = true;
 
@@ -67,7 +67,7 @@ void Title::Init()
 
 	titletexture = AddGameObject<TitleTexture>(SPRITE_LAYER);
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
-	buttonOverLapping = false;
+
 	int num = 0;
 
 	m_TitleBGM = AddGameObject<GameObject>()->AddComponent<Audio>();
@@ -86,9 +86,9 @@ void Title::Update()
 
 
 	//キー入力でゲーム画面に遷移
-	if (Input::GetKeyTrigger(VK_SPACE)  && menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && titletexture->GetGameButtonOverLap() && menucontrol) //Enterキー
+	if (Input::GetKeyTrigger(VK_SPACE)  && m_Menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && titletexture->GetGameButtonOverLap() && m_Menucontrol) //Enterキー
 	{
-		menucontrol = false;
+		m_Menucontrol = false;
 		m_Fade->FadeOut();
 	} 
 	if (m_Fade->GetFadeFinish())
@@ -99,11 +99,11 @@ void Title::Update()
 	}
 
 	//最初の画面から選択画面へ
-	if (Input::GetKeyTrigger(VK_SPACE) && !menucontrol || Input::GetKeyTrigger(VK_LBUTTON) && !menucontrol )
+	if (Input::GetKeyTrigger(VK_SPACE) && !m_Menucontrol || Input::GetKeyTrigger(VK_LBUTTON) && !m_Menucontrol)
 	{
 		m_DecisiveSE->PlaySE();
 		m_DecisiveSE->Volume(titletexture->GetSEVolume());
-		menucontrol = true;
+		m_Menucontrol = true;
 	}
 
 	
@@ -114,8 +114,9 @@ void Title::Update()
 void Title::Uninit()
 {
 	
-	Scene::Uninit();
 
+	Scene::Uninit();
+	
 	
 }
 

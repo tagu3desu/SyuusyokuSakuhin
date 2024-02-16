@@ -13,47 +13,47 @@ private:
 
 	D3DXCOLOR m_Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	bool shakeflag = false;
+	bool m_Shakeflag{};
 
-	float m_x=0;
-	float m_y=0;
-	bool m_up=false;
-	bool m_down = false;
+	float m_X=0;
+	float m_Y=0;
+	bool m_Up{};
+	bool m_Down{};
 
 	float m_OffsetX{};
 	float m_OffsetY{};
 
-	D3DXVECTOR2 m_minpos{};
-	D3DXVECTOR2 m_maxpos{};
+	D3DXVECTOR2 m_Minpos{};
+	D3DXVECTOR2 m_Maxpos{};
 
 	float m_AlfaColor = 1.0f;
 	int m_Count = 0;
 
-	float m_width=100;
-	float m_height=100;
+	float m_Width=100;
+	float m_Height=100;
 
 	int m_FlashInterval;
 
 	class Audio* m_UiSe{};
 
 	float m_MoveHeight;
-	bool m_Up;
+	
 public:
 	void Init(const char* TextureName);
 	void Uninit();
 	void Update();
-	void Draw(float m_x,float m_y );
+	void Draw(float m_X,float m_Y );
 
 	void SetColor(D3DXCOLOR Color) { m_Color = Color; }
 	void SetOffset(float offsetx, float offsety) { m_OffsetX = offsetx, m_OffsetY = offsety; }
-	void SetTexturePostion(float X, float Y) { X = m_x; Y = m_y; }
-	void SetTextureScale(float width, float height) { m_width = width; m_height = height; }
-	void UpDownTexture(bool shake) { shakeflag = shake; }
+	void SetTexturePostion(float X, float Y) { X = m_X; Y = m_Y; }
+	void SetTextureScale(float width, float height) { m_Width = width; m_Height = height; }
+	void UpDownTexture(bool shake) { m_Shakeflag = shake; }
 
-	float GetMenuSelectPosition() { return m_x, m_y;}
+	float GetMenuSelectPosition() { return m_X, m_Y;}
 	bool CheckMenuSelectPosition (float x,float y) 
 	{  
-		if (x == m_x && y == m_y)
+		if (x == m_X && y == m_Y)
 		{
 			return true;
 		}

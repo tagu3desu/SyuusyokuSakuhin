@@ -10,22 +10,22 @@ void Staminagage::Init()
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3(m_x, m_y, 0.0f);
+	vertex[0].Position = D3DXVECTOR3(m_X, m_Y, 0.0f);
 	vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
 
-	vertex[1].Position = D3DXVECTOR3(m_x+m_width, m_y, 0.0f);
+	vertex[1].Position = D3DXVECTOR3(m_X+m_Width, m_Y, 0.0f);
 	vertex[1].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
 
-	vertex[2].Position = D3DXVECTOR3(m_x, m_y+m_height, 0.0f);
+	vertex[2].Position = D3DXVECTOR3(m_X, m_Y+m_Height, 0.0f);
 	vertex[2].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
 
-	vertex[3].Position = D3DXVECTOR3(m_x+m_width, m_y+m_height, 0.0f);
+	vertex[3].Position = D3DXVECTOR3(m_X+m_Width, m_Y+m_Height, 0.0f);
 	vertex[3].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
@@ -52,14 +52,7 @@ void Staminagage::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\staminagaugePS.cso");
 
-	m_stamina = m_staminaMax = 1000;
-
-
-	
-	//AddComponent<Sprite>()->Init(200.0f, 100.0f, 300.0f, 200.0f, "asset/texture/grass.jpg");
-
-
-
+	m_Stamina = m_StaminaMax = 1000;
 }
 
 void Staminagage::Uninit()
@@ -83,15 +76,15 @@ void Staminagage::Update()
 	Player* player = scene->GetGameObject<Player>();
 
 	
-	if (Input::GetKeyPress(VK_LSHIFT) && m_stamina >0 && player->GetPlayerRun())	
+	if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina >0 && player->GetPlayerRun())	
 	{
 		
-		m_stamina -= 2.0f;
+		m_Stamina -= 2.0f;
 	}
-	if (player->GeiPlayerIdle() && m_stamina <= m_staminaMax)
+	if (player->GeiPlayerIdle() && m_Stamina <= m_StaminaMax)
 	{
 		
-		m_stamina += 3.0f;
+		m_Stamina += 3.0f;
 	}
 	
 
@@ -133,8 +126,8 @@ void Staminagage::Draw()
 
 	//HPパラメータ設定
 	PARAMETER param;
-	param.stamina.x = m_stamina;
-	param.stamina.y = m_staminaMax;
+	param.stamina.x = m_Stamina;
+	param.stamina.y = m_StaminaMax;
 	param.staminabasecolor = D3DXCOLOR(1.0f,0.6f, 0.0f, 1.0f); //オレンジ？
 	param.lostColor = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.0f); //灰
 	Renderer::SetParameter(param);

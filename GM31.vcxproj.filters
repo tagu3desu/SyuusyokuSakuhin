@@ -198,22 +198,10 @@
     <ClCompile Include="box.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
-    <ClCompile Include="door.cpp">
-      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="doorframe.cpp">
-      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
-    </ClCompile>
     <ClCompile Include="field.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
-    <ClCompile Include="floar.cpp">
-      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
-    </ClCompile>
     <ClCompile Include="grass.cpp">
-      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="areachangecollider.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
     <ClCompile Include="meshField.cpp">
@@ -257,9 +245,6 @@
     </ClCompile>
     <ClCompile Include="torus.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="potion.cpp">
-      <Filter>ソース ファイル\テクスチャ\UI</Filter>
     </ClCompile>
     <ClCompile Include="potioncount.cpp">
       <Filter>ソース ファイル\テクスチャ\UI</Filter>
@@ -353,17 +338,11 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="torus.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="collider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>ヘッダー ファイル\カメラ</Filter>
-    </ClInclude>
-    <ClInclude Include="potion.h">
-      <Filter>ヘッダー ファイル\テクスチャ\UI</Filter>
     </ClInclude>
     <ClInclude Include="potioncount.h">
       <Filter>ヘッダー ファイル\テクスチャ\UI</Filter>
@@ -404,12 +383,6 @@
     <ClInclude Include="cylinder.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
-    <ClInclude Include="door.h">
-      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="doorframe.h">
-      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
-    </ClInclude>
     <ClInclude Include="grass.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
@@ -431,13 +404,7 @@
     <ClInclude Include="titletexturemanager.h">
       <Filter>ヘッダー ファイル\テクスチャ\テクスチャ管理</Filter>
     </ClInclude>
-    <ClInclude Include="areachangecollider.h">
-      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
-    </ClInclude>
     <ClInclude Include="field.h">
-      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="floar.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
     <ClInclude Include="meshField.h">
@@ -511,6 +478,9 @@
     </ClInclude>
     <ClInclude Include="dummy.h">
       <Filter>ヘッダー ファイル\敵関連\デコイ</Filter>
+    </ClInclude>
+    <ClInclude Include="torus.h">
+      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

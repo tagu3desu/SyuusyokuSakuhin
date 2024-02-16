@@ -13,7 +13,8 @@
 #include"bladeefect1.h"
 #include"bladeefect2.h"
 #include"dummy.h"
-
+#include"trail.h"
+#include"camera.h"
 ID3D11Buffer* SwordTopVertex::m_VertexBuffer;
 
 
@@ -40,14 +41,16 @@ void Sword::Init()
 	m_Rotation = D3DXVECTOR3(0.5f, 0.0f, 2.0f);
 
 
-	scene = Manager::GetScene();
+	m_Scene = Manager::GetScene();
 
 	
 
 	if (!Title::GetCheckTitle())
 	{
-		
-		m_SwordCollider = scene->AddGameObject<Collider>(COLLIDER_LAYER);
+		m_SwordTrail = m_Scene->AddGameObject<Trail>();
+		m_SwordTopVertex = m_Scene->AddGameObject<SwordTopVertex>();
+
+		m_SwordCollider = m_Scene->AddGameObject<Collider>(COLLIDER_LAYER);
 		m_SwordCollider->SetScale(D3DXVECTOR3(0.2f, 0.2f, 1.0f));
 		m_SwordCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.2f));
 		m_SwordCollider->SetTag(ITEM_TAG);
@@ -66,28 +69,37 @@ void Sword::Uninit()
 
 void Sword::Update()
 {
-	Player* player = scene->GetGameObject<Player>();
-	Enemy* enemy = scene->GetGameObject<Enemy>();
+	Player* player = m_Scene->GetGameObject<Player>();
+	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
 	
+
+
 	if (!Title::GetCheckTitle())
 	{
 		m_SwordCollider->SetMatrix(m_Matrix);
 		SetColliderInfo(m_SwordCollider->GetMatrix(),false);
 
+		m_SwordTrail->SetTrail(m_SwordTopVertex->GetTopVertexPostion(), GetBottomVertexPostion(), player->GetPlayerAttackCollider());
+
 		//敵との当たり判定
 		if (enemy != nullptr)
 		{
+			
 			if (m_SwordCollider->CollisionChecker(this, enemy, 0.7f))
 			{
 				
 				m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 				if (player->GetPlayerAttackCollider() && !m_InvincibilityFlag)
 				{
-					m_swordhit = true;
-					
+					if (player->GetPlayerAttackNumber() == 3)
+					{
+						Camera* m_Camera = m_Scene->GetGameObject<Camera>();
+						m_Camera->Shake(0.1f);
+					}
+					m_Swordhit = true;
 					enemy->SetDamage(20);
-					BladeEffect1* bladeeffect1 = scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
-					SwordTopVertex* swordvertex = scene->GetGameObject<SwordTopVertex>();
+					BladeEffect1* bladeeffect1 = m_Scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
+					SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
 					bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
 					bladeeffect1->SetPosition(swordvertex->GetTopVertexPostion());
 					player->SetHitStop(true);
@@ -96,29 +108,29 @@ void Sword::Update()
 			}
 			else
 			{
-				m_swordhit = false;
+				m_Swordhit = false;
 				m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 			}
 		}
 
 
 		//ダミーとの当たり判定
-		std::vector<Dummy*>Dummies = scene->GetGameObjects<Dummy>();
+		std::vector<Dummy*>Dummies = m_Scene->GetGameObjects<Dummy>();
 		for (Dummy* dummy : Dummies)
 		{
 			if (dummy != nullptr)
 			{
-				if (m_SwordCollider->CollisionChecker(this, dummy, 0.7f))
+				if (m_SwordCollider->CollisionChecker(this, dummy, 0.5f))
 				{
 
 					m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 					if (player->GetPlayerAttackCollider() && !m_InvincibilityFlag)
 					{
-						m_swordhit = true;
+						m_Swordhit = true;
 
 						
-						BladeEffect1* bladeeffect1 = scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
-						SwordTopVertex* swordvertex = scene->GetGameObject<SwordTopVertex>();
+						BladeEffect1* bladeeffect1 = m_Scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
+						SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
 						bladeeffect1->SetScale(D3DXVECTOR3(4.5f, 4.5f, 4.5f));
 						bladeeffect1->SetPosition(swordvertex->GetTopVertexPostion());
 						player->SetHitStop(true);
@@ -127,7 +139,7 @@ void Sword::Update()
 				}
 				else
 				{
-					m_swordhit = false;
+					m_Swordhit = false;
 					m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 				}
 			}
@@ -145,7 +157,7 @@ void Sword::Update()
 		}
 
 
-		if (m_swordhit)
+		if (m_Swordhit)
 		{
 			m_InviciblilityStartFlag = true;
 		}
@@ -207,7 +219,7 @@ void Sword::Update()
 
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Sword");
-	ImGui::Checkbox("HIt", &m_swordhit);
+	ImGui::Checkbox("HIt", &m_Swordhit);
 	ImGui::End();
 
 }
@@ -215,7 +227,7 @@ void Sword::Update()
 void Sword::Draw()
 {
 	Scene* scene = Manager::GetScene();
-	Player* player = scene->GetGameObject<Player>();
+	Player* player = m_Scene->GetGameObject<Player>();
 	
 
 	GameObject::Draw();
@@ -245,10 +257,10 @@ void Sword::Draw()
 	m_Model->Draw();
 }
 
-//
+
 void SwordTopVertex::Init()
 {
-	scene = Manager::GetScene();
+	m_Scene = Manager::GetScene();
 	m_Scale = D3DXVECTOR3(0.1f, 0.1f, 0.1f);
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.7f);
 }
@@ -303,7 +315,7 @@ void SwordTopVertex::Uninit()
 void SwordTopVertex::Update()
 {
 	
-	Sword* sword = scene->GetGameObject<Sword>();
+	Sword* sword = m_Scene->GetGameObject<Sword>();
 	
 
 	m_Parent = sword->GetMatrix();
@@ -317,10 +329,10 @@ void SwordTopVertex::Draw()
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot * trans * m_Parent;
-	Renderer::SetWorldMatrix(&world);
+	m_Matrix = scale * rot * trans * m_Parent;
+	Renderer::SetWorldMatrix(&m_Matrix);
 
-	m_Matrix = world;
+	
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);

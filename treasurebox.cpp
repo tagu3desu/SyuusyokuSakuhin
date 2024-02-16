@@ -18,7 +18,7 @@ void TreasureBox::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\vertexLightingPS.cso");
 
-	scene = Manager::GetScene();
+	m_Scene = Manager::GetScene();
 	
 }
 
@@ -45,25 +45,19 @@ void TreasureBox::Uninit()
 
 void TreasureBox::Update()
 {
-	scene = Manager::GetScene();
+	m_Scene = Manager::GetScene();
 	
 
 
 	
 
-	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("TreasureBox");
-	ImGui::InputFloat3("Position", m_Position);
-	ImGui::InputFloat3("Scale", m_Scale);
-	ImGui::InputFloat3("Rotation", m_Rotation);
-	ImGui::End();*/
+	
 }
 
 void TreasureBox::Draw()
 {
-	scene = Manager::GetScene();
-	BaseCamp* basecamp = scene->GetGameObject<BaseCamp>();
-
+	m_Scene = Manager::GetScene();
+	
 	//入力レイアウト
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 
@@ -79,9 +73,8 @@ void TreasureBox::Draw()
 	m_Matrix = scale * rot * trans;
 	Renderer::SetWorldMatrix(&m_Matrix);
 
-	if (basecamp->GetMapActive())
-	{
-		m_Model->Draw();
-	}
+	
+	m_Model->Draw();
+	
 	
 }

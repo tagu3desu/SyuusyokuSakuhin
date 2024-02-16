@@ -8,18 +8,17 @@ class Title:public Scene
 private:
 	class Fade* m_Fade{};
 
-	/*float m_MouseposX;
-	float m_MouseposY;*/
+
 
 	class  TitleButton* m_StartButton{};
-	bool  buttonOverLapping;
+	
 
 	static bool m_TitleCheck;
-	int m_framecount;
+	
 	float m_FloarPosition;
 
 
-	static bool menucontrol;
+	static bool m_Menucontrol;
 
 	class Scene* scene{};
 
@@ -34,5 +33,5 @@ public:
 	void Uninit() override;
 	void Draw() override;
 
-	static bool GetMenuControl() { return menucontrol; }
+	static bool GetMenuControl() { return m_Menucontrol; }
 };

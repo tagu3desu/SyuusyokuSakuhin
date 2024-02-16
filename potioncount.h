@@ -11,18 +11,20 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
-
+	float m_X;
+	float m_Y;
 	
 
-	int m_potioncount=0;
+	int m_Potioncount=0;
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
 
-	void AddCount(int Count) { m_potioncount += Count;}
-	void SubstractCount(int MainasuCount) { m_potioncount -= MainasuCount; }
-	void SetCount(int Count) { m_potioncount = Count; }
-	int GetCount() { return m_potioncount; }
+	void SetTexturePostion(float X, float Y) { m_X=X; m_Y=Y; }
+	void AddCount(int Count) { m_Potioncount += Count;}
+	void SubstractCount(int MainasuCount) { m_Potioncount -= MainasuCount; }
+	void SetCount(int Count) { m_Potioncount = Count; }
+	int GetCount() { return m_Potioncount; }
 };

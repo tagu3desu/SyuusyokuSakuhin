@@ -35,8 +35,6 @@ void Collider::Unload()
 
 void Collider::Uninit()
 {
-	
-
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();

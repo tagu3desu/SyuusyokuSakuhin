@@ -33,17 +33,19 @@ void LoadingTexture::Init()
 
 void LoadingTexture::Uninit()
 {
-	delete texture_N;
-	delete texture_O;
-	delete texture_W;
-	delete texture_L;
-	delete texture_O2;
-	delete texture_D;
-	delete texture_I;
-	delete texture_N2;
-	delete texture_G;
+	texture_N->Uninit();
+	texture_O->Uninit();
+	texture_W->Uninit();
+	texture_L->Uninit();
+	texture_O2->Uninit();
+	texture_D->Uninit();
+	texture_I->Uninit();
+	texture_N2->Uninit();
+	texture_G->Uninit();
 
-	delete texture_Load;
+	texture_Load->Uninit();
+
+	
 }
 
 void LoadingTexture::Update()

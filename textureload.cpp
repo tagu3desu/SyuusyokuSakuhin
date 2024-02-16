@@ -8,22 +8,22 @@ void TextureLoad::Init(const char* TextureName)
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3(m_x, m_y, 0.0f);
+	vertex[0].Position = D3DXVECTOR3(m_X, m_Y, 0.0f);
 	vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
 
-	vertex[1].Position = D3DXVECTOR3(m_x+ m_width, m_y, 0.0f);
+	vertex[1].Position = D3DXVECTOR3(m_X+ m_Width, m_Y, 0.0f);
 	vertex[1].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
 
-	vertex[2].Position = D3DXVECTOR3(m_x, m_y+ m_height, 0.0f);
+	vertex[2].Position = D3DXVECTOR3(m_X, m_Y+ m_Height, 0.0f);
 	vertex[2].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
 
-	vertex[3].Position = D3DXVECTOR3(m_x+ m_width, m_y+ m_height, 0.0f);
+	vertex[3].Position = D3DXVECTOR3(m_X+ m_Width, m_Y+ m_Height, 0.0f);
 	vertex[3].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
@@ -69,6 +69,8 @@ void TextureLoad::Uninit()
 	m_VertexBuffer->Release();
 	m_Texture->Release();
 
+
+
 	GameObject::Uninit();
 }
 
@@ -77,7 +79,7 @@ void TextureLoad::Update()
 	GameObject::Update();
 }
 
-void TextureLoad::Draw(float m_x, float m_y)
+void TextureLoad::Draw(float m_X, float m_Y)
 {
 	//入力レイアウト
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
@@ -95,7 +97,7 @@ void TextureLoad::Draw(float m_x, float m_y)
 	D3DXMatrixTranslation(&offset2, m_OffsetX, m_OffsetY, 0);
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-	D3DXMatrixTranslation(&trans, m_x, m_y, m_Position.z);
+	D3DXMatrixTranslation(&trans, m_X, m_Y, m_Position.z);
 	m_Matrix = offset2 * scale * rot * trans;
 	Renderer::SetWorldMatrix(&m_Matrix);	
 
@@ -123,22 +125,22 @@ void TextureLoad::Draw(float m_x, float m_y)
 
 	
 
-	vertex[0].Position = D3DXVECTOR3(m_x, m_y, 0.0f);
+	vertex[0].Position = D3DXVECTOR3(m_X, m_Y, 0.0f);
 	vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
 
-	vertex[1].Position = D3DXVECTOR3(m_x + m_width, m_y, 0.0f);
+	vertex[1].Position = D3DXVECTOR3(m_X + m_Width, m_Y, 0.0f);
 	vertex[1].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[1].TexCoord = D3DXVECTOR2(1.0f, 0.0f);
 
-	vertex[2].Position = D3DXVECTOR3(m_x, m_y + m_height, 0.0f);
+	vertex[2].Position = D3DXVECTOR3(m_X, m_Y + m_Height, 0.0f);
 	vertex[2].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
 
-	vertex[3].Position = D3DXVECTOR3(m_x + m_width, m_y + m_height, 0.0f);
+	vertex[3].Position = D3DXVECTOR3(m_X + m_Width, m_Y + m_Height, 0.0f);
 	vertex[3].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);

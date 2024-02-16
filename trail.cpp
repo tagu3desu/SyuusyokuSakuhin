@@ -98,11 +98,6 @@ void Trail::Update()
 void Trail::Draw()
 {
 	
-	Scene* scene = Manager::GetScene();
-	SwordTopVertex* swordtopvertex = scene->GetGameObject<SwordTopVertex>();
-	Sword* bottomposition = scene->GetGameObject<Sword>();
-	Player* player = scene->GetGameObject<Player>();
-	
 	
 	Renderer::SetRssetEnable(true);
 	GameObject::Draw();
@@ -114,17 +109,17 @@ void Trail::Draw()
 	}
 
 
-	m_TopVertexArray.push(swordtopvertex->GetTopVertexPostion());
-	m_BottomVertexArray.push(bottomposition->GetBottomVertexPostion());
-
-
-
-
-	m_TopVertexArrayCopy = m_TopVertexArray;
-	m_BottomVertexArrayCopy = m_BottomVertexArray;
-
-	if (player->GetPlayerAttackCollider())
+	if (m_TrailDrawFlag)
 	{
+
+		m_TopVertexArray.push(m_TopVertex);
+		m_BottomVertexArray.push(m_BottomVertex);
+
+	
+		m_TopVertexArrayCopy = m_TopVertexArray;
+		m_BottomVertexArrayCopy = m_BottomVertexArray;
+
+	
 
 		//// 頂点データ書き換え// ここにメンバ変数で保存した頂点データを変える
 		D3D11_MAPPED_SUBRESOURCE msr;
@@ -204,7 +199,7 @@ void Trail::Draw()
 
 
 		// ポリゴン描画
-		Renderer::GetDeviceContext()->Draw(VERTEX_NUMBER, 0);
+		Renderer::GetDeviceContext()->Draw(m_BottomVertexArray.size()*2, 0);
 		Renderer::SetRssetEnable(false);
 	}
 

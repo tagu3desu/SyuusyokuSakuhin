@@ -29,7 +29,7 @@ protected:
 
 	bool m_DepthEnable=false;
 	bool m_ReflectEnable = false;
-	bool m_dissolveEnable=false;
+	bool m_DissolveEnable=false;
 
 	D3DXCOLOR m_ModelRimColor{ 0.0f, 0.0f, 0.0f, 1.0f };
 
@@ -241,7 +241,7 @@ public:
 			Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &depthShadowTexture);
 		}
 		
-		if (m_dissolveEnable)
+		if (m_DissolveEnable)
 		{
 			// テクスチャ設定
 			Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &m_DisolveTexture);

@@ -27,18 +27,14 @@ private:
 	std::queue<D3DXVECTOR3> m_TopVertexArrayCopy;
 	std::queue<D3DXVECTOR3> m_BottomVertexArrayCopy;
 
-
-	D3DXVECTOR3 m_topvertex;
-	D3DXVECTOR3 m_bottomvertex;
-
-	
+	D3DXVECTOR3 m_TopVertex;
+	D3DXVECTOR3 m_BottomVertex;
+	bool m_TrailDrawFlag;
 
 public:
 	void Init() ;
 	void Uninit() ;
 	void Update() ;
 	void Draw() ;
-
-	void SetTrail(D3DXVECTOR3 top, D3DXVECTOR3 bottom) { m_topvertex = top, m_bottomvertex = bottom; }
-
+	void SetTrail(D3DXVECTOR3 top, D3DXVECTOR3 bottom, bool trailflag) { m_TopVertex = top; m_BottomVertex = bottom;  m_TrailDrawFlag = trailflag;}
 };

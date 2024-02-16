@@ -11,15 +11,14 @@ private:
 
 	static bool m_LoadFinish;
 
-	LIGHT light;
-	float x = 1.0f;
-	float y = -1.0f;
-	float z = 1.0f;
-	float a = 0.0f;
+	LIGHT m_Light;
+	float m_X = 1.0f;
+	float m_Y = -1.0f;
+	float m_Z = 1.0f;
+	float m_A = 0.0f;
 
-	
 
-	class Scene* scene{};
+	class Scene* m_Scene{};
 public:
 
 

@@ -43,29 +43,29 @@ void Enemy::Init()
 	m_Time = 0.0f;
 	m_BlendTime = 0.0f;
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
-	groundHeight = 0.0f;
-	m_speed = 0.0f;
+	m_GroundHeight = 0.0f;
+	m_Speed = 0.0f;
 	m_HP = 1000;
 
 	m_Threshold = 0;
-	m_dissolveEnable = true;
+	m_DissolveEnable = true;
 
 	m_DepthEnable = true;
 
-	hitcout = 0;
+	
 
-	m_howl=false;
+	m_Howl=false;
 
-	m_lastattackcout = 0;
 
-	scene = Manager::GetScene();
+
+	m_Scene = Manager::GetScene();
 
 	m_HowlSE = AddComponent<Audio>();
 	m_HowlSE->Load("asset\\audio\\bull_monster.wav");
 
 	if (!Title::GetCheckTitle())
 	{
-		m_EnemyCollider = scene->AddGameObject<Collider>();
+		m_EnemyCollider = m_Scene->AddGameObject<Collider>();
 		m_EnemyCollider->SetScale(D3DXVECTOR3(100.0f, 160.0f, 100.0f));
 		m_EnemyCollider->SetPosition(D3DXVECTOR3(0.0f,80.0f,0.0f));
 		m_EnemyCollider->SetRotation(D3DXVECTOR3(0.1f, 0.4f, 0.0f));
@@ -92,7 +92,7 @@ void Enemy::Uninit()
 {
 	GameObject::Uninit();
 	
-	
+	m_EnemyCollider->Uninit();
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
@@ -112,13 +112,13 @@ void Enemy::Update()
 	GameObject::Update();
 
 	
-	auto player = scene->GetGameObject<Player>();
-	auto sword = scene->GetGameObject<Sword>();
-	AreaChange* areachange = scene->GetGameObject<AreaChange>();
+	auto player = m_Scene->GetGameObject<Player>();
+	auto sword = m_Scene->GetGameObject<Sword>();
+	AreaChange* areachange = m_Scene->GetGameObject<AreaChange>();
 
-	direction = player->GetPosition() - m_Position;
+	m_Direction = player->GetPosition() - m_Position;
 	//プレイヤーとの距離
-	length = D3DXVec3Length(&direction);
+	m_Length = D3DXVec3Length(&m_Direction);
 
 	
 	//敵本体のコライダー
@@ -127,18 +127,18 @@ void Enemy::Update()
 
 
 
-	if (isAttack)
+	if (m_IsAttack)
 	{
-		m_attackdelay++;
+		m_Attackdelay++;
 	}
-	if (m_attackdelay > 300)
+	if (m_Attackdelay > 300)
 	{
-		m_attackdelay = 0;
-		isAttack = false;
+		m_Attackdelay = 0;
+		m_IsAttack = false;
 	}
 
 	//追跡用
-	D3DXVec3Normalize(&direction, &direction);
+	D3DXVec3Normalize(&m_Direction, &m_Direction);
 
 
 	switch (m_EnemyState)
@@ -167,36 +167,36 @@ void Enemy::Update()
 
 	if (m_EnemyAI)
 	{
-		if (length < 15 && !isAttack && m_howlfinish)
+		if (m_Length < 15 && !m_IsAttack && m_HowlFinish)
 		{
 			m_EnemyState = ENEMY_STATE_ATTACK;
 		}
-		else if (m_howlfinish && length < 20 && 16 < length && !m_dead && !isAttack)
+		else if (m_HowlFinish && m_Length < 20 && 16 < m_Length && !m_Dead && !m_IsAttack)
 		{
 			m_EnemyState = ENEMY_STATE_MOVE;
 		}
-		if (IsInFieldOfView(m_Position, direction, 70, 25.0f))
+		if (IsInFieldOfView(m_Position, m_Direction, 70, 25.0f))
 		{
-			if (!m_howl)
+			if (!m_Howl)
 			{
 				m_EnemyState = ENEMY_STATE_HOWL;
 			}
-			m_find = true;
+			m_Find = true;
 		}
 		else
 		{
-			m_find = false;
+			m_Find = false;
 		}
 
-		if (!m_dead)
+		if (!m_Dead)
 		{
-			m_Rotation.y = atan2f(direction.x, direction.z);
+			m_Rotation.y = atan2f(m_Direction.x, m_Direction.z);
 		}
 	}
 	
 
 
-	m_Position += direction * m_speed;
+	m_Position += m_Direction * m_Speed;
 	m_Position += m_Velocity;
 
 
@@ -207,31 +207,20 @@ void Enemy::Update()
 	//当たり判定の処理
 	{
 		//メッシュフィールドとの衝突判定
-		float groundHeight = 0.0f;
-		//auto meshField = scene->GetGameObject<MeshField>();
+		float m_GroundHeight = 0.0f;
 
-		//MeshField* meshField;
-		//BaseCamp* baseCamp;
-
-		MeshField* meshField = scene->GetGameObject<MeshField>();
-		BaseCamp* campField = scene->GetGameObject<BaseCamp>();
+		MeshField* meshField = m_Scene->GetGameObject<MeshField>();
+	
 
 		if (meshField != nullptr) {
 			if (meshField->GetMapActive())
 			{
-				meshField = scene->GetGameObject<MeshField>();
-				groundHeight = meshField->GetHeight(m_Position);
+				meshField = m_Scene->GetGameObject<MeshField>();
+				m_GroundHeight = meshField->GetHeight(m_Position);
 			}
 		}
 		
-		if (campField != nullptr)
-		{
-			if (campField->GetMapActive())
-			{
-				campField = scene->GetGameObject<BaseCamp>();
-				groundHeight = meshField->GetHeight(m_Position);
-			}
-		}
+		
 		//position+ forward * 数値
 		if (Input::GetKeyTrigger('B'))
 		{
@@ -243,10 +232,10 @@ void Enemy::Update()
 		m_Velocity.y -= 0.015f;
 
 		//接地
-		if (m_Position.y < groundHeight && m_Velocity.y < 0.0f)
+		if (m_Position.y < m_GroundHeight && m_Velocity.y < 0.0f)
 		{
 
-			m_Position.y = groundHeight;
+			m_Position.y = m_GroundHeight;
 			m_Velocity.y = 0.0f;
 		}
 
@@ -275,7 +264,7 @@ void Enemy::Update()
 	{
 		if (m_HP <= 0)
 		{
-			m_dead = true;
+			m_Dead = true;
 			m_EnemyState = ENAMY_STATE_DEAD;
 		}
 	}
@@ -286,33 +275,21 @@ void Enemy::Update()
 	//GUIにパラメータ表示
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
-	//ImGui::InputFloat3("ArmPos", m_EnemyLightArmCollider->GetColliderPosition());
-	//ImGui::InputFloat("Thredhold", &m_Threshold);
-	//ImGui::InputFloat3("Position", m_Position);
-	//ImGui::InputFloat3("BPosition", m_BonePos);
-	//ImGui::InputFloat("Length", &length);
-	ImGui::InputInt("AnimationCount", &m_animationdelay);
+	ImGui::InputInt("AnimationCount", &m_AnimationDelay);
 	ImGui::InputInt("HP", &m_HP);
-	//ImGui::Checkbox("hit", &m_lastattackhit);
-	//ImGui::InputInt("HitCount", &hitcout);
-	//ImGui::InputFloat3("Scale", m_Scale);
-	//ImGui::Checkbox("Find", &m_find);
-	//ImGui::Checkbox("Attack", &m_attack);
-	//ImGui::Checkbox("Collision", &m_EnemyAttackHit);
 	ImGui::Checkbox("EnemyAI", &m_EnemyAI);
-	//ImGui::InputInt("Count", &m_InvincibilityTime);
 	ImGui::End();
 }
 
 void Enemy::Draw()
 {
 	GameObject::Draw();
-	MeshField* meshfield = scene->GetGameObject<MeshField>();
+	MeshField* meshfield = m_Scene->GetGameObject<MeshField>();
 
 	//視錘台カリング
 	{
 		
-		Camera* camera = scene->GetGameObject<Camera>();
+		Camera* camera = m_Scene->GetGameObject<Camera>();
 
 		if (!camera->CheckView(m_Position))
 			return;
@@ -366,7 +343,7 @@ void Enemy::UpdateIdle()
 
 	if (m_NextAnimationName != "Idle")
 	{
-		m_speed = 0.0f;
+		m_Speed = 0.0f;
 		m_AnimationName = m_NextAnimationName;
 		m_NextAnimationName = "Idle";
 		m_BlendTime = 0.0f;
@@ -384,27 +361,27 @@ void Enemy::UpdateHowl()
 		m_NextAnimationName = "Howl";
 		m_BlendTime = 0.0f;
 		m_Time = 0.0f;
-		m_speed = 0.0f;
-		m_howl = true;
+		m_Speed = 0.0f;
+		m_Howl = true;
 	}
 
 			
-	if (m_howl == true)
+	if (m_Howl == true)
 	{
-		m_animationdelay++;
-		if (m_animationdelay >= 90 && m_animationdelay<=300)
+		m_AnimationDelay++;
+		if (m_AnimationDelay >= 90 && m_AnimationDelay<=300)
 		{
-			if (m_animationdelay % 10 == 0)
+			if (m_AnimationDelay % 10 == 0)
 			{
-				HowlEffect* howleffect = scene->AddGameObject<HowlEffect>();
+				HowlEffect* howleffect = m_Scene->AddGameObject<HowlEffect>();
 				howleffect->SetScale(D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 			}		
 		}
 
-		if (m_animationdelay >= 330)
+		if (m_AnimationDelay >= 330)
 		{
-			m_howlfinish = true;
-			m_animationdelay = 0;
+			m_HowlFinish = true;
+			m_AnimationDelay = 0;
 			m_EnemyState = ENEMY_STATE_IDLE;
 		}
 	}
@@ -416,11 +393,11 @@ void Enemy::UpdateAttack() {
 
 	if (!m_Attacking)
 	{
-		if (length < 10)
+		if (m_Length < 10)
 		{
 			m_EnemyAttackPatarn = ENEMY_ATTACK_SLAP;
 		}
-		else if (length >= 11 && length < 25 && !m_RockAttackFlag)
+		else if (m_Length >= 11 && m_Length < 25 && !m_RockAttackFlag)
 		{
 			m_EnemyAttackPatarn = ENEMY_ATTCK_ROCK;
 			m_RockAttackFlag = true;
@@ -429,8 +406,8 @@ void Enemy::UpdateAttack() {
 	
 	if (m_RockAttackFlag)
 	{
-		m_Rockattacklimit++;
-		if (m_Rockattacklimit > 1200)
+		m_RockattackLimit++;
+		if (m_RockattackLimit > 1200)
 		{
 			m_RockAttackFlag = false;
 		}
@@ -457,12 +434,12 @@ void Enemy::UpdateAttack() {
 void Enemy::UpdateMove() {
 	if (m_NextAnimationName != "Walk")
 	{
-		m_speed = 0.05f;
+		m_Speed = 0.05f;
 		m_AnimationName = m_NextAnimationName;
 		m_NextAnimationName = "Walk";
 		m_BlendTime = 0.0f;
 	}
-	if (!m_find)
+	if (!m_Find)
 	{
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
@@ -470,7 +447,7 @@ void Enemy::UpdateMove() {
 
 void Enemy::UpdateDead() {
 	
-	if (!m_deadfinish)
+	if (!m_DeadFinish)
 	{
 		if (m_NextAnimationName != "Dead")
 		{
@@ -482,12 +459,12 @@ void Enemy::UpdateDead() {
 		}
 	}
 
-	m_deadanimationdelay++;
+	m_DeadAnimationdelay++;
 
-	if (m_deadanimationdelay >= 250)
+	if (m_DeadAnimationdelay >= 250)
 	{
 		m_Time = 250;
-		m_deadfinish = true;
+		m_DeadFinish = true;
 		
 		// 
 		//ディゾルブ処理テスト
@@ -510,23 +487,23 @@ void Enemy::UpdatePunchiAttack(){
 		m_NextAnimationName = "Attack";
 		m_BlendTime = 0.0f;
 		m_Time = 0.0f;
-		m_speed = 0.0f;
-		isAttack = true;
+		m_Speed = 0.0f;
+		m_IsAttack = true;
 	}
-	m_animationdelay++;
+	m_AnimationDelay++;
 
-	if (m_animationdelay >= 100 && !m_Attacking)
+	if (m_AnimationDelay >= 100 && !m_Attacking)
 	{
-		RockEffect* rockeffect = scene->AddGameObject<RockEffect>();
+		RockEffect* rockeffect = m_Scene->AddGameObject<RockEffect>();
 		rockeffect->SetPosition(m_Position + (D3DXVECTOR3(0.0f, -1.5f, 0.0f)) + GetForward() * 5.0f);
 		rockeffect->SetRotation(m_Rotation);
 		m_Attacking = true;
 	}
 
-	if (m_animationdelay >= 200)
+	if (m_AnimationDelay >= 200)
 	{
-		m_animationdelay = 0;
-		m_attack = false;
+		m_AnimationDelay = 0;
+		m_IsAttack = false;
 		m_Attacking = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
@@ -541,23 +518,23 @@ void Enemy::UpdateRockAttack() {
 		m_NextAnimationName = "RockAttack";
 		m_BlendTime = 0.0f;
 		m_Time = 0.0f;
-		m_speed = 0.0f;
-		isAttack = true;
-		m_shotflag = true;
+		m_Speed = 0.0f;
+		m_IsAttack = true;
+		m_ShotFlag = true;
 		m_Attacking = true;
 	}
-	if (m_shotflag && m_shotcount==0)
+	if (m_ShotFlag && m_ShotCount==0)
 	{
-		m_shotcount = 1;
-		Bullet* bullet = scene->AddGameObject<Bullet>();
+		m_ShotCount = 1;
+		Bullet* bullet = m_Scene->AddGameObject<Bullet>();
 		bullet->SetPosition(m_Position + D3DXVECTOR3(0.0f, -2.0f, 0.0f));
 	}
-	m_animationdelay++;
-	if (m_animationdelay >= 220)
+	m_AnimationDelay++;
+	if (m_AnimationDelay >= 220)
 	{
-		m_animationdelay = 0;
-		m_shotcount = 0;
-		m_attack = false;
+		m_AnimationDelay = 0;
+		m_ShotCount = 0;
+		m_IsAttack = false;
 		m_Attacking = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
@@ -566,7 +543,7 @@ void Enemy::UpdateRockAttack() {
 bool Enemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee)
 {
 	
-	Player* player = scene->GetGameObject<Player>();
+	Player* player = m_Scene->GetGameObject<Player>();
 
 	// 視野範囲内かどうかの判定
 	D3DXVECTOR3 normalizedDirection;

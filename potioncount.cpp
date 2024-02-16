@@ -40,9 +40,8 @@ void PotionCount::Init()
 		"shader\\unlitTexturePS.cso");
 
 	
-	m_potioncount = 5;
-	//AddComponent<Sprite>()->Init(0.0f, 0.0f, 200.0f, 200.0f, "asset/texture/score.png");
-	//AddComponent<Sprite>()->Init(200.0f, 100.0f, 300.0f, 200.0f, "asset/texture/grass.jpg");
+	m_Potioncount = 5;
+	
 
 }
 
@@ -102,15 +101,14 @@ void PotionCount::Draw()
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 
-	int count = m_potioncount;
+	int count = m_Potioncount;
 
 	for (int i = 0; i < 1; i++) {
 		//頂点座標産出
 		/*float vx = 1153.0f -i * 30.0f;
 		float vy = 645.0f;*/
 
-		float vx = SCREEN_WIDTH / 1.215;
-		float vy = SCREEN_HEIGHT / 1.170;;
+		
 
 		float height = 50.0f;
 		float width = 35.0f;
@@ -126,22 +124,22 @@ void PotionCount::Draw()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		vertex[0].Position = D3DXVECTOR3(vx, vy, 0.0f);	//左奥
+		vertex[0].Position = D3DXVECTOR3(m_X, m_Y, 0.0f);	//左奥
 		vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 		vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[0].TexCoord = D3DXVECTOR2(x, y);
 
-		vertex[1].Position = D3DXVECTOR3(vx+width, vy, 0.0f);	//右奥
+		vertex[1].Position = D3DXVECTOR3(m_X +width, m_Y, 0.0f);	//右奥
 		vertex[1].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 		vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[1].TexCoord = D3DXVECTOR2(x + 0.2f, y);
 
-		vertex[2].Position = D3DXVECTOR3(vx, vy+height, 0.0f);
+		vertex[2].Position = D3DXVECTOR3(m_X, m_Y +height, 0.0f);
 		vertex[2].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 		vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[2].TexCoord = D3DXVECTOR2(x, y + 0.2f);
 
-		vertex[3].Position = D3DXVECTOR3(vx+width, vy+height, 0.0f);
+		vertex[3].Position = D3DXVECTOR3(m_X +width, m_Y +height, 0.0f);
 		vertex[3].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 		vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[3].TexCoord = D3DXVECTOR2(x + 0.2f, y + 0.2f);

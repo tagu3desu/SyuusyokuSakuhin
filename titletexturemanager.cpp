@@ -63,11 +63,14 @@ void TitleTexture::Init()
 
 void TitleTexture::Uninit()
 {
-	delete texture_PushSpace;
-	delete texture_GameStart;
-	delete texture_OPTION;
-	delete texture_TitleLogo;
-	delete texture_OPTIONUI;
+	texture_PushSpace->Uninit();
+	texture_PushSpace->Uninit();
+	texture_GameStart->Uninit();
+	texture_OPTION->Uninit();
+	texture_TitleLogo->Uninit();
+	texture_OPTIONUI->Uninit();
+
+	m_DecisiveSE->Uninit();
 
 }
 

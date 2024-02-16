@@ -157,7 +157,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="animationModel.cpp" />
-    <ClCompile Include="areachangecollider.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="basecamptent.cpp" />
     <ClCompile Include="bladeefect2.cpp" />
@@ -167,8 +166,6 @@
     <ClCompile Include="campField.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="cylinder.cpp" />
-    <ClCompile Include="door.cpp" />
-    <ClCompile Include="doorframe.cpp" />
     <ClCompile Include="dummy.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy2.cpp">
@@ -180,7 +177,6 @@
     <ClCompile Include="bladeefect1.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
-    <ClCompile Include="floar.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gametexturemanager.cpp" />
     <ClCompile Include="grass.cpp" />
@@ -192,12 +188,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="polygon2D.cpp" />
-    <ClCompile Include="potion.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="hpgage.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -250,7 +240,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animationModel.h" />
-    <ClInclude Include="areachangecollider.h" />
     <ClInclude Include="audio.h" />
     <ClInclude Include="basecamptent.h" />
     <ClInclude Include="bladeefect2.h" />
@@ -261,8 +250,6 @@
     <ClInclude Include="collider.h" />
     <ClInclude Include="compornent.h" />
     <ClInclude Include="cylinder.h" />
-    <ClInclude Include="door.h" />
-    <ClInclude Include="doorframe.h" />
     <ClInclude Include="dummy.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemy2.h">
@@ -274,7 +261,6 @@
     <ClInclude Include="bladeefect1.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
-    <ClInclude Include="floar.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="gametexturemanager.h" />
@@ -282,12 +268,6 @@
     <ClInclude Include="howleffect.h" />
     <ClInclude Include="loadingtexturemanager.h" />
     <ClInclude Include="polygon2D.h" />
-    <ClInclude Include="potion.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="hpgage.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />

@@ -13,24 +13,21 @@ private:
 
 	D3DXMATRIX  m_Parent{};
 	D3DXMATRIX  m_ChildMatrix{};
-	
-	// 先端と終わりの頂点を格納する変数を定義
 	D3DXVECTOR3  m_BottomVertex;
+	bool m_Swordhit;
 
 	
 
-	bool m_swordhit;
-
-	VERTEX_3D bottom;
-
-	class Scene* scene{};
+	class Scene* m_Scene{};
 	class Collider* m_SwordCollider{};
+	class Trail* m_SwordTrail{};
+	class SwordTopVertex* m_SwordTopVertex{};
 public:
 	
 	D3DXVECTOR3 GetBottomVertexPostion() { return m_BottomVertex; }
 	D3DXMATRIX GetChild() { return m_ChildMatrix;}
 
-	bool GetSwordHit() { return m_swordhit; }
+	bool GetSwordHit() { return m_Swordhit; }
 
 	void Init();
 	void Uninit();
@@ -46,7 +43,7 @@ private:
 	D3DXVECTOR3 m_TopVertex;
 
 	
-	class Scene* scene{};
+	class Scene* m_Scene{};
 
 
 public:
