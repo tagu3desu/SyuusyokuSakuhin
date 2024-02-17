@@ -20,7 +20,7 @@ void Enemy2::Init()
 	
 
 	m_DepthEnable = true;
-	m_dissolveEnable = true;
+	
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\pixelLightingVS.cso");

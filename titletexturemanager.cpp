@@ -79,18 +79,6 @@ void TitleTexture::Update()
 	m_MouseposX = GetMouseCursorPosXinWnd();
 	m_MouseposY = GetMouseCursorPosYinWnd();
 
-	
-	
-
-
-	ImGui::Begin("Mouse");
-	ImGui::InputFloat3("pos", m_BGMThumbPosition);
-	ImGui::InputFloat("bgmvolume", &m_BGM_Volume);
-	ImGui::InputFloat("sevolume", &m_SE_Volume);
-	ImGui::End();
-
-
-
 	if (Title::GetMenuControl())
 	{
 		if (Input::GetKeyTrigger(VK_UP) ||  (130< m_MouseposX &&  m_MouseposX < 860 &&  620 < m_MouseposY && m_MouseposY <720) && !m_OptionFlag )

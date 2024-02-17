@@ -6,7 +6,7 @@
 #include"wepon_sword.h"
 #include"input.h"
 Model* Collider::m_Model;
-bool m_ColliderEnable;
+
 void Collider::Load()
 {
 
@@ -42,15 +42,6 @@ void Collider::Uninit()
 
 void Collider::Update()
 {
-	if (Input::GetKeyTrigger('4'))
-	{
-		m_ColliderEnable = true;
-	}
-	if (Input::GetKeyTrigger('5'))
-	{
-		m_ColliderEnable = false;
-	}
-
 }
 
 	
@@ -94,7 +85,7 @@ void Collider::Draw()
 
 		Renderer::SetATCEnable(true);
 
-		if (!m_ColliderEnable)
+		if (m_ColliderEnable)
 		{
 		m_Model->Draw();
 		}

@@ -1,40 +1,7 @@
-﻿  animationModel.cpp
-  bullet.cpp
-  camera.cpp
-  enemy.cpp
-C:\Users\kousu\Desktop\就職作品\enemy.cpp(323,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\enemy.cpp(323,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\enemy.cpp(471,23): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-  game.cpp
-  hpgage.cpp
-C:\Users\kousu\Desktop\就職作品\hpgage.cpp(91,16): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\hpgage.cpp(123,21): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\hpgage.cpp(124,21): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\hpgage.cpp(125,21): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  player.cpp
-C:\Users\kousu\Desktop\就職作品\player.cpp(472,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(472,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(518,43): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(536,44): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-  rockeffect.cpp
-C:\Users\kousu\Desktop\就職作品\rockeffect.cpp(25,54): warning C4244: '引数': 'double' から 'FLOAT' への変換です。データが失われる可能性があります。
-  staminagage.cpp
-C:\Users\kousu\Desktop\就職作品\staminagage.cpp(82,16): warning C4244: '-=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\staminagage.cpp(87,16): warning C4244: '+=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\staminagage.cpp(95,20): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\staminagage.cpp(129,20): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\staminagage.cpp(130,20): warning C4244: '=': 'int' から 'FLOAT' への変換です。データが失われる可能性があります。
-  title.cpp
-  trail.cpp
-C:\Users\kousu\Desktop\就職作品\trail.cpp(202,64): warning C4267: '引数': 'size_t' から 'UINT' に変換しました。データが失われているかもしれません。
-  wepon_axe.cpp
-  wepon_galbert.cpp
-  wepon_gun.cpp
-  wepon_shield.cpp
-  wepon_sword.cpp
+﻿  wepon_shield.cpp
   コード生成しています。
-  11 of 2908 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
-    3 functions were new in current compilation
-    73 functions had inline decision re-evaluated but remain unchanged
+  1 of 3051 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    28 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Release\GM31.exe

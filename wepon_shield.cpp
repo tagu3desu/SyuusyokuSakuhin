@@ -47,6 +47,7 @@ void Shield::Uninit()
 	m_Model->Unload();
 	delete m_Model;
 
+
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();

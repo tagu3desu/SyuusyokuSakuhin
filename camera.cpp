@@ -7,6 +7,7 @@
 #include"input.h"
 #include"title.h"
 #include"enemy.h"
+#include"dummy.h"
 void Camera::Init()
 {	
 	
@@ -17,13 +18,15 @@ void Camera::Init()
 	m_FogStart =100.0f;
 	m_FogEnd= 500.0f;
 	m_FogHeight =100.0f;
+
+	m_Scene = Manager::GetScene();
 }
 void Camera::Update()
 {
-	Scene* scene = Manager::GetScene();
-	Player* player = scene->GetGameObject<Player>();
-	Enemy* enemy = scene->GetGameObject<Enemy>();
 	
+	Player* player = m_Scene->GetGameObject<Player>();
+	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
+	Dummy* dummy = m_Scene->GetGameObject<Dummy>();
 
 
 	if (Input::GetKeyPress('J'))
@@ -34,6 +37,8 @@ void Camera::Update()
 	{
 		m_FogHeight -= 1.0f;
 	}
+
+	
 
 	/*ImGui::Begin("Camera");
 	ImGui::InputFloat("FogStart", &m_FogStart);
@@ -51,22 +56,6 @@ void Camera::Update()
 	{
 		m_RotationX = 0.1f;
 		m_RotationY = 3.7f;
-		/*if (Input::GetKeyPress(VK_RIGHT))
-		{
-			m_RotationX -= 0.1f;
-		}
-		if (Input::GetKeyPress(VK_LEFT))
-		{
-			m_RotationX += 0.1f;
-		}
-		if (Input::GetKeyPress(VK_UP))
-		{
-			m_RotationY += 0.1f;
-		}
-		if (Input::GetKeyPress(VK_DOWN))
-		{
-			m_RotationY -= 0.1f;
-		}*/
 	}
 	else
 	{
@@ -123,7 +112,26 @@ void Camera::Update()
 	
 
 	//トップビュー	
-	if (!Title::GetCheckTitle())
+	if (Input::GetKeyPress('B'))
+	{
+		// カメラの位置から敵の位置を向くベクトルを計算
+		D3DXVECTOR3 length = m_Target - m_Position;
+		D3DXVec3Normalize(&length, &length);//正規化
+
+		// カメラの向きを設定
+		m_Rotation.x = asinf(length.y) * -1.0f;
+		m_Rotation.y = atan2f(length.x, length.z);
+
+		//注視点は敵
+		m_Target = dummy->GetPosition();
+
+		//ポジションはプレイヤー
+		m_Position = player->GetPosition() - GetForward() * 5.0f + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+		//m_Position = player->GetPosition() + player->GetUp() * 3.0f + m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY * 1.0f, -cos(m_RotationX) * 8.0f);
+		
+		
+	}
+	else if (!Title::GetCheckTitle())
 	{
 		//トップビュー
 		m_Target = player->GetPosition() + player->GetUp()* 3.0f;

@@ -22,6 +22,8 @@ int mouseY;
 short rot;
 float hweel;
 
+int FPS = 60;
+
 HWND GetWindow()
 {
 	return g_Window;
@@ -94,9 +96,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		}
 		else
 		{
-			dwCurrentTime = timeGetTime();
 
-			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
+
+			dwCurrentTime = timeGetTime();
+			if ((dwCurrentTime - dwExecLastTime) >= (1000 / FPS))
 			{
 				dwExecLastTime = dwCurrentTime;
 				GetCursorPos(&cursorPos);
@@ -171,6 +174,8 @@ float GetMouseCursorPosY() { return cursorPos.y - lastmousePos.y; }
 
 float GetMouseCursorPosXinWnd() { return cursorPosinWnd.x; }
 float GetMouseCursorPosYinWnd() { return cursorPosinWnd.y; }
+
+void SetFPS(int fps) { FPS = fps; }
 
 //ÉJÉÅÉâÇ≈100ÇÕÇ¢ÇÁÇ»Ç¢
 float GetHweel() { return hweel;}

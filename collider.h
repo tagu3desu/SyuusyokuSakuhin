@@ -32,8 +32,29 @@ private:
 
 	float m_MinDirection{};
 	
-public:
+	bool m_ColliderEnable;
+
 	
+
+public:
+	static void Load();
+	static void Unload();
+
+	void Init();
+	void Uninit();
+	void Update();
+	void Draw();
+	void SetMatrix(D3DXMATRIX matrix) { m_Parent = matrix; }
+	void SetBoneMatrix(D3DXMATRIX bonematrix) { m_BoneMatrix = bonematrix;}
+	void SetColliderColor(D3DXCOLOR color) { m_ColliderColor = color; }
+	float GetMinDirection() { return m_MinDirection; }
+
+	bool GetColliderEnable() { return m_ColliderEnable; }
+	void SetColliderEnable(bool enable) { m_ColliderEnable = enable; }
+
+	void SetTag(Tag tag) { m_Tag = tag;}
+	Tag GetTag() { return m_Tag; }
+
 	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix) {
 		D3DXVECTOR3 pos;
 		pos.x = matrix._41;
@@ -63,7 +84,7 @@ public:
 
 	D3DXVECTOR3 MatrixtoRight(D3DXMATRIX matrix) //右方面ベクトルを取得
 	{
-		
+
 		D3DXVECTOR3 right;
 		right.x = matrix._11;
 		right.y = matrix._12;
@@ -75,7 +96,7 @@ public:
 
 	D3DXVECTOR3 MatrixtoUp(D3DXMATRIX matrix) //上方面ベクトル
 	{
-		
+
 		D3DXVECTOR3 up;
 		up.x = matrix._21;
 		up.y = matrix._22;
@@ -83,22 +104,6 @@ public:
 
 		return up;
 	}
-
-	static void Load();
-	static void Unload();
-
-	void Init();
-	void Uninit();
-	void Update();
-	void Draw();
-	void SetMatrix(D3DXMATRIX matrix) { m_Parent = matrix; }
-	void SetBoneMatrix(D3DXMATRIX bonematrix) { m_BoneMatrix = bonematrix;}
-	void SetColliderColor(D3DXCOLOR color) { m_ColliderColor = color; }
-	float GetMinDirection() { return m_MinDirection; }
-
-	void SetTag(Tag tag) { m_Tag = tag;}
-	Tag GetTag() { return m_Tag; }
-
 
 	float Comparison(float a1, float a2)
 	{

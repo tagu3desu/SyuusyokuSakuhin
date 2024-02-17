@@ -7,6 +7,8 @@ class Manager
 private:
 	static Scene* m_Scene;
 	static Scene* m_NextScene;
+
+	
 public:
 	static void Init();
 	static void Uninit();
@@ -21,7 +23,7 @@ public:
 		m_NextScene = new T();
 	}
 
-
+	
 	
 	
 };

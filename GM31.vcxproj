@@ -166,6 +166,7 @@
     <ClCompile Include="campField.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="cylinder.cpp" />
+    <ClCompile Include="debug.cpp" />
     <ClCompile Include="dummy.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy2.cpp">
@@ -250,6 +251,7 @@
     <ClInclude Include="collider.h" />
     <ClInclude Include="compornent.h" />
     <ClInclude Include="cylinder.h" />
+    <ClInclude Include="debug.h" />
     <ClInclude Include="dummy.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemy2.h">

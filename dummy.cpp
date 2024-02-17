@@ -50,15 +50,6 @@ void Dummy::Update()
 	
 	m_DummyCollider->SetMatrix(m_Matrix);
 	SetColliderInfo(m_DummyCollider->GetMatrix(),false);
-
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Box");
-	ImGui::InputFloat3("Position", m_ColliderPosition);
-	ImGui::InputFloat3("Scale", m_ColliderScale);
-	ImGui::InputFloat3("Forward", m_ColiiderForward);
-	ImGui::InputFloat3("Right", m_ColiiderRight);
-	ImGui::InputFloat3("Up", m_ColiiderUp);
-	ImGui::End();
 }
 
 void Dummy::Draw()

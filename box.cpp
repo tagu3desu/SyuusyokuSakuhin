@@ -36,6 +36,7 @@ void Box::Unload()
 
 void Box::Uninit()
 {
+	m_BoxCollider->SetDestroy();
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();

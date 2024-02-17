@@ -327,6 +327,20 @@ void Player::Update()
 			}
 			m_PlayerState = PLAYER_STATE_DEAD;
 		}
+		//重力
+		m_Velocity.y -= 0.015f;
+
+		//ジャンプ用移動
+		m_Position += m_Velocity;
+
+		if (m_ComboCount == 3 || m_PlayerState==PLAYER_STATE_GROUND)
+		{
+			
+			//m_Position.x += (m_AnimationCorrection->GetAnimationPosition().x - m_Position.x) / 10.0f;
+			//m_Position.z += (m_AnimationCorrection->GetAnimationPosition().z - m_Position.z) / 10.0f;
+		}
+	
+
 	}
 	
 	switch (m_PlayerState)
@@ -414,11 +428,11 @@ void Player::Update()
 
 	}
 
-	//重力
-	m_Velocity.y -= 0.015f;
 
-	//ジャンプ用移動
-	m_Position += m_Velocity;
+
+	
+
+	
 
 	//接地
 	if (m_Position.y < m_GroundHeight && m_Velocity.y < 0.0f)
@@ -878,8 +892,17 @@ void Player::UpdateGround()
 		m_Idle = true;
 		if (m_Sworddrawn)
 		{
+			/*if (m_ComboCount == 3)
+			{
+				m_AnimationCorrection = m_Scene->GetGameObject<AnimationCorrection>();
+				m_Position.x = m_AnimationCorrection->GetAnimationPosition().x;
+				m_Position.z = m_AnimationCorrection->GetAnimationPosition().z;
+			}*/
+			
+
 			if (m_NextAnimationName != "SwordIdle")
 			{
+
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "SwordIdle";
 				m_ComboCount = 0;
@@ -908,6 +931,7 @@ void Player::UpdateGround()
 	//PositonにSpeed加算します
 	m_Position += direction *m_Speed;
 
+	
 	// プレイヤーの移動ベクトルを更新
 	//m_MoveVector = m_Velocity * m_Speed;
 
@@ -927,9 +951,6 @@ void Player::UpdateGround()
 		m_PlayerState = PLAYER_STATE_GUARD;
 	}
 
-	
-
-
 	//カウンター攻撃
 	if (Input::GetKeyTrigger(VK_LBUTTON) && Input::GetKeyPress(VK_LCONTROL) && !m_Run && m_Sworddrawn && !m_OnSword)
 	{
@@ -945,6 +966,7 @@ void Player::UpdateGround()
 			m_PlayerState = PLAYER_STATE_COUNTER_ATTACK;
 		}
 	}
+
 	//通常攻撃
 	else if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3)
 	{
@@ -1162,14 +1184,13 @@ void Player::UpdateAttack3()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (m_AnimationDelay >= 100 && m_ComboCount == 3)
+		if (m_AnimationDelay >= 120 && m_ComboCount == 3)
 		{	
 			m_AnimationDelay = 0;
 			m_Attack = false;
 			m_Move = false;
-			m_ComboCount = 0;
-			m_Speed = 0.3f;
-			 m_DirectionZ = m_Speed * GetForward();
+			//m_ComboCount = 0;
+			m_DirectionZ = m_Speed * GetForward();
 			m_ConboflagisAttack3 = false;
 	
 			
@@ -1186,11 +1207,11 @@ void Player::UpdateAttack3()
 
 	
 
-	D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
-	//正規化します
-	D3DXVec3Normalize(&direction, &direction);
-	//PositonにSpeed加算します
-	m_Position += direction * m_Speed;
+	//D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
+	////正規化します
+	//D3DXVec3Normalize(&direction, &direction);
+	////PositonにSpeed加算します
+	//m_Position += direction * m_Speed;
 }
 
 void Player::UpdateRotationAttack()
@@ -1406,13 +1427,13 @@ void AnimationCorrection::Update()
 	bone = animationmodel->GetBone("mixamorig:Hips");
 	bone->WorldMatrix;
 	m_Parent = animationmodel->ConvertMatrix(bone->WorldMatrix);
-	D3DXVECTOR3 hipposition = MatrixtoPosition(m_Matrix);
+	m_AnimationPosition = MatrixtoPosition(m_Matrix);
 
 
 	//GUIにパラメータ表示
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("AnimationCorrection");
-	ImGui::InputFloat3("hipposition", hipposition);
+	ImGui::InputFloat3("hipposition", m_AnimationPosition);
 	ImGui::InputFloat3("hipmatrix", m_Matrix);
 	ImGui::End();
 }

@@ -47,8 +47,8 @@
 #include"basecamptent.h"
 #include"treasurebox.h"
 #include"dummy.h"
+#include"debug.h"
 
-Torus* torus;
 Player* player;
 
 bool Game::m_LoadFinish = false;
@@ -145,6 +145,8 @@ void Game::Init()
 	
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
+
+	AddGameObject<DebugSystem>();
 
 	////////–Ø
 	//for (int i = 0; i < 20; i++) 

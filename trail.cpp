@@ -107,19 +107,15 @@ void Trail::Draw()
 		m_TopVertexArray.pop();
 		m_BottomVertexArray.pop();
 	}
+	m_TopVertexArray.push(m_TopVertex);
+	m_BottomVertexArray.push(m_BottomVertex);
 
+
+	m_TopVertexArrayCopy = m_TopVertexArray;
+	m_BottomVertexArrayCopy = m_BottomVertexArray;
 
 	if (m_TrailDrawFlag)
 	{
-
-		m_TopVertexArray.push(m_TopVertex);
-		m_BottomVertexArray.push(m_BottomVertex);
-
-	
-		m_TopVertexArrayCopy = m_TopVertexArray;
-		m_BottomVertexArrayCopy = m_BottomVertexArray;
-
-	
 
 		//// 頂点データ書き換え// ここにメンバ変数で保存した頂点データを変える
 		D3D11_MAPPED_SUBRESOURCE msr;

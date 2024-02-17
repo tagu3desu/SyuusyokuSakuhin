@@ -38,12 +38,6 @@ void GameTexture::Uninit()
 
 void GameTexture::Update()
 {
-	
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Texture");
-	ImGui::InputFloat("frame", &m_Framwait);
-	ImGui::End();
-
 	m_Y = texture_TimelimitUI->UiMove(160, texture_TimelimitUI);
 	if (m_Y < -50)
 	{

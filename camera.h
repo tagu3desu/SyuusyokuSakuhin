@@ -25,6 +25,7 @@ private:
 		float m_FogEnd;
 		float m_FogHeight;
 
+		class Scene* m_Scene;
 public:
 	void Init();
 	void Update();

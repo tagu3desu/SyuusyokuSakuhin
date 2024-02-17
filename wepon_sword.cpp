@@ -73,6 +73,8 @@ void Sword::Uninit()
 	m_Model->Unload();
 	delete m_Model;
 
+	
+	
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
@@ -258,11 +260,11 @@ void Sword::Update()
 
 	m_BottomVertex = worldposition;
 
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Sword");
 	ImGui::Checkbox("HIt", &m_Swordhit);
 	ImGui::InputInt("HitCoolTime", &m_InvincibilityTime);
-	ImGui::End();
+	ImGui::End();*/
 
 }
 
