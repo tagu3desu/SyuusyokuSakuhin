@@ -65,15 +65,15 @@ void RockEffect::Update()
 		m_Hit = false;
 	}
 
-	m_Framwait++;
-	if (m_Framwait < 10)
+	m_FrameWait++;
+	if (m_FrameWait < 10)
 	{
 		Camera* camera = scene->GetGameObject<Camera>();
 		camera->Shake(0.1f);
 		m_Position.y += 0.1f;
 	}
 
-	if (90 < m_Framwait)
+	if (90 < m_FrameWait)
 	{
 		m_RockCollider->SetDestroy();
 		SetDestroy();

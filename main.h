@@ -48,7 +48,7 @@ float GetMouseCursorPosYinWnd();
 
 
 
-
+void SetPause(bool pause);
 void SetFPS(int fps);
 
 /*void GetMouseCursorPositionInWindow(HWND hWnd, int& mouseX, int& mouseY)

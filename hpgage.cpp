@@ -52,7 +52,7 @@ void HPgage::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\gaugePS.cso");
 
-	m_Hp = m_HpMax = m_BeforHp = 100;
+	m_Hp = m_HpMax = m_BeforHp = 1000;
 
 
 	

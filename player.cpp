@@ -34,8 +34,8 @@ void Player::Init()
 	m_Camera = m_Scene->GetGameObject<Camera>();
 	m_Enemy = m_Scene->GetGameObject<Enemy>();
 	m_MeshField = m_Scene->GetGameObject<MeshField>();
-	m_Bullet = m_Scene->GetGameObject<Bullet>();
-	m_RockEffect = m_Scene->GetGameObject<RockEffect>();
+	
+	
 
 	m_Model = new AnimationModel();
 	m_Model->Load("asset\\model\\Paladin J Nordstrom.fbx");
@@ -168,9 +168,11 @@ void Player::Update()
 		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
 		PotionCount* potioncount = m_Scene->GetGameObject<PotionCount>();
 		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
+		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
+		m_Bullet = m_Scene->GetGameObject<Bullet>();
 
-		 m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		 m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 		m_Move = false;
 
@@ -239,6 +241,7 @@ void Player::Update()
 
 		if (m_RockEffect != nullptr)
 		{
+
 			if (!m_InvincibilityFlag && m_RockEffect->GetHit() && !m_SuccessGuard)
 			{
 				hpgage->SetDamage(100);
@@ -246,6 +249,7 @@ void Player::Update()
 				m_DamageReaction = true;
 			}
 		}
+
 		if (m_Bullet != nullptr)
 		{
 			if (!m_InvincibilityFlag && m_Bullet->GetHit() && !m_SuccessGuard)
@@ -280,26 +284,26 @@ void Player::Update()
 		ImGui::Begin("Player");
 		ImGui::InputFloat3("Position", m_Position);
 		ImGui::InputFloat("Frame", &m_AnimationDelay);
+		ImGui::Checkbox("Reaction", &m_DamageReaction);
 		ImGui::End();
 
 
 		//ダメージ処理
 		{
-			if (m_Enemy != nullptr)
+			
+			if (m_DamageReaction && !m_SuccessGuard && !m_HitInpact)
 			{
-				if (m_DamageReaction && !m_SuccessGuard && !m_HitInpact)
-				{
 
-					if (m_NextAnimationName != "HitSmallImpact")
-					{
-						m_Time = 0.0f;
-						m_AnimationName = m_NextAnimationName;
-						m_NextAnimationName = "HitSmallImpact";
-						m_BlendTime = 0.0f;
-						m_HitInpact = true;
-					}
+				if (m_NextAnimationName != "HitSmallImpact")
+				{
+					m_Time = 0.0f;
+					m_AnimationName = m_NextAnimationName;
+					m_NextAnimationName = "HitSmallImpact";
+					m_BlendTime = 0.0f;
+					m_HitInpact = true;
 				}
 			}
+			
 			if (m_HitInpact)
 			{
 				m_HitInpactDelay++;
@@ -404,10 +408,10 @@ void Player::Update()
 
 	if (m_ConboflagisAttack2)
 	{
-		m_Framwait++;
-		if (m_Framwait > 60)
+		m_FrameWait++;
+		if (m_FrameWait > 60)
 		{
-			m_Framwait = 0;
+			m_FrameWait = 0;
 			m_ConboflagisAttack2 = false;
 		}
 	}
@@ -419,20 +423,14 @@ void Player::Update()
 
 	if (m_ConboflagisAttack3)
 	{
-		m_Framwait++;
-		if (m_Framwait > 60)
+		m_FrameWait++;
+		if (m_FrameWait > 60)
 		{
-			m_Framwait = 0;
+			m_FrameWait = 0;
 			m_ConboflagisAttack3 = false;
 		}
 
 	}
-
-
-
-	
-
-	
 
 	//接地
 	if (m_Position.y < m_GroundHeight && m_Velocity.y < 0.0f)

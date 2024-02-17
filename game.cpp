@@ -123,8 +123,8 @@ void Game::Init()
 	Shield* shield = AddGameObject<Shield>();
 	
 
-	//Enemy* enemy = AddGameObject<Enemy>();
-	//enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
+	Enemy* enemy = AddGameObject<Enemy>();
+	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 	
 	Box* box = AddGameObject<Box>();
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
@@ -203,6 +203,7 @@ void Game::Update()
 		Manager::SetScene<Result>();
 	}
 	
+
 
 	/*if (player->GetOverFlag())
 	{

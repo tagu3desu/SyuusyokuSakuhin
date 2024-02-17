@@ -11,10 +11,10 @@ void Box::Init()
 	m_DepthEnable = true;
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\vertexLightingVS.cso");
+		"shader\\DepthShadowMappingVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\vertexLightingPS.cso");
+		"shader\\DepthShadowMappingPS.cso");
 
 	scene = Manager::GetScene();
 	m_BoxCollider = scene->AddGameObject<Collider>();

@@ -116,9 +116,7 @@ void Enemy::Update()
 	auto sword = m_Scene->GetGameObject<Sword>();
 	AreaChange* areachange = m_Scene->GetGameObject<AreaChange>();
 
-	m_Direction = player->GetPosition() - m_Position;
-	//プレイヤーとの距離
-	m_Length = D3DXVec3Length(&m_Direction);
+	
 
 	
 	//敵本体のコライダー
@@ -138,7 +136,8 @@ void Enemy::Update()
 	}
 
 	//追跡用
-	D3DXVec3Normalize(&m_Direction, &m_Direction);
+	
+	
 
 
 	switch (m_EnemyState)
@@ -171,7 +170,7 @@ void Enemy::Update()
 		{
 			m_EnemyState = ENEMY_STATE_ATTACK;
 		}
-		else if (m_HowlFinish && m_Length < 20 && 16 < m_Length && !m_Dead && !m_IsAttack)
+		else if (m_HowlFinish && m_Length < 25 && 16 < m_Length && !m_Dead && !m_IsAttack)
 		{
 			m_EnemyState = ENEMY_STATE_MOVE;
 		}
@@ -188,9 +187,12 @@ void Enemy::Update()
 			m_Find = false;
 		}
 
-		if (!m_Dead)
+		if (!m_Dead && !m_IsAttack)
 		{
-			m_Rotation.y = atan2f(m_Direction.x, m_Direction.z);
+			m_Direction = player->GetPosition() - m_Position;
+			m_Length = D3DXVec3Length(&m_Direction);
+			D3DXVec3Normalize(&m_Direction, &m_Direction);
+			//m_Rotation.y = atan2f(m_Direction.x, m_Direction.z);
 		}
 	}
 	
@@ -213,19 +215,13 @@ void Enemy::Update()
 	
 
 		if (meshField != nullptr) {
-			if (meshField->GetMapActive())
-			{
-				meshField = m_Scene->GetGameObject<MeshField>();
-				m_GroundHeight = meshField->GetHeight(m_Position);
-			}
-		}
-		
-		
-		//position+ forward * 数値
-		if (Input::GetKeyTrigger('B'))
-		{
+			
+			meshField = m_Scene->GetGameObject<MeshField>();
+			m_GroundHeight = meshField->GetHeight(m_Position);
 			
 		}
+		
+		
 
 
 		//重力
@@ -268,16 +264,15 @@ void Enemy::Update()
 			m_EnemyState = ENAMY_STATE_DEAD;
 		}
 	}
-	
-
-	
 
 	//GUIにパラメータ表示
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
-	ImGui::InputInt("AnimationCount", &m_AnimationDelay);
+	ImGui::InputInt("AnimationCount", &m_Attackdelay);
 	ImGui::InputInt("HP", &m_HP);
 	ImGui::Checkbox("EnemyAI", &m_EnemyAI);
+	ImGui::Checkbox("Attaking", &m_Attacking);
+	ImGui::Checkbox("Attack", &m_IsAttack);
 	ImGui::End();
 }
 
@@ -397,11 +392,11 @@ void Enemy::UpdateAttack() {
 		{
 			m_EnemyAttackPatarn = ENEMY_ATTACK_SLAP;
 		}
-		else if (m_Length >= 11 && m_Length < 25 && !m_RockAttackFlag)
+		/*else if (m_Length >= 11 && m_Length < 25 && !m_RockAttackFlag)
 		{
 			m_EnemyAttackPatarn = ENEMY_ATTCK_ROCK;
 			m_RockAttackFlag = true;
-		}
+		}*/
 	}
 	
 	if (m_RockAttackFlag)
@@ -409,11 +404,10 @@ void Enemy::UpdateAttack() {
 		m_RockattackLimit++;
 		if (m_RockattackLimit > 1200)
 		{
+			m_RockattackLimit = 0;
 			m_RockAttackFlag = false;
 		}
 	}
-
-
 
 	switch (m_EnemyAttackPatarn)
 	{
@@ -487,9 +481,9 @@ void Enemy::UpdatePunchiAttack(){
 		m_NextAnimationName = "Attack";
 		m_BlendTime = 0.0f;
 		m_Time = 0.0f;
-		m_Speed = 0.0f;
 		m_IsAttack = true;
 	}
+	
 	m_AnimationDelay++;
 
 	if (m_AnimationDelay >= 100 && !m_Attacking)
@@ -503,10 +497,11 @@ void Enemy::UpdatePunchiAttack(){
 	if (m_AnimationDelay >= 200)
 	{
 		m_AnimationDelay = 0;
-		m_IsAttack = false;
 		m_Attacking = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
+	
+
 }
 
 void Enemy::UpdateRockAttack() {

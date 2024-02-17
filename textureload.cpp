@@ -173,17 +173,17 @@ float TextureLoad::UiMove(int heightlimit, GameObject* object1)
 
 	if (m_Up)
 	{
-		m_Framwait++;
+		m_FrameWait++;
 	}
 
-	if (90 <= m_Framwait)
+	if (90 <= m_FrameWait)
 	{
 		m_MoveHeight += -8.0f;
 	}
 
 	if (m_MoveHeight < -50)
 	{
-		m_Framwait = 0;
+		m_FrameWait = 0;
 		object1->SetDestroy();
 	}
 	return m_MoveHeight;

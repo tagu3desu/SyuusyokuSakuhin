@@ -101,6 +101,10 @@ void Bullet::Draw()
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
+	PARAMETER parameter;
+	parameter.weponcolor = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	Renderer::SetParameter(parameter);
+
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);

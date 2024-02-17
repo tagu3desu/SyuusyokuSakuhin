@@ -19,18 +19,18 @@ void DebugSystem::Update()
 {
 	if (Input::GetKeyPress('O'))
 	{
-		m_Framwait++;
-		if (m_Framwait > 90)
+		m_FrameWait++;
+		if (m_FrameWait > 90)
 		{
 			if (m_DebugWindowEnable)
 			{
 				m_DebugWindowEnable = false;
-				m_Framwait=0;
+				m_FrameWait =0;
 			}
 			else
 			{
 				m_DebugWindowEnable = true;
-				m_Framwait = 0;
+				m_FrameWait = 0;
 			}
 		}
 	}
@@ -54,7 +54,6 @@ void DebugSystem::Update()
 			collider->SetColliderEnable(m_ColliderEnable);
 		}
 		ImGui::End();
-
 		SetFPS(m_FPS);
 	}
 	

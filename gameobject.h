@@ -45,7 +45,7 @@ protected:
 	bool m_InvincibilityFlag = false;
 	bool m_InviciblilityStartFlag = false;
 
-	float m_Framwait{};
+	float m_FrameWait{};
 
 	bool m_Hit{};
 public:

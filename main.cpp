@@ -2,6 +2,7 @@
 //デバック用環境
 #include "main.h"
 #include "manager.h"
+#include"debug.h"
 #include <thread>
 
 
@@ -10,19 +11,18 @@ const char* WINDOW_NAME = "就活作品";
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-POINT lastmousePos;
-POINT cursorPos;
-POINT cursorPosinWnd;
+POINT g_LastmousePos;
+POINT g_CursorPos;
+POINT g_CursorPosinWnd;
 
 HWND g_Window;
 
-int mouseX;
-int mouseY;
 
 short rot;
 float hweel;
 
-int FPS = 60;
+int g_FPS = 60;
+bool g_Pause = false;
 
 HWND GetWindow()
 {
@@ -63,7 +63,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	Manager::Init();
 	ShowCursor(true);
-	GetCursorPos(&lastmousePos);
+	GetCursorPos(&g_LastmousePos);
 	
 	ShowWindow(g_Window, nCmdShow);
 	UpdateWindow(g_Window);
@@ -99,16 +99,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 
 			dwCurrentTime = timeGetTime();
-			if ((dwCurrentTime - dwExecLastTime) >= (1000 / FPS))
+
+			if ((dwCurrentTime - dwExecLastTime) >= (1000 / g_FPS))
 			{
 				dwExecLastTime = dwCurrentTime;
-				GetCursorPos(&cursorPos);
+				GetCursorPos(&g_CursorPos);
 				
-
-
-				//ポーズ処理
 				Manager::Update();
 				Manager::Draw();
+									
 			}
 		}
 	}
@@ -118,7 +117,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
 	Manager::Uninit();
-
 	return (int)msg.wParam;
 }
 
@@ -164,18 +162,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	GetCursorPos(&cursorPosinWnd);
-	ScreenToClient(hWnd, &cursorPosinWnd);
+	GetCursorPos(&g_CursorPosinWnd);
+	ScreenToClient(hWnd, &g_CursorPosinWnd);
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
-float GetMouseCursorPosX() { return cursorPos.x - lastmousePos.x; }
-float GetMouseCursorPosY() { return cursorPos.y - lastmousePos.y; }
+float GetMouseCursorPosX() { return g_CursorPos.x - g_LastmousePos.x; }
+float GetMouseCursorPosY() { return g_CursorPos.y - g_LastmousePos.y; }
 
-float GetMouseCursorPosXinWnd() { return cursorPosinWnd.x; }
-float GetMouseCursorPosYinWnd() { return cursorPosinWnd.y; }
+float GetMouseCursorPosXinWnd() { return g_CursorPosinWnd.x; }
+float GetMouseCursorPosYinWnd() { return g_CursorPosinWnd.y; }
 
-void SetFPS(int fps) { FPS = fps; }
+
+
+void SetFPS(int fps) { g_FPS = fps; }
 
 //カメラで100はいらない
 float GetHweel() { return hweel;}
@@ -187,6 +187,7 @@ float GetHweel() { return hweel;}
 #else	//本番用実行環境
 #include "main.h"
 #include "manager.h"
+#include"debug.h"
 #include <thread>
 
 

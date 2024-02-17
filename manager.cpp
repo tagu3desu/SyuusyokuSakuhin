@@ -19,6 +19,7 @@ void Manager::Init()
 	Input::Init();
 	Audio::InitMaster();
 
+	
 	//ImGUI‰Šú‰»
 	{
 		// Setup Dear ImGui context
@@ -59,6 +60,7 @@ void Manager::Uninit()
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
+	
 	Audio::UninitMaster();
 	Input::Uninit();
 	Renderer::Uninit();
@@ -85,7 +87,7 @@ void Manager::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	
-
+	
 
 	m_Scene->Update();
 }
@@ -94,6 +96,7 @@ void Manager::Draw()
 { 
 	Renderer::Begin();
 
+	
 	m_Scene->Draw();
 	
 	//ImGUI‚Ì•`‰æˆ—

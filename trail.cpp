@@ -45,17 +45,6 @@ void Trail::Init()
 	}
 
 
-
-
-	//// テクスチャ読み込み
-	//D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-	//	"asset/texture/defolttrail.png",
-	//	NULL,
-	//	NULL,
-	//	&m_Texture,
-	//	NULL);
-	//assert(m_Texture);
-
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
 		"asset/texture/testtrail3.png",
@@ -193,9 +182,11 @@ void Trail::Draw()
 		Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 
-
+		Renderer::SetATCEnable(true);
 		// ポリゴン描画
 		Renderer::GetDeviceContext()->Draw(m_BottomVertexArray.size()*2, 0);
+
+		Renderer::SetATCEnable(false);
 		Renderer::SetRssetEnable(false);
 	}
 
