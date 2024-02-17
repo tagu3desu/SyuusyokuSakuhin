@@ -87,9 +87,10 @@ void Sword::Update()
 
 	if (!Title::GetCheckTitle())
 	{
+		//Œ•‚É“–‚½‚è”»’è‚ð‚Â‚¯‚é
 		m_SwordCollider->SetMatrix(m_Matrix);
 		SetColliderInfo(m_SwordCollider->GetMatrix(),false);
-
+		//‹OÕƒZƒbƒg
 		m_SwordTrail->SetTrail(m_SwordTopVertex->GetTopVertexPostion(), GetBottomVertexPostion(), player->GetPlayerAttackCollider());
 
 		//“G‚Æ‚Ì“–‚½‚è”»’è
@@ -260,7 +261,7 @@ void Sword::Update()
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Sword");
 	ImGui::Checkbox("HIt", &m_Swordhit);
-	ImGui::InputInt("–³“GŽžŠÔ", &m_InvincibilityTime);
+	ImGui::InputInt("HitCoolTime", &m_InvincibilityTime);
 	ImGui::End();
 
 }
@@ -289,11 +290,11 @@ void Sword::Draw()
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);	
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot * trans * m_Parent * player->GetMatrix();
+	m_Matrix = scale * rot * trans * m_Parent * player->GetMatrix();
 
-	m_Matrix = world;
 
-	Renderer::SetWorldMatrix(&world);
+
+	Renderer::SetWorldMatrix(&m_Matrix);
 
 	m_Model->Draw();
 }

@@ -135,6 +135,8 @@ void Player::Init()
 		m_PlayerCollider->SetScale(D3DXVECTOR3(70.0f, 170.0f, 70.0f));
 		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 85.0f, 0.0f));
 		m_PlayerCollider->SetTag(PLAYER_TAG);
+
+		m_AnimationCorrection = m_Scene->AddGameObject<AnimationCorrection>();
 	}
 	
 
@@ -200,6 +202,7 @@ void Player::Update()
 		SetColliderInfo(m_PlayerCollider->GetMatrix(),false);
 
 
+	
 
 
 
@@ -254,7 +257,7 @@ void Player::Update()
 		}
 		
 
-
+		//無敵時間
 		if (m_InviciblilityStartFlag)
 		{
 			m_InvincibilityTime++;
@@ -1382,4 +1385,46 @@ void Player::UpdateDead()
 	
 }
 
+//アニメーション補正用のクラス
+void AnimationCorrection::Init()
+{
+	m_Scene = Manager::GetScene();
+}
 
+void AnimationCorrection::Uninit()
+{
+
+}
+
+void AnimationCorrection::Update()
+{
+	Player* player = m_Scene->GetGameObject<Player>();
+	//アニメーションのずれを補正
+	AnimationModel* animationmodel;
+	animationmodel = player->GetAnimationModel();
+	BONE* bone;
+	bone = animationmodel->GetBone("mixamorig:Hips");
+	bone->WorldMatrix;
+	m_Parent = animationmodel->ConvertMatrix(bone->WorldMatrix);
+	D3DXVECTOR3 hipposition = MatrixtoPosition(m_Matrix);
+
+
+	//GUIにパラメータ表示
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("AnimationCorrection");
+	ImGui::InputFloat3("hipposition", hipposition);
+	ImGui::InputFloat3("hipmatrix", m_Matrix);
+	ImGui::End();
+}
+
+void AnimationCorrection::Draw()
+{
+	Player* player = m_Scene->GetGameObject<Player>();
+	//マトリクス設定
+	D3DXMATRIX scale, rot, trans;
+	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+	m_Matrix = scale * rot * trans * m_Parent * player->GetMatrix();
+	Renderer::SetWorldMatrix(&m_Matrix);
+}

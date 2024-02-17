@@ -11,8 +11,8 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
-	float m_X = 230; //150
-	float m_Y = 40; //50
+	float m_X = 230;
+	float m_Y = 40; 
 	float m_Width = 690;
 	float m_Height = 8;
 

@@ -38,6 +38,7 @@ void Dummy::Unload()
 
 void Dummy::Uninit()
 {
+	
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
@@ -49,8 +50,6 @@ void Dummy::Update()
 	
 	m_DummyCollider->SetMatrix(m_Matrix);
 	SetColliderInfo(m_DummyCollider->GetMatrix(),false);
-
-	
 
 	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Box");

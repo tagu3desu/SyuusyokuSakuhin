@@ -92,7 +92,7 @@ void Enemy::Uninit()
 {
 	GameObject::Uninit();
 	
-	m_EnemyCollider->Uninit();
+	m_EnemyCollider->SetDestroy();
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();

@@ -109,7 +109,7 @@ private:
 	class MeshField* m_MeshField;
 	class RockEffect* m_RockEffect;
 	class Bullet* m_Bullet;
-
+	class AnimationCorrection* m_AnimationCorrection;
 public:
 	void Init();
 	void Uninit();
@@ -208,3 +208,22 @@ public:
 	PLAYER_STATE GetPlayerState() { return m_PlayerState; }
 };
 
+class AnimationCorrection : public GameObject
+{
+private:
+	ID3D11VertexShader* m_VertexShader{};
+	ID3D11PixelShader* m_PixelShader{};
+	ID3D11InputLayout* m_VertexLayout{};
+
+	D3DXMATRIX m_Parent{};
+	D3DXVECTOR3 m_AnimationPosition;
+
+	class Scene* m_Scene;
+public:
+	void Init();
+	void Uninit();
+	void Update();
+	void Draw();
+
+	D3DXVECTOR3 GetAnimationPosition() { return m_AnimationPosition; }
+};
