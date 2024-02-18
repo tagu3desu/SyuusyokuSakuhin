@@ -49,7 +49,7 @@ void Camera::Update()
 	ImGui::End();*/
 
 	
-#if 0 //デバッグ
+#if 1 //デバッグ
 	//-0.3,6.8
 
 	if (Title::GetCheckTitle())

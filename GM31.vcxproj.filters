@@ -144,12 +144,6 @@
     <ClCompile Include="wepon_sword.cpp">
       <Filter>ソース ファイル\プレイヤー関連</Filter>
     </ClCompile>
-    <ClCompile Include="wepon_gun.cpp">
-      <Filter>ソース ファイル\プレイヤー関連</Filter>
-    </ClCompile>
-    <ClCompile Include="wepon_galbert.cpp">
-      <Filter>ソース ファイル\プレイヤー関連</Filter>
-    </ClCompile>
     <ClCompile Include="wepon_axe.cpp">
       <Filter>ソース ファイル\プレイヤー関連</Filter>
     </ClCompile>
@@ -429,12 +423,6 @@
       <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
     </ClInclude>
     <ClInclude Include="wepon_axe.h">
-      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_galbert.h">
-      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_gun.h">
       <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
     </ClInclude>
     <ClInclude Include="wepon_shield.h">

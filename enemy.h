@@ -123,6 +123,8 @@ public:
 	void UpdateRockAttack();
 
 	void SetDamage(int hp) { m_HP -= hp;}
+	void SetEnemyAI(bool ai) { m_EnemyAI = ai; }
+	bool GetEnemyAI() {	return m_EnemyAI;}
 
 	bool IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee);
 	bool GetEnemyHitPlayer() { return m_EnemyAttackHit;}

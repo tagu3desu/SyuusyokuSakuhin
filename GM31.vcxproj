@@ -235,8 +235,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="wepon_axe.cpp" />
-    <ClCompile Include="wepon_galbert.cpp" />
-    <ClCompile Include="wepon_gun.cpp" />
     <ClCompile Include="wepon_shield.cpp" />
     <ClCompile Include="wepon_sword.cpp" />
     <ClCompile Include="wood.cpp" />
@@ -320,8 +318,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="wepon_axe.h" />
-    <ClInclude Include="wepon_galbert.h" />
-    <ClInclude Include="wepon_gun.h" />
     <ClInclude Include="wepon_shield.h" />
     <ClInclude Include="wepon_sword.h" />
     <ClInclude Include="wood.h" />

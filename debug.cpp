@@ -4,6 +4,7 @@
 #include"scene.h"
 #include"collider.h"
 #include"input.h"
+#include"enemy.h"
 
 int DebugSystem::m_FPS = 60;
 void DebugSystem::Init()
@@ -17,6 +18,7 @@ void DebugSystem::Uninit()
 
 void DebugSystem::Update()
 {
+	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
 	if (Input::GetKeyTrigger(VK_TAB))
 	{		
 		if (m_DebugWindowEnable)
@@ -52,8 +54,15 @@ void DebugSystem::Update()
 		{
 			collider->SetColliderEnable(m_ColliderEnable);
 		}
+		if (enemy != nullptr)
+		{
+			m_AI = enemy->GetEnemyAI();
+			ImGui::Checkbox("EnemyAI", &m_AI);
+			enemy->SetEnemyAI(m_AI);
+		}
 		ImGui::End();
 		SetFPS(m_FPS);
+
 	}
 	
 }

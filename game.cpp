@@ -132,8 +132,8 @@ void Game::Init()
 	Enemy* enemy = AddGameObject<Enemy>();
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 	
-	//Box* box = AddGameObject<Box>();
-	//box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
+	Box* box = AddGameObject<Box>();
+	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
 
 	
 
@@ -171,7 +171,7 @@ void Game::Init()
 	
 
 	//////////Šâ
-	/*for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 20; i++)
 	{
 		auto rock = AddGameObject<Rock>();
 
@@ -185,7 +185,7 @@ void Game::Init()
 		D3DXVECTOR3 scl;
 		scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
 		rock->SetScale(scl);
-	}*/
+	}
 	
 	m_BattleBGM = AddGameObject<GameObject>()->AddComponent<Audio>();
 	m_BattleBGM->Load("asset\\audio\\BGM\\battlebgm.wav");

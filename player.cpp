@@ -277,7 +277,7 @@ void Player::Update()
 		
 
 		//GUIにパラメータ表示
-	/*	ImGui::SetNextWindowSize(ImVec2(300, 250));
+		/*ImGui::SetNextWindowSize(ImVec2(300, 250));
 		ImGui::Begin("Player");
 		ImGui::InputFloat3("Position", m_Position);
 		ImGui::InputFloat("Frame", &m_AnimationDelay);

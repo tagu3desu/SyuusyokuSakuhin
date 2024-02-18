@@ -10,6 +10,7 @@ private:
 
 	bool m_ColliderEnable;
 	bool m_DebugWindowEnable;
+	bool m_AI;
 
 	class Scene* m_Scene;
 	class Collider* m_Collider;
