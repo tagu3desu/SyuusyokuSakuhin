@@ -109,21 +109,24 @@ void Sword::Update()
 					{
 						m_NormalAttackHitSE->Volume(Scene::m_SEVolume);
 						m_NormalAttackHitSE->PlaySE();
+						m_Camera->Shake(0.05f);
 					}
 
 					if (player->GetPlayerAttackNumber() == 2)
 					{
 						m_SmallAttackHitSE->Volume(Scene::m_SEVolume * 0.3f);
 						m_SmallAttackHitSE->PlaySE();
+						m_Camera->Shake(0.02f);
 					}
 
 					if (player->GetPlayerAttackNumber() == 3)
 					{
 						m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 						m_BigAttackHitSE->PlaySE();
+						m_Camera->Shake(0.1f);
 					}
 					
-					m_Camera->Shake(0.1f);
+					
 					m_Swordhit = true;
 					m_NormalAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 					m_NormalAttackHitSE->PlaySE();
@@ -198,7 +201,7 @@ void Sword::Update()
 		//“–‚½‚è”»’è‚ÌƒŠƒZƒbƒg
 		if (player->GetHitStopFlag())
 		{
-			player->SetHitStopTime(15);
+			player->SetHitStopTime(10);
 		}
 
 

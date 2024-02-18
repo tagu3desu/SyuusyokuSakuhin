@@ -8,6 +8,7 @@
 #include"input.h"
 #include"collider.h"
 #include"title.h"
+#include"rockeffect.h"
 void Shield::Init()
 {
 
@@ -22,19 +23,19 @@ void Shield::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\unlitTexturePS.cso");
 
-	m_TrailPosition = m_Position;
+
 
 	//m_Scale = D3DXVECTOR3(1.0f/0.1f, 1.0f / 0.1f, 1.0f / 0.1f);
 	m_Scale = D3DXVECTOR3(1.0f / 0.01f, 1.0f / 0.01f, 1.0f / 0.01f);
 	m_Position = D3DXVECTOR3(5.0f, 12.0f, 3.0f);
 	m_Rotation = D3DXVECTOR3(-2.9f, -4.25f, 1.5f);
 	
-	scene = Manager::GetScene();
+	m_Scene = Manager::GetScene();
 
 	if (!Title::GetCheckTitle())
 	{
 		
-		m_ShieldCollider = scene->AddGameObject<Collider>(COLLIDER_LAYER);
+		m_ShieldCollider = m_Scene->AddGameObject<Collider>(COLLIDER_LAYER);
 		m_ShieldCollider->SetScale(D3DXVECTOR3(0.45f, 0.25f, 0.60f));
 		m_ShieldCollider->SetTag(ITEM_TAG);
 	}
@@ -55,19 +56,34 @@ void Shield::Uninit()
 
 void Shield::Update()
 {
-	
-	
-	Player* player = scene->GetGameObject<Player>();
+	Player* player = m_Scene->GetGameObject<Player>();
 	AnimationModel* animationmodel;
 
-	//Collider* collider2 = scene->GetGameObject<Collider>();
-	//collider2->SetMatrix(m_Matrix);
+
 	if (!Title::GetCheckTitle())
 	{
+		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
+		//盾に当たり判定をつける
 		m_ShieldCollider->SetMatrix(m_Matrix);
 		m_ShieldCollider->SetColliderInfo(m_ShieldCollider->GetMatrix(), false);
+
+		if (m_RockEffect != nullptr)
+		{
+			if (m_ShieldCollider->CollisionChecker(this, m_RockEffect, 0.7f))
+			{
+				m_ShieldHit = true;
+				m_ShieldCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+			}
+			else
+			{
+				m_ShieldHit = false;
+				m_ShieldCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+			}
+		}
 	}
 	
+
+
 
 	animationmodel = player->GetAnimationModel();
 	BONE* bone;
@@ -94,16 +110,12 @@ void Shield::Update()
 	ImGui::InputFloat3("Ratation", m_Rotation);
 	ImGui::InputFloat3("Scale", m_Scale);
 	ImGui::End();*/
-
-
-
-
 }
 
 void Shield::Draw()
 {
 	
-	Player* player = scene->GetGameObject<Player>();
+	Player* player = m_Scene->GetGameObject<Player>();
 
 	GameObject::Draw();
 	//入力レイアウト
@@ -118,17 +130,17 @@ void Shield::Draw()
 	Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &depthShadowTexture);*/
 
 	//マトリクス設定
-	D3DXMATRIX world, scale, rot, trans;
+	D3DXMATRIX  scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	
 	
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot * trans * m_Parent * player->GetMatrix();
-	m_Matrix = world;
+	m_Matrix = scale * rot * trans * m_Parent * player->GetMatrix();
+	
 	
 
-	Renderer::SetWorldMatrix(&world);
+	Renderer::SetWorldMatrix(&m_Matrix);
 
 	m_Model->Draw();
 }

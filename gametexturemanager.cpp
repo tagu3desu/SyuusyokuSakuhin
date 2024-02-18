@@ -1,11 +1,13 @@
 #include"main.h"
 #include"renderer.h"
+#include"manager.h"
+#include"scene.h"
 #include"gametexturemanager.h"
 #include"textureload.h"
 #include"Loading.h"
 #include"title.h"
 #include"game.h"
-
+#include"enemy.h"
 
 
 //ƒQ[ƒ€UI
@@ -16,6 +18,7 @@ TextureLoad* texture_TimeHand = new TextureLoad;
 TextureLoad* texture_GageBase = new TextureLoad;
 TextureLoad* texture_TimelimitUI = new TextureLoad;
 TextureLoad* texture_PotionUI = new TextureLoad;
+TextureLoad* texture_WinUI = new TextureLoad;
 void GameTexture::Init()
 {
 	texture_Dragon->Init("asset/texture/UI/dragonUI.png");
@@ -25,6 +28,8 @@ void GameTexture::Init()
 	texture_GageBase->Init("asset/texture/UI/gagebase.png");
 	texture_TimelimitUI->Init("asset/texture/UI/timelimit.png");
 	texture_PotionUI->Init("asset/texture/UI/potion.png");
+	texture_WinUI->Init("asset/texture/UI/winlogo.png");
+	m_Scene = Manager::GetScene();
 }
 
 void GameTexture::Uninit()
@@ -34,21 +39,33 @@ void GameTexture::Uninit()
 	texture_TimeLimit->Uninit();
 	texture_TimeHand->Uninit();
 	texture_GageBase->Uninit();
+	texture_WinUI->Uninit();
 }
 
 void GameTexture::Update()
 {
-	m_Y = texture_TimelimitUI->UiMove(160, texture_TimelimitUI);
-	if (m_Y < -50)
+	m_Enemy = m_Scene->GetGameObject<Enemy>();
+
+	m_TimeLimitPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI);
+	if (m_TimeLimitPosY < -50)
 	{
 		m_GameStart = true;
+	}
+	
+
+	if (m_Enemy != nullptr)
+	{
+		if (m_Enemy->GetDead())
+		{
+			m_WinLogoPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI);
+		}
 	}
 
 }
 
 void GameTexture::Draw()
 {
-	
+	m_Enemy = m_Scene->GetGameObject<Enemy>();
 	//ƒQ[ƒ€UI
 	texture_Dragon->SetTextureScale(180.0f, 180.0f);
 	texture_Dragon->Draw(0.0f,0.0f);
@@ -70,9 +87,18 @@ void GameTexture::Draw()
 	texture_GageBase->Draw(80.0f, 5.0f);
 
 	texture_TimelimitUI->SetTextureScale(300.0f, 80.0f);
-	texture_TimelimitUI->Draw(400.0f, m_Y);
+	texture_TimelimitUI->Draw(400.0f, m_TimeLimitPosY);
 
 	texture_PotionUI->SetTextureScale(150.0f, 150.0f);
 	texture_PotionUI->Draw(800.0f, 400.0f);
+	if (m_Enemy != nullptr)
+	{
+		if (m_Enemy->GetDead())
+		{
+			texture_WinUI->SetTextureScale(300.0f, 80.0f);
+			texture_WinUI->Draw(400.0f, m_WinLogoPosY);
+		}
+	}
+	
 	
 }

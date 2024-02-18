@@ -9,9 +9,12 @@ private:
 	ID3D11InputLayout* m_VertexLayout{};
 
 
-	float m_Y;
+	float m_TimeLimitPosY;
+	float m_WinLogoPosY;
 	bool m_GameStart{};
 
+	class Scene* m_Scene;
+	class Enemy* m_Enemy;
 public:
 	void Init();
 	void Uninit();

@@ -71,6 +71,7 @@ private:
 	bool m_Sworddrawn = false;
 	bool m_OnSword = false;
 	bool m_OffSword = false;
+	bool m_GuardEffect=false;
 	//ヒットストップ関連
 	bool m_HitStopFlag = false;
 	float m_HitStopTime = false;
@@ -99,6 +100,8 @@ private:
 	class Audio* m_RunSoundBGM{};
 	class Audio* m_WalkSoundBGM{};
 	class Audio* m_AttackSE{};
+	class Audio* m_GuardSE{};
+	class Audio* m_HealSE{};
 
 	//ポインタ変数
 	class Scene* m_Scene{};
@@ -109,6 +112,7 @@ private:
 	class MeshField* m_MeshField;
 	class RockEffect* m_RockEffect;
 	class Bullet* m_Bullet;
+	class Shield* m_Shield;
 	class AnimationCorrection* m_AnimationCorrection;
 public:
 	void Init();

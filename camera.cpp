@@ -7,7 +7,7 @@
 #include"input.h"
 #include"title.h"
 #include"enemy.h"
-#include"dummy.h"
+#include"debug.h"
 void Camera::Init()
 {	
 	
@@ -26,8 +26,8 @@ void Camera::Update()
 	
 	Player* player = m_Scene->GetGameObject<Player>();
 	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
-	Dummy* dummy = m_Scene->GetGameObject<Dummy>();
-
+	DebugSystem* debug = m_Scene->GetGameObject<DebugSystem>();
+	
 
 	if (Input::GetKeyPress('J'))
 	{
@@ -49,7 +49,7 @@ void Camera::Update()
 	ImGui::End();*/
 
 	
-#if 1 //デバッグ
+#if 0 //デバッグ
 	//-0.3,6.8
 
 	if (Title::GetCheckTitle())
@@ -87,9 +87,36 @@ void Camera::Update()
 
 	
 #else //本番用
+	if (Title::GetCheckTitle())
+	{
+		m_RotationX = 0.1f;
+		m_RotationY = 3.7f;
+	}
+
+	if(debug != nullptr)
+	if (debug->GetDebugWindowEnable())
+	{
+		if (Input::GetKeyPress(VK_RIGHT))
+		{
+			m_RotationX -= 0.1f;
+		}
+		if (Input::GetKeyPress(VK_LEFT))
+		{
+			m_RotationX += 0.1f;
+		}
+		if (Input::GetKeyPress(VK_UP))
+		{
+			m_RotationY += 0.1f;
+		}
+		if (Input::GetKeyPress(VK_DOWN))
+		{
+			m_RotationY -= 0.1f;
+		}
+	}
+
 	if (!Title::GetCheckTitle())
 	{
-		m_Rotation -= GetMouseCursorPosX() / 600;
+		m_RotationX -= GetMouseCursorPosX() / 400;
 		if (1.5f <= m_RotationY && m_RotationY <= 6.6)
 		{
 			m_RotationY += GetMouseCursorPosY() / 600;
@@ -104,6 +131,9 @@ void Camera::Update()
 			m_RotationY = 6.6f;
 		}
 	}
+
+	
+
 #endif 
 
 	
@@ -123,13 +153,10 @@ void Camera::Update()
 		m_Rotation.y = atan2f(length.x, length.z);
 
 		//注視点は敵
-		m_Target = dummy->GetPosition();
+		m_Target = enemy->GetPosition();
 
 		//ポジションはプレイヤー
 		m_Position = player->GetPosition() - GetForward() * 5.0f + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
-		//m_Position = player->GetPosition() + player->GetUp() * 3.0f + m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY * 1.0f, -cos(m_RotationX) * 8.0f);
-		
-		
 	}
 	else if (!Title::GetCheckTitle())
 	{

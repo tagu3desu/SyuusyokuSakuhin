@@ -25,8 +25,9 @@
 #include"rock.h"
 #include"titletexturemanager.h"
 #include"rockeffect.h"
-
-
+#include"wepon_shield.h"
+#include"shieldefect.h"
+#include"healefect.h"
 
 void Player::Init()
 {
@@ -101,19 +102,16 @@ void Player::Init()
 	
 
 	m_OnWeponSE = AddComponent<Audio>();
-	m_OnWeponSE->Load("asset\\audio\\剣を抜く.wav");
+	m_OnWeponSE->Load("asset\\audio\\SE\\剣を抜く.wav");
 
 	m_OffWeponSE = AddComponent<Audio>();
-	m_OffWeponSE->Load("asset\\audio\\剣を鞘にしまう.wav");
+	m_OffWeponSE->Load("asset\\audio\\SE\\剣を鞘にしまう.wav");
 
-	m_RunSoundBGM = AddComponent<Audio>();
-	m_RunSoundBGM->Load("asset\\audio\\鎧の騎士が走る.wav");
+	m_GuardSE = AddComponent<Audio>();
+	m_GuardSE->Load("asset\\audio\\SE\\剣で打ち合う2.wav");
 
-	m_WalkSoundBGM = AddComponent<Audio>();
-	m_WalkSoundBGM->Load("asset\\audio\\鎧の騎士が歩く.wav");
-
-	m_AttackSE = AddComponent<Audio>();
-	m_AttackSE->Load("asset\\audio\\木刀・振る.wav");
+	m_HealSE = AddComponent<Audio>();
+	m_HealSE->Load("asset\\audio\\SE\\回復魔法1.wav");
 
 	m_Time = 0.0f;
 	m_BlendTime = 0.0f;
@@ -160,6 +158,7 @@ void Player::Uninit()
 
 void Player::Update()
 {
+	m_Camera = m_Scene->GetGameObject<Camera>();
 
 
 
@@ -231,25 +230,22 @@ void Player::Update()
 		{
 			if (Input::GetKeyTrigger('F'))
 			{
+				m_HealSE->Volume(Scene::m_SEVolume*0.5);
+				m_HealSE->PlaySE();
+				HealEffect* healeffect = m_Scene->AddGameObject<HealEffect>(EFFECT_LAYER);
+				healeffect->SetScale(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+				healeffect->SetPosition(m_Position+(D3DXVECTOR3(0.0f,1.5f,0.0f)));
+
 				potioncount->SubstractCount(1);
 				hpgage->SetHealPoint(200);
 			}
 		}
 
-	
+		
+		
 		
 
-		if (m_RockEffect != nullptr)
-		{
-
-			if (!m_InvincibilityFlag && m_RockEffect->GetHit() && !m_SuccessGuard)
-			{
-				hpgage->SetDamage(100);
-				m_InviciblilityStartFlag = true;
-				m_DamageReaction = true;
-			}
-		}
-
+		/*
 		if (m_Bullet != nullptr)
 		{
 			if (!m_InvincibilityFlag && m_Bullet->GetHit() && !m_SuccessGuard)
@@ -258,7 +254,8 @@ void Player::Update()
 				m_InviciblilityStartFlag = true;
 				m_DamageReaction = true;
 			}
-		}
+		}*/
+		
 		
 
 		//無敵時間
@@ -280,12 +277,12 @@ void Player::Update()
 		
 
 		//GUIにパラメータ表示
-		ImGui::SetNextWindowSize(ImVec2(300, 250));
+	/*	ImGui::SetNextWindowSize(ImVec2(300, 250));
 		ImGui::Begin("Player");
 		ImGui::InputFloat3("Position", m_Position);
 		ImGui::InputFloat("Frame", &m_AnimationDelay);
-		ImGui::Checkbox("Reaction", &m_DamageReaction);
-		ImGui::End();
+		ImGui::Checkbox("Reaction", &m_SuccessGuard);
+		ImGui::End();*/
 
 
 		//ダメージ処理
@@ -337,12 +334,7 @@ void Player::Update()
 		//ジャンプ用移動
 		m_Position += m_Velocity;
 
-		if (m_ComboCount == 3 || m_PlayerState==PLAYER_STATE_GROUND)
-		{
-			
-			//m_Position.x += (m_AnimationCorrection->GetAnimationPosition().x - m_Position.x) / 10.0f;
-			//m_Position.z += (m_AnimationCorrection->GetAnimationPosition().z - m_Position.z) / 10.0f;
-		}
+		
 	
 
 	}
@@ -388,7 +380,36 @@ void Player::Update()
 		m_PlayerState = PLAYER_STATE_TITLEIDLE;
 	}
 
+	if (!Title::GetCheckTitle())
+	{
+		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
+		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
+		m_Shield = m_Scene->GetGameObject<Shield>();
+		if (m_RockEffect != nullptr)
+		{
+			if (m_PlayerCollider->CollisionChecker(this, m_RockEffect, 0.6f))
+			{
+				if(m_SuccessGuard && !m_GuardEffect)
+				{ 
+					m_GuardSE->Volume(Scene::m_SEVolume);
+					m_GuardSE->PlaySE();
+					ShieldEffect* shieldeffect = m_Scene->AddGameObject<ShieldEffect>(EFFECT_LAYER);
+					shieldeffect->SetScale(D3DXVECTOR3(7.0f, 7.0f, 7.0f));
+					shieldeffect->SetPosition(MatrixtoPosition(m_Shield->GetMatrix()));
+					m_Camera->Shake(0.05f);
+					m_GuardEffect = true;
+				}
+				else if (!m_InvincibilityFlag && !m_SuccessGuard)
+				{
+					hpgage->SetDamage(100);
+					m_InviciblilityStartFlag = true;
+					m_DamageReaction = true;
+				}
+			}
+		}
+	}
 
+	
 
 	if (m_MeshField != nullptr)
 	{
@@ -1276,11 +1297,13 @@ void Player::UpdateCounterAttack()
 void Player::UpdateGuard()
 {
 	m_Idle = false;
-	
+	m_RockEffect = m_Scene->GetGameObject<RockEffect>();
+	m_Bullet = m_Scene->GetGameObject<Bullet>();
+	m_Shield = m_Scene->GetGameObject<Shield>();
 
 	if (m_RockEffect != nullptr)
 	{
-		if (m_StartGuard && m_RockEffect->GetHit() && !m_InpactGuard)
+		if (m_StartGuard && m_Shield->GetShieldHit() && !m_InpactGuard)
 		{
 			if (m_NextAnimationName != "GuardImpact")
 			{
@@ -1309,8 +1332,6 @@ void Player::UpdateGuard()
 				m_Move = true;
 				m_InpactGuard = true;
 				m_SuccessGuard = true;
-
-
 			}
 
 		}
@@ -1366,6 +1387,7 @@ void Player::UpdateGuard()
 	{
 		m_AnimationDelay = 0;
 		m_IsGuard = m_StartGuard = m_EndGuard = m_InpactGuard =  m_SuccessGuard = false;
+		m_GuardEffect = false;
 		m_PlayerState = PLAYER_STATE_GROUND;
 	}
 
@@ -1429,11 +1451,11 @@ void AnimationCorrection::Update()
 
 
 	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("AnimationCorrection");
 	ImGui::InputFloat3("hipposition", m_AnimationPosition);
 	ImGui::InputFloat3("hipmatrix", m_Matrix);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void AnimationCorrection::Draw()

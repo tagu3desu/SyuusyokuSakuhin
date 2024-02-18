@@ -18,4 +18,6 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+
+	bool GetDebugWindowEnable() { return m_DebugWindowEnable; }
 };

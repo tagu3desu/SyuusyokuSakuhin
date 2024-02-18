@@ -16,14 +16,14 @@ void RockEffect::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\vertexLightingPS.cso");
 
-	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_Scale = D3DXVECTOR3(1.3f, 1.3, 1.3f);
 	m_Position = D3DXVECTOR3(0.0f, -0.7f, 0.0f);
 
 
 	scene = Manager::GetScene();
 	m_RockCollider = scene->AddGameObject<Collider>();
-	m_RockCollider->SetScale(D3DXVECTOR3(1.0f/m_Scale.x * 1.8, 1.0f/m_Scale.y * 2.0f, 1.0f/m_Scale.z * 5)*2.0f);
-	m_RockCollider->SetPosition(D3DXVECTOR3(0.2f, 1.6f, -0.8f));
+	m_RockCollider->SetScale(D3DXVECTOR3(1.0f/m_Scale.x * 2.0, 1.0f/m_Scale.y * 2.0f, 1.0f/m_Scale.z * 6.5f)*2.0f);
+	m_RockCollider->SetPosition(D3DXVECTOR3(0.2f, 1.6f, -0.0f));
 }
 
 void RockEffect::Load()
@@ -57,12 +57,10 @@ void RockEffect::Update()
 	if (m_RockCollider->CollisionChecker(this, player, 0.7f))
 	{
 		m_RockCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-		m_Hit = true;
 	}
 	else
 	{
-		m_RockCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-		m_Hit = false;
+		m_RockCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));	
 	}
 
 	m_FrameWait++;

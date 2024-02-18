@@ -17,22 +17,21 @@ void DebugSystem::Uninit()
 
 void DebugSystem::Update()
 {
-	if (Input::GetKeyPress('O'))
-	{
-		m_FrameWait++;
-		if (m_FrameWait > 90)
+	if (Input::GetKeyTrigger(VK_TAB))
+	{		
+		if (m_DebugWindowEnable)
 		{
-			if (m_DebugWindowEnable)
-			{
-				m_DebugWindowEnable = false;
-				m_FrameWait =0;
-			}
-			else
-			{
-				m_DebugWindowEnable = true;
-				m_FrameWait = 0;
-			}
+			m_DebugWindowEnable = false;
+			SetShowCursor(false);
+			m_FrameWait =0;
 		}
+		else
+		{
+			m_DebugWindowEnable = true;
+			SetShowCursor(true);
+			m_FrameWait = 0;
+		}
+		
 	}
 
 	if (m_DebugWindowEnable)

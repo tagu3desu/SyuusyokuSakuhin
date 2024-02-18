@@ -52,7 +52,7 @@ private:
 	
 
 	//アニメーション関連
-	bool m_EnemyAI = false;
+	bool m_EnemyAI = true;
 	float m_Time{};
 	float m_BlendTime{};
 	std::string m_AnimationName;
@@ -73,6 +73,7 @@ private:
 	bool m_ShotCount = 0;
 	float m_RockattackLimit{};
 	int m_AnimationDelay = 0;
+	bool m_HowlSEFlag=false;
 
 	//攻撃関連
 	bool m_Attacking = false;
@@ -88,10 +89,14 @@ private:
 	bool m_InvincibilityFlag = false;
 	bool m_InviciblilityStartFlag = false;
 
+	//効果音
+	class Audio* m_HowlSE{};
+	class Audio* m_RockAttackSE{};
+	
 
 	//ポインタ変数
 	class Scene* m_Scene{};
-	class Audio* m_HowlSE{};
+	
 	
 public:
 	static void Load();
@@ -121,6 +126,7 @@ public:
 
 	bool IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee);
 	bool GetEnemyHitPlayer() { return m_EnemyAttackHit;}
+	bool GetEnemyHowlFinish() { return m_HowlFinish; };
 
 	AnimationModel* GetAnimationModel() { return m_Model; }
 	

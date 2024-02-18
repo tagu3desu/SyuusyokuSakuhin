@@ -46,20 +46,8 @@ float GetMouseCursorPosY();
 float GetMouseCursorPosXinWnd();
 float GetMouseCursorPosYinWnd();
 
-
-
-void SetPause(bool pause);
+void SetShowCursor(bool flag);
 void SetFPS(int fps);
+bool GetShowCursor();
 
-/*void GetMouseCursorPositionInWindow(HWND hWnd, int& mouseX, int& mouseY)
-{
-    POINT cursorScreenPos;
-    GetCursorPos(&cursorScreenPos);
-
-    // スクリーン座標からクライアント座標に変換
-    ScreenToClient(hWnd, &cursorScreenPos);
-
-    mouseX = cursorScreenPos.x;
-    mouseY = cursorScreenPos.y;
-}*/
 

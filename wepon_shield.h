@@ -12,17 +12,21 @@ private:
 	ID3D11InputLayout* m_VertexLayout{};
 
 	D3DXMATRIX  m_Parent{};
+	
+	bool m_ShieldHit{};
 
-	D3DXVECTOR3 m_TrailPosition;
 
-	class Scene* scene{};
+	class Scene* m_Scene{};
 	class Collider* m_ShieldCollider{};
+	class RockEffect* m_RockEffect{};
 
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
+
+	bool GetShieldHit() { return m_ShieldHit;}
 };
 
 

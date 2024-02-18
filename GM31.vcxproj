@@ -181,6 +181,8 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gametexturemanager.cpp" />
     <ClCompile Include="grass.cpp" />
+    <ClCompile Include="guardeffect.cpp" />
+    <ClCompile Include="healefect.cpp" />
     <ClCompile Include="howleffect.cpp" />
     <ClCompile Include="loadingtexturemanager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -267,6 +269,8 @@
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="gametexturemanager.h" />
     <ClInclude Include="grass.h" />
+    <ClInclude Include="guardeffect.h" />
+    <ClInclude Include="healefect.h" />
     <ClInclude Include="howleffect.h" />
     <ClInclude Include="loadingtexturemanager.h" />
     <ClInclude Include="polygon2D.h" />

@@ -282,6 +282,12 @@
     <ClCompile Include="debug.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="guardeffect.cpp">
+      <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="healefect.cpp">
+      <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -487,6 +493,12 @@
     </ClInclude>
     <ClInclude Include="debug.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="guardeffect.h">
+      <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="healefect.h">
+      <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

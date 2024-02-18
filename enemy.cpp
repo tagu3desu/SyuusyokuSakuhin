@@ -45,7 +45,7 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
-	m_HP = 1000;
+	m_HP = 20;
 
 	m_Threshold = 0;
 	m_DissolveEnable = true;
@@ -61,7 +61,10 @@ void Enemy::Init()
 	m_Scene = Manager::GetScene();
 
 	m_HowlSE = AddComponent<Audio>();
-	m_HowlSE->Load("asset\\audio\\bull_monster.wav");
+	m_HowlSE->Load("asset\\audio\\SE\\怪獣・鳴声01.wav");
+
+	m_RockAttackSE = AddComponent<Audio>();
+	m_RockAttackSE->Load("asset\\audio\\SE\\打撃4.wav");
 
 	if (!Title::GetCheckTitle())
 	{
@@ -187,12 +190,12 @@ void Enemy::Update()
 			m_Find = false;
 		}
 
-		if (!m_Dead && !m_IsAttack)
+		m_Direction = player->GetPosition() - m_Position;
+		m_Length = D3DXVec3Length(&m_Direction);
+		D3DXVec3Normalize(&m_Direction, &m_Direction);
+		if (!m_Dead && !m_Attacking && !m_Find)
 		{
-			m_Direction = player->GetPosition() - m_Position;
-			m_Length = D3DXVec3Length(&m_Direction);
-			D3DXVec3Normalize(&m_Direction, &m_Direction);
-			//m_Rotation.y = atan2f(m_Direction.x, m_Direction.z);
+			m_Rotation.y = atan2f(m_Direction.x, m_Direction.z);
 		}
 	}
 	
@@ -266,14 +269,14 @@ void Enemy::Update()
 	}
 
 	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
 	ImGui::InputInt("AnimationCount", &m_Attackdelay);
 	ImGui::InputInt("HP", &m_HP);
 	ImGui::Checkbox("EnemyAI", &m_EnemyAI);
 	ImGui::Checkbox("Attaking", &m_Attacking);
 	ImGui::Checkbox("Attack", &m_IsAttack);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Enemy::Draw()
@@ -360,6 +363,7 @@ void Enemy::UpdateHowl()
 		m_Howl = true;
 	}
 
+	
 			
 	if (m_Howl == true)
 	{
@@ -371,7 +375,15 @@ void Enemy::UpdateHowl()
 				HowlEffect* howleffect = m_Scene->AddGameObject<HowlEffect>();
 				howleffect->SetScale(D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 			}		
+			if (!m_HowlSEFlag)
+			{
+				m_HowlSE->Volume(Scene::m_SEVolume * 0.5f);
+				m_HowlSE->PlaySE();
+				m_HowlSEFlag = true;
+			}
 		}
+
+	
 
 		if (m_AnimationDelay >= 330)
 		{
@@ -491,6 +503,8 @@ void Enemy::UpdatePunchiAttack(){
 		RockEffect* rockeffect = m_Scene->AddGameObject<RockEffect>();
 		rockeffect->SetPosition(m_Position + (D3DXVECTOR3(0.0f, -1.5f, 0.0f)) + GetForward() * 5.0f);
 		rockeffect->SetRotation(m_Rotation);
+		m_RockAttackSE->Volume(Scene::m_SEVolume);
+		m_RockAttackSE->PlaySE();
 		m_Attacking = true;
 	}
 

@@ -1,10 +1,9 @@
-﻿  player.cpp
-C:\Users\kousu\Desktop\就職作品\player.cpp(484,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(484,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(530,43): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(548,44): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+﻿  enemy.cpp
+C:\Users\kousu\Desktop\就職作品\enemy.cpp(321,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\enemy.cpp(321,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\Desktop\就職作品\enemy.cpp(477,23): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
   コード生成しています。
-  2 of 3045 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 3027 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     28 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。

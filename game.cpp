@@ -48,8 +48,10 @@
 #include"treasurebox.h"
 #include"dummy.h"
 #include"debug.h"
+#include"shieldefect.h"
+#include"healefect.h"
 
-Player* player;
+Player* g_Player;
 
 bool Game::m_LoadFinish = false;
 
@@ -71,6 +73,8 @@ void Game::Load()
 	BaceCampTent::Load();
 	TreasureBox::Load();
 	Dummy::Load();
+	ShieldEffect::Load();
+	HealEffect::Load();
 	m_LoadFinish = true;
 }
 
@@ -94,6 +98,8 @@ void Game::Unload()
 	BaceCampTent::Unload();
 	TreasureBox::Unload();
 	Dummy::Unload();
+	ShieldEffect::Unload();
+	HealEffect::Unload();
 }
 
 void Game::Init()
@@ -115,8 +121,8 @@ void Game::Init()
 
 	
 
-	player =  AddGameObject<Player>();
-	player->SetPosition(D3DXVECTOR3(-1,0,-20));
+	g_Player =  AddGameObject<Player>();
+	g_Player->SetPosition(D3DXVECTOR3(-1,0,-20));
 	
 	
 	Sword*sword =AddGameObject<Sword>();
@@ -126,13 +132,13 @@ void Game::Init()
 	Enemy* enemy = AddGameObject<Enemy>();
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 	
-	Box* box = AddGameObject<Box>();
-	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
+	//Box* box = AddGameObject<Box>();
+	//box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
 
 	
 
 
-	AddGameObject<Dummy>();
+	
 
 	AddGameObject<GameTexture>(SPRITE_LAYER);
 	
@@ -149,7 +155,8 @@ void Game::Init()
 	AddGameObject<DebugSystem>();
 
 	////////木
-	//for (int i = 0; i < 20; i++) 
+	{
+		//for (int i = 0; i < 20; i++) 
 	//{
 	//	auto tree = AddGameObject<TreeTexture>();
 
@@ -160,8 +167,8 @@ void Game::Init()
 	//	pos.y = 0.0f;
 	//	tree->SetPosition(pos);
 	//}
-
-
+	}
+	
 
 	//////////岩
 	/*for (int i = 0; i < 20; i++)
@@ -180,17 +187,40 @@ void Game::Init()
 		rock->SetScale(scl);
 	}*/
 	
-	
+	m_BattleBGM = AddGameObject<GameObject>()->AddComponent<Audio>();
+	m_BattleBGM->Load("asset\\audio\\BGM\\battlebgm.wav");
+
+	m_WinSE = AddGameObject<GameObject>()->AddComponent<Audio>();
+	m_WinSE->Load("asset\\audio\\SE\\栄光のファンファーレ.wav");
 }
 
 
 void Game::Update()
 {
 	Scene::Update();
-	Scene* scene = Manager::GetScene();
-	Player* player = scene->GetGameObject<Player>();
+	m_Scene = Manager::GetScene();
+	Player* player = m_Scene->GetGameObject<Player>();
+	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
+
+	if (enemy != nullptr)
+	{
+		if (enemy->GetEnemyHowlFinish() && !m_PlayBGMFlag)
+		{
+			m_BattleBGM->Volume(Scene::m_BGMVolume * 0.3);
+			m_BattleBGM->PlayBGM();
+			m_PlayBGMFlag = true;
+		}
+
+
+		if (enemy->GetDead() && !m_WinSEFlag)
+		{
+			m_BattleBGM->Stop();
+			m_WinSE->Volume(Scene::m_SEVolume*0.15f);
+			m_WinSE->PlaySE();
+			m_WinSEFlag = true;
+		}
+	}
 	
-	Sword* sword = GetGameObject<Sword>();
 	
 	
 	

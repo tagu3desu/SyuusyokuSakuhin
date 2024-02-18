@@ -1,7 +1,8 @@
-#if 1
+#if 0
 //デバック用環境
 #include "main.h"
 #include "manager.h"
+#include"game.h"
 #include"debug.h"
 #include <thread>
 
@@ -20,9 +21,10 @@ HWND g_Window;
 
 short rot;
 float hweel;
-
 int g_FPS = 60;
 bool g_Pause = false;
+bool g_ShowCursor = true;
+bool g_RockCursor=false;
 
 HWND GetWindow()
 {
@@ -62,15 +64,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 
 	Manager::Init();
-	ShowCursor(true);
-	GetCursorPos(&g_LastmousePos);
+
 	
+	ShowCursor(g_ShowCursor);
+	GetCursorPos(&g_LastmousePos);
 	ShowWindow(g_Window, nCmdShow);
 	UpdateWindow(g_Window);
 
 
 
-
+	ShowCursor(true);
 	DWORD dwExecLastTime;
 	DWORD dwCurrentTime;
 	timeBeginPeriod(1);
@@ -173,6 +176,8 @@ float GetMouseCursorPosY() { return g_CursorPos.y - g_LastmousePos.y; }
 float GetMouseCursorPosXinWnd() { return g_CursorPosinWnd.x; }
 float GetMouseCursorPosYinWnd() { return g_CursorPosinWnd.y; }
 
+void SetShowCursor(bool flag) { g_ShowCursor = flag;}
+
 
 
 void SetFPS(int fps) { g_FPS = fps; }
@@ -188,6 +193,7 @@ float GetHweel() { return hweel;}
 #include "main.h"
 #include "manager.h"
 #include"debug.h"
+#include"title.h"
 #include <thread>
 
 
@@ -200,8 +206,8 @@ POINT lastmousePos;
 POINT cursorPos;
 POINT cursorPosinWnd;
 HWND g_Window;
-
-
+int g_FPS = 60;
+bool g_ShowCursor = true;
 
 int mouseX;
 int mouseY;
@@ -244,7 +250,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 
 	Manager::Init();
-	ShowCursor(false);
+	
 	GetCursorPos(&lastmousePos);
 	ShowWindow(g_Window, nCmdShow);
 	UpdateWindow(g_Window);
@@ -279,11 +285,24 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		{
 			dwCurrentTime = timeGetTime();
 
-			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
+			if ((dwCurrentTime - dwExecLastTime) >= (1000 / g_FPS))
 			{
 				dwExecLastTime = dwCurrentTime;
 				GetCursorPos(&cursorPos);
-				SetCursorPos(lastmousePos.x, lastmousePos.y);
+				
+
+				if (!g_ShowCursor/* || !Title::GetCheckTitle() */)
+				{
+					SetCursorPos(lastmousePos.x, lastmousePos.y);
+				}
+				else if (!g_ShowCursor && Title::GetCheckTitle())
+				{
+					SetCursorPos(lastmousePos.x, lastmousePos.y);
+				}
+				
+
+				
+				
 				//ポーズ処理
 				Manager::Update();
 				Manager::Draw();
@@ -310,6 +329,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//ImGUIのウィンドウ処理をプロシージャに追加
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
 		return true;
+
+	
 	switch (uMsg)
 	{
 	case WM_DESTROY:
@@ -319,6 +340,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
+		case 'O':
+			if (g_ShowCursor)
+			{
+				SetShowCursor(false);
+			}
+			else if(!g_ShowCursor)
+			{
+				SetShowCursor(true);
+			}
+			ShowCursor(g_ShowCursor);
+		break;
 		case VK_ESCAPE:
 			DestroyWindow(hWnd);
 			break;
@@ -326,8 +358,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	default:
+		if (!Title::GetCheckTitle)
+		{
+			SetShowCursor(false);
+		}
 		break;
 	}
+
+	
+	
 	GetCursorPos(&cursorPosinWnd);
 	ScreenToClient(hWnd, &cursorPosinWnd);
 
@@ -339,6 +378,11 @@ float GetMouseCursorPosY() { return cursorPos.y - lastmousePos.y; }
 float GetMouseCursorPosXinWnd() { return cursorPosinWnd.x; }
 float GetMouseCursorPosYinWnd() { return cursorPosinWnd.y; }
 
+void SetFPS(int fps) { g_FPS = fps; }
+
+void SetShowCursor(bool flag) { g_ShowCursor = flag; }
+
+bool GetShowCursor() { return g_ShowCursor; }
+
 #endif // 0
 
-#

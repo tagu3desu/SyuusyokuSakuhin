@@ -17,8 +17,11 @@ private:
 	float m_Z = 1.0f;
 	float m_A = 0.0f;
 
-
+	bool m_PlayBGMFlag{};
+	bool m_WinSEFlag{};
 	class Scene* m_Scene{};
+	class Audio* m_BattleBGM{};
+	class Audio* m_WinSE{};
 public:
 
 
