@@ -38,6 +38,7 @@ void Camera::Update()
 		m_FogHeight -= 1.0f;
 	}
 
+	//1ターゲット、元の場所,目標の場所の座標
 	
 
 	/*ImGui::Begin("Camera");
@@ -142,7 +143,7 @@ void Camera::Update()
 	
 
 	//トップビュー	
-	if (Input::GetKeyPress('B'))
+	if (Input::GetKeyPress('L'))
 	{
 		// カメラの位置から敵の位置を向くベクトルを計算
 		D3DXVECTOR3 length = m_Target - m_Position;
@@ -154,15 +155,52 @@ void Camera::Update()
 
 		//注視点は敵
 		m_Target = enemy->GetPosition();
-
 		//ポジションはプレイヤー
 		m_Position = player->GetPosition() - GetForward() * 5.0f + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
 	}
+	else if (enemy != nullptr &&  enemy->GetDead() && !m_DeathCamera)
+	{
+		m_FrameWait++;
+		if (m_FrameWait < 120)
+		{
+			m_EnemyCameraRotationX += 0.01f;
+			m_Target = enemy->GetPosition() + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+			m_Position = m_Target + enemy->GetForward() * 13.0f + enemy->GetForward() * 1.5f + enemy->GetUp() * (1.5f * m_EnemyCameraRotationX);
+		}
+		else if (m_FrameWait <= 240)
+		{
+			m_EnemyCameraRotationY += 0.01f;
+			m_Target = enemy->GetPosition() + D3DXVECTOR3(0.0f, 1.0f, 0.0f) + enemy->GetForward() * 3.0f;
+			m_Position = m_Target + enemy->GetForward() * 13.0f + enemy->GetRight() * (15.0f + m_EnemyCameraRotationY) + D3DXVECTOR3(0.0f, 6.0f, 0.0f);
+		}
+		else if (m_FrameWait <= 300)
+		{
+			m_EnemyCameraRotationY += 0.01f;
+			m_Target = enemy->GetPosition() + D3DXVECTOR3(0.0f, 1.0f, 0.0f) + enemy->GetForward() * 3.0f;
+			m_Position = m_Target + enemy->GetForward() * 6.0f + enemy->GetRight() * (15.0f + m_EnemyCameraRotationY) + D3DXVECTOR3(0.0f, 16.0f, 0.0f);
+		}
+
+		if (300 <= m_FrameWait)
+		{
+			m_DeathCamera = true;
+		}
+		
+		
+	}
+
 	else if (!Title::GetCheckTitle())
 	{
 		//トップビュー
-		m_Target = player->GetPosition() + player->GetUp()* 3.0f;
+		if (player->GetPlayerAttack())
+		{
+			m_Target = player->GetCameraCorrectionPosition() + player->GetUp() * 3.0f;
+		}
+		else
+		{
+			m_Target = player->GetPosition() + player->GetUp() * 3.0f;
+		}
 		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY*1.0f, -cos(m_RotationX) * 8.0f);
+		
 	}
 	if (Title::GetCheckTitle())
 	{

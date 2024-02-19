@@ -95,10 +95,6 @@ void Player::Init()
 
 #endif // 0
 
-	
-
-	
-
 	m_OnWeponSE = AddComponent<Audio>();
 	m_OnWeponSE->Load("asset\\audio\\SE\\剣を抜く.wav");
 
@@ -110,6 +106,10 @@ void Player::Init()
 
 	m_HealSE = AddComponent<Audio>();
 	m_HealSE->Load("asset\\audio\\SE\\回復魔法1.wav");
+
+	m_FootSound = AddComponent<Audio>();
+	m_FootSound->Load("asset\\audio\\SE\\足音.wav");
+
 
 	m_Time = 0.0f;
 	m_BlendTime = 0.0f;
@@ -162,6 +162,7 @@ void Player::Update()
 
 	if ( !Title::GetCheckTitle())
 	{
+		
 		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
 		PotionCount* potioncount = m_Scene->GetGameObject<PotionCount>();
 		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
@@ -174,6 +175,8 @@ void Player::Update()
 		m_Move = false;
 
 		GameObject::Update();
+		
+
 		
 
 		m_Stamina = staminagage->GetStamina();
@@ -272,15 +275,20 @@ void Player::Update()
 			}
 		}
 
+		m_CameraCorrectionPosition = D3DXVECTOR3(m_AnimationCorrection->GetAnimationPosition().x,m_Position.y,m_AnimationCorrection->GetAnimationPosition().z);
+		//m_CameraCorrectionPosition = m_Position + D3DXVECTOR3(m_DifferencePosition.x, m_Position.y, m_DifferencePosition.z);
+		//m_DifferencePosition = m_AnimationCorrection->GetDifferencePosition();
 		
-
 		//GUIにパラメータ表示
-		/*ImGui::SetNextWindowSize(ImVec2(300, 250));
+		ImGui::SetNextWindowSize(ImVec2(300, 250));
 		ImGui::Begin("Player");
 		ImGui::InputFloat3("Position", m_Position);
 		ImGui::InputFloat("Frame", &m_AnimationDelay);
-		ImGui::Checkbox("Reaction", &m_SuccessGuard);
-		ImGui::End();*/
+		ImGui::InputFloat3("CorrectPos", m_DifferencePosition);
+		ImGui::InputFloat3("CameraPos", m_CameraCorrectionPosition);
+		ImGui::Checkbox("Run", &m_Run);
+		ImGui::Checkbox("Walk", &m_Walk);
+		ImGui::End();
 
 
 		//ダメージ処理
@@ -907,16 +915,10 @@ void Player::UpdateGround()
 		m_Run = false;
 		m_Walk = false;
 		m_Idle = true;
+		m_FootSoundFlag = false;
+		m_FootSoundInterval = 0;
 		if (m_Sworddrawn)
 		{
-			/*if (m_ComboCount == 3)
-			{
-				m_AnimationCorrection = m_Scene->GetGameObject<AnimationCorrection>();
-				m_Position.x = m_AnimationCorrection->GetAnimationPosition().x;
-				m_Position.z = m_AnimationCorrection->GetAnimationPosition().z;
-			}*/
-			
-
 			if (m_NextAnimationName != "SwordIdle")
 			{
 
@@ -1069,6 +1071,47 @@ void Player::UpdateGround()
 			m_PlayerState = PLAYER_STATE_ROLL;
 		}
 	}
+
+	//足音
+	if (m_Walk)
+	{
+
+		if (!m_FootSoundFlag)
+		{
+			m_FootSound->Volume(Scene::m_SEVolume * 0.05f);
+			m_FootSound->PlaySE();
+			m_FootSoundFlag = true;
+		}
+		if (m_FootSoundFlag)
+		{
+			m_FootSoundInterval++;
+			if (m_FootSoundInterval >= 30)
+			{
+				m_FootSoundInterval = 0;
+				m_FootSoundFlag = false;
+			}
+		}
+	}
+
+	if (m_Run)
+	{
+		if (!m_FootSoundFlag)
+		{
+			m_FootSound->Volume(Scene::m_SEVolume * 0.05f);
+			m_FootSound->PlaySE();
+			m_FootSoundFlag = true;
+		}
+		if (m_FootSoundFlag)
+		{
+			m_FootSoundInterval++;
+			if (m_FootSoundInterval >= 23)
+			{
+				m_FootSoundInterval = 0;
+				m_FootSoundFlag = false;
+			}
+		}
+	}
+	
 }
 
 void Player::UpdateRoll()
@@ -1186,10 +1229,19 @@ void Player::UpdateAttack2()
 
 void Player::UpdateAttack3()
 {
+	m_AnimationCorrection = m_Scene->GetGameObject<AnimationCorrection>();
 	m_Idle = true;
 	if (m_Attack)
 	{
-		m_AnimationDelay++;
+		if (m_SlowAnimation)
+		{
+			m_AnimationDelay += 0.1f;
+		}
+		else
+		{
+			m_AnimationDelay++;
+		}
+		
 
 		//攻撃判定が発生する時間設定
 		if (70 < m_AnimationDelay && m_AnimationDelay < 80)
@@ -1201,15 +1253,24 @@ void Player::UpdateAttack3()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (m_AnimationDelay >= 120 && m_ComboCount == 3)
+		if (122<= m_AnimationDelay)
+		{
+			m_SlowAnimation = true;
+		}
+		
+
+		if (m_AnimationDelay >= 122.1f && m_ComboCount == 3)
 		{	
 			m_AnimationDelay = 0;
 			m_Attack = false;
 			m_Move = false;
-			//m_ComboCount = 0;
 			m_DirectionZ = m_Speed * GetForward();
 			m_ConboflagisAttack3 = false;
-	
+			
+			m_Position.x = m_AnimationCorrection->GetAnimationPosition().x;
+			m_Position.z = m_AnimationCorrection->GetAnimationPosition().z;
+			
+			
 			
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
@@ -1447,13 +1508,16 @@ void AnimationCorrection::Update()
 	m_Parent = animationmodel->ConvertMatrix(bone->WorldMatrix);
 	m_AnimationPosition = MatrixtoPosition(m_Matrix);
 
+	
+	m_DifferencePosition = m_AnimationPosition - m_Oldposition;
+	m_Oldposition = m_AnimationPosition;
 
 	//GUIにパラメータ表示
-	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("AnimationCorrection");
 	ImGui::InputFloat3("hipposition", m_AnimationPosition);
 	ImGui::InputFloat3("hipmatrix", m_Matrix);
-	ImGui::End();*/
+	ImGui::End();
 }
 
 void AnimationCorrection::Draw()

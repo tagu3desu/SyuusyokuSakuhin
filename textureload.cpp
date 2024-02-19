@@ -154,9 +154,9 @@ void TextureLoad::Draw(float m_X, float m_Y)
 }
 
 //死んだときなどのテクスチャ上げ下げ用
-float TextureLoad::UiMove(int heightlimit, GameObject* object1)
+float TextureLoad::UiMove(int heightlimit, GameObject* object1,int showtime)
 {
-	
+	m_ShowTime = showtime;
 	
 	if (m_MoveHeight <= heightlimit && !m_Up)
 	{
@@ -176,7 +176,7 @@ float TextureLoad::UiMove(int heightlimit, GameObject* object1)
 		m_FrameWait++;
 	}
 
-	if (90 <= m_FrameWait)
+	if (m_ShowTime <= m_FrameWait)
 	{
 		m_MoveHeight += -8.0f;
 	}

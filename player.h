@@ -102,6 +102,9 @@ private:
 	class Audio* m_AttackSE{};
 	class Audio* m_GuardSE{};
 	class Audio* m_HealSE{};
+	class Audio* m_FootSound{};
+	bool m_FootSoundFlag{};
+	int m_FootSoundInterval = 0;
 
 	//ポインタ変数
 	class Scene* m_Scene{};
@@ -114,6 +117,12 @@ private:
 	class Bullet* m_Bullet;
 	class Shield* m_Shield;
 	class AnimationCorrection* m_AnimationCorrection;
+
+	//アニメーションの補正
+	bool  m_SlowAnimation = false;
+	D3DXVECTOR3 m_DifferencePosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 m_CameraCorrectionPosition;
+
 public:
 	void Init();
 	void Uninit();
@@ -142,6 +151,10 @@ public:
 	bool GetPlayerIdle(){return m_Idle;}
 	bool GetPlayerAttackCollider() { return m_AttackCollisionFlag; }
 	bool GetHitStopFlag() { return m_HitStopFlag; }
+	D3DXVECTOR3 GetCameraCorrectionPosition() { return m_CameraCorrectionPosition; }
+
+
+
 
 	void SetHitStop(bool hitstopflag){m_HitStopFlag = hitstopflag;}
 
@@ -221,6 +234,8 @@ private:
 
 	D3DXMATRIX m_Parent{};
 	D3DXVECTOR3 m_AnimationPosition;
+	D3DXVECTOR3 m_DifferencePosition;
+	D3DXVECTOR3 m_Oldposition;
 
 	class Scene* m_Scene;
 public:
@@ -230,4 +245,5 @@ public:
 	void Draw();
 
 	D3DXVECTOR3 GetAnimationPosition() { return m_AnimationPosition; }
+	D3DXVECTOR3 GetDifferencePosition() { return m_DifferencePosition; }
 };

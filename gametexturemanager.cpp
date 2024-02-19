@@ -8,7 +8,7 @@
 #include"title.h"
 #include"game.h"
 #include"enemy.h"
-
+#include"input.h"
 
 //ƒQ[ƒ€UI
 TextureLoad* texture_Dragon = new TextureLoad;
@@ -46,18 +46,13 @@ void GameTexture::Update()
 {
 	m_Enemy = m_Scene->GetGameObject<Enemy>();
 
-	m_TimeLimitPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI);
-	if (m_TimeLimitPosY < -50)
-	{
-		m_GameStart = true;
-	}
-	
+	m_TimeLimitPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI,90);
 
 	if (m_Enemy != nullptr)
 	{
 		if (m_Enemy->GetDead())
 		{
-			m_WinLogoPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI);
+			m_WinLogoPosY = texture_WinUI->UiMove(160, texture_TimelimitUI,200);
 		}
 	}
 
@@ -95,10 +90,9 @@ void GameTexture::Draw()
 	{
 		if (m_Enemy->GetDead())
 		{
-			texture_WinUI->SetTextureScale(300.0f, 80.0f);
+			texture_WinUI->SetTextureScale(350.0f, 100.0f);
 			texture_WinUI->Draw(400.0f, m_WinLogoPosY);
 		}
 	}
-	
 	
 }

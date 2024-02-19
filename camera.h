@@ -6,8 +6,9 @@ class Camera :public GameObject
 {
 private:
 
+		D3DXVECTOR3 m_CorrectTarget{};
+		D3DXVECTOR3 m_CorrectPosition{};
 
-		
 		D3DXVECTOR3 m_Target{};
 		D3DXMATRIX m_ViewMatrix{};
 		D3DXMATRIX m_ProjectionMatrix;
@@ -15,6 +16,9 @@ private:
 		float m_RotationX{};
 		float m_RotationY{};
 
+		float m_EnemyCameraRotationY{};
+		float m_EnemyCameraRotationX{};
+		float m_DeathCamera{};
 
 		float m_ShakeAmplitude{};
 		int   m_ShakeTime{};
@@ -26,6 +30,8 @@ private:
 		float m_FogHeight;
 
 		class Scene* m_Scene;
+
+
 public:
 	void Init();
 	void Update();

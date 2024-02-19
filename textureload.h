@@ -37,7 +37,7 @@ private:
 	class Audio* m_UiSe{};
 
 	float m_MoveHeight;
-	
+	int m_ShowTime{};
 public:
 	void Init(const char* TextureName);
 	void Uninit();
@@ -84,5 +84,5 @@ public:
 	}
 
 
-	float UiMove(int heightlimit, GameObject* object1);
+	float UiMove(int heightlimit, GameObject* object1 ,int showtime);
 };

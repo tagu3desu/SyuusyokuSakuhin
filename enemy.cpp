@@ -45,7 +45,7 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
-	m_HP = 160;
+	m_HP = 20;
 
 	m_Threshold = 0;
 	m_DissolveEnable = true;
@@ -88,7 +88,8 @@ void Enemy::Load()
 	m_Model->LoadAnimation("asset\\model\\Jump Attack.fbx", "JumpAttack");
 	m_Model->LoadAnimation("asset\\model\\Standing 2H Magiccharge shot.fbx", "RockAttack");
 	m_Model->LoadAnimation("asset\\model\\Mutant Roaring.fbx", "Howl");
-	m_Model->LoadAnimation("asset\\model\\Mutant Dying.fbx", "Dead");
+	//m_Model->LoadAnimation("asset\\model\\Mutant Dying.fbx", "Dead");
+	m_Model->LoadAnimation("asset\\model\\Standing React Death Forward.fbx", "Dead");
 }
 
 void Enemy::Uninit()
@@ -467,21 +468,23 @@ void Enemy::UpdateDead() {
 
 	m_DeadAnimationdelay++;
 
-	if (m_DeadAnimationdelay >= 250)
+	if (m_DeadAnimationdelay >= 350)
 	{
-		m_Time = 250;
+		m_Time = 350;
 		m_DeadFinish = true;
 		
-		// 
+	}
+
+	if (m_DeadAnimationdelay >= 650)
+	{
 		//ディゾルブ処理テスト
 		m_Threshold += 0.005;
-	
+
 		if (m_Threshold > 1.1f)
 		{
 			SetDestroy();
 			//m_Threshold = 0.0f;
 		}
-
 	}
 	
 }

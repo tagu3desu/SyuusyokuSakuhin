@@ -12,6 +12,7 @@ private:
 	float m_TimeLimitPosY;
 	float m_WinLogoPosY;
 	bool m_GameStart{};
+	bool m_WinLogoFlag = false;
 
 	class Scene* m_Scene;
 	class Enemy* m_Enemy;
