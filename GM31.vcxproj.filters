@@ -502,9 +502,6 @@
     <FxCompile Include="shader\pixelLightingVS.hlsl">
       <Filter>shader\VS</Filter>
     </FxCompile>
-    <FxCompile Include="shader\sasakiVS.hlsl">
-      <Filter>shader\VS</Filter>
-    </FxCompile>
     <FxCompile Include="shader\staminagaugeVS.hlsl">
       <Filter>shader\VS</Filter>
     </FxCompile>
@@ -539,9 +536,6 @@
       <Filter>shader\PS</Filter>
     </FxCompile>
     <FxCompile Include="shader\pixelLightingRimPS.hlsl">
-      <Filter>shader\PS</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\sasakiPS.hlsl">
       <Filter>shader\PS</Filter>
     </FxCompile>
     <FxCompile Include="shader\staminagaugePS.hlsl">
