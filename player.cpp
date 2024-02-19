@@ -45,7 +45,6 @@ void Player::Init()
 	m_Model->LoadAnimation("asset\\model\\Walking.fbx", "Walk");
 	m_Model->LoadAnimation("asset\\model\\Standard Run.fbx", "Run");
 	m_Model->LoadAnimation("asset\\model\\Unarmed Idle 01.fbx", "Idle");
-	m_Model->LoadAnimation("asset\\model\\Great Sword Jump.fbx", "Jump");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Death.fbx", "IsDead");
 	m_Model->LoadAnimation("asset\\model\\Sprinting Forward Roll.fbx", "IsRoll");
 
@@ -59,9 +58,7 @@ void Player::Init()
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Slash.fbx", "SlashAttack");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Slash2.fbx", "SlashAttack2");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Slash3.fbx", "SlashAttack3");
-	m_Model->LoadAnimation("asset\\model\\RotationAttack.fbx", "RotationAttack");
 	m_Model->LoadAnimation("asset\\model\\Stable Sword Inward Slash.fbx", "CounterAttack");
-	m_Model->LoadAnimation("asset\\model\\GreatSwordBackWalk.fbx", "BackWalk");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield BlockStart.fbx", "StartGuard");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Block Idle.fbx", "IsGuard");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield BlockEnd.fbx", "EndGuard");

@@ -21,7 +21,6 @@
 #include"meshField.h"
 #include"rock.h"
 #include"treetexture.h"
-#include"enemy2.h"
 #include"collider.h"
 #include"animationModel.h"
 #include"torus.h"

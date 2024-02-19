@@ -70,13 +70,7 @@
       <FullPath>C:\Users\kousu\Desktop\就職作品\shader\unlitTexturePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\unlitTexturePS2.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
       <FullPath>C:\Users\kousu\Desktop\就職作品\shader\unlitTextureVS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\kousu\Desktop\就職作品\shader\unlitTextureVS2.cso</FullPath>
     </ContentFile>
     <ContentFile>
       <FullPath>C:\Users\kousu\Desktop\就職作品\shader\vertexLightingPS.cso</FullPath>

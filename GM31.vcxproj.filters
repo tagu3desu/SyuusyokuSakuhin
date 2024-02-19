@@ -195,9 +195,6 @@
     <ClCompile Include="field.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
-    <ClCompile Include="grass.cpp">
-      <Filter>ソース ファイル\フィールドオブジェクト</Filter>
-    </ClCompile>
     <ClCompile Include="meshField.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
@@ -262,9 +259,6 @@
       <Filter>ソース ファイル\敵関連\敵</Filter>
     </ClCompile>
     <ClCompile Include="enemy.cpp">
-      <Filter>ソース ファイル\敵関連\敵</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy2.cpp">
       <Filter>ソース ファイル\敵関連\敵</Filter>
     </ClCompile>
     <ClCompile Include="rockeffect.cpp">
@@ -386,9 +380,6 @@
     <ClInclude Include="cylinder.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
-    <ClInclude Include="grass.h">
-      <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
-    </ClInclude>
     <ClInclude Include="result.h">
       <Filter>ヘッダー ファイル\シーン</Filter>
     </ClInclude>
@@ -467,9 +458,6 @@
     <ClInclude Include="enemy.h">
       <Filter>ヘッダー ファイル\敵関連\敵</Filter>
     </ClInclude>
-    <ClInclude Include="enemy2.h">
-      <Filter>ヘッダー ファイル\敵関連\敵</Filter>
-    </ClInclude>
     <ClInclude Include="rockeffect.h">
       <Filter>ヘッダー ファイル\敵関連\敵</Filter>
     </ClInclude>
@@ -520,13 +508,7 @@
     <FxCompile Include="shader\staminagaugeVS.hlsl">
       <Filter>shader\VS</Filter>
     </FxCompile>
-    <FxCompile Include="shader\swordTrailVS.hlsl">
-      <Filter>shader\VS</Filter>
-    </FxCompile>
     <FxCompile Include="shader\unlitTextureVS.hlsl">
-      <Filter>shader\VS</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\unlitTextureVS2.hlsl">
       <Filter>shader\VS</Filter>
     </FxCompile>
     <FxCompile Include="shader\vertexLightingVS.hlsl">
@@ -565,13 +547,7 @@
     <FxCompile Include="shader\staminagaugePS.hlsl">
       <Filter>shader\PS</Filter>
     </FxCompile>
-    <FxCompile Include="shader\swordTrailPS.hlsl">
-      <Filter>shader\PS</Filter>
-    </FxCompile>
     <FxCompile Include="shader\unlitTexturePS.hlsl">
-      <Filter>shader\PS</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\unlitTexturePS2.hlsl">
       <Filter>shader\PS</Filter>
     </FxCompile>
     <FxCompile Include="shader\vertexLightingPS.hlsl">
