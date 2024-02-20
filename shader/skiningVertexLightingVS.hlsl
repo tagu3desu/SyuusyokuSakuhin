@@ -5,13 +5,13 @@ void main(in VS_SKINIG_IN In, out PS_IN Out)
 {
     float4x4 SkiningTransform = float4x4(1.0f, 0.0f, 0.0f, 0.0f,
 								 0.0f, 1.0f, 0.0f, 0.0f,
-								 0.0f, 0.0f, 1.0f, 0.0f,
+								 0.0f, 0.0f, 1.0f, 0.0f,	
 								 0.0f, 0.0f, 0.0f, 1.0f);
 	
-    SkiningTransform = bonrTransform[In.Index.x] * In.Weight.x
-					  + bonrTransform[In.Index.y] * In.Weight.y
-					  + bonrTransform[In.Index.z] * In.Weight.z
-					  + bonrTransform[In.Index.w] * In.Weight.w;
+    //SkiningTransform = bonrTransform[In.Index.x] * In.Weight.x
+				//	  + bonrTransform[In.Index.y] * In.Weight.y
+				//	  + bonrTransform[In.Index.z] * In.Weight.z
+				//	  + bonrTransform[In.Index.w] * In.Weight.w;
 	
 	
 	matrix wvp;
@@ -20,7 +20,7 @@ void main(in VS_SKINIG_IN In, out PS_IN Out)
 	
     float4 normal = float4(In.Normal.xyz, 0.0);
 	
-    float4 transpos = mul(SkiningTransform, float4(In.Position.xyz, 1.0f));
+    float4 transpos = mul(float4(In.Position.xyz, 1.0f), SkiningTransform);
 	
     float4 transNormal = mul(SkiningTransform,normal);
 	

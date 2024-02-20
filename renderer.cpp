@@ -557,7 +557,7 @@ void Renderer::SetLight( LIGHT Light )
 
 void Renderer::SetSkiningBuffer(SININGBUFFER* skinigbuffer)
 {
-	m_DeviceContext->UpdateSubresource(m_SkiningBuffer, 0, NULL, &skinigbuffer, 0, 0);
+	m_DeviceContext->UpdateSubresource(m_SkiningBuffer, 0, NULL, skinigbuffer, 0, 0);
 }
 
 

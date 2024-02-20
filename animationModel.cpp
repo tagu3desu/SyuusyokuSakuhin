@@ -621,10 +621,9 @@ void AnimationModel::Draw()
 	memset(&buffer, 0, sizeof(buffer));
 	for (int i = 0; i < m_Bone.size(); i++)
 	{
-		buffer.SkiningMatrix[i] = ConvertMatrix(TransposeMatrix(boneArray[i].Matrix));
+		buffer.SkiningMatrix[i] = ConvertMatrix((TransposeMatrix(boneArray[i].Matrix)));
 	}
 	Renderer::SetSkiningBuffer(&buffer);
-
 
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
 	{

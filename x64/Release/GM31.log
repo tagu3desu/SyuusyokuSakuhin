@@ -1,10 +1,13 @@
-﻿  enemy.cpp
-C:\Users\kousu\Desktop\就職作品\enemy.cpp(322,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\enemy.cpp(322,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\enemy.cpp(481,23): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
+﻿  animationModel.cpp
+  player.cpp
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(234,39): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(511,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(511,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(557,43): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(575,44): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
   コード生成しています。
-  2 of 3074 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    29 functions had inline decision re-evaluated but remain unchanged
+  142 of 3074 functions ( 4.6%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    238 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
-  GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Release\GM31.exe
+  GM31.vcxproj -> C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Release\GM31.exe
