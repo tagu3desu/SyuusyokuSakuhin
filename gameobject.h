@@ -59,8 +59,6 @@ public:
 	void SetVelocity(D3DXVECTOR3 velocity) { m_Velocity = velocity; }
 	void SetQuaternion(D3DXQUATERNION quaternion) { m_Quaternion = quaternion; }
 
-
-
 	D3DXVECTOR3 GetColliderScale() { return m_ColliderScale; }
 	D3DXVECTOR3 GetColliderPosition() { return m_ColliderPosition; }
 	D3DXVECTOR3 GetColliderRight() { return m_ColiiderRight; }
@@ -86,9 +84,9 @@ public:
 		}
 	}
 			
-	void SetColliderInfo(D3DXMATRIX matrix)
+	void SetColliderInfo(D3DXMATRIX matrix , bool boneEnable)
 	{
-		//m_BoneEnable = boneEnable;
+		m_BoneEnable = boneEnable;
 		m_ColliderScale = MatrixtoScale(matrix) ;
 		m_ColliderPosition = MatrixtoPosition(matrix);
 		m_ColiiderRight = MatrixtoRight(matrix);

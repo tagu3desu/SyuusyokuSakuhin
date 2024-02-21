@@ -11,14 +11,8 @@ private:
 
 	float m_TimeLimitPosY;
 	float m_WinLogoPosY;
-	float m_WinLogo2PosY;
-	float m_ReturnCampCount;
-
-	float m_ChangeIconCount=0;
-
-	bool m_ClearLogoCountFlag = {};
-	bool m_ClearLogoFlag = {};
-	bool m_ChangeSceneFlag = {};
+	bool m_GameStart{};
+	bool m_WinLogoFlag = false;
 
 	class Scene* m_Scene;
 	class Enemy* m_Enemy;
@@ -28,6 +22,5 @@ public:
 	void Update();
 	void Draw();
 
-	bool GetGameClear() { return m_ClearLogoFlag; }
-	bool GetChangeSceneFlag() { return m_ChangeSceneFlag; }
+	bool GetGameStart() { return m_GameStart; }
 };

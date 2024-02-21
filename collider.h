@@ -46,7 +46,6 @@ public:
 	void Draw();
 	void SetMatrix(D3DXMATRIX matrix) { m_Parent = matrix; }
 	void SetBoneMatrix(D3DXMATRIX bonematrix) { m_BoneMatrix = bonematrix;}
-	void SetBoneEnable(bool enable) { m_BoneEnable = enable; }
 	void SetColliderColor(D3DXCOLOR color) { m_ColliderColor = color; }
 	float GetMinDirection() { return m_MinDirection; }
 

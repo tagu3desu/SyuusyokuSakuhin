@@ -52,7 +52,7 @@ void Rock::Update()
 {
 	
 	m_RockCollider->SetMatrix(m_Matrix);
-	SetColliderInfo(m_RockCollider->GetMatrix());
+	SetColliderInfo(m_RockCollider->GetMatrix(), false);
 
 	
 	

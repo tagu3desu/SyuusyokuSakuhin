@@ -118,7 +118,7 @@ void Game::Init()
 
 	
 
-	AddGameObject<GameTexture>(SPRITE_LAYER);
+	
 
 	g_Player =  AddGameObject<Player>();
 	g_Player->SetPosition(D3DXVECTOR3(-1,0,-20));
@@ -135,6 +135,15 @@ void Game::Init()
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
 
 	
+
+
+	
+
+	AddGameObject<GameTexture>(SPRITE_LAYER);
+	
+	AddGameObject<HPgage>(SPRITE_LAYER);
+
+	AddGameObject<Staminagage>(SPRITE_LAYER);
 
 
 	AddGameObject<PotionCount>(SPRITE_LAYER)->SetTexturePostion(1701.0f,895.0f);
@@ -191,7 +200,6 @@ void Game::Update()
 	m_Scene = Manager::GetScene();
 	Player* player = m_Scene->GetGameObject<Player>();
 	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
-	GameTexture* gametexture = m_Scene->GetGameObject<GameTexture>();
 
 	if (enemy != nullptr)
 	{
@@ -215,7 +223,7 @@ void Game::Update()
 	
 	
 	
-	if (gametexture->GetChangeSceneFlag())
+	if (Input::GetKeyTrigger('M'))
 	{
 		m_Fade->FadeOut();
 	}

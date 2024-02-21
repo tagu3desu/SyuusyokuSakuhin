@@ -85,8 +85,7 @@ struct PARAMETER
 
 struct SININGBUFFER
 {
-	D3DXMATRIX SkiningMatrix[200];	
-	//aiMatrix4x4 SkiningMatrix[200];	
+	D3DXMATRIX SkiningMatrix[200];	//
 };
 
 class CVertexBuffer;

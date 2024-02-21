@@ -28,9 +28,6 @@
 #include"wepon_shield.h"
 #include"shieldefect.h"
 #include"healefect.h"
-#include"hpgage.h"
-#include"staminagage.h"
-
 
 void Player::Init()
 {
@@ -81,14 +78,11 @@ void Player::Init()
 	m_Scale = D3DXVECTOR3(0.015f, 0.015f, 0.015f);
 	m_Speed = 0.1f;
 
-	m_HP = 500;
-	m_Stamina = 1000;
-
 	m_DepthEnable = true;
 	
 #if 1
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-			"shader\\DepthShadowMappingVS.cso");
+		"shader\\DepthShadowMappingVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader,
 			"shader\\DepthShadowMappingPS.cso");
@@ -129,22 +123,17 @@ void Player::Init()
 
 	m_Sworddrawn = false;
 	m_ComboCount=0;
-	
+	m_Stamina = 0;
 	
 	
 	if (!Title::GetCheckTitle())
 	{
 		m_PlayerCollider = m_Scene->AddGameObject<Collider>();
 		m_PlayerCollider->SetScale(D3DXVECTOR3(70.0f, 170.0f, 70.0f));
-		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		
-		m_HPgage = m_Scene->AddGameObject<HPgage>(SPRITE_LAYER);
-		
+		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 85.0f, 0.0f));
+		m_PlayerCollider->SetTag(PLAYER_TAG);
 
-		m_Staminagage = m_Scene->AddGameObject<Staminagage>(SPRITE_LAYER);
-		
-
-		m_PlayerAnimationCorrection = m_Scene->AddGameObject<PlayerAnimationCorrection>();
+		m_AnimationCorrection = m_Scene->AddGameObject<AnimationCorrection>();
 	}
 	
 
@@ -191,7 +180,7 @@ void Player::Update()
 
 		
 
-		
+		m_Stamina = staminagage->GetStamina();
 
 		m_CameraFoward = m_Camera->GetForward();
 		m_CameraRight = m_Camera->GetRight();
@@ -201,15 +190,9 @@ void Player::Update()
 		D3DXVec3Normalize(&m_CameraFoward, &m_CameraFoward);
 
 		//HP関連
-		if (hpgage != nullptr)
-		{
-			m_HP = hpgage->GetHp();
-		}
-		if (staminagage != nullptr)
-		{
-			m_Stamina = staminagage->GetStamina();
-		}
-		
+
+		m_HP = hpgage->GetHp();
+
 
 		if (m_SuccessGuard)
 		{
@@ -219,14 +202,7 @@ void Player::Update()
 
 		//プレイヤーコライダー
 		m_PlayerCollider->SetMatrix(m_Matrix);
-		AnimationModel* animationmodel;
-		animationmodel = GetAnimationModel();
-		BONE* bone;
-		bone=animationmodel->GetBone("mixamorig:Hips");
-		m_PlayerCollider->SetBoneEnable(true);
-		m_PlayerCollider->SetBoneMatrix(animationmodel->ConvertMatrix(bone->WorldMatrix));
-		
-		SetColliderInfo(m_PlayerCollider->GetMatrix());
+		SetColliderInfo(m_PlayerCollider->GetMatrix(),false);
 
 
 	
@@ -300,7 +276,7 @@ void Player::Update()
 			}
 		}
 
-		m_CameraCorrectionPosition = D3DXVECTOR3(m_PlayerAnimationCorrection->GetAnimationPosition().x,m_Position.y, m_PlayerAnimationCorrection->GetAnimationPosition().z);
+		m_CameraCorrectionPosition = D3DXVECTOR3(m_AnimationCorrection->GetAnimationPosition().x,m_Position.y,m_AnimationCorrection->GetAnimationPosition().z);
 		//m_CameraCorrectionPosition = m_Position + D3DXVECTOR3(m_DifferencePosition.x, m_Position.y, m_DifferencePosition.z);
 		//m_DifferencePosition = m_AnimationCorrection->GetDifferencePosition();
 		
@@ -309,6 +285,7 @@ void Player::Update()
 		ImGui::Begin("Player");
 		ImGui::InputFloat3("Position", m_Position);
 		ImGui::InputFloat("Frame", &m_AnimationDelay);
+		ImGui::InputFloat3("CorrectPos", m_DifferencePosition);
 		ImGui::InputFloat3("CameraPos", m_CameraCorrectionPosition);
 		ImGui::Checkbox("Run", &m_Run);
 		ImGui::Checkbox("Walk", &m_Walk);
@@ -1143,25 +1120,24 @@ void Player::UpdateRoll()
 {
 	if (m_Roll==true)
 	{
-		float speed = 0.1f;
 		m_AnimationDelay++;
-	
 		if (Input::GetKeyPress('W')) {
-			speed = 0.05f;
+			 m_DirectionZ = m_CameraFoward * 0.1f;
+		}
+		else
+		{
+			 m_DirectionZ = GetForward() * 0.1f;
 		}
 		if (Input::GetKeyPress('S')) {
-			speed = 0.05f;
+			 m_DirectionZ = -m_CameraFoward * 0.1f;
 		}
 		if (Input::GetKeyPress('A')) {
-			speed = 0.05f;
+			 m_DirectionX = -m_CameraRight * 0.1f;
 		}
 		if (Input::GetKeyPress('D')) {
-			speed = 0.05f;
+			 m_DirectionX = m_CameraRight * 0.1f;
 		}
-
-		m_DirectionZ = GetForward() * speed;
-
-		if (m_AnimationDelay >= 50)
+		if (m_AnimationDelay >= 65)
 		{
 			m_AnimationDelay = 0;
 			m_Roll = false;
@@ -1255,7 +1231,7 @@ void Player::UpdateAttack2()
 
 void Player::UpdateAttack3()
 {
-	m_PlayerAnimationCorrection = m_Scene->GetGameObject<PlayerAnimationCorrection>();
+	m_AnimationCorrection = m_Scene->GetGameObject<AnimationCorrection>();
 	m_Idle = true;
 	if (m_Attack)
 	{
@@ -1293,8 +1269,8 @@ void Player::UpdateAttack3()
 			m_DirectionZ = m_Speed * GetForward();
 			m_ConboflagisAttack3 = false;
 			
-			m_Position.x = m_PlayerAnimationCorrection->GetAnimationPosition().x;
-			m_Position.z = m_PlayerAnimationCorrection->GetAnimationPosition().z;
+			m_Position.x = m_AnimationCorrection->GetAnimationPosition().x;
+			m_Position.z = m_AnimationCorrection->GetAnimationPosition().z;
 			
 			
 			
@@ -1309,6 +1285,13 @@ void Player::UpdateAttack3()
 		}
 	}
 
+	
+
+	//D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
+	////正規化します
+	//D3DXVec3Normalize(&direction, &direction);
+	////PositonにSpeed加算します
+	//m_Position += direction * m_Speed;
 }
 
 void Player::UpdateRotationAttack()
@@ -1505,21 +1488,19 @@ void Player::UpdateDead()
 }
 
 //アニメーション補正用のクラス
-void PlayerAnimationCorrection::Init()
+void AnimationCorrection::Init()
 {
 	m_Scene = Manager::GetScene();
 }
 
-void PlayerAnimationCorrection::Uninit()
+void AnimationCorrection::Uninit()
 {
 
 }
 
-void PlayerAnimationCorrection::Update()
+void AnimationCorrection::Update()
 {
 	Player* player = m_Scene->GetGameObject<Player>();
-
-
 	//アニメーションのずれを補正
 	AnimationModel* animationmodel;
 	animationmodel = player->GetAnimationModel();
@@ -1532,20 +1513,23 @@ void PlayerAnimationCorrection::Update()
 	
 	m_DifferencePosition = m_AnimationPosition - m_Oldposition;
 	m_Oldposition = m_AnimationPosition;
+
+	//GUIにパラメータ表示
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("AnimationCorrection");
+	ImGui::InputFloat3("hipposition", m_AnimationPosition);
+	ImGui::InputFloat3("hipmatrix", m_Matrix);
+	ImGui::End();
 }
 
-void PlayerAnimationCorrection::Draw()
+void AnimationCorrection::Draw()
 {
 	Player* player = m_Scene->GetGameObject<Player>();
 	//マトリクス設定
-	if (player != nullptr)
-	{
-		D3DXMATRIX scale, rot, trans;
-		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
-		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-		D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-		m_Matrix = scale * rot * trans * m_Parent * player->GetMatrix();
-		Renderer::SetWorldMatrix(&m_Matrix);
-	}
-	
+	D3DXMATRIX scale, rot, trans;
+	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+	m_Matrix = scale * rot * trans * m_Parent * player->GetMatrix();
+	Renderer::SetWorldMatrix(&m_Matrix);
 }

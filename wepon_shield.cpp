@@ -65,7 +65,7 @@ void Shield::Update()
 		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 		//‚‚É“–‚½‚è”»’è‚ð‚Â‚¯‚é
 		m_ShieldCollider->SetMatrix(m_Matrix);
-		m_ShieldCollider->SetColliderInfo(m_ShieldCollider->GetMatrix());
+		m_ShieldCollider->SetColliderInfo(m_ShieldCollider->GetMatrix(), false);
 
 		if (m_RockEffect != nullptr)
 		{

@@ -6,7 +6,6 @@
 #include"sprite.h"
 #include"input.h"
 #include"player.h"
-#include"gametexturemanager.h"
 void Staminagage::Init()
 {
 	VERTEX_3D vertex[4];
@@ -53,10 +52,7 @@ void Staminagage::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\staminagaugePS.cso");
 
-	m_Scene = Manager::GetScene();
-	m_Player = m_Scene->GetGameObject<Player>();
-
-	m_Stamina = m_StaminaMax = m_Player->GetPlayerStamina();
+	m_Stamina = m_StaminaMax = 1000;
 }
 
 void Staminagage::Uninit()
@@ -75,38 +71,31 @@ void Staminagage::Update()
 	
 
 	GameObject::Update();
-	m_Player = m_Scene->GetGameObject<Player>();
-	GameTexture* gamatexture = m_Scene->GetGameObject<GameTexture>();
+	Scene* scene = Manager::GetScene();
+	Enemy* enemy = scene->GetGameObject<Enemy>();
+	Player* player = scene->GetGameObject<Player>();
+
 	
-	if (m_Player != nullptr)
+	if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina >0 && player->GetPlayerRun())	
 	{
-		if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina > 0 && m_Player->GetPlayerRun())
-		{
+		
+		m_Stamina -= 2.0f;
+	}
+	if (player->GeiPlayerIdle() && m_Stamina <= m_StaminaMax)
+	{
+		
+		m_Stamina += 3.0f;
+	}
+	
 
-			m_Stamina -= 2.0f;
-		}
-		if (m_Player->GeiPlayerIdle() && m_Stamina <= m_StaminaMax)
-		{
-
-			m_Stamina += 3.0f;
-		}
-
-
-
-		if (m_Player->GetSuccessGuard())
-		{
-
-			SetStaminaPoint(-6.0f);
-		}
+	
+	if (player->GetSuccessGuard())
+	{
+		
+		SetStaminaPoint(-2.0f);
 	}
 
 	
-
-	if (gamatexture->GetGameClear())
-	{
-		SetDestroy();
-	}
-
 }
 
 void Staminagage::Draw()

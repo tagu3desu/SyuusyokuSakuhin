@@ -64,16 +64,16 @@ public:
 		
 	}
 
-	void TextureFlashing(int interval ,float arufa)	//ä‘äu,aílå∏è≠ó 
+	void TextureFlashing(int interval)	//äÓñ{90
 	{
 		m_Count++;
-		if (m_Count < interval)
+		if (m_Count < 90)
 		{
-			m_AlfaColor -= arufa;
+			m_AlfaColor -= 0.01f;
 		}
 		else if (m_Count > interval && m_Count < (interval * 2))
 		{
-			m_AlfaColor +=arufa;
+			m_AlfaColor +=0.01f;
 		}
 		else if (m_Count > (interval * 2))
 		{

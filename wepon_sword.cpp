@@ -91,7 +91,7 @@ void Sword::Update()
 	{
 		//剣に当たり判定をつける
 		m_SwordCollider->SetMatrix(m_Matrix);
-		SetColliderInfo(m_SwordCollider->GetMatrix());
+		SetColliderInfo(m_SwordCollider->GetMatrix(),false);
 		//軌跡セット
 		m_SwordTrail->SetTrail(m_SwordTopVertex->GetTopVertexPostion(), GetBottomVertexPostion(), player->GetPlayerAttackCollider());
 
@@ -147,7 +147,55 @@ void Sword::Update()
 		}
 
 
-		
+		////ダミーとの当たり判定
+		//std::vector<Dummy*>Dummies = m_Scene->GetGameObjects<Dummy>();
+		//for (Dummy* dummy : Dummies)
+		//{
+		//	if (dummy != nullptr)
+		//	{
+		//		if (m_SwordCollider->CollisionChecker(this, dummy, 0.5f))
+		//		{
+
+		//			m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+		//			if (player->GetPlayerAttackCollider() && !m_InvincibilityFlag)
+		//			{
+		//				if (player->GetPlayerAttackNumber() == 1)
+		//				{
+		//					m_NormalAttackHitSE->Volume(Scene::m_SEVolume);
+		//					m_NormalAttackHitSE->PlaySE();
+		//				}
+
+		//				if (player->GetPlayerAttackNumber() == 2)
+		//				{
+		//					m_SmallAttackHitSE->Volume(Scene::m_SEVolume*0.3f);
+		//					m_SmallAttackHitSE->PlaySE();
+		//				}
+
+		//				if (player->GetPlayerAttackNumber() == 3)
+		//				{
+		//					m_BigAttackHitSE->Volume(Scene::m_SEVolume*0.2f);
+		//					m_BigAttackHitSE->PlaySE();
+		//				}
+
+		//				m_Swordhit = true;
+		//				m_NormalAttackHitSE->Volume(Scene::m_SEVolume*0.2f);
+		//				m_NormalAttackHitSE->PlaySE();
+		//				m_Camera->Shake(0.1f);
+		//				BladeEffect1* bladeeffect1 = m_Scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
+		//				SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
+		//				bladeeffect1->SetScale(D3DXVECTOR3(4.5f, 4.5f, 4.5f));
+		//				bladeeffect1->SetPosition(swordvertex->GetTopVertexPostion());
+		//				player->SetHitStop(true);
+		//			}
+
+		//		}
+		//		else
+		//		{
+		//			m_Swordhit = false;
+		//			m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+		//		}
+		//	}
+		//}
 
 
 		//当たり判定のリセット
