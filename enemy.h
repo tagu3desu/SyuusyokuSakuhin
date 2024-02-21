@@ -96,11 +96,13 @@ private:
 
 	//ポインタ変数
 	class Scene* m_Scene{};
-	
+	class EnemyAnimationCorrection* m_EnemyAnimationCorrection;
 	
 public:
 	static void Load();
 	static void Unload();
+
+	
 
 	static class AnimationModel* m_Model;
 
@@ -121,6 +123,8 @@ public:
 	//敵の攻撃のパターン
 	void UpdatePunchiAttack();
 	void UpdateRockAttack();
+	void UpdateJumpAttack();
+
 
 	void SetDamage(int hp) { m_HP -= hp;}
 	void SetEnemyAI(bool ai) { m_EnemyAI = ai; }
@@ -132,4 +136,30 @@ public:
 
 	AnimationModel* GetAnimationModel() { return m_Model; }
 	
+};
+
+class EnemyAnimationCorrection : public GameObject
+{
+private:
+	ID3D11VertexShader* m_VertexShader{};
+	ID3D11PixelShader* m_PixelShader{};
+	ID3D11InputLayout* m_VertexLayout{};
+
+	D3DXMATRIX m_Parent{};
+	D3DXVECTOR3 m_AnimationPosition;
+	D3DXVECTOR3 m_DifferencePosition;
+	D3DXVECTOR3 m_Oldposition;
+
+
+
+
+	class Scene* m_Scene;
+public:
+	void Init();
+	void Uninit();
+	void Update();
+	void Draw();
+
+	D3DXVECTOR3 GetAnimationPosition() { return m_AnimationPosition; }
+	D3DXVECTOR3 GetDifferencePosition() { return m_DifferencePosition; }
 };

@@ -49,7 +49,7 @@ void Dummy::Update()
 	scene = Manager::GetScene();
 	
 	m_DummyCollider->SetMatrix(m_Matrix);
-	SetColliderInfo(m_DummyCollider->GetMatrix(),false);
+	SetColliderInfo(m_DummyCollider->GetMatrix());
 }
 
 void Dummy::Draw()

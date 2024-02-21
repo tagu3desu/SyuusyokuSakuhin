@@ -52,7 +52,7 @@ void RockEffect::Update()
 	Player* player = scene->GetGameObject<Player>();
 
 	m_RockCollider->SetMatrix(m_Matrix);
-	SetColliderInfo(m_RockCollider->GetMatrix(),false);
+	SetColliderInfo(m_RockCollider->GetMatrix());
 
 	if (m_RockCollider->CollisionChecker(this, player, 0.7f))
 	{

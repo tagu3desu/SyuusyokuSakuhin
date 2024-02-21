@@ -77,7 +77,7 @@ void Collider::Draw()
 		}
 		else
 		{
-			m_Matrix = scale * rot * trans * m_Parent * m_BoneMatrix;
+			m_Matrix = scale * rot * trans * m_BoneMatrix * m_Parent ;
 		}
 		
 		

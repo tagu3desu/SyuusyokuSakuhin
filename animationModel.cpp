@@ -698,7 +698,7 @@ void AnimationModel::Load(const char* FileName)
 
 		// 頂点バッファ生成
 		{
-			//VERTEX_3D* vertex = new VERTEX_3D[mesh->mNumVertices];
+			
 
 			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 			{
@@ -844,7 +844,7 @@ void AnimationModel::LoadAnimation(const char* FileName, const char* Name)
 {
 
 	m_Animation[Name] = aiImportFile(FileName, aiProcess_ConvertToLeftHanded);
-	//assert(m_Animation[Name]);
+	assert(m_Animation[Name]);
 
 }
 
@@ -907,10 +907,10 @@ void AnimationModel::Update(const char* AnimationName1, int Frame1, const char* 
 	if (m_Animation.count(AnimationName1) == 0)
 		return;
 
-	if (m_Animation.count(AnimationName2) == 0)
+	if (!m_Animation[AnimationName1]->HasAnimations())
 		return;
 
-	if (!m_Animation[AnimationName1]->HasAnimations())
+	if (m_Animation.count(AnimationName2) == 0)
 		return;
 
 	if (!m_Animation[AnimationName2]->HasAnimations())
@@ -979,12 +979,7 @@ void AnimationModel::Update(const char* AnimationName1, int Frame1, const char* 
 			f = Frame2 % nodeAnim2->mNumPositionKeys;//簡易実装
 			pos2 = nodeAnim2->mPositionKeys[f].mValue;
 
-			////mNumRotationKeysはアニメーション内のキーの最大数
-			//if (Frame2 % nodeAnim2->mNumRotationKeys == 0 && BlendRate >= 1.0f) { over = true;}
-			//else
-			//{ 
-			//	over = false;
-			//}
+			
 
 		}
 
