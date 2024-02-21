@@ -203,7 +203,7 @@ void TitleTexture::Update()
 		Scene::m_SEVolume = m_SE_Volume;
 
 	}
-	texture_TitleSelect->TextureFlashing(90);
+	texture_TitleSelect->TextureFlashing(90,0.01f);
 }
 
 void TitleTexture::Draw() //50,312 || 382 

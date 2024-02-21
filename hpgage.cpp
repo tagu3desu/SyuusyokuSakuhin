@@ -6,6 +6,7 @@
 #include"sprite.h"
 #include"input.h"
 #include"player.h"
+#include"gametexturemanager.h"
 void HPgage::Init()
 {
 	VERTEX_3D vertex[4];
@@ -52,14 +53,10 @@ void HPgage::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\gaugePS.cso");
 
-	m_Hp = m_HpMax = m_BeforHp = 1000;
+	m_Scene = Manager::GetScene();
+	m_Player = m_Scene->GetGameObject<Player>();
 
-
-	
-	//AddComponent<Sprite>()->Init(200.0f, 100.0f, 300.0f, 200.0f, "asset/texture/grass.jpg");
-
-
-
+	m_Hp = m_HpMax = m_BeforHp = m_Player->GetPlayerHP();
 }
 
 void HPgage::Uninit()
@@ -75,11 +72,8 @@ void HPgage::Uninit()
 
 void HPgage::Update()
 {
-	
 	GameObject::Update();
-	Scene* scene = Manager::GetScene();
-	Enemy* enemy = scene->GetGameObject<Enemy>();
-	Player* player = scene->GetGameObject<Player>();
+	GameTexture* gametexture = m_Scene->GetGameObject<GameTexture>();
 
 	if (m_Hp > m_HpMax)
 	{
@@ -90,6 +84,12 @@ void HPgage::Update()
 	{
 		m_BeforHp -= 1.0f;
 	}
+
+	if (gametexture->GetGameClear())
+	{
+		SetDestroy();
+	}
+
 }
 
 void HPgage::Draw()

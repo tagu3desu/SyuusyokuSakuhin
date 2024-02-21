@@ -116,11 +116,11 @@ private:
 	class RockEffect* m_RockEffect;
 	class Bullet* m_Bullet;
 	class Shield* m_Shield;
-	class AnimationCorrection* m_AnimationCorrection;
-
+	class PlayerAnimationCorrection* m_PlayerAnimationCorrection;
+	class Staminagage* m_Staminagage;
+	class HPgage* m_HPgage;
 	//アニメーションの補正
 	bool  m_SlowAnimation = false;
-	D3DXVECTOR3 m_DifferencePosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 m_CameraCorrectionPosition;
 
 public:
@@ -140,6 +140,8 @@ public:
 	void UpdateGuard();
 	void UpdateTitleIdle();
 
+	int GetPlayerHP(){ return m_HP;}
+	int GetPlayerStamina() { return m_Stamina; }
 	int GetPlayerAttackNumber() { return m_ComboCount; }
 	bool GetOverFlag() { return m_GameOver; }
 	bool GeiPlayerIdle() { return m_Idle; }
@@ -148,7 +150,7 @@ public:
 	bool GetPlayerAttack() { return m_Attack; }
 	bool GetSuccessGuard() { return m_SuccessGuard; }
 	bool GetPlayerRun() { return m_Run; }
-	bool GetPlayerIdle(){return m_Idle;}
+	bool GetPlayerIdle() { return m_Idle; }
 	bool GetPlayerAttackCollider() { return m_AttackCollisionFlag; }
 	bool GetHitStopFlag() { return m_HitStopFlag; }
 	D3DXVECTOR3 GetCameraCorrectionPosition() { return m_CameraCorrectionPosition; }
@@ -225,7 +227,7 @@ public:
 	PLAYER_STATE GetPlayerState() { return m_PlayerState; }
 };
 
-class AnimationCorrection : public GameObject
+class PlayerAnimationCorrection : public GameObject
 {
 private:
 	ID3D11VertexShader* m_VertexShader{};
@@ -236,6 +238,9 @@ private:
 	D3DXVECTOR3 m_AnimationPosition;
 	D3DXVECTOR3 m_DifferencePosition;
 	D3DXVECTOR3 m_Oldposition;
+
+	
+
 
 	class Scene* m_Scene;
 public:
