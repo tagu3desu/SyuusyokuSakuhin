@@ -373,8 +373,8 @@ void Enemy::UpdateHowl()
 		{
 			if (m_AnimationDelay % 10 == 0)
 			{
-				HowlEffect* howleffect = m_Scene->AddGameObject<HowlEffect>();
-				howleffect->SetScale(D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+				//HowlEffect* howleffect = m_Scene->AddGameObject<HowlEffect>();
+				//howleffect->SetScale(D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 			}		
 			if (!m_HowlSEFlag)
 			{

@@ -8,10 +8,10 @@ void main(in VS_SKINIG_IN In, out PS_IN Out)
 								 0.0f, 0.0f, 1.0f, 0.0f,	
 								 0.0f, 0.0f, 0.0f, 1.0f);
 	
-    //SkiningTransform = bonrTransform[In.Index.x] * In.Weight.x
-				//	  + bonrTransform[In.Index.y] * In.Weight.y
-				//	  + bonrTransform[In.Index.z] * In.Weight.z
-				//	  + bonrTransform[In.Index.w] * In.Weight.w;
+    SkiningTransform = bonrTransform[In.Index.x] * In.Weight.x
+					  + bonrTransform[In.Index.y] * In.Weight.y
+					  + bonrTransform[In.Index.z] * In.Weight.z
+					  + bonrTransform[In.Index.w] * In.Weight.w;
 	
 	
 	matrix wvp;

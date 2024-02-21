@@ -40,6 +40,7 @@ void Player::Init()
 
 	m_Model = new AnimationModel();
 	m_Model->Load("asset\\model\\Paladin J Nordstrom.fbx");
+	
 
 	//”[“ó‘Ôƒ‚[ƒVƒ‡ƒ“
 	m_Model->LoadAnimation("asset\\model\\Walking.fbx", "Walk");
@@ -1056,6 +1057,7 @@ void Player::UpdateGround()
 			m_PlayerState = PLAYER_STATE_ROTATION_ATTACK;
 		}
 	}
+	
 
 	
 	if (Input::GetKeyPress(VK_SPACE))
