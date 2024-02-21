@@ -45,7 +45,7 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
-	m_HP = 160;
+	m_HP = 20;
 
 	m_Threshold = 0;
 	m_DissolveEnable = true;
@@ -70,9 +70,16 @@ void Enemy::Init()
 	{
 		m_EnemyCollider = m_Scene->AddGameObject<Collider>();
 		m_EnemyCollider->SetScale(D3DXVECTOR3(100.0f, 160.0f, 100.0f));
-		m_EnemyCollider->SetPosition(D3DXVECTOR3(0.0f,80.0f,0.0f));
+		m_EnemyCollider->SetPosition(D3DXVECTOR3(0.0f,0.0f,0.0f));
 		m_EnemyCollider->SetRotation(D3DXVECTOR3(0.1f, 0.4f, 0.0f));
-		m_EnemyCollider->SetTag(ENEMY_TAG);
+		
+
+
+		m_EnemyLightArmCollider = m_Scene->AddGameObject<Collider>();
+		m_EnemyLightArmCollider->SetScale(D3DXVECTOR3(40.0f, 100.0f, 40.0f));
+		m_EnemyLightArmCollider->SetPosition(D3DXVECTOR3(0.0f, 40.0f, 0.0f));
+		
+		m_EnemyAnimationCorrection = m_Scene->AddGameObject<EnemyAnimationCorrection>();
 	}
 
 }
@@ -84,11 +91,11 @@ void Enemy::Load()
 	m_Model->Load("asset\\model\\Mutant.fbx");
 	m_Model->LoadAnimation("asset\\model\\Mutant Breathing Idle.fbx", "Idle");
 	m_Model->LoadAnimation("asset\\model\\Mutant Walking.fbx", "Walk");
-	m_Model->LoadAnimation("asset\\model\\SlapAttack.fbx", "Attack");
+	m_Model->LoadAnimation("asset\\model\\Mutant Swiping.fbx", "PunchiAttack");
+	m_Model->LoadAnimation("asset\\model\\SlapAttack.fbx", "SlapAttack");
 	m_Model->LoadAnimation("asset\\model\\Jump Attack.fbx", "JumpAttack");
 	m_Model->LoadAnimation("asset\\model\\Standing 2H Magiccharge shot.fbx", "RockAttack");
 	m_Model->LoadAnimation("asset\\model\\Mutant Roaring.fbx", "Howl");
-	//m_Model->LoadAnimation("asset\\model\\Mutant Dying.fbx", "Dead");
 	m_Model->LoadAnimation("asset\\model\\Standing React Death Forward.fbx", "Dead");
 }
 
@@ -124,8 +131,33 @@ void Enemy::Update()
 
 	
 	//敵本体のコライダー
+	AnimationModel* animationmodel;
+	animationmodel = GetAnimationModel();
 	m_EnemyCollider->SetMatrix(m_Matrix);
-	SetColliderInfo(m_EnemyCollider->GetMatrix() ,false);
+	BONE* bodybone;
+	bodybone = animationmodel->GetBone("mixamorig:Hips");
+	m_EnemyCollider->SetBoneEnable(true);
+	m_EnemyCollider->SetBoneMatrix(animationmodel->ConvertMatrix(bodybone->WorldMatrix));
+	SetColliderInfo(m_EnemyCollider->GetMatrix());
+
+
+
+	m_EnemyLightArmCollider->SetMatrix(m_Matrix);
+	BONE* lefthandbone;
+	lefthandbone = animationmodel->GetBone("mixamorig:LeftHand");
+	m_EnemyLightArmCollider->SetBoneEnable(true);
+	m_EnemyLightArmCollider->SetBoneMatrix(animationmodel->ConvertMatrix(lefthandbone->WorldMatrix));
+	SetColliderInfo(m_EnemyCollider->GetMatrix());
+
+
+	if (m_EnemyLightArmCollider->CollisionChecker(this, player, 0.7f))
+	{
+		m_Hit = true;
+	}
+	else
+	{
+		m_Hit = false;
+	}
 
 
 
@@ -139,10 +171,7 @@ void Enemy::Update()
 		m_IsAttack = false;
 	}
 
-	//追跡用
 	
-	
-
 
 	switch (m_EnemyState)
 	{
@@ -174,7 +203,7 @@ void Enemy::Update()
 		{
 			m_EnemyState = ENEMY_STATE_ATTACK;
 		}
-		else if (m_HowlFinish && m_Length < 25 && 16 < m_Length && !m_Dead && !m_IsAttack)
+		else if (m_HowlFinish && m_Length < 30 && 16 < m_Length && !m_Dead && !m_IsAttack)
 		{
 			m_EnemyState = ENEMY_STATE_MOVE;
 		}
@@ -210,7 +239,7 @@ void Enemy::Update()
 	
 	
 
-	//当たり判定の処理
+	
 	{
 		//メッシュフィールドとの衝突判定
 		float m_GroundHeight = 0.0f;
@@ -224,10 +253,7 @@ void Enemy::Update()
 			m_GroundHeight = meshField->GetHeight(m_Position);
 			
 		}
-		
-		
-
-
+	
 		//重力
 		m_Velocity.y -= 0.015f;
 
@@ -270,14 +296,11 @@ void Enemy::Update()
 	}
 
 	//GUIにパラメータ表示
-	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
-	ImGui::InputInt("AnimationCount", &m_Attackdelay);
+	ImGui::InputInt("AnimationCount", &m_AnimationDelay);
 	ImGui::InputInt("HP", &m_HP);
-	ImGui::Checkbox("EnemyAI", &m_EnemyAI);
-	ImGui::Checkbox("Attaking", &m_Attacking);
-	ImGui::Checkbox("Attack", &m_IsAttack);
-	ImGui::End();*/
+	ImGui::End();
 }
 
 void Enemy::Draw()
@@ -405,22 +428,13 @@ void Enemy::UpdateAttack() {
 		{
 			m_EnemyAttackPatarn = ENEMY_ATTACK_SLAP;
 		}
-		/*else if (m_Length >= 11 && m_Length < 25 && !m_RockAttackFlag)
+		else if (m_Length >= 10 && m_Length < 30)
 		{
 			m_EnemyAttackPatarn = ENEMY_ATTCK_ROCK;
-			m_RockAttackFlag = true;
-		}*/
-	}
-	
-	if (m_RockAttackFlag)
-	{
-		m_RockattackLimit++;
-		if (m_RockattackLimit > 1200)
-		{
-			m_RockattackLimit = 0;
-			m_RockAttackFlag = false;
+			
 		}
 	}
+	
 
 	switch (m_EnemyAttackPatarn)
 	{
@@ -428,7 +442,7 @@ void Enemy::UpdateAttack() {
 		UpdatePunchiAttack();
 		break;
 	case ENEMY_ATTCK_ROCK:
-		UpdateRockAttack();
+		UpdateJumpAttack();
 		break;
 	default:
 		break;
@@ -450,6 +464,7 @@ void Enemy::UpdateMove() {
 	{
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
+
 }
 
 void Enemy::UpdateDead() {
@@ -475,27 +490,27 @@ void Enemy::UpdateDead() {
 		
 	}
 
-	if (m_DeadAnimationdelay >= 650)
+	if (m_DeadAnimationdelay >= 550)
 	{
-		//ディゾルブ処理テスト
+		
 		m_Threshold += 0.005;
 
 		if (m_Threshold > 1.1f)
 		{
 			SetDestroy();
-			//m_Threshold = 0.0f;
 		}
 	}
 	
 }
 
 void Enemy::UpdatePunchiAttack(){
-	if (m_NextAnimationName != "Attack")
+	if (m_NextAnimationName != "SlapAttack")
 	{
 		m_AnimationName = m_NextAnimationName;
-		m_NextAnimationName = "Attack";
+		m_NextAnimationName = "SlapAttack";
 		m_BlendTime = 0.0f;
 		m_Time = 0.0f;
+		m_Speed = 0.0f;
 		m_IsAttack = true;
 	}
 	
@@ -508,6 +523,8 @@ void Enemy::UpdatePunchiAttack(){
 		rockeffect->SetRotation(m_Rotation);
 		m_RockAttackSE->Volume(Scene::m_SEVolume);
 		m_RockAttackSE->PlaySE();
+		Camera* m_Camera = m_Scene->GetGameObject<Camera>();
+		m_Camera->Shake(0.1f);
 		m_Attacking = true;
 	}
 
@@ -546,7 +563,40 @@ void Enemy::UpdateRockAttack() {
 	{
 		m_AnimationDelay = 0;
 		m_ShotCount = 0;
-		m_IsAttack = false;
+		m_Attacking = false;
+		m_EnemyState = ENEMY_STATE_IDLE;
+	}
+}
+
+void Enemy::UpdateJumpAttack()
+{
+	if (m_NextAnimationName != "JumpAttack")
+	{
+		m_AnimationName = m_NextAnimationName;
+		m_NextAnimationName = "JumpAttack";
+		m_BlendTime = 0.0f;
+		m_Time = 0.0f;
+		m_Speed = 0.0f;
+		m_IsAttack = true;
+	}
+
+	m_AnimationDelay++;
+
+	if (m_AnimationDelay >= 100 && !m_Attacking)
+	{
+		m_RockAttackSE->Volume(Scene::m_SEVolume);
+		m_RockAttackSE->PlaySE();
+		Camera* m_Camera = m_Scene->GetGameObject<Camera>();
+		m_Camera->Shake(0.3f);
+		m_Attacking = true;
+	}
+
+	if (m_AnimationDelay >= 230)
+	{
+		
+		m_Position.x = m_EnemyAnimationCorrection->GetAnimationPosition().x;
+		m_Position.z = m_EnemyAnimationCorrection->GetAnimationPosition().z;
+		m_AnimationDelay = 0;
 		m_Attacking = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
@@ -574,3 +624,49 @@ bool Enemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, f
 	return isInFieldOfView && isInViewDistance;
 }
 
+//アニメーション補正用のクラス
+void EnemyAnimationCorrection::Init()
+{
+	m_Scene = Manager::GetScene();
+}
+
+void EnemyAnimationCorrection::Uninit()
+{
+
+}
+
+void EnemyAnimationCorrection::Update()
+{
+	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
+
+
+	//アニメーションのずれを補正
+	AnimationModel* animationmodel;
+	animationmodel = enemy->GetAnimationModel();
+	BONE* bone;
+	bone = animationmodel->GetBone("mixamorig:Hips");
+	bone->WorldMatrix;
+	m_Parent = animationmodel->ConvertMatrix(bone->WorldMatrix);
+	m_AnimationPosition = MatrixtoPosition(m_Matrix);
+
+
+	m_DifferencePosition = m_AnimationPosition - m_Oldposition;
+	m_Oldposition = m_AnimationPosition;
+}
+
+void EnemyAnimationCorrection::Draw()
+{
+	
+	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
+	if (enemy != nullptr)
+	{
+		//マトリクス設定
+		D3DXMATRIX scale, rot, trans;
+		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+		D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+		m_Matrix = scale * rot * trans * m_Parent * enemy->GetMatrix();
+		Renderer::SetWorldMatrix(&m_Matrix);
+	}
+	
+}

@@ -60,7 +60,7 @@ void Bullet::Update()
 	Player* player=scene->GetGameObject<Player>();
 
 	m_BulletCollider->SetMatrix(m_Matrix);
-	SetColliderInfo(m_BulletCollider->GetMatrix(), false);
+	SetColliderInfo(m_BulletCollider->GetMatrix());
 
 	switch (m_BulletState)
 	{

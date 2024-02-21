@@ -51,15 +51,15 @@ void LoadingTexture::Uninit()
 void LoadingTexture::Update()
 {
 	
-	texture_N->TextureFlashing(90);
-	texture_O->TextureFlashing(90);
-	texture_W->TextureFlashing(90);
-	texture_L->TextureFlashing(90);
-	texture_O2->TextureFlashing(90);
-	texture_D->TextureFlashing(90);
-	texture_I->TextureFlashing(90);
-	texture_N2->TextureFlashing(90);
-	texture_G->TextureFlashing(90);
+	texture_N->TextureFlashing(90,0.01f);
+	texture_O->TextureFlashing(90, 0.01f);
+	texture_W->TextureFlashing(90, 0.01f);
+	texture_L->TextureFlashing(90, 0.01f);
+	texture_O2->TextureFlashing(90, 0.01f);
+	texture_D->TextureFlashing(90, 0.01f);
+	texture_I->TextureFlashing(90, 0.01f);
+	texture_N2->TextureFlashing(90, 0.01f);
+	texture_G->TextureFlashing(90, 0.01f);
 }
 
 void LoadingTexture::Draw()

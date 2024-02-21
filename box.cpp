@@ -47,7 +47,7 @@ void Box::Update()
 	scene = Manager::GetScene();
 	
 	m_BoxCollider->SetMatrix(m_Matrix);
-	SetColliderInfo(m_BoxCollider->GetMatrix(),false);
+	SetColliderInfo(m_BoxCollider->GetMatrix());
 }
 
 void Box::Draw()
