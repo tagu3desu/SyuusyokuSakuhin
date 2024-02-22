@@ -34,11 +34,19 @@ void Enemy::Init()
 	m_NextAnimationName = "Idle";
 
 	m_Scale = D3DXVECTOR3(0.05f, 0.05f, 0.05f);
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\pixelLightingVS.cso");
+	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
+		"shader\\pixelLightingVS.cso");*/
+
+	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout,
+		"shader\\skiningVertexLightingVS.cso");
+
+
+	/*Renderer::CreatePixelShader(&m_PixelShader,
+		"shader\\dissolvePS.cso");*/
+
 
 	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\dissolvePS.cso");
+		"shader\\VertexLightingPS.cso");
 
 	m_Time = 0.0f;
 	m_BlendTime = 0.0f;

@@ -14,6 +14,7 @@ void main(in VS_SKINIG_IN In, out PS_IN Out)
 					  + bonrTransform[In.Index.w] * In.Weight.w;
 	
 	
+	
 	matrix wvp;
 	wvp = mul(World, View);
 	wvp = mul(wvp, Projection);
@@ -41,4 +42,5 @@ void main(in VS_SKINIG_IN In, out PS_IN Out)
 	Out.TexCoord = In.TexCoord;
 
 }
+
 

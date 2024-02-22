@@ -8,7 +8,7 @@
 #include"title.h"
 
 
-#if 1
+#if 0
 void AnimationModel::Draw()
 {
 	// プリミティブトポロジ設定
@@ -621,7 +621,7 @@ void AnimationModel::Draw()
 	memset(&buffer, 0, sizeof(buffer));
 	for (int i = 0; i < m_Bone.size(); i++)
 	{
-		buffer.SkiningMatrix[i] = ConvertMatrix((TransposeMatrix(boneArray[i].Matrix)));
+		buffer.SkiningMatrix[i] = ConvertMatrix((TransposeMatrix(m_BoneMatrix[i])));
 	}
 	Renderer::SetSkiningBuffer(&buffer);
 

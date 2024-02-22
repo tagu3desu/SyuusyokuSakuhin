@@ -87,7 +87,7 @@ void Player::Init()
 
 	m_DepthEnable = true;
 	
-#if 1
+#if 0
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 			"shader\\DepthShadowMappingVS.cso");
 
