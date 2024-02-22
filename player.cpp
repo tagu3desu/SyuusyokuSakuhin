@@ -14,7 +14,7 @@
 #include"enemy.h"
 #include"staminagage.h"
 #include"hpgage.h"
-#include"potioncount.h"
+#include"itemcount.h"
 #include"field.h"
 #include"howleffect.h"
 #include"GuardInpacteffect.h"
@@ -68,6 +68,7 @@ void Player::Init()
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Block Idle.fbx", "IsGuard");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield BlockEnd.fbx", "EndGuard");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Impact.fbx", "GuardImpact");
+	m_Model->LoadAnimation("asset\\model\\Victory.fbx", "HealMotion");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield HitSmallAttack.fbx", "HitSmallImpact");
 
 	//タイトル用のモーション
@@ -176,7 +177,7 @@ void Player::Update()
 	{
 		
 		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
-		PotionCount* potioncount = m_Scene->GetGameObject<PotionCount>();
+		ItemCount* potioncount = m_Scene->GetGameObject<ItemCount>();
 		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
 		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 		m_Bullet = m_Scene->GetGameObject<Bullet>();
@@ -256,6 +257,7 @@ void Player::Update()
 		{
 			if (Input::GetKeyTrigger('F'))
 			{
+				m_Healing = true;
 				m_HealSE->Volume(Scene::m_SEVolume*0.5);
 				m_HealSE->PlaySE();
 				HealEffect* healeffect = m_Scene->AddGameObject<HealEffect>(EFFECT_LAYER);
@@ -263,7 +265,24 @@ void Player::Update()
 				healeffect->SetPosition(m_Position+(D3DXVECTOR3(0.0f,1.5f,0.0f)));
 
 				potioncount->SubstractCount(1);
-				hpgage->SetHealPoint(200);
+				hpgage->SetHealPoint(50);
+			}
+
+			if (m_Healing)
+			{
+				if (m_NextAnimationName != "HealMotion")
+				{
+					m_Time = 0.0f;
+					m_AnimationName = m_NextAnimationName;
+					m_NextAnimationName = "HealMotion";
+					m_BlendTime = 0.0f;
+				}
+				m_HealAnimationDelay++;
+				if (m_HealAnimationDelay > 70)
+				{
+					m_HealAnimationDelay = 0.0f;
+					m_Healing = false;
+				}
 			}
 		}
 
@@ -310,8 +329,7 @@ void Player::Update()
 		ImGui::InputFloat3("Position", m_Position);
 		ImGui::InputFloat("Frame", &m_AnimationDelay);
 		ImGui::InputFloat3("CameraPos", m_CameraCorrectionPosition);
-		ImGui::Checkbox("Run", &m_Run);
-		ImGui::Checkbox("Walk", &m_Walk);
+		ImGui::Checkbox("Healing", &m_Healing);
 		ImGui::End();
 
 
@@ -934,7 +952,7 @@ void Player::UpdateGround()
 
 
 	//待機状態
-	if (m_Move == false && m_Attack == false && !m_OnSword && !m_OffSword && !m_HitInpact)
+	if (m_Move == false && m_Attack == false && !m_OnSword && !m_OffSword && !m_HitInpact && !m_Healing)
 	{
 		m_Run = false;
 		m_Walk = false;

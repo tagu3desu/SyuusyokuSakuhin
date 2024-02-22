@@ -237,7 +237,7 @@
     <ClCompile Include="torus.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
-    <ClCompile Include="potioncount.cpp">
+    <ClCompile Include="itemcount.cpp">
       <Filter>ソース ファイル\テクスチャ\UI</Filter>
     </ClCompile>
     <ClCompile Include="fade.cpp">
@@ -341,7 +341,7 @@
     <ClInclude Include="camera.h">
       <Filter>ヘッダー ファイル\カメラ</Filter>
     </ClInclude>
-    <ClInclude Include="potioncount.h">
+    <ClInclude Include="itemcount.h">
       <Filter>ヘッダー ファイル\テクスチャ\UI</Filter>
     </ClInclude>
     <ClInclude Include="bladeefect1.h">

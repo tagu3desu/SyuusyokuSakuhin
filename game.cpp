@@ -27,7 +27,7 @@
 #include"hpgage.h"
 #include"staminagage.h"
 #include"healItem.h"
-#include"potioncount.h"
+#include"itemcount.h"
 #include"wepon_sword.h"
 #include"swordtrail.h"
 #include"wepon_gun.h"
@@ -137,7 +137,7 @@ void Game::Init()
 	
 
 
-	AddGameObject<PotionCount>(SPRITE_LAYER)->SetTexturePostion(1701.0f,895.0f);
+	AddGameObject<ItemCount>(SPRITE_LAYER);
 	
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);

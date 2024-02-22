@@ -53,7 +53,8 @@ private:
 	std::string m_AnimationName;
 	std::string m_NextAnimationName;
 	float m_AnimationDelay;
-	int m_HitInpactDelay;
+	float m_HitInpactDelay;
+	float m_HealAnimationDelay;
 
 	//アニメーション用フラグ
 	bool m_Idle = false;
@@ -64,6 +65,7 @@ private:
 	bool m_InpactGuard = false;
 	bool m_SuccessGuard = false;
 	bool m_HitInpact = false;
+	bool m_Healing = false;
 
 	//攻撃関連
 	bool m_Attack = false;

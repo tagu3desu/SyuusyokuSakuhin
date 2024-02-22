@@ -199,7 +199,7 @@
     <ClCompile Include="meshField.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="potioncount.cpp" />
+    <ClCompile Include="itemcount.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="result_gameover.cpp" />
@@ -274,7 +274,7 @@
     <ClInclude Include="meshField.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="potioncount.h" />
+    <ClInclude Include="itemcount.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="result_gameover.h" />

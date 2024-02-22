@@ -9,6 +9,7 @@
 #include"game.h"
 #include"enemy.h"
 #include"input.h"
+#include"wepon_sword.h"
 
 //ゲームUI
 TextureLoad* texture_Dragon = new TextureLoad;
@@ -25,6 +26,12 @@ TextureLoad* texture_PlayerName = new TextureLoad;
 //TextureLoad* texture_SerchEye = new TextureLoad;
 TextureLoad* texture_FindEye = new TextureLoad;
 TextureLoad* texture_WeponLogo = new TextureLoad;
+TextureLoad* texture_SharpnessRed = new TextureLoad;
+TextureLoad* texture_SharpnessYellow = new TextureLoad;
+TextureLoad* texture_SharpnessGreen = new TextureLoad;
+TextureLoad* texture_SharpnessBlue = new TextureLoad;
+
+
 
 void GameTexture::Init()
 {
@@ -42,6 +49,10 @@ void GameTexture::Init()
 	texture_FindEye->Init("asset/texture/UI/findeye.png");
 	//texture_SerchEye->Init("asset/texture/UI/sercheye.png");
 	texture_WeponLogo->Init("asset/texture/UI/weponlogo.png");
+	texture_SharpnessRed->Init("asset/texture/UI/weponsharpness_red.png");
+	texture_SharpnessYellow->Init("asset/texture/UI/weponsharpness_yellow.png");
+	texture_SharpnessGreen->Init("asset/texture/UI/weponsharpness_green.png");
+	texture_SharpnessBlue->Init("asset/texture/UI/weponsharpness_blue.png");
 
 	m_Scene = Manager::GetScene();
 }
@@ -60,6 +71,10 @@ void GameTexture::Uninit()
 	//texture_SerchEye->Uninit();
 	texture_FindEye->Uninit();
 	texture_WeponLogo->Uninit();
+	texture_SharpnessRed->Uninit();
+	texture_SharpnessYellow->Uninit();
+	texture_SharpnessGreen->Uninit();
+	texture_SharpnessBlue->Uninit();
 }
 
 void GameTexture::Update()
@@ -106,6 +121,7 @@ void GameTexture::Update()
 void GameTexture::Draw()
 {
 	m_Enemy = m_Scene->GetGameObject<Enemy>();
+	Sword* sword = m_Scene->GetGameObject<Sword>();
 	//ゲームUI
 
 	if (m_ReturnCampCount > 600) //クエストクリアのロゴがでている時
@@ -146,11 +162,32 @@ void GameTexture::Draw()
 		texture_PotionUI->Draw(800.0f, 400.0f);
 
 		
-
+		switch (sword->GetWeponSharpnes())
+		{
+		case SHARPNES_RED:
+			texture_SharpnessRed->SetTextureScale(200.0f, 50.0f);
+			texture_SharpnessRed->Draw(100.0f, 30.0f);
+			break;
+		case SHARPNES_YELLOW:
+			texture_SharpnessYellow->SetTextureScale(200.0f, 50.0f);
+			texture_SharpnessYellow->Draw(100.0f, 30.0f);
+			break;
+		case SHARPNES_GREEN:
+			texture_SharpnessGreen->SetTextureScale(200.0f, 50.0f);
+			texture_SharpnessGreen->Draw(100.0f, 30.0f);
+			break;
+		case SHARPNES_BLUE:
+			texture_SharpnessBlue->SetTextureScale(200.0f, 50.0f);
+			texture_SharpnessBlue->Draw(100.0f, 30.0f);
+			break;
+		default:
+			break;
+		}
 		//texture_SerchEye->SetTextureScale(50.0f, 50.0f);
 		//texture_SerchEye->Draw(10.0f, 190.0f);
 		
 
+		
 		
 	}
 	
@@ -159,7 +196,7 @@ void GameTexture::Draw()
 	if (m_Enemy != nullptr)
 	{
 
-		if (m_Enemy->GetEnemyHowlFinish())
+		if (m_Enemy->GetEnemyHowlFinish() && !m_Enemy->GetDead())
 		{
 			if (m_ChangeIconCount <= 60)
 			{
@@ -176,7 +213,7 @@ void GameTexture::Draw()
 				m_ChangeIconCount = 0;
 			}
 		}
-		else
+		else 
 		{
 			texture_WeponLogo->SetTextureScale(50.0f, 60.0f);
 			texture_WeponLogo->Draw(8.5f, 90.0f);

@@ -55,7 +55,9 @@ void Sword::Init()
 		m_SwordCollider = m_Scene->AddGameObject<Collider>(COLLIDER_LAYER);
 		m_SwordCollider->SetScale(D3DXVECTOR3(0.2f, 0.2f, 1.0f));
 		m_SwordCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.2f));
-		m_SwordCollider->SetTag(ITEM_TAG);
+		
+
+		
 	}
 
 	m_SmallAttackHitSE = AddComponent<Audio>();
@@ -94,6 +96,49 @@ void Sword::Update()
 		SetColliderInfo(m_SwordCollider->GetMatrix());
 		//ãOê’ÉZÉbÉg
 		m_SwordTrail->SetTrail(m_SwordTopVertex->GetTopVertexPostion(), GetBottomVertexPostion(), player->GetPlayerAttackCollider());
+
+		//éaÇÍñ°ÇÃä«óù
+		switch (m_WeponSharpnes)
+		{
+		case SHARPNES_RED:
+			m_Durability = 1000;
+			m_Damage = 0.0f;
+			m_HitStopTime = 0.0f;
+			break;
+		case SHARPNES_YELLOW:
+			m_Durability = 100;
+			m_Damage = 5.0f;
+			m_HitStopTime = 5.0f;
+			break;
+		case SHARPNES_GREEN:
+			m_Durability = 40;
+			m_Damage = 10.0f;
+			m_HitStopTime = 10.0f;
+			break;
+		case SHARPNES_BLUE:
+			m_Durability = 10;
+			m_Damage = 20.0f;
+			m_HitStopTime = 10.0f;
+			break;
+		default:
+			break;
+		}
+
+		if (m_Durability == 0)
+		{
+			if (m_WeponSharpnes == SHARPNES_BLUE)
+			{
+				m_WeponSharpnes = SHARPNES_GREEN;
+			}
+			else if (m_WeponSharpnes == SHARPNES_GREEN)
+			{
+				m_WeponSharpnes = SHARPNES_YELLOW;
+			}
+			else if (m_WeponSharpnes == SHARPNES_YELLOW)
+			{
+				m_WeponSharpnes = SHARPNES_RED;
+			}
+		}
 
 		//ìGÇ∆ÇÃìñÇΩÇËîªíË
 		if (enemy != nullptr)
