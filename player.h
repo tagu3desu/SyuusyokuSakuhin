@@ -66,6 +66,7 @@ private:
 	bool m_SuccessGuard = false;
 	bool m_HitInpact = false;
 	bool m_Healing = false;
+	bool m_Animating = false;
 
 	//攻撃関連
 	bool m_Attack = false;
@@ -74,6 +75,8 @@ private:
 	bool m_OnSword = false;
 	bool m_OffSword = false;
 	bool m_GuardEffect=false;
+	float m_AttackMagnification = 0.0f; //攻撃倍率
+
 	//ヒットストップ関連
 	bool m_HitStopFlag = false;
 	float m_HitStopTime = false;
@@ -145,6 +148,7 @@ public:
 	int GetPlayerHP(){ return m_HP;}
 	int GetPlayerStamina() { return m_Stamina; }
 	int GetPlayerAttackNumber() { return m_ComboCount; }
+	float GetAttackMagnification() { return m_AttackMagnification;}
 	bool GetOverFlag() { return m_GameOver; }
 	bool GeiPlayerIdle() { return m_Idle; }
 	bool GetSwordDrawn() { return m_Sworddrawn; }

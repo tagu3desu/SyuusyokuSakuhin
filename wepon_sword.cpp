@@ -18,9 +18,6 @@
 #include"audio.h"
 
 ID3D11Buffer* SwordTopVertex::m_VertexBuffer;
-
-
-
 void Sword::Init()
 {
 
@@ -29,7 +26,7 @@ void Sword::Init()
 
 	
 	m_DepthEnable = true;
-	m_ReflectEnable = true;
+	
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\pixelLightingVS.cso");
@@ -45,7 +42,10 @@ void Sword::Init()
 
 	m_Scene = Manager::GetScene();
 
-	
+	//Ža‚ê–¡ŠÖ˜A
+	m_WeponSharpnes = SHARPNES_BLUE; //‰ŠúØ‚ê–¡Â
+	m_Durability = MAX_DURABILITY;			 //•Ší‘Ï‹v’l
+
 
 	if (!Title::GetCheckTitle())
 	{
@@ -55,9 +55,6 @@ void Sword::Init()
 		m_SwordCollider = m_Scene->AddGameObject<Collider>(COLLIDER_LAYER);
 		m_SwordCollider->SetScale(D3DXVECTOR3(0.2f, 0.2f, 1.0f));
 		m_SwordCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.2f));
-		
-
-		
 	}
 
 	m_SmallAttackHitSE = AddComponent<Audio>();
@@ -75,8 +72,6 @@ void Sword::Uninit()
 	m_Model->Unload();
 	delete m_Model;
 
-	
-	
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
@@ -101,43 +96,75 @@ void Sword::Update()
 		switch (m_WeponSharpnes)
 		{
 		case SHARPNES_RED:
-			m_Durability = 1000;
-			m_Damage = 0.0f;
+			m_WeponDamage = 0.0f;
 			m_HitStopTime = 0.0f;
 			break;
 		case SHARPNES_YELLOW:
-			m_Durability = 100;
-			m_Damage = 5.0f;
+			m_WeponDamage = 3.0f;
 			m_HitStopTime = 5.0f;
 			break;
 		case SHARPNES_GREEN:
-			m_Durability = 40;
-			m_Damage = 10.0f;
+			m_WeponDamage = 5.0f;
 			m_HitStopTime = 10.0f;
 			break;
 		case SHARPNES_BLUE:
-			m_Durability = 10;
-			m_Damage = 20.0f;
+			m_WeponDamage = 8.0f;
 			m_HitStopTime = 10.0f;
 			break;
 		default:
 			break;
 		}
 
-		if (m_Durability == 0)
+		if (m_Durability <= 20)		//•Ší‚Ì‘Ï‹v20%ˆÈ‰º
 		{
-			if (m_WeponSharpnes == SHARPNES_BLUE)
-			{
-				m_WeponSharpnes = SHARPNES_GREEN;
-			}
-			else if (m_WeponSharpnes == SHARPNES_GREEN)
-			{
-				m_WeponSharpnes = SHARPNES_YELLOW;
-			}
-			else if (m_WeponSharpnes == SHARPNES_YELLOW)
+			if (m_WeponSharpnes != SHARPNES_RED)
 			{
 				m_WeponSharpnes = SHARPNES_RED;
+				m_DownSharpnessFlag = true;
 			}
+			
+		}
+		else if (m_Durability <= 40)	//•Ší‚Ì‘Ï‹v40%ˆÈ‰º
+		{
+			if (m_WeponSharpnes != SHARPNES_YELLOW)
+			{
+				m_WeponSharpnes = SHARPNES_YELLOW;
+				m_DownSharpnessFlag = true;
+			}
+
+			
+		}
+		else if (m_Durability <= 80)	//•Ší‚Ì‘Ï‹v80%ˆÈ‰º
+		{
+			if (m_WeponSharpnes != SHARPNES_GREEN)
+			{
+				m_WeponSharpnes = SHARPNES_GREEN;
+				m_DownSharpnessFlag = true;
+			}
+			
+		}
+		else if(m_Durability <= 100)
+		{
+			if (m_WeponSharpnes != SHARPNES_BLUE)
+			{
+				m_WeponSharpnes = SHARPNES_BLUE;
+			}
+		}
+
+		if (m_DownSharpnessFlag)
+		{
+			m_FrameWait++;
+			if (m_FrameWait >= 100)
+			{
+				m_FrameWait = 0.0f;
+				m_DownSharpnessFlag = false;
+			}
+		}
+
+
+		if (Input::GetKeyTrigger('U'))
+		{
+			m_Durability = MAX_DURABILITY;
 		}
 
 		//“G‚Æ‚Ì“–‚½‚è”»’è
@@ -152,9 +179,11 @@ void Sword::Update()
 				{
 					if (player->GetPlayerAttackNumber() == 1)
 					{
+						
 						m_NormalAttackHitSE->Volume(Scene::m_SEVolume);
 						m_NormalAttackHitSE->PlaySE();
 						m_Camera->Shake(0.05f);
+
 					}
 
 					if (player->GetPlayerAttackNumber() == 2)
@@ -171,11 +200,12 @@ void Sword::Update()
 						m_Camera->Shake(0.1f);
 					}
 					
-					
+					m_ResultDamege = player->GetAttackMagnification()* m_WeponDamage;
+					m_Durability -= 20.0f;
 					m_Swordhit = true;
 					m_NormalAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 					m_NormalAttackHitSE->PlaySE();
-					enemy->SetDamage(20);
+					enemy->SetDamage(m_ResultDamege);
 					BladeEffect1* bladeeffect1 = m_Scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
 					SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
 					bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
@@ -195,10 +225,10 @@ void Sword::Update()
 		
 
 
-		//“–‚½‚è”»’è‚ÌƒŠƒZƒbƒg
+		//ƒqƒbƒgƒXƒgƒbƒvŽžŠÔ‚ÌÝ’è
 		if (player->GetHitStopFlag())
 		{
-			player->SetHitStopTime(10);
+			player->SetHitStopTime(m_HitStopTime);
 		}
 
 

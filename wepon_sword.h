@@ -2,6 +2,8 @@
 #include"model.h"
 #include"gameobject.h"
 
+#define MAX_DURABILITY 100.0f //武器の最大耐久値
+
 enum WEPON_SHARPNES
 {
 	SHARPNES_RED,
@@ -38,20 +40,21 @@ private:
 	
 	
 	//切れ味関連
-	WEPON_SHARPNES m_WeponSharpnes = SHARPNES_BLUE;
+	WEPON_SHARPNES m_WeponSharpnes;
 	float m_Durability{};	//耐久値
-	float m_Damage{};		//ダメージ
+	float m_WeponDamage{};	//切れ味でのダメージパラメータ
 	float m_HitStopTime{};	//ヒットストップの時間
+	float m_ResultDamege{}; //攻撃技の倍率×切れ味の最終的なダメージ
+	bool m_DownSharpnessFlag = false;
 
 	
 public:
 	
 	D3DXVECTOR3 GetBottomVertexPostion() { return m_BottomVertex; }
 	D3DXMATRIX GetChild() { return m_ChildMatrix;}
-
 	WEPON_SHARPNES GetWeponSharpnes() { return m_WeponSharpnes; }
-
 	bool GetSwordHit() { return m_Swordhit; }
+	bool GetSharpnessUIFlag() {return m_DownSharpnessFlag;}
 
 	void Init();
 	void Uninit();

@@ -137,7 +137,7 @@ void Game::Init()
 	
 
 
-	AddGameObject<ItemCount>(SPRITE_LAYER);
+	//AddGameObject<ItemCount>(SPRITE_LAYER);
 	
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
@@ -161,21 +161,21 @@ void Game::Init()
 	
 
 	//////////Šâ
-	for (int i = 0; i < 20; i++)
-	{
-		auto rock = AddGameObject<Rock>();
+	//for (int i = 0; i < 20; i++)
+	//{
+	//	auto rock = AddGameObject<Rock>();
 
-		D3DXVECTOR3 pos;
-		pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-		pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-		MeshField* meshField = GetGameObject<MeshField>();
-		pos.y = meshField->GetHeight(pos);
-		rock->SetPosition(pos);
+	//	D3DXVECTOR3 pos;
+	//	pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
+	//	pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
+	//	MeshField* meshField = GetGameObject<MeshField>();
+	//	pos.y = meshField->GetHeight(pos);
+	//	rock->SetPosition(pos);
 
-		D3DXVECTOR3 scl;
-		scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
-		rock->SetScale(scl);
-	}
+	//	D3DXVECTOR3 scl;
+	//	scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
+	//	rock->SetScale(scl);
+	//}
 	
 	m_BattleBGM = AddGameObject<GameObject>()->AddComponent<Audio>();
 	m_BattleBGM->Load("asset\\audio\\BGM\\battlebgm.wav");
@@ -215,7 +215,7 @@ void Game::Update()
 	
 	
 	
-	if (gametexture->GetChangeSceneFlag())
+	if (gametexture->GetChangeSceneFlag() || Input::GetKeyTrigger('H'))
 	{
 		m_Fade->FadeOut();
 	}
@@ -241,6 +241,7 @@ void Game::Update()
 void Game::Uninit()
 {
 	Scene::Uninit();
+	
 	
 	
 }

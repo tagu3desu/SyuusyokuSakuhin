@@ -35,14 +35,14 @@ void Enemy::Init()
 
 	m_Scale = D3DXVECTOR3(0.05f, 0.05f, 0.05f);
 	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\pixelLightingVS.cso");*/
+		"shader\\pixelLightingVS.cso");
+
+	Renderer::CreatePixelShader(&m_PixelShader,
+			"shader\\dissolvePS.cso");*/
+
 
 	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\skiningVertexLightingVS.cso");
-
-
-	/*Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\dissolvePS.cso");*/
 
 
 	Renderer::CreatePixelShader(&m_PixelShader,
@@ -53,7 +53,7 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
-	m_HP = 20;
+	m_HP = 120; //120
 
 	m_Threshold = 0;
 	m_DissolveEnable = true;

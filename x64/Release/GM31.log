@@ -1,12 +1,7 @@
-﻿  player.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(261,39): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(553,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(553,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(599,43): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\player.cpp(617,44): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+﻿  gametexturemanager.cpp
   コード生成しています。
-  12 of 3081 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
-    10 functions were new in current compilation
-    27 functions had inline decision re-evaluated but remain unchanged
+  1 of 3201 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    29 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
-  GM31.vcxproj -> C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Release\GM31.exe
+  GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Release\GM31.exe

@@ -17,8 +17,9 @@ private:
 
 	float m_X=0;
 	float m_Y=0;
-	bool m_Up{};
+	bool m_Up;
 	bool m_Down{};
+	bool m_Enable=true;
 
 	float m_OffsetX{};
 	float m_OffsetY{};
@@ -84,5 +85,5 @@ public:
 	}
 
 
-	float UiMove(int heightlimit, GameObject* object1 ,int showtime);
+	float UiMove(int heightlimit, GameObject * object1,int showtime);
 };

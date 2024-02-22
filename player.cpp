@@ -251,40 +251,45 @@ void Player::Update()
 		}
 
 	
-
-		m_Potioncount = potioncount->GetCount();
-		if (m_Potioncount > 0)
+		//‰ñ•œ–òŽd—l
+		if (potioncount != nullptr)
 		{
-			if (Input::GetKeyTrigger('F'))
+			m_Potioncount = potioncount->GetCount();
+			if (m_Potioncount > 0)
 			{
-				m_Healing = true;
-				m_HealSE->Volume(Scene::m_SEVolume*0.5);
-				m_HealSE->PlaySE();
-				HealEffect* healeffect = m_Scene->AddGameObject<HealEffect>(EFFECT_LAYER);
-				healeffect->SetScale(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
-				healeffect->SetPosition(m_Position+(D3DXVECTOR3(0.0f,1.5f,0.0f)));
-
-				potioncount->SubstractCount(1);
-				hpgage->SetHealPoint(50);
-			}
-
-			if (m_Healing)
-			{
-				if (m_NextAnimationName != "HealMotion")
+				if (Input::GetKeyTrigger('F') && !m_Healing && !m_Sworddrawn)
 				{
-					m_Time = 0.0f;
-					m_AnimationName = m_NextAnimationName;
-					m_NextAnimationName = "HealMotion";
-					m_BlendTime = 0.0f;
+					m_Healing = true;
+					m_HealSE->Volume(Scene::m_SEVolume * 0.5);
+					m_HealSE->PlaySE();
+					HealEffect* healeffect = m_Scene->AddGameObject<HealEffect>(EFFECT_LAYER);
+					healeffect->SetScale(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+					healeffect->SetPosition(m_Position + (D3DXVECTOR3(0.0f, 1.5f, 0.0f)));
+					m_Animating = true;
+					potioncount->SubstractCount(1);
+					hpgage->SetHealPoint(50);
 				}
-				m_HealAnimationDelay++;
-				if (m_HealAnimationDelay > 70)
+
+				if (m_Healing)
 				{
-					m_HealAnimationDelay = 0.0f;
-					m_Healing = false;
+					if (m_NextAnimationName != "HealMotion")
+					{
+						m_Time = 0.0f;
+						m_AnimationName = m_NextAnimationName;
+						m_NextAnimationName = "HealMotion";
+						m_BlendTime = 0.0f;
+					}
+					m_HealAnimationDelay++;
+					if (m_HealAnimationDelay > 70)
+					{
+						m_HealAnimationDelay = 0.0f;
+						m_Healing = false;
+						m_Animating = false;
+					}
 				}
 			}
 		}
+		
 
 		
 		
@@ -352,8 +357,10 @@ void Player::Update()
 			if (m_HitInpact)
 			{
 				m_HitInpactDelay++;
+				m_Animating = true;
 				if (m_HitInpactDelay > 30)
 				{
+					m_Animating = false;
 					m_HitInpactDelay = 0;
 					m_DamageReaction = false;
 					m_HitInpact = false;
@@ -493,7 +500,7 @@ void Player::Update()
 	if (m_ConboflagisAttack3)
 	{
 		m_FrameWait++;
-		if (m_FrameWait > 60)
+		if (m_FrameWait > 50)
 		{
 			m_FrameWait = 0;
 			m_ConboflagisAttack3 = false;
@@ -588,7 +595,7 @@ void Player::Draw()
 void Player::UpdateGround()
 {
 	//•Ší‚ÌŽæ‚èo‚µ
-	if (Input::GetKeyTrigger('Y')/*(VK_LBUTTON)*/ && !m_Sworddrawn)
+	if (Input::GetKeyTrigger('Y')/*(VK_LBUTTON)*/ && !m_Sworddrawn &&!m_Animating)
 	{
 		
 			if (m_NextAnimationName != "onSword")
@@ -605,7 +612,7 @@ void Player::UpdateGround()
 		
 	}
 
-	if (Input::GetKeyTrigger('R'))
+	if (Input::GetKeyTrigger('R') && !m_Animating )
 	{
 		if (m_Sworddrawn)//”[“
 		{
@@ -627,8 +634,10 @@ void Player::UpdateGround()
 	if (m_OnSword)
 	{
 		m_AnimationDelay++;
+		m_Animating = true;
 		if (m_AnimationDelay > 35)
 		{
+			m_Animating = false;
 			m_OnSword = false;
 			m_AnimationDelay = 0;
 		}
@@ -637,8 +646,10 @@ void Player::UpdateGround()
 	if (m_OffSword)
 	{
 		m_AnimationDelay++;
+		m_Animating = true;
 		if (m_AnimationDelay > 50)
 		{
+			m_Animating = false;
 			m_Sworddrawn = false;
 			m_AnimationDelay = 0;
 			m_OffSword = false;
@@ -647,7 +658,7 @@ void Player::UpdateGround()
 	}
 
 	////ƒT[ƒhƒp[ƒ\ƒ“ƒrƒ…[(ŽÎ‚ßˆÚ“®)
-	if (Input::GetKeyPress('W')) {
+	if (Input::GetKeyPress('W') && !m_Animating) {
 
 		if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina>0)
 		{
@@ -721,7 +732,7 @@ void Player::UpdateGround()
 
 	}
 
-	if (Input::GetKeyPress('S')) {
+	if (Input::GetKeyPress('S') && !m_Animating) {
 		
 		if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina > 0)
 		{
@@ -794,7 +805,7 @@ void Player::UpdateGround()
 		
 	}
 
-	if (Input::GetKeyPress('A')) {
+	if (Input::GetKeyPress('A') && !m_Animating ) {
 	
 		if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina > 0)
 		{
@@ -871,7 +882,7 @@ void Player::UpdateGround()
 		
 	}
 
-	if (Input::GetKeyPress('D')) {
+	if (Input::GetKeyPress('D') && !m_Animating) {
 	
 		if (Input::GetKeyPress(VK_SHIFT) && m_Stamina > 0)
 		{
@@ -1029,7 +1040,7 @@ void Player::UpdateGround()
 	}
 
 	//’ÊíUŒ‚
-	else if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3)
+	else if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating)
 	{
 	    	if (m_NextAnimationName != "SlashAttack")
 	    	{
@@ -1042,12 +1053,13 @@ void Player::UpdateGround()
 	    		m_Move = true;
 	    		m_Idle = false;
 	    		m_AttackMotion1 = true;
+				m_AttackMagnification = 1.1f;
 	    		m_PlayerState = PLAYER_STATE_ATTACK;
 	    	}
 	}
 
 	//2’i–ÚUŒ‚
-	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2)
+	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2 && !m_Animating)
 	{
 		if (m_NextAnimationName != "SlashAttack2")
 		{
@@ -1060,12 +1072,13 @@ void Player::UpdateGround()
 			m_Move = true;
 			m_Idle = false;
 			m_AttackMotion2 = true;
+			m_AttackMagnification = 0.8f;
 			m_PlayerState = PLAYER_STATE_ATTACK2;
 		}
 	}
 
 	////3’i–ÚUŒ‚
-	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack3)
+	if (Input::GetKeyTrigger(VK_LBUTTON) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack3 && !m_Animating)
 	{
 		if (m_NextAnimationName != "SlashAttack3")
 		{
@@ -1077,6 +1090,7 @@ void Player::UpdateGround()
 			m_ComboCount = 3;
 			m_Move = true;
 			m_Idle = false;
+			m_AttackMagnification = 1.3f;
 			m_PlayerState = PLAYER_STATE_ATTACK3;
 		}
 	}
@@ -1084,7 +1098,7 @@ void Player::UpdateGround()
 
 
 	//‰ñ“]UŒ‚
-	if (Input::GetKeyTrigger('T') && !m_Run && m_Sworddrawn && !m_OnSword)
+	if (Input::GetKeyTrigger('T') && !m_Run && m_Sworddrawn && !m_OnSword && !m_Animating)
 	{
 		if (m_NextAnimationName != "RotationAttack")
 		{
@@ -1095,13 +1109,14 @@ void Player::UpdateGround()
 			m_Attack = true;
 			m_Move = true;
 			m_Idle = false;
+			m_AttackMagnification = 1.4f;
 			m_PlayerState = PLAYER_STATE_ROTATION_ATTACK;
 		}
 	}
 	
 
 	
-	if (Input::GetKeyPress(VK_SPACE))
+	if (Input::GetKeyPress(VK_SPACE) && !m_Animating)
 	{
 		if (m_NextAnimationName != "IsRoll")
 		{
@@ -1277,6 +1292,7 @@ void Player::UpdateAttack3()
 	m_Idle = true;
 	if (m_Attack)
 	{
+		m_ConboflagisAttack3 = false;
 		if (m_SlowAnimation)
 		{
 			m_AnimationDelay += 0.1f;
@@ -1309,7 +1325,7 @@ void Player::UpdateAttack3()
 			m_Attack = false;
 			m_Move = false;
 			m_DirectionZ = m_Speed * GetForward();
-			m_ConboflagisAttack3 = false;
+			//m_ConboflagisAttack3 = false;
 			
 			m_Position.x = m_PlayerAnimationCorrection->GetAnimationPosition().x;
 			m_Position.z = m_PlayerAnimationCorrection->GetAnimationPosition().z;

@@ -60,6 +60,11 @@ void TextureLoad::Init(const char* TextureName)
 	m_UiSe = AddComponent<Audio>();
 	m_UiSe->Load("asset\\audio\\SE\\カーソル移動8.wav");
 
+	m_Up = false;
+	m_MoveHeight = 0.0f;
+
+
+
 	GameObject::Init();
 }
 
@@ -154,7 +159,7 @@ void TextureLoad::Draw(float m_X, float m_Y)
 }
 
 //死んだときなどのテクスチャ上げ下げ用
-float TextureLoad::UiMove(int heightlimit, GameObject* object1,int showtime)
+float TextureLoad::UiMove(int heightlimit,GameObject* object1 , int showtime)
 {
 	m_ShowTime = showtime;
 	
@@ -165,10 +170,18 @@ float TextureLoad::UiMove(int heightlimit, GameObject* object1,int showtime)
 
 
 	if (heightlimit <= m_MoveHeight && !m_Up)
-	{	
+	{
 		m_UiSe->Volume(Scene::m_SEVolume * 0.5);
 		m_UiSe->PlaySE();
+
 		m_Up = true;
+	}
+
+
+
+	if (m_ShowTime <= m_FrameWait)
+	{
+		m_MoveHeight += -8.0f;
 	}
 
 	if (m_Up)
@@ -176,17 +189,15 @@ float TextureLoad::UiMove(int heightlimit, GameObject* object1,int showtime)
 		m_FrameWait++;
 	}
 
-	if (m_ShowTime <= m_FrameWait)
-	{
-		m_MoveHeight += -8.0f;
-	}
 
 	if (m_MoveHeight < -50)
 	{
 		m_FrameWait = 0;
-		object1->SetDestroy();
 	}
 	return m_MoveHeight;
+	
+	
+
 }
 
 

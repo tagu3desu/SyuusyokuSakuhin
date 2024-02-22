@@ -1,5 +1,2 @@
-﻿  enemy.cpp
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy.cpp(353,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy.cpp(353,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\OneDrive\デスクトップ\就職作品\enemy.cpp(504,23): warning C4305: '+=': 'double' から 'float' へ切り詰めます。
-  GM31.vcxproj -> C:\Users\kousu\OneDrive\デスクトップ\就職作品\x64\Debug\GM31.exe
+﻿  gametexturemanager.cpp
+  GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Debug\GM31.exe

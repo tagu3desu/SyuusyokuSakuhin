@@ -33,15 +33,15 @@ void LoadingTexture::Init()
 
 void LoadingTexture::Uninit()
 {
-	texture_N->Uninit();
-	texture_O->Uninit();
-	texture_W->Uninit();
-	texture_L->Uninit();
-	texture_O2->Uninit();
-	texture_D->Uninit();
-	texture_I->Uninit();
-	texture_N2->Uninit();
-	texture_G->Uninit();
+	texture_N->SetDestroy();
+	texture_O->SetDestroy();
+	texture_W->SetDestroy();
+	texture_L->SetDestroy();
+	texture_O2->SetDestroy();
+	texture_D->SetDestroy();
+	texture_I->SetDestroy();
+	texture_N2->SetDestroy();
+	texture_G->SetDestroy();
 
 	texture_Load->Uninit();
 

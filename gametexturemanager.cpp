@@ -23,14 +23,13 @@ TextureLoad* texture_WinUI = new TextureLoad;
 TextureLoad* texture_WinUI2 = new TextureLoad;
 TextureLoad* texture_ClearLogo = new TextureLoad;
 TextureLoad* texture_PlayerName = new TextureLoad;
-//TextureLoad* texture_SerchEye = new TextureLoad;
 TextureLoad* texture_FindEye = new TextureLoad;
 TextureLoad* texture_WeponLogo = new TextureLoad;
 TextureLoad* texture_SharpnessRed = new TextureLoad;
 TextureLoad* texture_SharpnessYellow = new TextureLoad;
 TextureLoad* texture_SharpnessGreen = new TextureLoad;
 TextureLoad* texture_SharpnessBlue = new TextureLoad;
-
+TextureLoad* texture_SharpnessDown = new TextureLoad;
 
 
 void GameTexture::Init()
@@ -41,46 +40,45 @@ void GameTexture::Init()
 	texture_TimeHand->Init("asset/texture/UI/ClockHand2.png");
 	texture_GageBase->Init("asset/texture/UI/gagebase2.png");
 	texture_TimelimitUI->Init("asset/texture/UI/timelimit.png");
-	texture_PotionUI->Init("asset/texture/UI/potion.png");
+	texture_PotionUI->Init("asset/texture/UI/ItemBG.png");
 	texture_WinUI->Init("asset/texture/UI/winlogo.png");
 	texture_WinUI2->Init("asset/texture/UI/winlogo2.png");
 	texture_ClearLogo->Init("asset/texture/UI/clearlogo.png");
 	texture_PlayerName->Init("asset/texture/UI/nametag.png");
 	texture_FindEye->Init("asset/texture/UI/findeye.png");
-	//texture_SerchEye->Init("asset/texture/UI/sercheye.png");
 	texture_WeponLogo->Init("asset/texture/UI/weponlogo.png");
 	texture_SharpnessRed->Init("asset/texture/UI/weponsharpness_red.png");
 	texture_SharpnessYellow->Init("asset/texture/UI/weponsharpness_yellow.png");
 	texture_SharpnessGreen->Init("asset/texture/UI/weponsharpness_green.png");
 	texture_SharpnessBlue->Init("asset/texture/UI/weponsharpness_blue.png");
+	texture_SharpnessDown->Init("asset/texture/UI/DawnSharpness.png");
 
 	m_Scene = Manager::GetScene();
 }
 
 void GameTexture::Uninit()
 {
-	texture_Dragon->Uninit();
-	texture_Clock->Uninit();
-	texture_TimeLimit->Uninit();
-	texture_TimeHand->Uninit();
-	texture_GageBase->Uninit();
-	texture_WinUI->Uninit();
-	texture_WinUI2->Uninit();
-	texture_ClearLogo->Uninit();
-	texture_PlayerName->Uninit();
-	//texture_SerchEye->Uninit();
-	texture_FindEye->Uninit();
-	texture_WeponLogo->Uninit();
-	texture_SharpnessRed->Uninit();
-	texture_SharpnessYellow->Uninit();
-	texture_SharpnessGreen->Uninit();
-	texture_SharpnessBlue->Uninit();
+	texture_Dragon->SetDestroy();
+	texture_Clock->SetDestroy();
+	texture_TimeLimit->SetDestroy();
+	texture_TimeHand->SetDestroy();
+	texture_GageBase->SetDestroy();
+	texture_WinUI->SetDestroy();
+	texture_WinUI2->SetDestroy();
+	texture_ClearLogo->SetDestroy();
+	texture_PlayerName->SetDestroy();
+	texture_FindEye->SetDestroy();
+	texture_WeponLogo->SetDestroy();
+	texture_SharpnessRed->SetDestroy();
+	texture_SharpnessYellow->SetDestroy();
+	texture_SharpnessGreen->SetDestroy();
+	texture_SharpnessBlue->SetDestroy();
 }
 
 void GameTexture::Update()
 {
 	m_Enemy = m_Scene->GetGameObject<Enemy>();
-
+	m_Sword = m_Scene->GetGameObject<Sword>();
 	m_TimeLimitPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI,90);
 
 	if (m_Enemy != nullptr)
@@ -103,9 +101,6 @@ void GameTexture::Update()
 	
 	m_ChangeIconCount++;
 	
-	
-	
-	
 
 	if (m_ClearLogoCountFlag)
 	{
@@ -116,12 +111,24 @@ void GameTexture::Update()
 		}
 	}
 
+	if (m_Sword->GetSharpnessUIFlag())
+	{
+		m_y = texture_SharpnessDown->UiMove(160, texture_SharpnessDown, 40);
+	}
+
+
+	//GUIにパラメータ表示
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("Logo");
+	ImGui::InputFloat("Y", &m_y);
+	ImGui::End();
+
 }
 
 void GameTexture::Draw()
 {
 	m_Enemy = m_Scene->GetGameObject<Enemy>();
-	Sword* sword = m_Scene->GetGameObject<Sword>();
+	m_Sword = m_Scene->GetGameObject<Sword>();
 	//ゲームUI
 
 	if (m_ReturnCampCount > 600) //クエストクリアのロゴがでている時
@@ -161,33 +168,38 @@ void GameTexture::Draw()
 		texture_PotionUI->SetTextureScale(150.0f, 150.0f);
 		texture_PotionUI->Draw(800.0f, 400.0f);
 
-		
-		switch (sword->GetWeponSharpnes())
+		if (m_Sword != nullptr)
 		{
-		case SHARPNES_RED:
-			texture_SharpnessRed->SetTextureScale(200.0f, 50.0f);
-			texture_SharpnessRed->Draw(100.0f, 30.0f);
-			break;
-		case SHARPNES_YELLOW:
-			texture_SharpnessYellow->SetTextureScale(200.0f, 50.0f);
-			texture_SharpnessYellow->Draw(100.0f, 30.0f);
-			break;
-		case SHARPNES_GREEN:
-			texture_SharpnessGreen->SetTextureScale(200.0f, 50.0f);
-			texture_SharpnessGreen->Draw(100.0f, 30.0f);
-			break;
-		case SHARPNES_BLUE:
-			texture_SharpnessBlue->SetTextureScale(200.0f, 50.0f);
-			texture_SharpnessBlue->Draw(100.0f, 30.0f);
-			break;
-		default:
-			break;
-		}
-		//texture_SerchEye->SetTextureScale(50.0f, 50.0f);
-		//texture_SerchEye->Draw(10.0f, 190.0f);
-		
+			switch (m_Sword->GetWeponSharpnes())
+			{
+			case SHARPNES_RED:
+				texture_SharpnessRed->SetTextureScale(200.0f, 50.0f);
+				texture_SharpnessRed->Draw(100.0f, 30.0f);
+				break;
+			case SHARPNES_YELLOW:
+				texture_SharpnessYellow->SetTextureScale(200.0f, 50.0f);
+				texture_SharpnessYellow->Draw(100.0f, 30.0f);
+				break;
+			case SHARPNES_GREEN:
+				texture_SharpnessGreen->SetTextureScale(200.0f, 50.0f);
+				texture_SharpnessGreen->Draw(100.0f, 30.0f);
+				break;
+			case SHARPNES_BLUE:
+				texture_SharpnessBlue->SetTextureScale(200.0f, 50.0f);
+				texture_SharpnessBlue->Draw(100.0f, 30.0f);
+				break;
+			default:
+				break;
+			}
 
-		
+			if (m_Sword->GetSharpnessUIFlag())
+			{
+				texture_SharpnessDown->SetTextureScale(300.0f, 80.0f);
+				texture_SharpnessDown->Draw(400.0f, m_y);
+			}
+			
+
+		}
 		
 	}
 	

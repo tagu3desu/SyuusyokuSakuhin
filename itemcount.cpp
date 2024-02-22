@@ -124,18 +124,18 @@ void ItemCount::Draw()
 		//桁数に応じて座標修正
 		if (digits == 2)	//2桁の時
 		{
-			m_X = 1710.0f - i * 20.0f;
+			m_X = 1719.0f - i * 18.0f;
 		}
 		else //1桁の時
 		{
-			m_X = 1701.0f - i * 20.0f;
+			m_X = 1709.0f - i * 20.0f;
 		}
 
 		
-		m_Y = 895.0f;
+		m_Y = 906.0f;
 
-		float height = 50.0f;
-		float width = 35.0f;
+		float height = 45.0f;
+		float width = 32.0f;
 		//テクスチャ座標算出
 		int number = count % 10;
 		count /= 10;
