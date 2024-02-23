@@ -8,6 +8,7 @@
 #include"title.h"
 #include"enemy.h"
 #include"debug.h"
+#include"result.h"
 void Camera::Init()
 {	
 	
@@ -187,7 +188,7 @@ void Camera::Update()
 		
 		
 	}
-	else if (player->GetPlayerDead() && !m_DeadCameraFlag)
+	else if (player!= nullptr &&  player->GetPlayerDead() && !m_DeadCameraFlag)
 	{
 		m_DeadCameraY += 0.001f;
 		m_RotationX += 0.01f;
@@ -216,6 +217,8 @@ void Camera::Update()
 		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * 8.0f, m_RotationY*1.0f, -cos(m_RotationX) * 8.0f);
 		
 	}
+
+
 	if (Title::GetCheckTitle())
 	{
 		m_Target = player->GetPosition() + D3DXVECTOR3(-2.0f,0.0f,0.0f);

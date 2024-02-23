@@ -76,7 +76,7 @@ private:
 	bool m_IsGlinding = false;
 	bool m_EndGlinding = false;
 	bool m_Animating = false;
-
+	bool m_UsePotion = false;
 	//攻撃関連
 	bool m_Attack = false;
 	int m_ComboCount{};
@@ -143,6 +143,10 @@ private:
 	class PlayerAnimationCorrection* m_PlayerAnimationCorrection;
 	class Staminagage* m_Staminagage;
 	class HPgage* m_HPgage;
+	class ItemManager* m_ItemManager;
+
+	class Potion* m_Potion;
+	class WheteStone* m_WheteStone;
 	//アニメーションの補正
 	bool  m_SlowAnimation = false;
 	D3DXVECTOR3 m_CameraCorrectionPosition;
@@ -182,6 +186,7 @@ public:
 	bool GetPlayerDead(){return m_Dead;}
 	bool GetPlayerDeadUIFlag(){ return m_DeadUIFlag; }
 	bool GetFaliedFlag() { return m_FaliedUIFlag; }
+	bool GetGlinding() {return m_Glinding;}
 	D3DXVECTOR3 GetCameraCorrectionPosition() { return m_CameraCorrectionPosition; }
 
 

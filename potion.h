@@ -4,23 +4,22 @@
 class	Potion :public GameObject
 {
 private:
-	ID3D11Buffer* m_VertexBuffer{};
-	ID3D11ShaderResourceView* m_Texture{};
-	ID3D11ShaderResourceView* m_TextureFPS{};
-
-	ID3D11VertexShader* m_VertexShader{};
-	ID3D11PixelShader* m_PixelShader{};
-	ID3D11InputLayout* m_VertexLayout{};
 	
-	int m_X = SCREEN_WIDTH / 1.3;
-	int m_Y = SCREEN_HEIGHT / 1.3;
-	int m_sizeX = 150.0f;
-	int sizeY = 150.0f;
+	
+	class Scene* m_Scene;
+	class ItemCount* m_PotionItemCount;
+
+	int m_ItemCount = 0;
+
+	bool m_Enable=false;
+	
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
 
-	
+	void Use(int count) { m_ItemCount -= count; }
+	void SetEnable(bool enable) { m_Enable = enable; }
+	int GetCount() { return m_ItemCount; }
 };

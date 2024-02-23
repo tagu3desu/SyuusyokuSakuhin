@@ -88,6 +88,24 @@
     <Filter Include="ソース ファイル\敵関連\デコイ">
       <UniqueIdentifier>{f10492f5-3a98-4cca-b3ab-ab21d1d78330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\プレイヤー関連\アイテム">
+      <UniqueIdentifier>{54a1ea4d-d44f-4db5-a619-562ee9264999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\プレイヤー関連\武具">
+      <UniqueIdentifier>{82c19a2a-8080-482d-8510-4f69a3350e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\プレイヤー関連\本体">
+      <UniqueIdentifier>{0f19ab54-d783-4963-ab6a-cc5e5db20719}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\プレイヤ―関連\武具">
+      <UniqueIdentifier>{be7e6e78-2ea9-4f2c-b0ce-9ddca8a3fba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\プレイヤ―関連\本体">
+      <UniqueIdentifier>{15a7c593-a281-40e0-9fc8-7627a0ecdc10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\プレイヤ―関連\アイテム">
+      <UniqueIdentifier>{5470551f-b8f4-4420-a24e-7474e0d7dac1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -138,18 +156,6 @@
     <ClCompile Include="collider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="wepon_shield.cpp">
-      <Filter>ソース ファイル\プレイヤー関連</Filter>
-    </ClCompile>
-    <ClCompile Include="wepon_sword.cpp">
-      <Filter>ソース ファイル\プレイヤー関連</Filter>
-    </ClCompile>
-    <ClCompile Include="wepon_axe.cpp">
-      <Filter>ソース ファイル\プレイヤー関連</Filter>
-    </ClCompile>
-    <ClCompile Include="trail.cpp">
-      <Filter>ソース ファイル\プレイヤー関連</Filter>
-    </ClCompile>
     <ClCompile Include="basecamptent.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
@@ -186,9 +192,6 @@
     <ClCompile Include="result_gameover.cpp">
       <Filter>ソース ファイル\シーン</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\プレイヤー関連</Filter>
-    </ClCompile>
     <ClCompile Include="box.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
     </ClCompile>
@@ -224,12 +227,6 @@
     </ClCompile>
     <ClCompile Include="shieldefect.cpp">
       <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
-    </ClCompile>
-    <ClCompile Include="hpgage.cpp">
-      <Filter>ソース ファイル\プレイヤー関連</Filter>
-    </ClCompile>
-    <ClCompile Include="staminagage.cpp">
-      <Filter>ソース ファイル\プレイヤー関連</Filter>
     </ClCompile>
     <ClCompile Include="rock.cpp">
       <Filter>ソース ファイル\フィールドオブジェクト</Filter>
@@ -275,6 +272,39 @@
     </ClCompile>
     <ClCompile Include="healefect.cpp">
       <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="resulttexturemanager.cpp">
+      <Filter>ソース ファイル\テクスチャ\テクスチャ管理</Filter>
+    </ClCompile>
+    <ClCompile Include="wepon_axe.cpp">
+      <Filter>ソース ファイル\プレイヤー関連\武具</Filter>
+    </ClCompile>
+    <ClCompile Include="wepon_shield.cpp">
+      <Filter>ソース ファイル\プレイヤー関連\武具</Filter>
+    </ClCompile>
+    <ClCompile Include="wepon_sword.cpp">
+      <Filter>ソース ファイル\プレイヤー関連\武具</Filter>
+    </ClCompile>
+    <ClCompile Include="hpgage.cpp">
+      <Filter>ソース ファイル\プレイヤー関連\本体</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\プレイヤー関連\本体</Filter>
+    </ClCompile>
+    <ClCompile Include="trail.cpp">
+      <Filter>ソース ファイル\テクスチャ\エフェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="staminagage.cpp">
+      <Filter>ソース ファイル\プレイヤー関連\本体</Filter>
+    </ClCompile>
+    <ClCompile Include="potion.cpp">
+      <Filter>ソース ファイル\プレイヤー関連\アイテム</Filter>
+    </ClCompile>
+    <ClCompile Include="whetstone.cpp">
+      <Filter>ソース ファイル\プレイヤー関連\アイテム</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemManger.cpp">
+      <Filter>ソース ファイル\プレイヤー関連\アイテム</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -404,29 +434,11 @@
     <ClInclude Include="meshField.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
-    </ClInclude>
     <ClInclude Include="rock.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
     </ClInclude>
-    <ClInclude Include="hpgage.h">
-      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_axe.h">
-      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_shield.h">
-      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
-    </ClInclude>
-    <ClInclude Include="wepon_sword.h">
-      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
-    </ClInclude>
     <ClInclude Include="sky.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
-    </ClInclude>
-    <ClInclude Include="staminagage.h">
-      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
     </ClInclude>
     <ClInclude Include="treasurebox.h">
       <Filter>ヘッダー ファイル\フィールドオブジェクト</Filter>
@@ -448,9 +460,6 @@
     </ClInclude>
     <ClInclude Include="polygon2D.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="trail.h">
-      <Filter>ヘッダー ファイル\プレイヤ―関連</Filter>
     </ClInclude>
     <ClInclude Include="bullet.h">
       <Filter>ヘッダー ファイル\敵関連\敵</Filter>
@@ -475,6 +484,39 @@
     </ClInclude>
     <ClInclude Include="healefect.h">
       <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="resulttexturemanager.h">
+      <Filter>ヘッダー ファイル\テクスチャ\テクスチャ管理</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連\本体</Filter>
+    </ClInclude>
+    <ClInclude Include="hpgage.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連\本体</Filter>
+    </ClInclude>
+    <ClInclude Include="staminagage.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連\本体</Filter>
+    </ClInclude>
+    <ClInclude Include="trail.h">
+      <Filter>ヘッダー ファイル\テクスチャ\エフェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="wepon_axe.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連\武具</Filter>
+    </ClInclude>
+    <ClInclude Include="wepon_shield.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連\武具</Filter>
+    </ClInclude>
+    <ClInclude Include="wepon_sword.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連\武具</Filter>
+    </ClInclude>
+    <ClInclude Include="potion.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連\アイテム</Filter>
+    </ClInclude>
+    <ClInclude Include="whetstone.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連\アイテム</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemManger.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

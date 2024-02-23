@@ -49,7 +49,7 @@ void BladeEffect2::Load()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/virthiculsword.png",
+		"asset/texture/swordEffect2.png",
 		NULL,
 		NULL,
 		&m_Texture,

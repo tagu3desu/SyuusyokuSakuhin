@@ -6,12 +6,23 @@
 #include"input.h"
 #include"scene.h"
 #include"result.h"
+#include"resulttexturemanager.h"
+
+
+
+
 
 void Result::Init()
 {
-	AddGameObject<Polygon2D>(SPRITE_LAYER);
+	Scene* scene = Manager::GetScene();
+
+	ResultTexture* resulttexture = AddGameObject<ResultTexture>(SPRITE_LAYER);
+
+	
 
 }
+
+
 
 
 void Result::Update()
@@ -21,9 +32,11 @@ void Result::Update()
 	//キー入力でゲーム画面に遷移
 	if (Input::GetKeyTrigger(VK_RETURN))//Enterキー
 	{
+		
 		Manager::SetScene<Title>();
 
 	}
 }
+
 
 

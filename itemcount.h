@@ -15,8 +15,11 @@ private:
 	float m_Y;
 	
 
-	int m_ItemCount=0;
-	int digits = 0;
+	int m_ItemCount=0;	//アイテム数
+	int m_MaxItemCount = 0;
+
+	int digits = 0;	//数字の桁数
+	bool m_Enable = false; //表示非表示
 
 public:
 	void Init();
@@ -24,9 +27,11 @@ public:
 	void Update();
 	void Draw();
 
+	void SetMaxCount(int count) { m_MaxItemCount = m_ItemCount =count;}
 	void SetTexturePostion(float X, float Y) { m_X=X; m_Y=Y; }
 	void AddCount(int Count) { m_ItemCount += Count;}
 	void SubstractCount(int MainasuCount) { m_ItemCount -= MainasuCount; }
 	void SetCount(int Count) { m_ItemCount = Count; }
+	void SetEnable(bool enable) { m_Enable = enable; }
 	int GetCount() { return m_ItemCount; }
 };

@@ -206,10 +206,22 @@ void Sword::Update()
 					m_NormalAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 					m_NormalAttackHitSE->PlaySE();
 					enemy->SetDamage(m_ResultDamege);
-					BladeEffect1* bladeeffect1 = m_Scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
-					SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
-					bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
-					bladeeffect1->SetPosition(swordvertex->GetTopVertexPostion());
+
+					if (m_WeponSharpnes == SHARPNES_BLUE || m_WeponSharpnes == SHARPNES_GREEN)
+					{
+						BladeEffect1* bladeeffect1 = m_Scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
+						SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
+						bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
+						bladeeffect1->SetPosition(swordvertex->GetTopVertexPostion());
+					}
+
+					if (m_WeponSharpnes == SHARPNES_YELLOW || m_WeponSharpnes == SHARPNES_RED)
+					{
+						BladeEffect2* bladeeffect2 = m_Scene->AddGameObject<BladeEffect2>(EFFECT_LAYER);
+						SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
+						bladeeffect2->SetScale(D3DXVECTOR3(3.5f, 3.5f, 3.5f));
+						bladeeffect2->SetPosition(swordvertex->GetTopVertexPostion());
+					}
 					player->SetHitStop(true);
 				}
 				
@@ -269,7 +281,7 @@ void Sword::Update()
 	animationmodel = player->GetAnimationModel();
 	BONE* bone;
 
-	if (player->GetSwordDrawn())
+	if (player->GetSwordDrawn() || player->GetGlinding())
 	{
 		bone = animationmodel->GetBone("mixamorig:RightHandPinky4");
 		m_Scale = D3DXVECTOR3(110.0f, 110.0f, 1.0f / 0.01f);

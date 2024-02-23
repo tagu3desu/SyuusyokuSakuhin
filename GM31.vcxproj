@@ -177,6 +177,7 @@
     <ClCompile Include="guardeffect.cpp" />
     <ClCompile Include="healefect.cpp" />
     <ClCompile Include="howleffect.cpp" />
+    <ClCompile Include="ItemManger.cpp" />
     <ClCompile Include="loadingtexturemanager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
@@ -200,8 +201,10 @@
     <ClCompile Include="model.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="itemcount.cpp" />
+    <ClCompile Include="potion.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="resulttexturemanager.cpp" />
     <ClCompile Include="result_gameover.cpp" />
     <ClCompile Include="rock.cpp" />
     <ClCompile Include="rockeffect.cpp" />
@@ -230,6 +233,7 @@
     <ClCompile Include="wepon_axe.cpp" />
     <ClCompile Include="wepon_shield.cpp" />
     <ClCompile Include="wepon_sword.cpp" />
+    <ClCompile Include="whetstone.cpp" />
     <ClCompile Include="wood.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +260,7 @@
     <ClInclude Include="guardeffect.h" />
     <ClInclude Include="healefect.h" />
     <ClInclude Include="howleffect.h" />
+    <ClInclude Include="ItemManger.h" />
     <ClInclude Include="loadingtexturemanager.h" />
     <ClInclude Include="polygon2D.h" />
     <ClInclude Include="hpgage.h" />
@@ -275,8 +280,10 @@
     <ClInclude Include="model.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="itemcount.h" />
+    <ClInclude Include="potion.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="resulttexturemanager.h" />
     <ClInclude Include="result_gameover.h" />
     <ClInclude Include="rock.h" />
     <ClInclude Include="rockeffect.h" />
@@ -306,6 +313,7 @@
     <ClInclude Include="wepon_axe.h" />
     <ClInclude Include="wepon_shield.h" />
     <ClInclude Include="wepon_sword.h" />
+    <ClInclude Include="whetstone.h" />
     <ClInclude Include="wood.h" />
   </ItemGroup>
   <ItemGroup>

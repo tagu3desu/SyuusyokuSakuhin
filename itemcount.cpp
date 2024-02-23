@@ -37,7 +37,6 @@ void ItemCount::Init()
 		"shader\\unlitTexturePS.cso");
 
 	
-	m_ItemCount = 10;
 	
 
 }
@@ -66,7 +65,7 @@ void ItemCount::Draw()
 	int count = m_ItemCount;
 
 	//現在の所持アイテム数に応じて表示する桁数を変更
-	if (m_ItemCount >= 10)
+	if (m_ItemCount >= m_MaxItemCount)
 	{
 		digits = 2;
 	}
@@ -97,7 +96,7 @@ void ItemCount::Draw()
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 
-	if (digits == 2)
+	if (m_ItemCount == m_MaxItemCount)
 	{
 		material.Diffuse = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 	}
@@ -130,8 +129,6 @@ void ItemCount::Draw()
 		{
 			m_X = 1709.0f - i * 20.0f;
 		}
-
-		
 		m_Y = 906.0f;
 
 		float height = 45.0f;
@@ -173,7 +170,11 @@ void ItemCount::Draw()
 		
 
 		//ポリゴン描画
-		Renderer::GetDeviceContext()->Draw(4, 0);
+		if (m_Enable)
+		{
+			Renderer::GetDeviceContext()->Draw(4, 0);
+		}
+		
 
 	}
 	

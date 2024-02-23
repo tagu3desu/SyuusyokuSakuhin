@@ -2,15 +2,7 @@
 #include"renderer.h"
 #include"manager.h"
 #include"title.h"
-
-
 #include"camera.h"
-#include"floar.h"
-#include"watersurface.h"
-#include"door.h"
-#include"doorframe.h"
-
-
 #include"meshField.h"
 #include"polygon2D.h"
 #include"input.h"
@@ -19,18 +11,13 @@
 #include"fade.h"
 #include"Loading.h"
 #include"sky.h"
-#include"cylinder.h"
-
 #include"player.h"
 #include"field.h"
 #include"wepon_sword.h"
 #include"wepon_shield.h"
-
 #include"wood.h"
 #include"treeobj.h"
 #include"titletexturemanager.h"
-#include"rock.h"
-
 #include"audio.h"
 
 bool Title::m_TitleCheck = false;
@@ -53,7 +40,7 @@ void Title::Init()
 	Sky* skydome = AddGameObject<Sky>();
 	skydome->SetScale(D3DXVECTOR3(300.0f, 300.0f, 300.0f));
 
-	Field* meshfield = AddGameObject<Field>();
+	Field* field = AddGameObject<Field>();
 
 	Player* player = AddGameObject<Player>();
 	player->SetRotation(D3DXVECTOR3(0.0f, -2.4f, 0.0f));
@@ -125,8 +112,8 @@ void Title::Draw()
 	
 	Scene* scene = Manager::GetScene();
 	D3DXVECTOR3 objpos;
-	Field* player= GetGameObject<Field>();
-	objpos = player->GetPosition();
+	Field* field= GetGameObject<Field>();
+	objpos = field->GetPosition();
 
 	//ライトカメラ構造体の初期化
 	LIGHT light;

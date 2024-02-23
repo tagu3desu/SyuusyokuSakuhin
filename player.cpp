@@ -30,8 +30,10 @@
 #include"healefect.h"
 #include"hpgage.h"
 #include"staminagage.h"
-
-
+#include"result.h"
+#include"ItemManger.h"
+#include"potion.h"
+#include"whetstone.h"
 void Player::Init()
 {
 	m_Scene = Manager::GetScene();
@@ -87,7 +89,7 @@ void Player::Init()
 	m_Scale = D3DXVECTOR3(0.015f, 0.015f, 0.015f);
 	m_Speed = 0.1f;
 
-	m_HP = 100;
+	m_HP = 500;
 	m_Stamina = 1000;
 
 	m_DepthEnable = true;
@@ -142,15 +144,16 @@ void Player::Init()
 	
 	if (!Title::GetCheckTitle())
 	{
+		m_ItemManager = m_Scene->AddGameObject<ItemManager>();
+		
 		m_PlayerCollider = m_Scene->AddGameObject<Collider>();
 		m_PlayerCollider->SetScale(D3DXVECTOR3(70.0f, 170.0f, 70.0f));
 		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		
 		m_HPgage = m_Scene->AddGameObject<HPgage>(SPRITE_LAYER);
-		
-
 		m_Staminagage = m_Scene->AddGameObject<Staminagage>(SPRITE_LAYER);
 		
+
 
 		m_PlayerAnimationCorrection = m_Scene->AddGameObject<PlayerAnimationCorrection>();
 	}
@@ -184,8 +187,9 @@ void Player::Update()
 	{
 		
 		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
-		ItemCount* potioncount = m_Scene->GetGameObject<ItemCount>();
 		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
+		Potion* potion = m_Scene->GetGameObject<Potion>();
+		WheteStone* whetestone = m_Scene->GetGameObject<WheteStone>();
 		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 		m_Bullet = m_Scene->GetGameObject<Bullet>();
 
@@ -257,12 +261,32 @@ void Player::Update()
 			}
 		}
 
-		//“u‚®
-		if (Input::GetKeyTrigger('H'))
+		
+		if (Input::GetKeyTrigger('F') && !m_Glinding && !m_UsePotion)
 		{
-			m_Glinding = true;
-			m_StartGlinding = true;
+			if (m_ItemManager->GetEnablePotion())
+			{
+				if (potion->GetCount() >= 1)
+				{
+					m_ItemManager->UsePotion();
+					m_UsePotion = true;
+				}
+				
+			}
+			if (m_ItemManager->GetEnableWheteSton())
+			{
+				if (whetestone->GetCount() >= 1)
+				{
+					m_ItemManager->UseWheteStone();
+					m_Glinding = true;
+					m_StartGlinding = true;
+				}
+				
+			}
 		}
+		
+
+		//“u‚®
 		if (m_Glinding)
 		{
 			m_AnimationDelay++;
@@ -347,43 +371,39 @@ void Player::Update()
 		}
 
 		//‰ñ•œ–òŽg—p
-		if (potioncount != nullptr)
+		
+		if (m_UsePotion && !m_Healing && !m_Sworddrawn)
 		{
-			m_Potioncount = potioncount->GetCount();
-			if (m_Potioncount > 0)
-			{
-				if (Input::GetKeyTrigger('F') && !m_Healing && !m_Sworddrawn)
-				{
-					m_Healing = true;
-					m_HealSE->Volume(Scene::m_SEVolume * 0.5);
-					m_HealSE->PlaySE();
-					HealEffect* healeffect = m_Scene->AddGameObject<HealEffect>(EFFECT_LAYER);
-					healeffect->SetScale(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
-					healeffect->SetPosition(m_Position + (D3DXVECTOR3(0.0f, 1.5f, 0.0f)));
-					m_Animating = true;
-					potioncount->SubstractCount(1);
-					hpgage->SetHealPoint(50);
-				}
+			m_Healing = true;
+			m_HealSE->Volume(Scene::m_SEVolume * 0.5);
+			m_HealSE->PlaySE();
+			HealEffect* healeffect = m_Scene->AddGameObject<HealEffect>(EFFECT_LAYER);
+			healeffect->SetScale(D3DXVECTOR3(2.0f, 2.0f, 2.0f));
+			healeffect->SetPosition(m_Position + (D3DXVECTOR3(0.0f, 1.5f, 0.0f)));
+			m_Animating = true;
+			hpgage->SetHealPoint(50);
+		}
 
-				if (m_Healing)
-				{
-					if (m_NextAnimationName != "HealMotion")
-					{
-						m_Time = 0.0f;
-						m_AnimationName = m_NextAnimationName;
-						m_NextAnimationName = "HealMotion";
-						m_BlendTime = 0.0f;
-					}
-					m_HealAnimationDelay++;
-					if (m_HealAnimationDelay > 70)
-					{
-						m_HealAnimationDelay = 0.0f;
-						m_Healing = false;
-						m_Animating = false;
-					}
-				}
+		if (m_Healing)
+		{
+			if (m_NextAnimationName != "HealMotion")
+			{
+				m_Time = 0.0f;
+				m_AnimationName = m_NextAnimationName;
+				m_NextAnimationName = "HealMotion";
+				m_BlendTime = 0.0f;
+			}
+			m_HealAnimationDelay++;
+			if (m_HealAnimationDelay > 70)
+			{
+				m_HealAnimationDelay = 0.0f;
+				m_Healing = false;
+				m_UsePotion = false;
+				m_Animating = false;
 			}
 		}
+	
+		
 		
 
 		

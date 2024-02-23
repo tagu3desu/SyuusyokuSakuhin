@@ -19,6 +19,7 @@ C:\Users\kousu\Desktop\就職作品\gametexturemanager.cpp;C:\Users\kousu\Deskto
 C:\Users\kousu\Desktop\就職作品\guardeffect.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\guardeffect.obj
 C:\Users\kousu\Desktop\就職作品\healefect.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\healefect.obj
 C:\Users\kousu\Desktop\就職作品\howleffect.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\howleffect.obj
+C:\Users\kousu\Desktop\就職作品\ItemManger.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\ItemManger.obj
 C:\Users\kousu\Desktop\就職作品\loadingtexturemanager.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\loadingtexturemanager.obj
 C:\Users\kousu\Desktop\就職作品\polygon2D.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\polygon2D.obj
 C:\Users\kousu\Desktop\就職作品\hpgage.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\hpgage.obj
@@ -37,8 +38,10 @@ C:\Users\kousu\Desktop\就職作品\meshField.cpp;C:\Users\kousu\Desktop\就職�
 C:\Users\kousu\Desktop\就職作品\model.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\model.obj
 C:\Users\kousu\Desktop\就職作品\player.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\player.obj
 C:\Users\kousu\Desktop\就職作品\itemcount.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\itemcount.obj
+C:\Users\kousu\Desktop\就職作品\potion.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\potion.obj
 C:\Users\kousu\Desktop\就職作品\renderer.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\renderer.obj
 C:\Users\kousu\Desktop\就職作品\result.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\result.obj
+C:\Users\kousu\Desktop\就職作品\resulttexturemanager.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\resulttexturemanager.obj
 C:\Users\kousu\Desktop\就職作品\result_gameover.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\result_gameover.obj
 C:\Users\kousu\Desktop\就職作品\rock.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\rock.obj
 C:\Users\kousu\Desktop\就職作品\rockeffect.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\rockeffect.obj
@@ -59,4 +62,5 @@ C:\Users\kousu\Desktop\就職作品\watersurface.cpp;C:\Users\kousu\Desktop\就�
 C:\Users\kousu\Desktop\就職作品\wepon_axe.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\wepon_axe.obj
 C:\Users\kousu\Desktop\就職作品\wepon_shield.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\wepon_shield.obj
 C:\Users\kousu\Desktop\就職作品\wepon_sword.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\wepon_sword.obj
+C:\Users\kousu\Desktop\就職作品\whetstone.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\whetstone.obj
 C:\Users\kousu\Desktop\就職作品\wood.cpp;C:\Users\kousu\Desktop\就職作品\x64\Debug\wood.obj

@@ -49,7 +49,8 @@
 #include"debug.h"
 #include"shieldefect.h"
 #include"healefect.h"
-
+#include"potion.h"
+#include"whetstone.h"
 Player* g_Player;
 
 bool Game::m_LoadFinish = false;
@@ -137,8 +138,11 @@ void Game::Init()
 	
 
 
-	AddGameObject<ItemCount>(SPRITE_LAYER);
 	
+	
+	AddGameObject<Potion>(SPRITE_LAYER);
+	AddGameObject<WheteStone>(SPRITE_LAYER);
+
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
