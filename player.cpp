@@ -70,6 +70,11 @@ void Player::Init()
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield Impact.fbx", "GuardImpact");
 	m_Model->LoadAnimation("asset\\model\\Victory.fbx", "HealMotion");
 	m_Model->LoadAnimation("asset\\model\\Sword And Shield HitSmallAttack.fbx", "HitSmallImpact");
+	m_Model->LoadAnimation("asset\\model\\Grinding1.fbx", "StartGlinding");
+	m_Model->LoadAnimation("asset\\model\\Grinding2.fbx", "IsGlinding");
+	m_Model->LoadAnimation("asset\\model\\Grinding3.fbx", "EndGlinding");
+	
+
 
 	//タイトル用のモーション
 	m_Model->LoadAnimation("asset\\model\\Sitting.fbx", "TitleIdle");
@@ -82,7 +87,7 @@ void Player::Init()
 	m_Scale = D3DXVECTOR3(0.015f, 0.015f, 0.015f);
 	m_Speed = 0.1f;
 
-	m_HP = 500;
+	m_HP = 100;
 	m_Stamina = 1000;
 
 	m_DepthEnable = true;
@@ -115,9 +120,11 @@ void Player::Init()
 	m_HealSE = AddComponent<Audio>();
 	m_HealSE->Load("asset\\audio\\SE\\回復魔法1.wav");
 
-	m_FootSound = AddComponent<Audio>();
-	m_FootSound->Load("asset\\audio\\SE\\足音.wav");
+	m_FootSE = AddComponent<Audio>();
+	m_FootSE->Load("asset\\audio\\SE\\足音.wav");
 
+	m_GlindingSE = AddComponent<Audio>();
+	m_GlindingSE->Load("asset\\audio\\SE\\武器を研ぐ.wav");
 
 	m_Time = 0.0f;
 	m_BlendTime = 0.0f;
@@ -250,8 +257,96 @@ void Player::Update()
 			}
 		}
 
-	
-		//回復薬仕様
+		//砥ぐ
+		if (Input::GetKeyTrigger('H'))
+		{
+			m_Glinding = true;
+			m_StartGlinding = true;
+		}
+		if (m_Glinding)
+		{
+			m_AnimationDelay++;
+			{//砥ぎ開始
+				
+				if (m_NextAnimationName != "StartGlinding" && m_StartGlinding)
+				{
+					m_Time = 0.0f;
+					m_AnimationName = m_NextAnimationName;
+					m_NextAnimationName = "StartGlinding";
+					m_Animating = true;
+					m_BlendTime = 0.0f;
+				}
+				
+				if (m_AnimationDelay > 20 && m_StartGlinding)
+				{
+					m_AnimationDelay = 0.0f;
+					m_Animating = false;
+					m_StartGlinding = false;
+					m_IsGlinding = true;
+				}
+			}
+			{//砥ぎ中
+				if (m_NextAnimationName != "IsGlinding" && m_IsGlinding)
+				{
+					m_Time = 0.0f;
+					m_AnimationName = m_NextAnimationName;
+					m_NextAnimationName = "IsGlinding";
+					m_Animating = true;
+					m_BlendTime = 0.0f;
+				}
+
+				if (m_AnimationDelay > 70 && m_IsGlinding)
+				{
+					m_SharpnessUpFlag = true;
+					if (!m_GlindingSEFlag)
+					{
+						m_GlindingSE->Volume(Scene::m_SEVolume);
+						m_GlindingSE->PlaySE();
+						m_GlindingSEFlag = true;
+					}
+				}
+
+				if (m_AnimationDelay > 100 && m_IsGlinding)
+				{
+					m_AnimationDelay = 0.0f;
+					m_Animating = false;
+					m_IsGlinding = false;
+					m_EndGlinding = true;		
+				}
+			}
+			{//砥ぎ中
+				if (m_NextAnimationName != "EndGlinding"   && m_EndGlinding)
+				{
+					m_Time = 0.0f;
+					m_AnimationName = m_NextAnimationName;
+					m_NextAnimationName = "EndGlinding";
+					m_Animating = true;
+
+					m_BlendTime = 0.0f;
+				}
+				if (m_AnimationDelay > 40 && m_EndGlinding)
+				{
+					m_AnimationDelay = 0.0f;
+					m_Animating = false;
+					m_IsGlinding = false;
+					m_EndGlinding = false;
+					m_Glinding = false;
+					m_GlindingSEFlag = false;
+				}
+			}
+		}
+
+		if (m_SharpnessUpFlag)
+		{
+			m_SharpnessUpCount++;
+			if (m_SharpnessUpCount >= 100)
+			{
+				m_SharpnessUpCount = 0.0f;
+				m_SharpnessUpFlag = false;
+			}
+		}
+
+		//回復薬使用
 		if (potioncount != nullptr)
 		{
 			m_Potioncount = potioncount->GetCount();
@@ -368,12 +463,16 @@ void Player::Update()
 			}
 		}
 
-
+		
 
 		//死亡処理
 		if (m_HP <= 0)
 		{
-
+			m_Dead = true;
+			if (!m_DeadUIFlag)
+			{
+				m_DeadUIFlag = true;
+			}
 			if (m_NextAnimationName != "IsDead")
 			{
 				m_Time = 0.0f;
@@ -383,6 +482,16 @@ void Player::Update()
 			}
 			m_PlayerState = PLAYER_STATE_DEAD;
 		}
+
+		if (m_DeadUIFlag)
+		{
+			m_DeadUIFlagCount++;
+			if (m_DeadUIFlagCount > 150)
+			{
+				m_DeadUIFlag = false;
+			}
+		}
+
 		//重力
 		m_Velocity.y -= 0.015f;
 
@@ -963,7 +1072,7 @@ void Player::UpdateGround()
 
 
 	//待機状態
-	if (m_Move == false && m_Attack == false && !m_OnSword && !m_OffSword && !m_HitInpact && !m_Healing)
+	if (m_Move == false && m_Attack == false && !m_OnSword && !m_OffSword && !m_HitInpact && !m_Healing && !m_Animating)
 	{
 		m_Run = false;
 		m_Walk = false;
@@ -1136,8 +1245,8 @@ void Player::UpdateGround()
 
 		if (!m_FootSoundFlag)
 		{
-			m_FootSound->Volume(Scene::m_SEVolume * 0.05f);
-			m_FootSound->PlaySE();
+			m_FootSE->Volume(Scene::m_SEVolume * 0.05f);
+			m_FootSE->PlaySE();
 			m_FootSoundFlag = true;
 		}
 		if (m_FootSoundFlag)
@@ -1155,8 +1264,8 @@ void Player::UpdateGround()
 	{
 		if (!m_FootSoundFlag)
 		{
-			m_FootSound->Volume(Scene::m_SEVolume * 0.05f);
-			m_FootSound->PlaySE();
+			m_FootSE->Volume(Scene::m_SEVolume * 0.05f);
+			m_FootSE->PlaySE();
 			m_FootSoundFlag = true;
 		}
 		if (m_FootSoundFlag)
@@ -1531,9 +1640,9 @@ void Player::UpdateDead()
 		m_Time = 120;
 
 	}
-	if (m_AnimationDelay >= 180)
+	if (m_AnimationDelay >= 325)
 	{
-		m_GameOver = true;
+		m_FaliedUIFlag = true;
 	}
 	
 }

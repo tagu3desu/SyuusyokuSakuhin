@@ -10,7 +10,8 @@
 #include"enemy.h"
 #include"input.h"
 #include"wepon_sword.h"
-
+#include"player.h"
+#include"camera.h"
 //ゲームUI
 TextureLoad* texture_Dragon = new TextureLoad;
 TextureLoad* texture_Clock = new TextureLoad;
@@ -30,6 +31,9 @@ TextureLoad* texture_SharpnessYellow = new TextureLoad;
 TextureLoad* texture_SharpnessGreen = new TextureLoad;
 TextureLoad* texture_SharpnessBlue = new TextureLoad;
 TextureLoad* texture_SharpnessDown = new TextureLoad;
+TextureLoad* texture_SharpnessUp = new TextureLoad;
+TextureLoad* texture_DeadUI = new TextureLoad;
+TextureLoad* texture_FaliedLogo = new TextureLoad;
 
 
 void GameTexture::Init()
@@ -52,6 +56,10 @@ void GameTexture::Init()
 	texture_SharpnessGreen->Init("asset/texture/UI/weponsharpness_green.png");
 	texture_SharpnessBlue->Init("asset/texture/UI/weponsharpness_blue.png");
 	texture_SharpnessDown->Init("asset/texture/UI/DawnSharpness.png");
+	texture_SharpnessUp->Init("asset/texture/UI/UpSharpness.png");
+	texture_DeadUI->Init("asset/texture/UI/DeadAnnounce.png");
+	texture_FaliedLogo->Init("asset/texture/UI/failedlogo.png");
+	
 
 	m_Scene = Manager::GetScene();
 }
@@ -73,14 +81,23 @@ void GameTexture::Uninit()
 	texture_SharpnessYellow->SetDestroy();
 	texture_SharpnessGreen->SetDestroy();
 	texture_SharpnessBlue->SetDestroy();
+	texture_SharpnessDown->SetDestroy();
+	texture_SharpnessUp->SetDestroy();
+	texture_DeadUI->SetDestroy();
+	texture_FaliedLogo->SetDestroy();
 }
 
 void GameTexture::Update()
 {
 	m_Enemy = m_Scene->GetGameObject<Enemy>();
 	m_Sword = m_Scene->GetGameObject<Sword>();
+	m_Player = m_Scene->GetGameObject<Player>();
+
 	m_TimeLimitPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI,90);
 
+
+
+	//クリア時
 	if (m_Enemy != nullptr)
 	{
 		if (m_Enemy->GetDead())
@@ -97,11 +114,6 @@ void GameTexture::Update()
 		}
 		
 	}
-
-	
-	m_ChangeIconCount++;
-	
-
 	if (m_ClearLogoCountFlag)
 	{
 		m_ReturnCampCount++;
@@ -111,17 +123,39 @@ void GameTexture::Update()
 		}
 	}
 
+	//戦闘時のプレイヤーアイコンの処理
+	m_ChangeIconCount++;
+
+	//切れ味ダウン
 	if (m_Sword->GetSharpnessUIFlag())
 	{
-		m_y = texture_SharpnessDown->UiMove(160, texture_SharpnessDown, 40);
+		m_SharpnessDownY = texture_SharpnessDown->UiMove(160, texture_SharpnessDown, 30);
+		texture_SharpnessDown->SetEnable(true);
+	}
+	
+	
+	//切れ味アップ
+	if (m_Player->GetSharpnessUpFlag())
+	{
+		m_SharpnessUpY = texture_SharpnessUp->UiMove(160, texture_SharpnessUp, 30);
+		texture_SharpnessUp->SetEnable(true);
 	}
 
+	//力尽きた時
+	if (m_Player->GetPlayerDeadUIFlag())
+	{
+		m_DeadUIY = texture_DeadUI->UiMove(160, texture_DeadUI, 100);
+		texture_DeadUI->SetEnable(true);
+	}
 
-	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Logo");
-	ImGui::InputFloat("Y", &m_y);
-	ImGui::End();
+	if (m_FaliedLogoCountFlag)
+	{
+		m_ReturnCampCount++;
+		if (m_ReturnCampCount > 80)
+		{
+			m_ChangeSceneFlag = true;
+		}
+	}
 
 }
 
@@ -129,6 +163,7 @@ void GameTexture::Draw()
 {
 	m_Enemy = m_Scene->GetGameObject<Enemy>();
 	m_Sword = m_Scene->GetGameObject<Sword>();
+	m_Player = m_Scene->GetGameObject<Player>();
 	//ゲームUI
 
 	if (m_ReturnCampCount > 600) //クエストクリアのロゴがでている時
@@ -195,11 +230,31 @@ void GameTexture::Draw()
 			if (m_Sword->GetSharpnessUIFlag())
 			{
 				texture_SharpnessDown->SetTextureScale(300.0f, 80.0f);
-				texture_SharpnessDown->Draw(400.0f, m_y);
+				texture_SharpnessDown->Draw(400.0f, m_SharpnessDownY);
 			}
-			
-
 		}
+		if (m_Player != nullptr)
+		{
+			if (m_Player->GetSharpnessUpFlag())
+			{
+				texture_SharpnessUp->SetTextureScale(300.0f, 80.0f);
+				texture_SharpnessUp->Draw(400.0f, m_SharpnessUpY);
+			}
+
+			if (m_Player->GetPlayerDeadUIFlag())
+			{
+				texture_DeadUI->SetTextureScale(300.0f, 80.0f);
+				texture_DeadUI->Draw(400.0f, m_DeadUIY);
+			}
+
+			if (m_Player->GetFaliedFlag())
+			{
+				m_FaliedLogoCountFlag = true;
+				texture_FaliedLogo->SetTextureScale(SCREEN_WIDTH, SCREEN_HEIGHT);
+				texture_FaliedLogo->Draw(0.0f, 0.0f); 
+			}
+		}
+	
 		
 	}
 	
@@ -208,7 +263,7 @@ void GameTexture::Draw()
 	if (m_Enemy != nullptr)
 	{
 
-		if (m_Enemy->GetEnemyHowlFinish() && !m_Enemy->GetDead())
+		if (m_Enemy->GetEnemyHowlFinish() && !m_Enemy->GetDead() && !m_Player->GetPlayerDead())
 		{
 			if (m_ChangeIconCount <= 60)
 			{

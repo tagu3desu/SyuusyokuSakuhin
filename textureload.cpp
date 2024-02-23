@@ -163,7 +163,7 @@ float TextureLoad::UiMove(int heightlimit,GameObject* object1 , int showtime)
 {
 	m_ShowTime = showtime;
 	
-	if (m_MoveHeight <= heightlimit && !m_Up)
+	if (m_MoveHeight <= heightlimit && !m_Up && m_Enable)
 	{
 		m_MoveHeight += 5.0f;
 	}
@@ -193,6 +193,8 @@ float TextureLoad::UiMove(int heightlimit,GameObject* object1 , int showtime)
 	if (m_MoveHeight < -50)
 	{
 		m_FrameWait = 0;
+		m_Up = false;
+		m_Enable = false;
 	}
 	return m_MoveHeight;
 	

@@ -187,7 +187,21 @@ void Camera::Update()
 		
 		
 	}
-
+	else if (player->GetPlayerDead() && !m_DeadCameraFlag)
+	{
+		m_DeadCameraY += 0.001f;
+		m_RotationX += 0.01f;
+		m_Target = player->GetCameraCorrectionPosition();
+		m_Position = m_Target + D3DXVECTOR3(sin(m_RotationX) * -1.0f, m_RotationY * (4.0f + m_DeadCameraY), -cos(m_RotationX) * 1.0f);
+		m_FrameWait++;
+		if (m_FrameWait > 200)
+		{
+			m_DeadCameraFlag = true;
+			m_RotationX -= 2.0f;
+		}
+		
+		
+	}
 	else if (!Title::GetCheckTitle())
 	{
 		//トップビュー

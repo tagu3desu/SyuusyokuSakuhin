@@ -137,7 +137,7 @@ void Game::Init()
 	
 
 
-	//AddGameObject<ItemCount>(SPRITE_LAYER);
+	AddGameObject<ItemCount>(SPRITE_LAYER);
 	
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
@@ -215,7 +215,7 @@ void Game::Update()
 	
 	
 	
-	if (gametexture->GetChangeSceneFlag() || Input::GetKeyTrigger('H'))
+	if (gametexture->GetChangeSceneFlag() || Input::GetKeyTrigger('P'))
 	{
 		m_Fade->FadeOut();
 	}

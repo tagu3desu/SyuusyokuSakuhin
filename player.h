@@ -23,24 +23,28 @@ class Player :public GameObject
 {
 private:
 	PLAYER_STATE  m_PlayerState = PLAYER_STATE_GROUND;
-	
+
 	ID3D11VertexShader* m_VertexShader{};
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
-	
+
 
 	//ステータス
 	int m_HP;
 	int m_Stamina;
 	int m_Potioncount;
 	bool m_GameOver = false;
+	bool m_Dead = false;
+	bool m_DeadUIFlag = false;
+	float m_DeadUIFlagCount = 0.0f;
+	
 
 	//移動関連
-	float m_Speed; 
+	float m_Speed;
 	float m_GroundHeight = 0.0f;
 	bool m_Move = false;
-	bool m_IsGround{}; 
+	bool m_IsGround{};
 	bool m_Run = false;
 	bool m_Walk = false;
 	D3DXVECTOR3 m_DirectionX;
@@ -55,6 +59,7 @@ private:
 	float m_AnimationDelay;
 	float m_HitInpactDelay;
 	float m_HealAnimationDelay;
+	
 
 	//アニメーション用フラグ
 	bool m_Idle = false;
@@ -66,20 +71,27 @@ private:
 	bool m_SuccessGuard = false;
 	bool m_HitInpact = false;
 	bool m_Healing = false;
+	bool m_Glinding = false;
+	bool m_StartGlinding = false;
+	bool m_IsGlinding = false;
+	bool m_EndGlinding = false;
 	bool m_Animating = false;
 
 	//攻撃関連
 	bool m_Attack = false;
-	int m_ComboCount{}; 
+	int m_ComboCount{};
 	bool m_Sworddrawn = false;
 	bool m_OnSword = false;
 	bool m_OffSword = false;
-	bool m_GuardEffect=false;
+	bool m_GuardEffect = false;
 	float m_AttackMagnification = 0.0f; //攻撃倍率
+	bool m_SharpnessUpFlag = false;
+	float m_SharpnessUpCount = 0.0f;
 
 	//ヒットストップ関連
 	bool m_HitStopFlag = false;
 	float m_HitStopTime = false;
+
 	//コンボ関連　
 	bool m_AttackMotion1 = false;
 	bool m_ConboflagisAttack2 = false;
@@ -89,7 +101,7 @@ private:
 	//コライダー
 	class Collider* m_PlayerCollider{};
 	bool m_AttackCollisionFlag = false;
-	
+
 	//カメラ制御
 	D3DXVECTOR3 m_CameraFoward;
 	D3DXVECTOR3 m_CameraRight;
@@ -107,9 +119,16 @@ private:
 	class Audio* m_AttackSE{};
 	class Audio* m_GuardSE{};
 	class Audio* m_HealSE{};
-	class Audio* m_FootSound{};
+	class Audio* m_FootSE{};
+	class Audio* m_GlindingSE{};
 	bool m_FootSoundFlag{};
 	int m_FootSoundInterval = 0;
+	bool m_GlindingSEFlag = false;
+
+	//シーンのフラグ
+	bool m_FaliedUIFlag = false;
+
+
 
 	//ポインタ変数
 	class Scene* m_Scene{};
@@ -145,10 +164,11 @@ public:
 	void UpdateGuard();
 	void UpdateTitleIdle();
 
-	int GetPlayerHP(){ return m_HP;}
+	int GetPlayerHP() { return m_HP; }
 	int GetPlayerStamina() { return m_Stamina; }
 	int GetPlayerAttackNumber() { return m_ComboCount; }
-	float GetAttackMagnification() { return m_AttackMagnification;}
+	float GetAttackMagnification() { return m_AttackMagnification; }
+	float GetSharpnessUpFlag() { return m_SharpnessUpFlag; }
 	bool GetOverFlag() { return m_GameOver; }
 	bool GeiPlayerIdle() { return m_Idle; }
 	bool GetSwordDrawn() { return m_Sworddrawn; }
@@ -159,6 +179,9 @@ public:
 	bool GetPlayerIdle() { return m_Idle; }
 	bool GetPlayerAttackCollider() { return m_AttackCollisionFlag; }
 	bool GetHitStopFlag() { return m_HitStopFlag; }
+	bool GetPlayerDead(){return m_Dead;}
+	bool GetPlayerDeadUIFlag(){ return m_DeadUIFlag; }
+	bool GetFaliedFlag() { return m_FaliedUIFlag; }
 	D3DXVECTOR3 GetCameraCorrectionPosition() { return m_CameraCorrectionPosition; }
 
 
@@ -188,7 +211,6 @@ public:
 
 		return forward;
 	}
-
 	D3DXVECTOR3 GetRight() //右方面ベクトルを取得
 	{
 		D3DXMATRIX rot;

@@ -161,12 +161,12 @@ void Sword::Update()
 			}
 		}
 
-
-		if (Input::GetKeyTrigger('U'))
+		if (player->GetSharpnessUpFlag())
 		{
 			m_Durability = MAX_DURABILITY;
 		}
 
+		
 		//“G‚Æ‚Ì“–‚½‚è”»’è
 		if (enemy != nullptr)
 		{

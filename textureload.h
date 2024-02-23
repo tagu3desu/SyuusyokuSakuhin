@@ -50,7 +50,7 @@ public:
 	void SetTexturePostion(float X, float Y) { X = m_X; Y = m_Y; }
 	void SetTextureScale(float width, float height) { m_Width = width; m_Height = height; }
 	void UpDownTexture(bool shake) { m_Shakeflag = shake; }
-
+	void SetEnable(bool enable) { m_Enable = enable; }
 	float GetMenuSelectPosition() { return m_X, m_Y;}
 	bool CheckMenuSelectPosition (float x,float y) 
 	{  

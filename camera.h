@@ -29,6 +29,11 @@ private:
 		float m_FogEnd;
 		float m_FogHeight;
 
+		
+		float m_DeadCameraY = 0.0f;
+		bool m_DeadCameraFlag = false;
+		
+
 		class Scene* m_Scene;
 
 
@@ -39,6 +44,7 @@ public:
 
 	D3DXMATRIX GetViewMatrix() { return m_ViewMatrix; }
 	bool CheckView(D3DXVECTOR3 Position);
+	
 
 	D3DXVECTOR3 GetForward() //前方面ベクトルを取得
 	{
