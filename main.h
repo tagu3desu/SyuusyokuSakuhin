@@ -41,8 +41,7 @@ using namespace DirectX;
 HWND GetWindow();
 float GetMouseCursorPosX();
 float GetMouseCursorPosY();
-
-
+float GetHweel();
 float GetMouseCursorPosXinWnd();
 float GetMouseCursorPosYinWnd();
 

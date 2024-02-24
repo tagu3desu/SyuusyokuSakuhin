@@ -201,7 +201,7 @@ void Game::Update()
 	{
 		if (enemy->GetEnemyHowlFinish() && !m_PlayBGMFlag)
 		{
-			m_BattleBGM->Volume(Scene::m_BGMVolume * 0.3);
+			m_BattleBGM->Volume(Scene::m_BGMVolume * 0.1);
 			m_BattleBGM->PlayBGM();
 			m_PlayBGMFlag = true;
 		}

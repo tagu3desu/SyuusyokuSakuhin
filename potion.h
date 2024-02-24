@@ -13,6 +13,8 @@ private:
 
 	bool m_Enable=false;
 	
+	float m_X = 0;
+	class ItemManager* m_ItemManager;
 public:
 	void Init();
 	void Uninit();

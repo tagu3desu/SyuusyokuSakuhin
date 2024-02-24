@@ -177,6 +177,7 @@
     <ClCompile Include="guardeffect.cpp" />
     <ClCompile Include="healefect.cpp" />
     <ClCompile Include="howleffect.cpp" />
+    <ClCompile Include="inputx.cpp" />
     <ClCompile Include="ItemManger.cpp" />
     <ClCompile Include="loadingtexturemanager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -260,6 +261,7 @@
     <ClInclude Include="guardeffect.h" />
     <ClInclude Include="healefect.h" />
     <ClInclude Include="howleffect.h" />
+    <ClInclude Include="inputx.h" />
     <ClInclude Include="ItemManger.h" />
     <ClInclude Include="loadingtexturemanager.h" />
     <ClInclude Include="polygon2D.h" />

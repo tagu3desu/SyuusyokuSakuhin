@@ -107,8 +107,8 @@ void TitleTexture::Update()
 		{
 			if (Input::GetKeyTrigger(VK_SPACE) || Input::GetKeyPress(VK_LBUTTON))
 			{
-				m_DecisiveSE->PlaySE();
 				m_DecisiveSE->Volume(GetSEVolume());
+				m_DecisiveSE->PlaySE();
 				m_OptionFlag = true;
 			}
 		}
@@ -120,9 +120,8 @@ void TitleTexture::Update()
 				texture_BuckButton->SetColor(D3DXCOLOR(0.9f, 0.5f, 0.1f,1.0f));
 				if (Input::GetKeyTrigger(VK_LBUTTON))
 				{
-					m_DecisiveSE->PlaySE();
 					m_DecisiveSE->Volume(GetSEVolume());
-				
+					m_DecisiveSE->PlaySE();
 					m_OptionFlag = false;
 				}
 			}

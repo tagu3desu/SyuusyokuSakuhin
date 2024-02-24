@@ -5,42 +5,86 @@
 #include"potion.h"
 #include"whetstone.h"
 #include"input.h"
+#include"audio.h"
+#include"scene.h"
 
 void ItemManager::Init()
 {
 	m_Scene = Manager::GetScene();
 	m_Potion = m_Scene->AddGameObject<Potion>(SPRITE_LAYER);
 	m_WheteStone = m_Scene->AddGameObject<WheteStone>(SPRITE_LAYER);
+
+	m_SelectSE = AddComponent<Audio>();
+	m_SelectSE->Load("asset\\audio\\SE\\決定音.wav");
 }
 
-void ItemManager::Uninit() {};
+void ItemManager::Uninit() {
+	m_SelectSE->Uninit();
+};
 
 void ItemManager::Update()
 {
-	if (Input::GetKeyTrigger('Q') || Input::GetKeyTrigger('E'))
+	m_Hweel = GetHweel();
+	if (Input::GetKeyPress('Q'))
 	{
-		if (m_PotionEnable)
+		m_ShowItemFlag = true;
+		if (m_OldHweel + 1 == m_Hweel)
 		{
-			m_WheteStoneEnable = true;
-			m_PotionEnable = false;
+			m_SelectSE->Volume(Scene::m_SEVolume*0.01f);
+			m_SelectSE->PlaySE();
+			if (m_NowItem == 0)
+			{
+				m_NowItem = static_cast<ITEM>(static_cast<int>(Item_Max) - 1);
+			}
+			else
+			{
+				m_NowItem = static_cast<ITEM>(static_cast<int>(m_NowItem) - 1);
+			}
 		}
-		else if (m_WheteStoneEnable)
+
+		if (m_OldHweel - 1 == m_Hweel)
 		{
-			m_WheteStoneEnable = false;
-			m_PotionEnable = true;
+			m_SelectSE->Volume(Scene::m_SEVolume*0.01f);
+			m_SelectSE->PlaySE();
+			if (m_NowItem == m_MaxItem)
+			{
+				m_NowItem = Item_Potion;
+			}
+			else
+			{
+				m_NowItem = static_cast<ITEM>(static_cast<int>(m_NowItem) + 1);
+			}
+
 		}
 	}
+	else
+	{
+		m_ShowItemFlag = false;
+	}
 
-	
+
+	if (m_NowItem == 0)	//回復薬
+	{
+		m_PotionEnable = true;
+		m_WheteStoneEnable = false;
+		m_ItemNumber = 0;
+
+	}
+	else if (m_NowItem == 1)	//砥石
+	{
+		m_WheteStoneEnable = true;
+		m_PotionEnable = false;
+		m_ItemNumber = 1;
+	}
+	else
+	{
+		m_ItemNumber = 2;
+	}
 
 	m_Potion->SetEnable(m_PotionEnable);
 	m_WheteStone->SetEnable(m_WheteStoneEnable);
-	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Item");
-	ImGui::Checkbox("Potion", &m_PotionEnable);
-	ImGui::Checkbox("WheteSton", &m_WheteStoneEnable);
-	ImGui::End();
+
+	m_OldHweel = m_Hweel;
 }
 
 void ItemManager::Draw()

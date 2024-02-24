@@ -29,20 +29,40 @@ void Potion::Uninit()
 
 void Potion::Update()
 {
+
+	m_ItemManager = m_Scene->GetGameObject<ItemManager>();
 	m_PotionItemCount->SetCount(m_ItemCount);
 	m_PotionItemCount->SetEnable(m_Enable);
 
-	GameObject::Update();
-
 	
+
+	if (m_ItemManager->GetEnablePotion())
+	{
+		m_X = 816.0f;
+	}
+	else if(!m_ItemManager->GetEnablePotion())
+	{
+		m_X = 756.0f;
+	}
+
+	//GUIにパラメータ表示
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("Potion");
+	ImGui::InputFloat("X", &m_X);
+	ImGui::End();
+
+	GameObject::Update();
 }
 
 void Potion::Draw()
 {
-	
-
-	if (m_Enable)
+	m_ItemManager = m_Scene->GetGameObject<ItemManager>();
+	if (m_ItemManager->GetEnablePotion() || m_ItemManager->GetShowFlag())
 	{
-		texture_Potion->Draw(816.0f, 414.0f);
+		texture_Potion->Draw(m_X, 414.0f);
 	}
+	//if(!m_Enable)
+	//{
+	//	texture_Potion->Draw(756.0f, 414.0f);
+	//}
 }

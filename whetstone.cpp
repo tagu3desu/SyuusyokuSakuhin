@@ -29,16 +29,34 @@ void WheteStone::Uninit()
 
 void WheteStone::Update()
 {
+	m_ItemManager = m_Scene->GetGameObject<ItemManager>();
 	m_WheteStoneItemCount->SetCount(m_ItemCount);
 	m_WheteStoneItemCount->SetEnable(m_Enable);
+
+	if (m_ItemManager->GetEnableWheteSton())
+	{
+		m_X = 816.0f;
+	}
+	else if (!m_ItemManager->GetEnableWheteSton())
+	{
+		m_X = 756.0f;
+	}
+
+	//GUIにパラメータ表示
+	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("WheteStone");
+	ImGui::InputFloat("X", &m_X);
+	ImGui::End();
+
 	GameObject::Update();
 }
 
 void WheteStone::Draw()
 {
-
-	if (m_Enable)
+	m_ItemManager = m_Scene->GetGameObject<ItemManager>();
+	if (m_ItemManager->GetEnableWheteSton() || m_ItemManager->GetShowFlag())
 	{
-		texture_WheteStone->Draw(816.0f, 414.0f);
+		texture_WheteStone->Draw(m_X, 414.0f);
 	}
+	
 }

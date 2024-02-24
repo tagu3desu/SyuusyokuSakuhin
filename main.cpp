@@ -19,7 +19,7 @@ POINT g_CursorPosinWnd;
 HWND g_Window;
 
 
-short rot;
+float rot;
 float hweel;
 int g_FPS = 60;
 bool g_Pause = false;
@@ -149,18 +149,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		break;
-	case WM_MOUSEHWHEEL:
-		rot = GET_WHEEL_DELTA_WPARAM(wParam);
+	case WM_MOUSEWHEEL:
+		rot = GET_WHEEL_DELTA_WPARAM(wParam) /120;
 		hweel += -rot;
-		if (hweel < 5.0f * 100)
+		/*if (hweel < 0)
 		{
-			hweel = 5.0f * 100;
-		}
-		else if (hweel > 50.0f * 100)
+			hweel =0;
+		}*/
+		/*else if (hweel > 50.0f * 100)
 		{
 			hweel = 50.0f * 100;
-		}
+		}*/
 		break;
+		
 	default:
 		break;
 	}
@@ -184,6 +185,7 @@ void SetFPS(int fps) { g_FPS = fps; }
 
 //ÉJÉÅÉâÇ≈100ÇÕÇ¢ÇÁÇ»Ç¢
 float GetHweel() { return hweel;}
+//float GetHweel() { return rot;}
 
 
 

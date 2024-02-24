@@ -306,6 +306,9 @@
     <ClCompile Include="ItemManger.cpp">
       <Filter>ソース ファイル\プレイヤー関連\アイテム</Filter>
     </ClCompile>
+    <ClCompile Include="inputx.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -516,6 +519,9 @@
       <Filter>ヘッダー ファイル\プレイヤ―関連\アイテム</Filter>
     </ClInclude>
     <ClInclude Include="ItemManger.h">
+      <Filter>ヘッダー ファイル\プレイヤ―関連\アイテム</Filter>
+    </ClInclude>
+    <ClInclude Include="inputx.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

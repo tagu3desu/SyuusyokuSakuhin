@@ -262,7 +262,7 @@ void Player::Update()
 		}
 
 		
-		if (Input::GetKeyTrigger('F') && !m_Glinding && !m_UsePotion)
+		if (Input::GetKeyTrigger('F') && !m_Glinding && !m_UsePotion && !m_Animating && !m_Attack)
 		{
 			if (m_ItemManager->GetEnablePotion())
 			{
@@ -372,7 +372,7 @@ void Player::Update()
 
 		//‰ñ•œ–òŽg—p
 		
-		if (m_UsePotion && !m_Healing && !m_Sworddrawn)
+		if (m_UsePotion && !m_Healing)
 		{
 			m_Healing = true;
 			m_HealSE->Volume(Scene::m_SEVolume * 0.5);
@@ -1103,7 +1103,6 @@ void Player::UpdateGround()
 		{
 			if (m_NextAnimationName != "SwordIdle")
 			{
-
 				m_AnimationName = m_NextAnimationName;
 				m_NextAnimationName = "SwordIdle";
 				m_ComboCount = 0;
@@ -1320,7 +1319,7 @@ void Player::UpdateRoll()
 		if (Input::GetKeyPress('D')) {
 			speed = 0.05f;
 		}
-
+		m_Animating = true;
 		m_DirectionZ = GetForward() * speed;
 
 		if (m_AnimationDelay >= 50)
@@ -1329,6 +1328,7 @@ void Player::UpdateRoll()
 			m_Roll = false;
 			m_Move = false;
 			m_Idle = true;
+			m_Animating = false;
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}	
 

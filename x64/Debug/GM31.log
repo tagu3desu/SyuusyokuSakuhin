@@ -1,12 +1,2 @@
-﻿  ItemManger.cpp
-  game.cpp
-  player.cpp
-  potion.cpp
-  whetstone.cpp
-C:\Users\kousu\Desktop\就職作品\player.cpp(371,39): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(682,80): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(682,43): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(728,43): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\player.cpp(746,44): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\kousu\Desktop\就職作品\game.cpp(204,43): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+﻿  renderer.cpp
   GM31.vcxproj -> C:\Users\kousu\Desktop\就職作品\x64\Debug\GM31.exe
