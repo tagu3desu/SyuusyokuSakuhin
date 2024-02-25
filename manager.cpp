@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include"scene.h"
 #include"input.h"
+#include"inputx.h"
 #include"game.h"
 #include"title.h"
 #include"audio.h"
@@ -17,6 +18,7 @@ void Manager::Init()
 	Renderer::Init();
 
 	Input::Init();
+	InputX::Init();
 	Audio::InitMaster();
 
 	
@@ -63,12 +65,14 @@ void Manager::Uninit()
 	
 	Audio::UninitMaster();
 	Input::Uninit();
+	InputX::Uninit();
 	Renderer::Uninit();
 }
 
 void Manager::Update()
 {
 	Input::Update();
+	InputX::Update();
 	if (m_NextScene)
 	{
 		if (m_Scene)

@@ -7,7 +7,7 @@
 #include"input.h"
 #include"audio.h"
 #include"scene.h"
-
+#include"inputx.h"
 void ItemManager::Init()
 {
 	m_Scene = Manager::GetScene();
@@ -25,10 +25,10 @@ void ItemManager::Uninit() {
 void ItemManager::Update()
 {
 	m_Hweel = GetHweel();
-	if (Input::GetKeyPress('Q'))
+	if (Input::GetKeyPress('Q') || InputX::IsButtonPressed(0,XINPUT_GAMEPAD_LEFT_SHOULDER))
 	{
 		m_ShowItemFlag = true;
-		if (m_OldHweel + 1 == m_Hweel)
+		if (m_OldHweel + 1 == m_Hweel || InputX::IsButtonTriggered(0,XINPUT_GAMEPAD_X))
 		{
 			m_SelectSE->Volume(Scene::m_SEVolume*0.01f);
 			m_SelectSE->PlaySE();
@@ -42,7 +42,7 @@ void ItemManager::Update()
 			}
 		}
 
-		if (m_OldHweel - 1 == m_Hweel)
+		if (m_OldHweel - 1 == m_Hweel || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B))
 		{
 			m_SelectSE->Volume(Scene::m_SEVolume*0.01f);
 			m_SelectSE->PlaySE();

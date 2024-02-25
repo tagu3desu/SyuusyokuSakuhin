@@ -9,11 +9,12 @@
 #include"textureload.h"
 #include"itemcount.h"
 #include"ItemManger.h"
+#include"gametexturemanager.h"
 TextureLoad* texture_Potion = new TextureLoad;
 void Potion::Init()
 {
 	texture_Potion->Init("asset/texture/UI/potion.png");
-	texture_Potion->SetTextureScale(90.0f, 90.0f);
+	texture_Potion->SetTextureScale(85.0f, 85.0f);
 
 	m_Scene = Manager::GetScene();
 	m_PotionItemCount = m_Scene->AddGameObject<ItemCount>(SPRITE_LAYER);
@@ -38,28 +39,25 @@ void Potion::Update()
 
 	if (m_ItemManager->GetEnablePotion())
 	{
-		m_X = 816.0f;
+		m_X = 818.0f;
 	}
 	else if(!m_ItemManager->GetEnablePotion())
 	{
-		m_X = 756.0f;
+		m_X = 765.0f;
 	}
 
-	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Potion");
-	ImGui::InputFloat("X", &m_X);
-	ImGui::End();
+	
 
 	GameObject::Update();
 }
 
 void Potion::Draw()
 {
+	GameTexture* gametexture = m_Scene->GetGameObject<GameTexture>();
 	m_ItemManager = m_Scene->GetGameObject<ItemManager>();
-	if (m_ItemManager->GetEnablePotion() || m_ItemManager->GetShowFlag())
+	if ((m_ItemManager->GetEnablePotion() || m_ItemManager->GetShowFlag()) && !gametexture->GetGameClear())
 	{
-		texture_Potion->Draw(m_X, 414.0f);
+		texture_Potion->Draw(m_X, 418.0f);
 	}
 	//if(!m_Enable)
 	//{

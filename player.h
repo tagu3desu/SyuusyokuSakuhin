@@ -38,7 +38,7 @@ private:
 	bool m_Dead = false;
 	bool m_DeadUIFlag = false;
 	float m_DeadUIFlagCount = 0.0f;
-	
+
 
 	//移動関連
 	float m_Speed;
@@ -59,7 +59,7 @@ private:
 	float m_AnimationDelay;
 	float m_HitInpactDelay;
 	float m_HealAnimationDelay;
-	
+
 
 	//アニメーション用フラグ
 	bool m_Idle = false;
@@ -114,13 +114,15 @@ private:
 	//サウンド処理
 	class Audio* m_OnWeponSE{};
 	class Audio* m_OffWeponSE{};
-	class Audio* m_RunSoundBGM{};
-	class Audio* m_WalkSoundBGM{};
 	class Audio* m_AttackSE{};
 	class Audio* m_GuardSE{};
 	class Audio* m_HealSE{};
 	class Audio* m_FootSE{};
 	class Audio* m_GlindingSE{};
+	class Audio* m_AttackCV1{};
+	class Audio* m_AttackCV2{};
+	class Audio* m_AttackCV3{};
+
 	bool m_FootSoundFlag{};
 	int m_FootSoundInterval = 0;
 	bool m_GlindingSEFlag = false;

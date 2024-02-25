@@ -29,6 +29,7 @@ private:
 	class Sword* m_Sword;
 	class Player* m_Player;
 	class Camera* m_Camera;
+	class ItemManager* m_ItemManager;
 public:
 	void Init();
 	void Uninit();

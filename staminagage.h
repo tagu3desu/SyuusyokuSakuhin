@@ -20,6 +20,8 @@ private:
 	int m_StaminaMax;		//最大スタミナポイント
 	bool m_StaminaDecrease =false;
 
+	bool m_ZeroStamina = false;
+
 	class Scene* m_Scene;
 	class Player* m_Player;
 public:

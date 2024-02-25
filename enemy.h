@@ -18,7 +18,8 @@ enum ENEMY_STATE
 enum ENEMY_ATTACK_PATARN
 {
 	ENEMY_ATTACK_SLAP,
-	ENEMY_ATTCK_ROCK
+	ENEMY_ATTACK_PUNCH,
+	ENEMY_ATTCK_JUMP
 };
 class Enemy : public GameObject
 {
@@ -74,18 +75,23 @@ private:
 	float m_RockattackLimit{};
 	int m_AnimationDelay = 0;
 	bool m_HowlSEFlag=false;
+	
 
 	//攻撃関連
 	bool m_Attacking = false;
+	bool m_Animating = false;
 	int m_Attackdelay = 0;
-	bool m_RockAttackFlag = false;
-
+	bool m_PunchAttackFlag = false;
+	bool m_JumpAttackFlag = false;
+	int m_AttackRandomNum = 0;
 
 	//コライダー関連
 	class Collider* m_EnemyCollider{};
-	class Collider* m_EnemyLightArmCollider{};
+	
+
 	int m_InvincibilityTime = 0;
-	bool m_EnemyAttackHit = false;
+	bool m_JumpAttackHit = false;
+	bool m_PunchAttackHit = false;
 	bool m_InvincibilityFlag = false;
 	bool m_InviciblilityStartFlag = false;
 
@@ -97,7 +103,7 @@ private:
 	//ポインタ変数
 	class Scene* m_Scene{};
 	class EnemyAnimationCorrection* m_EnemyAnimationCorrection;
-	
+	class EnemyLightArm* m_EnemyLightArm;
 public:
 	static void Load();
 	static void Unload();
@@ -121,8 +127,8 @@ public:
 
 
 	//敵の攻撃のパターン
-	void UpdatePunchiAttack();
-	void UpdateRockAttack();
+	void UpdateSlapAttack();
+	void UpdatePunchAttack();
 	void UpdateJumpAttack();
 
 
@@ -131,29 +137,40 @@ public:
 	bool GetEnemyAI() {	return m_EnemyAI;}
 
 	bool IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee);
-	bool GetEnemyHitPlayer() { return m_EnemyAttackHit;}
+	
 	bool GetEnemyHowlFinish() { return m_HowlFinish; };
+	bool GetJumpAttackHit() { return m_JumpAttackHit; }
+	bool GetPunchAttackHit() { return m_PunchAttackHit; }
 
 	AnimationModel* GetAnimationModel() { return m_Model; }
 	
 };
 
+class EnemyLightArm : public GameObject
+{
+private:
+	D3DXMATRIX m_Parent{};
+	
+
+	class Scene* m_Scene;
+	class Collider* m_LightArmCollider;
+public:
+	void Init();
+	void Uninit();
+	void Update();
+	void Draw();
+};
+
 class EnemyAnimationCorrection : public GameObject
 {
 private:
-	ID3D11VertexShader* m_VertexShader{};
-	ID3D11PixelShader* m_PixelShader{};
-	ID3D11InputLayout* m_VertexLayout{};
-
 	D3DXMATRIX m_Parent{};
 	D3DXVECTOR3 m_AnimationPosition;
 	D3DXVECTOR3 m_DifferencePosition;
 	D3DXVECTOR3 m_Oldposition;
 
-
-
-
 	class Scene* m_Scene;
+	class Collider* test;
 public:
 	void Init();
 	void Uninit();

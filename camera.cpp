@@ -9,6 +9,7 @@
 #include"enemy.h"
 #include"debug.h"
 #include"result.h"
+#include"inputx.h"
 void Camera::Init()
 {	
 	
@@ -61,30 +62,22 @@ void Camera::Update()
 	}
 	else
 	{
-		if (Input::GetKeyPress(VK_RIGHT))
+		if (Input::GetKeyPress(VK_RIGHT) || InputX::GetThumbRightX(0) >= 0.2)
 		{
 			m_RotationX -= 0.1f;
 		}
-		if (Input::GetKeyPress(VK_LEFT))
+		if (Input::GetKeyPress(VK_LEFT) || InputX::GetThumbRightX(0) <= -0.2)
 		{
 			m_RotationX += 0.1f;
 		}
-		if (Input::GetKeyPress(VK_UP))
+		if (Input::GetKeyPress(VK_UP) || InputX::GetThumbRightY(0) >= 0.2)
 		{
 			m_RotationY += 0.1f;
 		}
-		if (Input::GetKeyPress(VK_DOWN))
+		if (Input::GetKeyPress(VK_DOWN) || InputX::GetThumbRightY(0) <= -0.2)
 		{
 			m_RotationY -= 0.1f;
 		}
-		/*if (Input::GetKeyPress(VK_UP) && m_RotationY < 6.7)
-		{
-			m_RotationY += 0.1f;
-		}
-		if (Input::GetKeyPress(VK_DOWN) && m_RotationY > 1.5)
-		{
-			m_RotationY -= 0.1f;
-		}*/
 	}
 
 	

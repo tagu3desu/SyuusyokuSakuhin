@@ -19,6 +19,7 @@
 #include"treeobj.h"
 #include"titletexturemanager.h"
 #include"audio.h"
+#include"inputx.h"
 
 bool Title::m_TitleCheck = false;
 bool Title::m_Menucontrol = false;
@@ -73,7 +74,8 @@ void Title::Update()
 
 
 	//キー入力でゲーム画面に遷移
-	if (Input::GetKeyTrigger(VK_SPACE)  && m_Menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && titletexture->GetGameButtonOverLap() && m_Menucontrol) //Enterキー
+	if (Input::GetKeyTrigger(VK_SPACE)  && m_Menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && titletexture->GetGameButtonOverLap() && m_Menucontrol ||
+		InputX::IsButtonTriggered(0,XINPUT_GAMEPAD_B) && m_Menucontrol) //Enterキー
 	{
 		m_Menucontrol = false;
 		m_Fade->FadeOut();
@@ -86,7 +88,7 @@ void Title::Update()
 	}
 
 	//最初の画面から選択画面へ
-	if (Input::GetKeyTrigger(VK_SPACE) && !m_Menucontrol || Input::GetKeyTrigger(VK_LBUTTON) && !m_Menucontrol)
+	if ((Input::GetKeyTrigger(VK_SPACE) || Input::GetKeyTrigger(VK_LBUTTON)  || InputX::IsButtonTriggered(0,XINPUT_GAMEPAD_B) ) && !m_Menucontrol)
 	{
 		m_DecisiveSE->PlaySE();
 		m_DecisiveSE->Volume(titletexture->GetSEVolume());

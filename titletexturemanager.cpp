@@ -23,7 +23,7 @@ float Scene::m_SEVolume;
 
 void TitleTexture::Init()
 {
-	texture_PushSpace->Init("asset/texture/UI/PUSHSPACE.png");
+	texture_PushSpace->Init("asset/texture/UI/PushSpacetoB.png");
 	texture_PushSpace->SetTextureScale(900.0f, 150.0f);
 
 	texture_GameStart->Init("asset/texture/UI/GAMESTART.png");

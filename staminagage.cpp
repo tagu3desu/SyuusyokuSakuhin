@@ -7,6 +7,7 @@
 #include"input.h"
 #include"player.h"
 #include"gametexturemanager.h"
+#include"inputx.h"
 void Staminagage::Init()
 {
 	VERTEX_3D vertex[4];
@@ -80,18 +81,30 @@ void Staminagage::Update()
 	
 	if (m_Player != nullptr)
 	{
-		if (Input::GetKeyPress(VK_LSHIFT) && m_Stamina > 0 && m_Player->GetPlayerRun())
+		if ((Input::GetKeyPress(VK_LSHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0 && m_Player->GetPlayerRun())
 		{
 
 			m_Stamina -= 2.0f;
 		}
-		if (m_Player->GeiPlayerIdle() && m_Stamina <= m_StaminaMax)
+		if (m_Player->GeiPlayerIdle() && m_Stamina <= m_StaminaMax && !m_ZeroStamina)
 		{
 
 			m_Stamina += 3.0f;
 		}
 
+		if (m_Stamina <= 0)
+		{
+			m_ZeroStamina = true;
+		}
 
+		if (m_ZeroStamina)
+		{
+			m_FrameWait++;
+			if (m_FrameWait > 60)
+			{
+				m_ZeroStamina = false;
+			}
+		}
 
 		if (m_Player->GetSuccessGuard())
 		{

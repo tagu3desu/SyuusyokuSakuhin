@@ -20,11 +20,8 @@ void main(in VS_SKINIG_IN In, out PS_IN Out)
 	wvp = mul(wvp, Projection);
 	
     float4 normal = float4(In.Normal.xyz, 0.0);
-	
     float4 transpos = mul(float4(In.Position.xyz, 1.0f), SkiningTransform);
-	
     float4 transNormal = mul(SkiningTransform,normal);
-	
     float4 worldNormal = mul(transNormal, World);
 	
 	

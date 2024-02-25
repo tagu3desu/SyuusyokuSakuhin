@@ -96,7 +96,7 @@ void Sword::Update()
 		switch (m_WeponSharpnes)
 		{
 		case SHARPNES_RED:
-			m_WeponDamage = 0.0f;
+			m_WeponDamage = 1.0f;
 			m_HitStopTime = 0.0f;
 			break;
 		case SHARPNES_YELLOW:
@@ -201,7 +201,7 @@ void Sword::Update()
 					}
 					
 					m_ResultDamege = player->GetAttackMagnification()* m_WeponDamage;
-					m_Durability -= 20.0f;
+					m_Durability -= 2.0f;
 					m_Swordhit = true;
 					m_NormalAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 					m_NormalAttackHitSE->PlaySE();

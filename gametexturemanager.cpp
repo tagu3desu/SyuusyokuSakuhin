@@ -12,6 +12,7 @@
 #include"wepon_sword.h"
 #include"player.h"
 #include"camera.h"
+#include"ItemManger.h"
 //ゲームUI
 TextureLoad* texture_Dragon = new TextureLoad;
 TextureLoad* texture_Clock = new TextureLoad;
@@ -19,7 +20,8 @@ TextureLoad* texture_TimeLimit = new TextureLoad;
 TextureLoad* texture_TimeHand = new TextureLoad;
 TextureLoad* texture_GageBase = new TextureLoad;
 TextureLoad* texture_TimelimitUI = new TextureLoad;
-TextureLoad* texture_PotionUI = new TextureLoad;
+TextureLoad* texture_ItemUI = new TextureLoad;
+TextureLoad* texture_ItemRollUI = new TextureLoad;
 TextureLoad* texture_WinUI = new TextureLoad;
 TextureLoad* texture_WinUI2 = new TextureLoad;
 TextureLoad* texture_ClearLogo = new TextureLoad;
@@ -38,28 +40,59 @@ TextureLoad* texture_FaliedLogo = new TextureLoad;
 
 void GameTexture::Init()
 {
+	//HPバーの背景と時間表示
 	texture_Dragon->Init("asset/texture/UI/dragonUI.png");
+	texture_Dragon->SetTextureScale(180.0f, 180.0f);
 	texture_Clock->Init("asset/texture/UI/clock.png");
+	texture_Clock->SetTextureScale(150.0f, 150.0f);
 	texture_TimeLimit->Init("asset/texture/UI/ClockHandLimit2.png");
+	texture_TimeLimit->SetOffset(33.0f, -105.0f);
+	texture_TimeLimit->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 1.0f));
+	texture_TimeLimit->SetTextureScale(150.0f, 150.0f);
 	texture_TimeHand->Init("asset/texture/UI/ClockHand2.png");
+	texture_TimeHand->SetTextureScale(150.0f, 150.0f);
 	texture_GageBase->Init("asset/texture/UI/gagebase2.png");
+	texture_GageBase->SetTextureScale(1600.0f, 50.0f);
 	texture_TimelimitUI->Init("asset/texture/UI/timelimit.png");
-	texture_PotionUI->Init("asset/texture/UI/ItemBG.png");
+	texture_TimelimitUI->SetTextureScale(300.0f, 80.0f);
+
+	//アイテム欄の背景
+	texture_ItemUI->Init("asset/texture/UI/ItemBG2.png");
+	texture_ItemUI->SetTextureScale(150.0f, 150.0f);
+	texture_ItemRollUI->Init("asset/texture/UI/ItemRoll.png");
+	texture_ItemRollUI->SetTextureScale(300.0f, 100.0f);
 	texture_WinUI->Init("asset/texture/UI/winlogo.png");
+	texture_WinUI->SetTextureScale(500.0f, 100.0f);
 	texture_WinUI2->Init("asset/texture/UI/winlogo2.png");
+	texture_WinUI2->SetTextureScale(500.0f, 100.0f);
 	texture_ClearLogo->Init("asset/texture/UI/clearlogo.png");
+	texture_ClearLogo->SetTextureScale(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	//プレイヤーの表示
 	texture_PlayerName->Init("asset/texture/UI/nametag.png");
+	texture_PlayerName->SetTextureScale(300.0f, 75.0f);
 	texture_FindEye->Init("asset/texture/UI/findeye.png");
+	texture_FindEye->SetTextureScale(50.0f, 50.0f);
 	texture_WeponLogo->Init("asset/texture/UI/weponlogo.png");
+	texture_WeponLogo->SetTextureScale(50.0f, 60.0f);
+
+	//切れ味の処理
 	texture_SharpnessRed->Init("asset/texture/UI/weponsharpness_red.png");
+	texture_SharpnessRed->SetTextureScale(200.0f, 50.0f);
 	texture_SharpnessYellow->Init("asset/texture/UI/weponsharpness_yellow.png");
+	texture_SharpnessYellow->SetTextureScale(200.0f, 50.0f);
 	texture_SharpnessGreen->Init("asset/texture/UI/weponsharpness_green.png");
+	texture_SharpnessGreen->SetTextureScale(200.0f, 50.0f);
 	texture_SharpnessBlue->Init("asset/texture/UI/weponsharpness_blue.png");
+	texture_SharpnessBlue->SetTextureScale(200.0f, 50.0f);
 	texture_SharpnessDown->Init("asset/texture/UI/DawnSharpness.png");
+	texture_SharpnessDown->SetTextureScale(300.0f, 80.0f);
 	texture_SharpnessUp->Init("asset/texture/UI/UpSharpness.png");
+	texture_SharpnessUp->SetTextureScale(300.0f, 80.0f);
 	texture_DeadUI->Init("asset/texture/UI/DeadAnnounce.png");
+	texture_DeadUI->SetTextureScale(300.0f, 80.0f);
 	texture_FaliedLogo->Init("asset/texture/UI/failedlogo.png");
-	
+	texture_FaliedLogo->SetTextureScale(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	m_Scene = Manager::GetScene();
 }
@@ -164,63 +197,46 @@ void GameTexture::Draw()
 	m_Enemy = m_Scene->GetGameObject<Enemy>();
 	m_Sword = m_Scene->GetGameObject<Sword>();
 	m_Player = m_Scene->GetGameObject<Player>();
+	m_ItemManager = m_Scene->GetGameObject<ItemManager>();
 	//ゲームUI
 
 	if (m_ReturnCampCount > 600) //クエストクリアのロゴがでている時
 	{
 		m_ClearLogoFlag = true;
-		texture_ClearLogo->SetTextureScale(SCREEN_WIDTH, SCREEN_HEIGHT);
+		
 		texture_ClearLogo->Draw(0.0f, 0.0f);
 	}
 	else
 	{
-		texture_Dragon->SetTextureScale(180.0f, 180.0f);
 		texture_Dragon->Draw(0.0f, 0.0f);
-
-		texture_Clock->SetTextureScale(150.0f, 150.0f);
 		texture_Clock->Draw(5.0f, 8.0f);
-
-		texture_TimeLimit->SetTextureScale(150.0f, 150.0f);
-		texture_TimeLimit->Draw(5.0f, 8.0f);
-		texture_TimeLimit->SetOffset(33.0f, -105.0f);
-		texture_TimeLimit->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 1.0f));
-
-		texture_TimeHand->SetTextureScale(150.0f, 150.0f);
+		texture_TimeLimit->Draw(5.0f, 8.0f);	
 		texture_TimeHand->Draw(5.0f, 8.0f);
 		texture_TimeHand->SetOffset(0.0f, 0.0f);
-
-		texture_PlayerName->SetTextureScale(300.0f, 75.0f);
 		texture_PlayerName->Draw(10.0f, 90.0f);
-
-
-
-		texture_GageBase->SetTextureScale(1600.0f, 50.0f);
 		texture_GageBase->Draw(80.0f, 5.0f);
-
-		texture_TimelimitUI->SetTextureScale(300.0f, 80.0f);
 		texture_TimelimitUI->Draw(400.0f, m_TimeLimitPosY);
-
-		texture_PotionUI->SetTextureScale(150.0f, 150.0f);
-		texture_PotionUI->Draw(800.0f, 400.0f);
-
+		
+		if (m_ItemManager->GetShowFlag())
+		{
+			texture_ItemRollUI->Draw(760.0f, 410.0f);
+		}
+		
+		texture_ItemUI->Draw(800.0f, 405.0f);
 		if (m_Sword != nullptr)
 		{
 			switch (m_Sword->GetWeponSharpnes())
 			{
 			case SHARPNES_RED:
-				texture_SharpnessRed->SetTextureScale(200.0f, 50.0f);
 				texture_SharpnessRed->Draw(100.0f, 30.0f);
 				break;
 			case SHARPNES_YELLOW:
-				texture_SharpnessYellow->SetTextureScale(200.0f, 50.0f);
 				texture_SharpnessYellow->Draw(100.0f, 30.0f);
 				break;
-			case SHARPNES_GREEN:
-				texture_SharpnessGreen->SetTextureScale(200.0f, 50.0f);
+			case SHARPNES_GREEN:			
 				texture_SharpnessGreen->Draw(100.0f, 30.0f);
 				break;
-			case SHARPNES_BLUE:
-				texture_SharpnessBlue->SetTextureScale(200.0f, 50.0f);
+			case SHARPNES_BLUE:	
 				texture_SharpnessBlue->Draw(100.0f, 30.0f);
 				break;
 			default:
@@ -229,28 +245,23 @@ void GameTexture::Draw()
 
 			if (m_Sword->GetSharpnessUIFlag())
 			{
-				texture_SharpnessDown->SetTextureScale(300.0f, 80.0f);
 				texture_SharpnessDown->Draw(400.0f, m_SharpnessDownY);
 			}
 		}
 		if (m_Player != nullptr)
 		{
 			if (m_Player->GetSharpnessUpFlag())
-			{
-				texture_SharpnessUp->SetTextureScale(300.0f, 80.0f);
+			{	
 				texture_SharpnessUp->Draw(400.0f, m_SharpnessUpY);
 			}
-
 			if (m_Player->GetPlayerDeadUIFlag())
-			{
-				texture_DeadUI->SetTextureScale(300.0f, 80.0f);
+			{				
 				texture_DeadUI->Draw(400.0f, m_DeadUIY);
 			}
 
 			if (m_Player->GetFaliedFlag())
 			{
-				m_FaliedLogoCountFlag = true;
-				texture_FaliedLogo->SetTextureScale(SCREEN_WIDTH, SCREEN_HEIGHT);
+				m_FaliedLogoCountFlag = true;		
 				texture_FaliedLogo->Draw(0.0f, 0.0f); 
 			}
 		}
@@ -267,12 +278,12 @@ void GameTexture::Draw()
 		{
 			if (m_ChangeIconCount <= 60)
 			{
-				texture_WeponLogo->SetTextureScale(50.0f, 60.0f);
+				
 				texture_WeponLogo->Draw(8.5f, 90.0f);
 			}
 			else if (m_ChangeIconCount <= 120)
 			{
-				texture_FindEye->SetTextureScale(50.0f, 50.0f);
+				
 				texture_FindEye->Draw(10.0f, 92.0f);
 			}
 			else
@@ -282,7 +293,6 @@ void GameTexture::Draw()
 		}
 		else 
 		{
-			texture_WeponLogo->SetTextureScale(50.0f, 60.0f);
 			texture_WeponLogo->Draw(8.5f, 90.0f);
 		}
 
@@ -290,12 +300,12 @@ void GameTexture::Draw()
 
 		if (m_Enemy->GetDead())
 		{
-			texture_WinUI->SetTextureScale(500.0f, 100.0f);
+			
 			texture_WinUI->Draw(350.0f, m_WinLogoPosY);
 
 			if (m_FrameWait > 220)
 			{
-				texture_WinUI2->SetTextureScale(500.0f, 100.0f);
+				
 				texture_WinUI2->Draw(350.0f, m_WinLogo2PosY);
 			}
 		}

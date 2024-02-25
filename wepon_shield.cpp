@@ -9,6 +9,7 @@
 #include"collider.h"
 #include"title.h"
 #include"rockeffect.h"
+#include"enemy.h"
 void Shield::Init()
 {
 
@@ -63,6 +64,7 @@ void Shield::Update()
 	if (!Title::GetCheckTitle())
 	{
 		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
+		m_Enemy = m_Scene->GetGameObject<Enemy>();
 		//‚‚É“–‚½‚è”»’è‚ð‚Â‚¯‚é
 		m_ShieldCollider->SetMatrix(m_Matrix);
 		m_ShieldCollider->SetColliderInfo(m_ShieldCollider->GetMatrix());

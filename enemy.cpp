@@ -81,12 +81,8 @@ void Enemy::Init()
 		m_EnemyCollider->SetPosition(D3DXVECTOR3(0.0f,0.0f,0.0f));
 		m_EnemyCollider->SetRotation(D3DXVECTOR3(0.1f, 0.4f, 0.0f));
 		
+		m_EnemyLightArm = m_Scene->AddGameObject<EnemyLightArm>();
 
-
-		m_EnemyLightArmCollider = m_Scene->AddGameObject<Collider>();
-		m_EnemyLightArmCollider->SetScale(D3DXVECTOR3(40.0f, 100.0f, 40.0f));
-		m_EnemyLightArmCollider->SetPosition(D3DXVECTOR3(0.0f, 40.0f, 0.0f));
-		
 		m_EnemyAnimationCorrection = m_Scene->AddGameObject<EnemyAnimationCorrection>();
 	}
 
@@ -102,7 +98,6 @@ void Enemy::Load()
 	m_Model->LoadAnimation("asset\\model\\Mutant Swiping.fbx", "PunchiAttack");
 	m_Model->LoadAnimation("asset\\model\\SlapAttack.fbx", "SlapAttack");
 	m_Model->LoadAnimation("asset\\model\\Jump Attack.fbx", "JumpAttack");
-	m_Model->LoadAnimation("asset\\model\\Standing 2H Magiccharge shot.fbx", "RockAttack");
 	m_Model->LoadAnimation("asset\\model\\Mutant Roaring.fbx", "Howl");
 	m_Model->LoadAnimation("asset\\model\\Standing React Death Forward.fbx", "Dead");
 }
@@ -150,23 +145,37 @@ void Enemy::Update()
 
 
 
-	m_EnemyLightArmCollider->SetMatrix(m_Matrix);
-	BONE* lefthandbone;
-	lefthandbone = animationmodel->GetBone("mixamorig:LeftHand");
-	m_EnemyLightArmCollider->SetBoneEnable(true);
-	m_EnemyLightArmCollider->SetBoneMatrix(animationmodel->ConvertMatrix(lefthandbone->WorldMatrix));
-	SetColliderInfo(m_EnemyCollider->GetMatrix());
-
-
-	if (m_EnemyLightArmCollider->CollisionChecker(this, player, 0.7f))
-	{
-		m_Hit = true;
+	//ジャンプ攻撃
+	if (m_JumpAttackFlag){
+		if (m_EnemyCollider->CollisionChecker(this,player,0.7f) || m_EnemyLightArm->GetHit())
+		{
+			m_JumpAttackHit = true;
+		}
+		else
+		{
+			m_JumpAttackHit = false;
+		}
 	}
 	else
 	{
-		m_Hit = false;
+		m_JumpAttackHit = false;
 	}
-
+	
+	//パンチ攻撃
+	if (m_PunchAttackFlag){
+		if (m_EnemyLightArm->GetHit())
+		{
+			m_PunchAttackHit = true;
+		}
+		else
+		{
+			m_PunchAttackHit = false;
+		}
+	}
+	else
+	{
+		m_PunchAttackHit = false;
+	}
 
 
 	if (m_IsAttack)
@@ -304,11 +313,13 @@ void Enemy::Update()
 	}
 
 	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
+	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
 	ImGui::Begin("Enemy");
 	ImGui::InputInt("AnimationCount", &m_AnimationDelay);
 	ImGui::InputInt("HP", &m_HP);
-	ImGui::End();
+	ImGui::Checkbox("JumpAttack", &m_JumpAttackFlag);
+	ImGui::Checkbox("PunchAttack", &m_PunchAttackFlag);
+	ImGui::End();*/
 }
 
 void Enemy::Draw()
@@ -409,7 +420,7 @@ void Enemy::UpdateHowl()
 			}		
 			if (!m_HowlSEFlag)
 			{
-				m_HowlSE->Volume(Scene::m_SEVolume * 0.5f);
+				m_HowlSE->Volume(Scene::m_SEVolume * 0.1f);
 				m_HowlSE->PlaySE();
 				m_HowlSEFlag = true;
 			}
@@ -428,17 +439,26 @@ void Enemy::UpdateHowl()
 
 void Enemy::UpdateAttack() {
 
-	
 
-	if (!m_Attacking)
+	if (!m_Animating)
 	{
 		if (m_Length < 10)
 		{
-			m_EnemyAttackPatarn = ENEMY_ATTACK_SLAP;
+			m_AttackRandomNum = rand() % 100;
+
+			//60%の確率でパンチ
+			if(m_AttackRandomNum < 60)
+			{
+				m_EnemyAttackPatarn = ENEMY_ATTACK_PUNCH;
+			}
+			else   //40%でたたきつけ
+			{
+				m_EnemyAttackPatarn = ENEMY_ATTACK_SLAP;
+			}
 		}
 		else if (m_Length >= 10 && m_Length < 30)
 		{
-			m_EnemyAttackPatarn = ENEMY_ATTCK_ROCK;
+			m_EnemyAttackPatarn = ENEMY_ATTCK_JUMP;
 			
 		}
 	}
@@ -447,9 +467,12 @@ void Enemy::UpdateAttack() {
 	switch (m_EnemyAttackPatarn)
 	{
 	case ENEMY_ATTACK_SLAP:
-		UpdatePunchiAttack();
+		UpdateSlapAttack();
 		break;
-	case ENEMY_ATTCK_ROCK:
+	case ENEMY_ATTACK_PUNCH:
+		UpdatePunchAttack();
+		break;
+	case ENEMY_ATTCK_JUMP:
 		UpdateJumpAttack();
 		break;
 	default:
@@ -511,7 +534,7 @@ void Enemy::UpdateDead() {
 	
 }
 
-void Enemy::UpdatePunchiAttack(){
+void Enemy::UpdateSlapAttack(){
 	if (m_NextAnimationName != "SlapAttack")
 	{
 		m_AnimationName = m_NextAnimationName;
@@ -520,6 +543,7 @@ void Enemy::UpdatePunchiAttack(){
 		m_Time = 0.0f;
 		m_Speed = 0.0f;
 		m_IsAttack = true;
+		m_Animating = true;
 	}
 	
 	m_AnimationDelay++;
@@ -540,40 +564,46 @@ void Enemy::UpdatePunchiAttack(){
 	{
 		m_AnimationDelay = 0;
 		m_Attacking = false;
+		m_Animating = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
 	
 
 }
 
-void Enemy::UpdateRockAttack() {
+void Enemy::UpdatePunchAttack() {
 
-
-	if (m_NextAnimationName != "RockAttack")
+	if (m_NextAnimationName != "PunchiAttack")
 	{
 		m_AnimationName = m_NextAnimationName;
-		m_NextAnimationName = "RockAttack";
+		m_NextAnimationName = "PunchiAttack";
 		m_BlendTime = 0.0f;
 		m_Time = 0.0f;
 		m_Speed = 0.0f;
 		m_IsAttack = true;
-		m_ShotFlag = true;
-		m_Attacking = true;
+		m_Animating = true;
 	}
-	if (m_ShotFlag && m_ShotCount==0)
-	{
-		m_ShotCount = 1;
-		Bullet* bullet = m_Scene->AddGameObject<Bullet>();
-		bullet->SetPosition(m_Position + D3DXVECTOR3(0.0f, -2.0f, 0.0f));
-	}
+
 	m_AnimationDelay++;
-	if (m_AnimationDelay >= 220)
+
+	if (40 < m_AnimationDelay && 80)
+	{
+		m_PunchAttackFlag = true;
+	}
+	else
+	{
+		m_PunchAttackFlag = false;
+	}
+
+	if (m_AnimationDelay >= 150)
 	{
 		m_AnimationDelay = 0;
-		m_ShotCount = 0;
 		m_Attacking = false;
+		m_Animating = false;
+		m_PunchAttackFlag = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
+	
 }
 
 void Enemy::UpdateJumpAttack()
@@ -586,6 +616,7 @@ void Enemy::UpdateJumpAttack()
 		m_Time = 0.0f;
 		m_Speed = 0.0f;
 		m_IsAttack = true;
+		m_Animating = true;
 	}
 
 	m_AnimationDelay++;
@@ -599,6 +630,16 @@ void Enemy::UpdateJumpAttack()
 		m_Attacking = true;
 	}
 
+
+	if (90 <= m_AnimationDelay && m_AnimationDelay <= 130)
+	{
+		m_JumpAttackFlag = true;
+	}
+	else
+	{
+		m_JumpAttackFlag = false;
+	}
+
 	if (m_AnimationDelay >= 230)
 	{
 		
@@ -606,6 +647,8 @@ void Enemy::UpdateJumpAttack()
 		m_Position.z = m_EnemyAnimationCorrection->GetAnimationPosition().z;
 		m_AnimationDelay = 0;
 		m_Attacking = false;
+		m_Animating = false;
+		m_JumpAttackFlag = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
 }
@@ -632,6 +675,78 @@ bool Enemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, f
 	return isInFieldOfView && isInViewDistance;
 }
 
+
+//左腕
+void EnemyLightArm::Init()
+{
+
+
+	m_Scene = Manager::GetScene();
+	m_LightArmCollider = m_Scene->AddGameObject<Collider>();
+	m_LightArmCollider->SetScale(D3DXVECTOR3(60.0f, 120.0f, 60.0f));
+	m_LightArmCollider->SetPosition(D3DXVECTOR3(0.0f, 40.0f, 0.0f));
+}
+
+void EnemyLightArm::Uninit()
+{
+	m_LightArmCollider->SetDestroy();
+}
+
+void EnemyLightArm::Update()
+{
+	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
+	Player* player = m_Scene->GetGameObject<Player>();
+
+	//アニメーションのずれを補正
+	AnimationModel* animationmodel;
+	animationmodel = enemy->GetAnimationModel();
+	BONE* bone;
+	bone = animationmodel->GetBone("mixamorig:LeftHand");
+	bone->WorldMatrix;
+	m_Parent = animationmodel->ConvertMatrix(bone->WorldMatrix);
+	
+	m_LightArmCollider->SetMatrix(m_Matrix);
+	SetColliderInfo(m_LightArmCollider->GetMatrix());
+
+	
+	if (m_LightArmCollider->CollisionChecker(this, player, 0.5f))
+	{
+		m_LightArmCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+		m_Hit = true;
+	}
+	else
+	{
+		m_LightArmCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+		m_Hit = false;
+	}
+
+	//GUIにパラメータ表示
+	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("EnemyArm");
+	ImGui::Checkbox("Hit", &m_Hit);
+	ImGui::End();*/
+
+}
+
+void EnemyLightArm::Draw()
+{
+
+	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
+	if (enemy != nullptr)
+	{
+		//マトリクス設定
+		D3DXMATRIX scale, rot, trans;
+		D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+		D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+		m_Matrix = scale * rot * trans * m_Parent * enemy->GetMatrix();
+		Renderer::SetWorldMatrix(&m_Matrix);
+	}
+
+}
+
+
+
 //アニメーション補正用のクラス
 void EnemyAnimationCorrection::Init()
 {
@@ -640,7 +755,7 @@ void EnemyAnimationCorrection::Init()
 
 void EnemyAnimationCorrection::Uninit()
 {
-
+	
 }
 
 void EnemyAnimationCorrection::Update()
@@ -678,3 +793,5 @@ void EnemyAnimationCorrection::Draw()
 	}
 	
 }
+
+

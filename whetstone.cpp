@@ -9,11 +9,12 @@
 #include"textureload.h"
 #include"itemcount.h"
 #include"ItemManger.h"
+#include"gametexturemanager.h"
 TextureLoad* texture_WheteStone = new TextureLoad;
 void WheteStone::Init()
 {
 	texture_WheteStone->Init("asset/texture/UI/WhetStone.png");
-	texture_WheteStone->SetTextureScale(90.0f, 90.0f);
+	texture_WheteStone->SetTextureScale(87.0f, 87.0f);
 
 	m_Scene = Manager::GetScene();
 	m_WheteStoneItemCount = m_Scene->AddGameObject<ItemCount>(SPRITE_LAYER);
@@ -35,28 +36,24 @@ void WheteStone::Update()
 
 	if (m_ItemManager->GetEnableWheteSton())
 	{
-		m_X = 816.0f;
+		m_X = 818.0f;
 	}
 	else if (!m_ItemManager->GetEnableWheteSton())
 	{
 		m_X = 756.0f;
 	}
 
-	//GUIにパラメータ表示
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("WheteStone");
-	ImGui::InputFloat("X", &m_X);
-	ImGui::End();
 
 	GameObject::Update();
 }
 
 void WheteStone::Draw()
 {
+	GameTexture* gametexture = m_Scene->GetGameObject<GameTexture>();
 	m_ItemManager = m_Scene->GetGameObject<ItemManager>();
-	if (m_ItemManager->GetEnableWheteSton() || m_ItemManager->GetShowFlag())
+	if ((m_ItemManager->GetEnableWheteSton() || m_ItemManager->GetShowFlag()) && !gametexture->GetGameClear())
 	{
-		texture_WheteStone->Draw(m_X, 414.0f);
+		texture_WheteStone->Draw(m_X, 418.0f);
 	}
 	
 }
