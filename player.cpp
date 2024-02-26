@@ -174,8 +174,6 @@ void Player::Init()
 		m_HPgage = m_Scene->AddGameObject<HPgage>(SPRITE_LAYER);
 		m_Staminagage = m_Scene->AddGameObject<Staminagage>(SPRITE_LAYER);
 
-
-
 		m_PlayerAnimationCorrection = m_Scene->AddGameObject<PlayerAnimationCorrection>();
 	}
 
@@ -448,7 +446,7 @@ void Player::Update()
 			//ダメージリアクション大
 			if (m_BigDamageReaction && !m_SuccessGuard && !m_BigHitInpact)
 			{
-
+				
 				if (m_NextAnimationName != "HitBigImpact")
 				{
 					m_Time = 0.0f;
@@ -461,6 +459,7 @@ void Player::Update()
 
 			if (m_BigHitInpact)
 			{
+				
 				m_Speed = 0.05f;
 				m_DirectionZ = -GetForward() * m_Speed;
 				m_HitInpactDelay++;
@@ -515,7 +514,7 @@ void Player::Update()
 			//ダメージリアクション小
 			if (m_SmallDamageReaction && !m_SuccessGuard && !m_SmallHitInpact)
 			{
-
+				
 				if (m_NextAnimationName != "HitSmallImpact")
 				{
 					m_Time = 0.0f;
@@ -528,6 +527,7 @@ void Player::Update()
 
 			if (m_SmallHitInpact)
 			{
+				
 				m_HitInpactDelay++;
 				m_Animating = true;
 				if (m_HitInpactDelay > 30)
@@ -1731,7 +1731,14 @@ void Player::UpdateGuard()
 
 	}
 
-
+	if (m_InpactGuard)
+	{
+		InputX::SetVibration(0, 500);
+	}
+	else
+	{
+		InputX::StopVibration(0);
+	}
 
 	if ((Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) >= 0.1) && m_StartGuard && !m_InpactGuard)
 	{

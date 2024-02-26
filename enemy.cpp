@@ -24,6 +24,7 @@
 #include"wepon_sword.h"
 #include"rockeffect.h"
 #include"areachangecollider.h"
+#include"inputx.h"
 AnimationModel* Enemy::m_Model{};
 
 void Enemy::Init()
@@ -147,9 +148,10 @@ void Enemy::Update()
 
 	//ƒWƒƒƒ“ƒvUŒ‚
 	if (m_JumpAttackFlag){
-		if (m_EnemyCollider->CollisionChecker(this,player,0.7f) || m_EnemyLightArm->GetHit())
+		if ((m_EnemyCollider->CollisionChecker(this,player,0.7f) || m_EnemyLightArm->GetHit()) && !m_JumpInvincibilityFlag)
 		{
 			m_JumpAttackHit = true;
+			m_JumpInvincibilityFlag = true;
 		}
 		else
 		{
@@ -158,14 +160,19 @@ void Enemy::Update()
 	}
 	else
 	{
+		m_JumpInvincibilityFlag = false;
 		m_JumpAttackHit = false;
 	}
 	
+	
+
+
 	//ƒpƒ“ƒ`UŒ‚
 	if (m_PunchAttackFlag){
-		if (m_EnemyLightArm->GetHit())
+		if (m_EnemyLightArm->GetHit() && !m_PunchInvincibilityFlag)
 		{
 			m_PunchAttackHit = true;
+			m_PunchInvincibilityFlag = true;
 		}
 		else
 		{
@@ -174,6 +181,7 @@ void Enemy::Update()
 	}
 	else
 	{
+		m_PunchInvincibilityFlag = false;
 		m_PunchAttackHit = false;
 	}
 
@@ -424,6 +432,11 @@ void Enemy::UpdateHowl()
 				m_HowlSE->PlaySE();
 				m_HowlSEFlag = true;
 			}
+			InputX::SetVibration(0, 50);
+		}
+		else
+		{
+			InputX::StopVibration(0);
 		}
 
 	
@@ -528,7 +541,7 @@ void Enemy::UpdateDead() {
 
 		if (m_Threshold > 1.1f)
 		{
-			SetDestroy();
+			//SetDestroy();
 		}
 	}
 	

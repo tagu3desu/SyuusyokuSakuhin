@@ -81,6 +81,9 @@ private:
 	bool m_Attacking = false;
 	bool m_Animating = false;
 	int m_Attackdelay = 0;
+	int m_HitCoolTime = 0;
+	bool m_PunchInvincibilityFlag = false;
+	bool m_JumpInvincibilityFlag = false;
 	bool m_PunchAttackFlag = false;
 	bool m_JumpAttackFlag = false;
 	int m_AttackRandomNum = 0;

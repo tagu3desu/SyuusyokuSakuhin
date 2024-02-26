@@ -3,6 +3,10 @@
 #include"sprite.h"
 #include"itemcount.h"
 #include"input.h"
+#include"scene.h"
+#include"gametexturemanager.h"
+#include"manager.h"
+
 void ItemCount::Init()
 {
 	VERTEX_3D vertex[4];
@@ -62,6 +66,9 @@ void ItemCount::Update()
 
 void ItemCount::Draw()
 {
+	Scene* scene = Manager::GetScene();
+	GameTexture* gametexture = scene->GetGameObject<GameTexture>();
+	
 	int count = m_ItemCount;
 
 	//現在の所持アイテム数に応じて表示する桁数を変更
@@ -170,7 +177,7 @@ void ItemCount::Draw()
 		
 
 		//ポリゴン描画
-		if (m_Enable)
+		if (m_Enable && !gametexture->GetGameClear())
 		{
 			Renderer::GetDeviceContext()->Draw(4, 0);
 		}

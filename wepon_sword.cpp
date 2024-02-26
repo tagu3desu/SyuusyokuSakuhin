@@ -16,7 +16,7 @@
 #include"trail.h"
 #include"camera.h"
 #include"audio.h"
-
+#include"inputx.h"
 ID3D11Buffer* SwordTopVertex::m_VertexBuffer;
 void Sword::Init()
 {
@@ -182,6 +182,7 @@ void Sword::Update()
 						
 						m_NormalAttackHitSE->Volume(Scene::m_SEVolume);
 						m_NormalAttackHitSE->PlaySE();
+						InputX::SetVibration(0, 300);
 						m_Camera->Shake(0.05f);
 
 					}
@@ -190,6 +191,7 @@ void Sword::Update()
 					{
 						m_SmallAttackHitSE->Volume(Scene::m_SEVolume * 0.3f);
 						m_SmallAttackHitSE->PlaySE();
+						InputX::SetVibration(0, 300);
 						m_Camera->Shake(0.02f);
 					}
 
@@ -198,10 +200,11 @@ void Sword::Update()
 						m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 						m_BigAttackHitSE->PlaySE();
 						m_Camera->Shake(0.1f);
+						InputX::SetVibration(0, 600);
 					}
 					
 					m_ResultDamege = player->GetAttackMagnification()* m_WeponDamage;
-					m_Durability -= 2.0f;
+					m_Durability -= 4.0f;
 					m_Swordhit = true;
 					m_NormalAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 					m_NormalAttackHitSE->PlaySE();
@@ -250,6 +253,7 @@ void Sword::Update()
 		}
 		if (m_InviciblilityStartFlag)
 		{
+			InputX::StopVibration(0);
 			m_InvincibilityTime++;
 			if (m_InvincibilityTime <= 15)
 			{
