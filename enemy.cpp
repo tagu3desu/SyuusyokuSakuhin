@@ -25,6 +25,7 @@
 #include"rockeffect.h"
 #include"areachangecollider.h"
 #include"inputx.h"
+#include"debug.h"
 AnimationModel* Enemy::m_Model{};
 
 void Enemy::Init()
@@ -130,7 +131,7 @@ void Enemy::Update()
 	auto player = m_Scene->GetGameObject<Player>();
 	auto sword = m_Scene->GetGameObject<Sword>();
 	AreaChange* areachange = m_Scene->GetGameObject<AreaChange>();
-
+	DebugSystem* debugsystem = m_Scene->GetGameObject<DebugSystem>();
 	
 
 	
@@ -320,14 +321,17 @@ void Enemy::Update()
 		}
 	}
 
-	//GUIにパラメータ表示
-	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Enemy");
-	ImGui::InputInt("AnimationCount", &m_AnimationDelay);
-	ImGui::InputInt("HP", &m_HP);
-	ImGui::Checkbox("JumpAttack", &m_JumpAttackFlag);
-	ImGui::Checkbox("PunchAttack", &m_PunchAttackFlag);
-	ImGui::End();*/
+	if (debugsystem->GetDebugWindowEnable())
+	{
+		//GUIにパラメータ表示
+		ImGui::SetNextWindowSize(ImVec2(300, 250));
+		ImGui::Begin("Enemy");
+		ImGui::InputFloat3("Position", m_Position);
+		ImGui::InputInt("Frame", &m_AnimationDelay);
+		ImGui::InputInt("HP", &m_HP);
+		ImGui::End();
+	}
+	
 }
 
 void Enemy::Draw()

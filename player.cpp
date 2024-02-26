@@ -35,6 +35,7 @@
 #include"potion.h"
 #include"whetstone.h"
 #include"inputx.h"
+#include"debug.h"
 void Player::Init()
 {
 	m_Scene = Manager::GetScene();
@@ -209,6 +210,7 @@ void Player::Update()
 		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
 		Potion* potion = m_Scene->GetGameObject<Potion>();
 		WheteStone* whetestone = m_Scene->GetGameObject<WheteStone>();
+		DebugSystem* debugsystem = m_Scene->GetGameObject<DebugSystem>();
 		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 		m_Bullet = m_Scene->GetGameObject<Bullet>();
 		m_Enemy = m_Scene->GetGameObject<Enemy>();
@@ -431,14 +433,17 @@ void Player::Update()
 		m_CameraCorrectionPosition = D3DXVECTOR3(m_PlayerAnimationCorrection->GetAnimationPosition().x, m_Position.y, m_PlayerAnimationCorrection->GetAnimationPosition().z);
 
 
-		////GUIにパラメータ表示
-		//ImGui::SetNextWindowSize(ImVec2(300, 250));
-		//ImGui::Begin("Player");
-		//ImGui::InputFloat3("Position", m_Position);
-		//ImGui::InputFloat("Frame", &m_AnimationDelay);
-		//ImGui::InputFloat3("CameraPos", m_CameraCorrectionPosition);
-		//ImGui::Checkbox("Healing", &m_Healing);
-		//ImGui::End();
+		if (debugsystem->GetDebugWindowEnable())
+		{
+			////GUIにパラメータ表示
+			ImGui::SetNextWindowSize(ImVec2(300, 250));
+			ImGui::Begin("Player");
+			ImGui::InputFloat3("Position", m_Position);
+			ImGui::InputFloat("Frame", &m_AnimationDelay);
+			ImGui::InputInt("HP", &m_HP);
+			ImGui::End();
+		}
+		
 
 
 		//被ダメアニメーション
