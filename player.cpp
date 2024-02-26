@@ -41,12 +41,12 @@ void Player::Init()
 	m_Camera = m_Scene->GetGameObject<Camera>();
 	m_Enemy = m_Scene->GetGameObject<Enemy>();
 	m_MeshField = m_Scene->GetGameObject<MeshField>();
-	
-	
+
+
 
 	m_Model = new AnimationModel();
 	m_Model->Load("asset\\model\\Paladin J Nordstrom.fbx");
-	
+
 
 	//納刀状態モーション
 	m_Model->LoadAnimation("asset\\model\\Walking.fbx", "Walk");
@@ -76,17 +76,19 @@ void Player::Init()
 	m_Model->LoadAnimation("asset\\model\\Grinding1.fbx", "StartGlinding");
 	m_Model->LoadAnimation("asset\\model\\Grinding2.fbx", "IsGlinding");
 	m_Model->LoadAnimation("asset\\model\\Grinding3.fbx", "EndGlinding");
-	
+	m_Model->LoadAnimation("asset\\model\\Shoulder Hit And Fall.fbx", "HitBigImpact");
+	m_Model->LoadAnimation("asset\\model\\Standing Up.fbx", "ReturnHitBigImpact");
+
 
 
 	//タイトル用のモーション
 	m_Model->LoadAnimation("asset\\model\\Sitting.fbx", "TitleIdle");
-	
+
 
 	m_AnimationName = "Idle";
 	m_NextAnimationName = "Idle";
 
-	
+
 	m_Scale = D3DXVECTOR3(0.015f, 0.015f, 0.015f);
 	m_Speed = 0.1f;
 
@@ -94,23 +96,22 @@ void Player::Init()
 	m_Stamina = 1000;
 
 	m_DepthEnable = true;
-	
+
 #if 0
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-			"shader\\DepthShadowMappingVS.cso");
+		"shader\\DepthShadowMappingVS.cso");
 
 	Renderer::CreatePixelShader(&m_PixelShader,
-			"shader\\DepthShadowMappingPS.cso");
+		"shader\\DepthShadowMappingPS.cso");
 
 #else
 	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\skiningVertexLightingVS.cso");
 
-	/*Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\VertexLightingPS.cso");*/
-	
 	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\DepthShadowMappingPS.cso");
+		"shader\\VertexLightingPS.cso");
+
+
 
 #endif // 0
 
@@ -138,40 +139,46 @@ void Player::Init()
 	m_AttackCV2 = AddComponent<Audio>();
 	m_AttackCV2->Load("asset\\audio\\SE\\攻撃2段目.wav");
 
+
 	m_AttackCV3 = AddComponent<Audio>();
 	m_AttackCV3->Load("asset\\audio\\SE\\攻撃3段目.wav");
-	
+
+	m_GetDamegeCV1 = AddComponent<Audio>();
+	m_GetDamegeCV1->Load("asset\\audio\\SE\\「うっ！」.wav");
+
+	m_GetDamegeCV2 = AddComponent<Audio>();
+	m_GetDamegeCV2->Load("asset\\audio\\SE\\「くおぉっ！」.wav");
 
 	m_Time = 0.0f;
 	m_BlendTime = 0.0f;
 	m_AnimationDelay = 0.0f;
-	
+
 	m_HitInpactDelay = 0;
 
-	 m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	 m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	m_Sworddrawn = false;
-	m_ComboCount=0;
-	
-	
-	
+	m_ComboCount = 0;
+
+
+
 	if (!Title::GetCheckTitle())
 	{
 		m_ItemManager = m_Scene->AddGameObject<ItemManager>();
-		
+
 		m_PlayerCollider = m_Scene->AddGameObject<Collider>();
 		m_PlayerCollider->SetScale(D3DXVECTOR3(70.0f, 170.0f, 70.0f));
 		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		
+
 		m_HPgage = m_Scene->AddGameObject<HPgage>(SPRITE_LAYER);
 		m_Staminagage = m_Scene->AddGameObject<Staminagage>(SPRITE_LAYER);
-		
+
 
 
 		m_PlayerAnimationCorrection = m_Scene->AddGameObject<PlayerAnimationCorrection>();
 	}
-	
+
 
 
 	GameObject::Init();
@@ -187,8 +194,8 @@ void Player::Uninit()
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
-	
-	
+
+
 }
 
 void Player::Update()
@@ -197,9 +204,9 @@ void Player::Update()
 
 
 
-	if ( !Title::GetCheckTitle())
+	if (!Title::GetCheckTitle())
 	{
-		
+
 		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
 		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
 		Potion* potion = m_Scene->GetGameObject<Potion>();
@@ -214,11 +221,11 @@ void Player::Update()
 		m_Move = false;
 
 		GameObject::Update();
-		
 
-		
 
-		
+
+
+
 
 		m_CameraFoward = m_Camera->GetForward();
 		m_CameraRight = m_Camera->GetRight();
@@ -236,7 +243,7 @@ void Player::Update()
 		{
 			m_Stamina = staminagage->GetStamina();
 		}
-		
+
 
 		if (m_SuccessGuard)
 		{
@@ -249,35 +256,21 @@ void Player::Update()
 		AnimationModel* animationmodel;
 		animationmodel = GetAnimationModel();
 		BONE* bone;
-		bone=animationmodel->GetBone("mixamorig:Hips");
+		bone = animationmodel->GetBone("mixamorig:Hips");
 		m_PlayerCollider->SetBoneEnable(true);
 		m_PlayerCollider->SetBoneMatrix(animationmodel->ConvertMatrix(bone->WorldMatrix));
-		
+
 		SetColliderInfo(m_PlayerCollider->GetMatrix());
 
 
-	
 
 
 
-		//OBB判定　
-		std::vector<Box*> boxes = m_Scene->GetGameObjects<Box>();
-		{
-			for (Box* box : boxes)
-			{
-				if (m_PlayerCollider->CollisionChecker(this, box, 0.7f))
-				{
-					m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-				}
-				else
-				{
-					m_PlayerCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-				}
-			}
-		}
 
-		
-		if ((Input::GetKeyTrigger('F') || (InputX::IsButtonTriggered(0,XINPUT_GAMEPAD_X))) && !m_Glinding && !m_UsePotion && !m_Animating && !m_Attack && !m_Sworddrawn 
+
+
+
+		if ((Input::GetKeyTrigger('F') || (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X))) && !m_Glinding && !m_UsePotion && !m_Animating && !m_Attack && !m_Sworddrawn
 			&& !m_ItemManager->GetShowFlag())
 		{
 			if (m_ItemManager->GetEnablePotion())
@@ -287,7 +280,7 @@ void Player::Update()
 					m_ItemManager->UsePotion();
 					m_UsePotion = true;
 				}
-				
+
 			}
 			if (m_ItemManager->GetEnableWheteSton())
 			{
@@ -297,17 +290,17 @@ void Player::Update()
 					m_Glinding = true;
 					m_StartGlinding = true;
 				}
-				
+
 			}
 		}
-		
+
 
 		//砥ぐ
 		if (m_Glinding)
 		{
 			m_AnimationDelay++;
 			{//砥ぎ開始
-				
+
 				if (m_NextAnimationName != "StartGlinding" && m_StartGlinding)
 				{
 					m_Time = 0.0f;
@@ -316,7 +309,7 @@ void Player::Update()
 					m_Animating = true;
 					m_BlendTime = 0.0f;
 				}
-				
+
 				if (m_AnimationDelay > 20 && m_StartGlinding)
 				{
 					m_AnimationDelay = 0.0f;
@@ -351,11 +344,11 @@ void Player::Update()
 					m_AnimationDelay = 0.0f;
 					m_Animating = false;
 					m_IsGlinding = false;
-					m_EndGlinding = true;		
+					m_EndGlinding = true;
 				}
 			}
 			{//砥ぎ中
-				if (m_NextAnimationName != "EndGlinding"   && m_EndGlinding)
+				if (m_NextAnimationName != "EndGlinding" && m_EndGlinding)
 				{
 					m_Time = 0.0f;
 					m_AnimationName = m_NextAnimationName;
@@ -387,7 +380,7 @@ void Player::Update()
 		}
 
 		//回復薬使用
-		
+
 		if (m_UsePotion && !m_Healing)
 		{
 			m_Healing = true;
@@ -418,8 +411,8 @@ void Player::Update()
 				m_Animating = false;
 			}
 		}
-		
-		
+
+
 
 		//無敵時間
 		if (m_InviciblilityStartFlag)
@@ -437,9 +430,9 @@ void Player::Update()
 			}
 		}
 
-		m_CameraCorrectionPosition = D3DXVECTOR3(m_PlayerAnimationCorrection->GetAnimationPosition().x,m_Position.y, m_PlayerAnimationCorrection->GetAnimationPosition().z);
-		
-		
+		m_CameraCorrectionPosition = D3DXVECTOR3(m_PlayerAnimationCorrection->GetAnimationPosition().x, m_Position.y, m_PlayerAnimationCorrection->GetAnimationPosition().z);
+
+
 		////GUIにパラメータ表示
 		//ImGui::SetNextWindowSize(ImVec2(300, 250));
 		//ImGui::Begin("Player");
@@ -452,8 +445,75 @@ void Player::Update()
 
 		//被ダメアニメーション
 		{
-			
-			if (m_DamageReaction && !m_SuccessGuard && !m_HitInpact)
+			//ダメージリアクション大
+			if (m_BigDamageReaction && !m_SuccessGuard && !m_BigHitInpact)
+			{
+
+				if (m_NextAnimationName != "HitBigImpact")
+				{
+					m_Time = 0.0f;
+					m_AnimationName = m_NextAnimationName;
+					m_NextAnimationName = "HitBigImpact";
+					m_BlendTime = 0.0f;
+					m_BigHitInpact = true;
+				}
+			}
+
+			if (m_BigHitInpact)
+			{
+				m_Speed = 0.05f;
+				m_DirectionZ = -GetForward() * m_Speed;
+				m_HitInpactDelay++;
+				m_Animating = true;
+				if (m_HitInpactDelay > 80)
+				{
+					m_HitInpactDelay = 0;
+					m_Speed = 0.0f;
+					m_ReturnHitInpact = true;
+
+				}
+
+				if (m_ReturnHitInpact)
+				{
+					if (m_NextAnimationName != "ReturnHitBigImpact")
+					{
+						m_Time = 0.0f;
+						m_AnimationName = m_NextAnimationName;
+						m_NextAnimationName = "ReturnHitBigImpact";
+						m_BlendTime = 0.0f;
+						m_ReturnHitAnimation = true;
+						m_Speed = 0.0f;
+					}
+
+					if (m_ReturnHitAnimation)
+					{
+						m_ReturnInpactDelay++;
+						m_Speed = 0.0f;
+						if (m_ReturnInpactDelay > 60)
+						{
+							m_ReturnHitAnimation = false;
+							m_ReturnHitInpact = false;
+							m_Animating = false;
+							m_BigDamageReaction = false;
+							m_BigHitInpact = false;
+						}
+					}
+
+
+				}
+
+				//x,zを加算します
+				D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
+
+				//正規化します
+				D3DXVec3Normalize(&direction, &direction);
+
+				//PositonにSpeed加算します
+				m_Position += direction * m_Speed;
+			}
+
+			//ダメージリアクション小
+			if (m_SmallDamageReaction && !m_SuccessGuard && !m_SmallHitInpact)
 			{
 
 				if (m_NextAnimationName != "HitSmallImpact")
@@ -462,11 +522,11 @@ void Player::Update()
 					m_AnimationName = m_NextAnimationName;
 					m_NextAnimationName = "HitSmallImpact";
 					m_BlendTime = 0.0f;
-					m_HitInpact = true;
+					m_SmallHitInpact = true;
 				}
 			}
-			
-			if (m_HitInpact)
+
+			if (m_SmallHitInpact)
 			{
 				m_HitInpactDelay++;
 				m_Animating = true;
@@ -474,13 +534,13 @@ void Player::Update()
 				{
 					m_Animating = false;
 					m_HitInpactDelay = 0;
-					m_DamageReaction = false;
-					m_HitInpact = false;
+					m_SmallDamageReaction = false;
+					m_SmallHitInpact = false;
 				}
 			}
 		}
 
-		
+
 
 		//死亡処理
 		if (m_HP <= 0)
@@ -515,11 +575,11 @@ void Player::Update()
 		//ジャンプ用移動
 		m_Position += m_Velocity;
 
-		
-	
+
+
 
 	}
-	
+
 	switch (m_PlayerState)
 	{
 	case PLAYER_STATE_GROUND:
@@ -561,20 +621,38 @@ void Player::Update()
 		m_PlayerState = PLAYER_STATE_TITLEIDLE;
 	}
 
+	//OBB判定　
+	std::vector<Box*> boxes = m_Scene->GetGameObjects<Box>();
+	{
+		for (Box* box : boxes)
+		{
+			if (m_PlayerCollider->CollisionChecker(this, box, 0.7f))
+			{
+				m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+			}
+			else
+			{
+				m_PlayerCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+			}
+		}
+	}
+
 	//プレイヤーの被ダメ処理
 	if (!Title::GetCheckTitle())
 	{
 		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
 		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 		m_Shield = m_Scene->GetGameObject<Shield>();
+		m_Sword = m_Scene->GetGameObject<Sword>();
 		if (m_RockEffect != nullptr)
 		{
 			if (m_PlayerCollider->CollisionChecker(this, m_RockEffect, 0.6f))
 			{
-				if(m_SuccessGuard && !m_GuardEffect)
-				{ 
+				if (m_SuccessGuard && !m_GuardEffect)
+				{
 					m_GuardSE->Volume(Scene::m_SEVolume);
 					m_GuardSE->PlaySE();
+
 					ShieldEffect* shieldeffect = m_Scene->AddGameObject<ShieldEffect>(EFFECT_LAYER);
 					shieldeffect->SetScale(D3DXVECTOR3(7.0f, 7.0f, 7.0f));
 					shieldeffect->SetPosition(MatrixtoPosition(m_Shield->GetMatrix()));
@@ -584,8 +662,10 @@ void Player::Update()
 				else if (!m_InvincibilityFlag && !m_SuccessGuard)
 				{
 					hpgage->SetDamage(70);
+					m_GetDamegeCV2->Volume(Scene::m_SEVolume * 0.5f);
+					m_GetDamegeCV2->PlaySE();
 					m_InviciblilityStartFlag = true;
-					m_DamageReaction = true;
+					m_BigDamageReaction = true;
 				}
 			}
 		}
@@ -607,11 +687,13 @@ void Player::Update()
 				else if (!m_InvincibilityFlag && !m_SuccessGuard)
 				{
 					hpgage->SetDamage(80);
+					m_GetDamegeCV2->Volume(Scene::m_SEVolume * 0.5f);
+					m_GetDamegeCV2->PlaySE();
 					m_InviciblilityStartFlag = true;
-					m_DamageReaction = true;
+					m_BigDamageReaction = true;
 				}
 			}
-			
+
 			if (m_Enemy->GetPunchAttackHit())
 			{
 				if (m_SuccessGuard && !m_GuardEffect)
@@ -626,27 +708,29 @@ void Player::Update()
 				}
 				else if (!m_InvincibilityFlag && !m_SuccessGuard)
 				{
+					m_GetDamegeCV1->Volume(Scene::m_SEVolume * 0.5f);
+					m_GetDamegeCV1->PlaySE();
 					hpgage->SetDamage(50);
 					m_InviciblilityStartFlag = true;
-					m_DamageReaction = true;
+					m_SmallDamageReaction = true;
 				}
 			}
 		}
 
 	}
 
-	
+
 
 	if (m_MeshField != nullptr)
 	{
-		
+
 		m_MeshField = m_Scene->GetGameObject<MeshField>();
 		m_GroundHeight = m_MeshField->GetHeight(m_Position);
-		
+
 	}
 
-	
-	
+
+
 	//コンボの入力用
 	if (m_AttackMotion1)
 	{
@@ -665,7 +749,7 @@ void Player::Update()
 
 	if (m_AttackMotion2)
 	{
-		m_ConboflagisAttack3 = true;	
+		m_ConboflagisAttack3 = true;
 	}
 
 	if (m_ConboflagisAttack3)
@@ -691,7 +775,7 @@ void Player::Update()
 		m_IsGround = false;
 	}
 
-	
+
 
 	GameObject::Update();
 
@@ -710,9 +794,9 @@ void Player::Draw()
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-	
+
 	//マトリクス設定
-	D3DXMATRIX  world,scale, rot, trans,euler;
+	D3DXMATRIX  world, scale, rot, trans, euler;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationQuaternion(&rot, &m_Quaternion);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
@@ -721,18 +805,18 @@ void Player::Draw()
 	{
 		m_Matrix = scale * euler * trans;
 	}
-	else if(!Title::GetCheckTitle())
+	else if (!Title::GetCheckTitle())
 	{
 		m_Matrix = scale * rot * trans;
 	}
-	
+
 	Renderer::SetWorldMatrix(&m_Matrix);
 
 	m_Model->Update(m_AnimationName.c_str(), m_Time, m_NextAnimationName.c_str(), m_Time, m_BlendTime);
 
 
-	
-	
+
+
 	if (m_HitStopFlag)
 	{
 		m_Time += 0.0f;
@@ -751,7 +835,7 @@ void Player::Draw()
 	}
 
 
-	
+
 
 	if (m_BlendTime < 1.0f)
 	{
@@ -766,24 +850,24 @@ void Player::Draw()
 void Player::UpdateGround()
 {
 	//武器の取り出し
-	if ((Input::GetKeyTrigger('Y') || InputX::IsButtonTriggered(0,XINPUT_GAMEPAD_Y)) && !m_Sworddrawn && !m_Animating)
+	if ((Input::GetKeyTrigger('Y') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Sworddrawn && !m_Animating)
 	{
-		
-			if (m_NextAnimationName != "onSword")
-			{
-				m_Time = 0.0f;
-				m_AnimationName = m_NextAnimationName;
-				m_NextAnimationName = "onSword";
-				m_OnWeponSE->Volume(Scene::m_SEVolume * 0.2);
-				m_OnWeponSE->PlaySE();
-				m_BlendTime = 0.0f;
-			}
-			m_OnSword = true;
-			m_Sworddrawn = true;
-		
+
+		if (m_NextAnimationName != "onSword")
+		{
+			m_Time = 0.0f;
+			m_AnimationName = m_NextAnimationName;
+			m_NextAnimationName = "onSword";
+			m_OnWeponSE->Volume(Scene::m_SEVolume * 0.2);
+			m_OnWeponSE->PlaySE();
+			m_BlendTime = 0.0f;
+		}
+		m_OnSword = true;
+		m_Sworddrawn = true;
+
 	}
 
-	if ((Input::GetKeyTrigger('R') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X)) && !m_Animating  && !m_ItemManager->GetShowFlag())
+	if ((Input::GetKeyTrigger('R') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X)) && !m_Animating && !m_ItemManager->GetShowFlag())
 	{
 		if (m_Sworddrawn)//納刀
 		{
@@ -797,11 +881,11 @@ void Player::UpdateGround()
 				m_BlendTime = 0.0f;
 			}
 			m_OffSword = true;
-			
+
 		}
-		
+
 	}
-	
+
 	if (m_OnSword)
 	{
 		m_AnimationDelay++;
@@ -812,7 +896,7 @@ void Player::UpdateGround()
 			m_OnSword = false;
 			m_AnimationDelay = 0;
 		}
-	
+
 	}
 	if (m_OffSword)
 	{
@@ -831,10 +915,10 @@ void Player::UpdateGround()
 	////サードパーソンビュー(斜め移動)
 	if ((Input::GetKeyPress('W') || InputX::GetThumbLeftY(0) >= 0.2) && !m_Animating) {
 
-		if ((Input::GetKeyPress(VK_LSHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina>0)
+		if ((Input::GetKeyPress(VK_LSHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0)
 		{
-			
-			 m_DirectionZ = m_CameraFoward * m_Speed;
+
+			m_DirectionZ = m_CameraFoward * m_Speed;
 			if (m_Sworddrawn)
 			{
 				m_Speed = 0.15f;
@@ -854,7 +938,7 @@ void Player::UpdateGround()
 					m_NextAnimationName = "Run";
 					m_BlendTime = 0.0f;
 				}
-			}	
+			}
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 			float angle = atan2f(m_CameraFoward.x, m_CameraFoward.z);
@@ -868,7 +952,7 @@ void Player::UpdateGround()
 		else
 		{
 			m_Speed = 0.1f;
-			 m_DirectionZ = m_CameraFoward * m_Speed;
+			m_DirectionZ = m_CameraFoward * m_Speed;
 
 			if (m_Sworddrawn)
 			{
@@ -888,7 +972,7 @@ void Player::UpdateGround()
 					m_BlendTime = 0.0f;
 				}
 			}
-			
+
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 			float angle = atan2f(m_CameraFoward.x, m_CameraFoward.z);
@@ -899,16 +983,16 @@ void Player::UpdateGround()
 			m_Walk = true;
 			m_Run = false;
 		}
-		
+
 
 	}
 
-	if ((Input::GetKeyPress('S')|| InputX::GetThumbLeftY(0) <= -0.2 ) && !m_Animating) {
-		
-		if ((Input::GetKeyPress(VK_LSHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER))&& m_Stamina > 0)
+	if ((Input::GetKeyPress('S') || InputX::GetThumbLeftY(0) <= -0.2) && !m_Animating) {
+
+		if ((Input::GetKeyPress(VK_LSHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0)
 		{
 			m_Speed = 0.1f;
-			 m_DirectionZ = -m_CameraFoward * m_Speed;
+			m_DirectionZ = -m_CameraFoward * m_Speed;
 			if (m_Sworddrawn)
 			{
 				m_Speed = 0.15f;
@@ -943,7 +1027,7 @@ void Player::UpdateGround()
 		else
 		{
 			m_Speed = 0.1f;
-			 m_DirectionZ = -m_CameraFoward * m_Speed;
+			m_DirectionZ = -m_CameraFoward * m_Speed;
 
 			if (m_Sworddrawn)
 			{
@@ -973,22 +1057,22 @@ void Player::UpdateGround()
 			m_Walk = true;
 			m_Move = true;
 		}
-		
+
 	}
 
-	if ((Input::GetKeyPress('A') ||  InputX::GetThumbLeftX(0) <= -0.2 )&& !m_Animating ) {
-	
+	if ((Input::GetKeyPress('A') || InputX::GetThumbLeftX(0) <= -0.2) && !m_Animating) {
+
 		if ((Input::GetKeyPress(VK_LSHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0)
 		{
 			m_Speed = 0.1f;
-			 m_DirectionX = -m_CameraRight * m_Speed;
+			m_DirectionX = -m_CameraRight * m_Speed;
 
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 			float angle = atan2f(-m_CameraRight.x, -m_CameraRight.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
-			
+
 
 			if (m_Sworddrawn)
 			{
@@ -1025,7 +1109,7 @@ void Player::UpdateGround()
 			float angle = atan2f(-m_CameraRight.x, -m_CameraRight.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
-			
+
 
 			if (m_Sworddrawn)
 			{
@@ -1050,22 +1134,22 @@ void Player::UpdateGround()
 			m_Walk = true;
 			m_Move = true;
 		}
-		
+
 	}
 
-	if ((Input::GetKeyPress('D')|| InputX::GetThumbLeftX(0) >= 0.3)&& !m_Animating) {
-	
-		if ((Input::GetKeyPress(VK_SHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER))&& m_Stamina > 0)
+	if ((Input::GetKeyPress('D') || InputX::GetThumbLeftX(0) >= 0.3) && !m_Animating) {
+
+		if ((Input::GetKeyPress(VK_SHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0)
 		{
 			m_Speed = 0.1f;
-			 m_DirectionX = m_CameraRight * m_Speed;
+			m_DirectionX = m_CameraRight * m_Speed;
 
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 			float angle = atan2f(m_CameraRight.x, m_CameraRight.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
-			
+
 
 			if (m_Sworddrawn)
 			{
@@ -1096,14 +1180,14 @@ void Player::UpdateGround()
 		else
 		{
 			m_Speed = 0.1f;
-			 m_DirectionX = m_CameraRight * m_Speed;
+			m_DirectionX = m_CameraRight * m_Speed;
 
 			D3DXQUATERNION quat;
 			D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 			float angle = atan2f(m_CameraRight.x, m_CameraRight.z);
 			D3DXQuaternionRotationAxis(&quat, &axis, angle);
 			D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.3f);	//球面線形補間
-		
+
 
 			if (m_Sworddrawn)
 			{
@@ -1129,12 +1213,12 @@ void Player::UpdateGround()
 			m_Walk = true;
 			m_Move = true;
 		}
-		
+
 	}
 
 
 	//待機状態
-	if (m_Move == false && m_Attack == false && !m_OnSword && !m_OffSword && !m_HitInpact && !m_Healing && !m_Animating)
+	if (m_Move == false && m_Attack == false && !m_OnSword && !m_OffSword && !m_SmallHitInpact && !m_BigHitInpact && !m_Healing && !m_Animating)
 	{
 		m_Run = false;
 		m_Walk = false;
@@ -1161,19 +1245,19 @@ void Player::UpdateGround()
 				m_BlendTime = 0.0f;
 			}
 		}
-		
+
 	}
 	//x,zを加算します
-	D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
+	D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
 
 
 	//正規化します
 	D3DXVec3Normalize(&direction, &direction);
 
 	//PositonにSpeed加算します
-	m_Position += direction *m_Speed;
+	m_Position += direction * m_Speed;
 
-	
+
 	// プレイヤーの移動ベクトルを更新
 	//m_MoveVector = m_Velocity * m_Speed;
 
@@ -1181,7 +1265,7 @@ void Player::UpdateGround()
 	D3DXVECTOR3 m_ColliderPos = m_Position + GetForward() * 2.0f;
 
 	//ガード入力
-	if ((Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) >=0.2) && !m_StartGuard && m_Sworddrawn)
+	if ((Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) >= 0.2) && !m_StartGuard && m_Sworddrawn)
 	{
 		if (m_NextAnimationName != "StartGuard")
 		{
@@ -1211,28 +1295,28 @@ void Player::UpdateGround()
 	}
 
 	//通常攻撃
-	else if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0,XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating)
+	else if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating)
 	{
-	    	if (m_NextAnimationName != "SlashAttack")
-	    	{
-	    		m_Time = 0.0f;
-	    		m_BlendTime = 0.0f;
-	    		m_AnimationName = m_NextAnimationName;
-	    		m_NextAnimationName = "SlashAttack";
-	    		m_Attack = true;
-	    		m_ComboCount = 1;
-	    		m_Move = true;
-	    		m_Idle = false;
-	    		m_AttackMotion1 = true;
-				m_AttackMagnification = 1.1f;
-	    		m_PlayerState = PLAYER_STATE_ATTACK;
-				m_AttackCV1->Volume(Scene::m_SEVolume*0.5f);
-				m_AttackCV1->PlaySE();
-	    	}
+		if (m_NextAnimationName != "SlashAttack")
+		{
+			m_Time = 0.0f;
+			m_BlendTime = 0.0f;
+			m_AnimationName = m_NextAnimationName;
+			m_NextAnimationName = "SlashAttack";
+			m_Attack = true;
+			m_ComboCount = 1;
+			m_Move = true;
+			m_Idle = false;
+			m_AttackMotion1 = true;
+			m_AttackMagnification = 1.1f;
+			m_PlayerState = PLAYER_STATE_ATTACK;
+			m_AttackCV1->Volume(Scene::m_SEVolume * 0.5f);
+			m_AttackCV1->PlaySE();
+		}
 	}
 
 	//2段目攻撃
-	if ((Input::GetKeyTrigger(VK_LBUTTON) ||   InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B))&& !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2 && !m_Animating)
+	if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2 && !m_Animating)
 	{
 		if (m_NextAnimationName != "SlashAttack2")
 		{
@@ -1247,8 +1331,7 @@ void Player::UpdateGround()
 			m_AttackMotion2 = true;
 			m_AttackMagnification = 0.8f;
 			m_PlayerState = PLAYER_STATE_ATTACK2;
-			m_AttackCV2->Volume(Scene::m_SEVolume * 0.5f);
-			m_AttackCV2->PlaySE();
+
 		}
 	}
 
@@ -1288,12 +1371,14 @@ void Player::UpdateGround()
 			m_Idle = false;
 			m_AttackMagnification = 1.4f;
 			m_PlayerState = PLAYER_STATE_ROTATION_ATTACK;
+			m_AttackCV3->Volume(Scene::m_SEVolume * 0.5f);
+			m_AttackCV3->PlaySE();
 		}
 	}
-	
 
-	
-	if ((Input::GetKeyPress(VK_SPACE) || InputX::IsButtonTriggered(0,XINPUT_GAMEPAD_A) )&& !m_Animating)
+
+
+	if ((Input::GetKeyPress(VK_SPACE) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_A)) && !m_Animating)
 	{
 		if (m_NextAnimationName != "IsRoll")
 		{
@@ -1346,16 +1431,16 @@ void Player::UpdateGround()
 			}
 		}
 	}
-	
+
 }
 
 void Player::UpdateRoll()
 {
-	if (m_Roll==true)
+	if (m_Roll == true)
 	{
 		float speed = 0.1f;
 		m_AnimationDelay++;
-	
+
 		if (Input::GetKeyPress('W')) {
 			speed = 0.05f;
 		}
@@ -1379,10 +1464,10 @@ void Player::UpdateRoll()
 			m_Idle = true;
 			m_Animating = false;
 			m_PlayerState = PLAYER_STATE_GROUND;
-		}	
+		}
 
 		//x,zを加算します
-		D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
+		D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
 
 
 		//正規化します
@@ -1404,7 +1489,7 @@ void Player::UpdateAttack()
 		{
 			m_AttackMotion1 = true;
 		}
-		
+
 		//攻撃判定が発生する時間設定
 		if (25 < m_AnimationDelay && m_AnimationDelay < 35)
 		{
@@ -1415,14 +1500,14 @@ void Player::UpdateAttack()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (m_AnimationDelay >=65 && m_ComboCount == 1)
+		if (m_AnimationDelay >= 65 && m_ComboCount == 1)
 		{
 			m_Time = 0;
 			m_AnimationDelay = 0;
 			m_Attack = false;
 			m_Move = false;
 			m_AttackMotion1 = false;
-			m_PlayerState = PLAYER_STATE_GROUND;	
+			m_PlayerState = PLAYER_STATE_GROUND;
 		}
 	}
 }
@@ -1449,6 +1534,11 @@ void Player::UpdateAttack2()
 		{
 			m_AttackCollisionFlag = false;
 		}
+		if (25 < m_AnimationDelay && m_AnimationDelay < 27)
+		{
+			m_AttackCV2->Volume(Scene::m_SEVolume * 0.5f);
+			m_AttackCV2->PlaySE();
+		}
 
 
 		if (m_AnimationDelay >= 70 && m_ComboCount == 2)
@@ -1461,16 +1551,17 @@ void Player::UpdateAttack2()
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
 	}
-	
+
 }
 
 void Player::UpdateAttack3()
 {
 	m_PlayerAnimationCorrection = m_Scene->GetGameObject<PlayerAnimationCorrection>();
 	m_Idle = true;
+	m_ConboflagisAttack3 = false;
 	if (m_Attack)
 	{
-		m_ConboflagisAttack3 = false;
+
 		if (m_SlowAnimation)
 		{
 			m_AnimationDelay += 0.1f;
@@ -1479,7 +1570,7 @@ void Player::UpdateAttack3()
 		{
 			m_AnimationDelay++;
 		}
-		
+
 
 		//攻撃判定が発生する時間設定
 		if (70 < m_AnimationDelay && m_AnimationDelay < 80)
@@ -1491,33 +1582,33 @@ void Player::UpdateAttack3()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (122<= m_AnimationDelay)
+		if (122 <= m_AnimationDelay)
 		{
 			m_SlowAnimation = true;
 		}
-		
+
 
 		if (m_AnimationDelay >= 122.1f && m_ComboCount == 3)
-		{	
+		{
 			m_AnimationDelay = 0;
 			m_Attack = false;
 			m_Move = false;
 			m_DirectionZ = m_Speed * GetForward();
 			//m_ConboflagisAttack3 = false;
-			
+
 			m_Position.x = m_PlayerAnimationCorrection->GetAnimationPosition().x;
 			m_Position.z = m_PlayerAnimationCorrection->GetAnimationPosition().z;
-			
-			
-			
+
+
+
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
-		if (m_AnimationDelay >= 80 && m_AnimationDelay <=85)
+		if (m_AnimationDelay >= 80 && m_AnimationDelay <= 85)
 		{
-			
+
 			Camera* m_Camera = m_Scene->GetGameObject<Camera>();
-			m_Camera->Shake(0.05f);
-			
+			m_Camera->Shake(0.1f);
+
 		}
 	}
 
@@ -1530,7 +1621,7 @@ void Player::UpdateRotationAttack()
 	{
 		m_AnimationDelay++;
 
-		
+
 
 		//攻撃判定が発生する時間設定
 		if (40 < m_AnimationDelay && m_AnimationDelay < 55)
@@ -1610,7 +1701,7 @@ void Player::UpdateGuard()
 
 	if (m_Enemy != nullptr)
 	{
-		
+
 
 		if (m_StartGuard && !m_InpactGuard && m_Enemy->GetJumpAttackHit())
 		{
@@ -1640,9 +1731,9 @@ void Player::UpdateGuard()
 
 	}
 
-	
 
-	if ((Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) >=0.1 ) && m_StartGuard && !m_InpactGuard)
+
+	if ((Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) >= 0.1) && m_StartGuard && !m_InpactGuard)
 	{
 		if (m_NextAnimationName != "IsGuard")
 		{
@@ -1653,7 +1744,7 @@ void Player::UpdateGuard()
 			m_IsGuard = true;
 		}
 	}
-	else if((!Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) <= 0.1) )
+	else if ((!Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) <= 0.1))
 	{
 		if (m_NextAnimationName != "EndGuard" && !m_EndGuard)
 		{
@@ -1663,14 +1754,14 @@ void Player::UpdateGuard()
 			m_Move = false;
 			m_EndGuard = true;
 
-		}	
+		}
 	}
 
 	if (m_InpactGuard)
 	{
 		m_AnimationDelay++;
 		m_Speed = 0.1f;
-		 m_DirectionZ = -GetForward() * m_Speed;
+		m_DirectionZ = -GetForward() * m_Speed;
 	}
 
 	if (m_AnimationDelay > 40 && m_InpactGuard)
@@ -1689,13 +1780,13 @@ void Player::UpdateGuard()
 	if (m_AnimationDelay > 20 && m_EndGuard)
 	{
 		m_AnimationDelay = 0;
-		m_IsGuard = m_StartGuard = m_EndGuard = m_InpactGuard =  m_SuccessGuard = false;
+		m_IsGuard = m_StartGuard = m_EndGuard = m_InpactGuard = m_SuccessGuard = false;
 		m_GuardEffect = false;
 		m_PlayerState = PLAYER_STATE_GROUND;
 	}
 
 	//x,zを加算します
-	D3DXVECTOR3 direction =  m_DirectionX +  m_DirectionZ;
+	D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
 
 	//正規化します
 	D3DXVec3Normalize(&direction, &direction);
@@ -1726,7 +1817,7 @@ void Player::UpdateDead()
 	{
 		m_FaliedUIFlag = true;
 	}
-	
+
 }
 
 //アニメーション補正用のクラス
@@ -1754,7 +1845,7 @@ void PlayerAnimationCorrection::Update()
 	m_Parent = animationmodel->ConvertMatrix(bone->WorldMatrix);
 	m_AnimationPosition = MatrixtoPosition(m_Matrix);
 
-	
+
 	m_DifferencePosition = m_AnimationPosition - m_Oldposition;
 	m_Oldposition = m_AnimationPosition;
 }
@@ -1772,5 +1863,5 @@ void PlayerAnimationCorrection::Draw()
 		m_Matrix = scale * rot * trans * m_Parent * player->GetMatrix();
 		Renderer::SetWorldMatrix(&m_Matrix);
 	}
-	
+
 }

@@ -58,6 +58,7 @@ private:
 	std::string m_NextAnimationName;
 	float m_AnimationDelay;
 	float m_HitInpactDelay;
+	float m_ReturnInpactDelay;
 	float m_HealAnimationDelay;
 
 
@@ -69,7 +70,10 @@ private:
 	bool m_EndGuard = false;
 	bool m_InpactGuard = false;
 	bool m_SuccessGuard = false;
-	bool m_HitInpact = false;
+	bool m_SmallHitInpact = false;
+	bool m_BigHitInpact = false;
+	bool m_ReturnHitInpact = false;
+	bool m_ReturnHitAnimation = false;
 	bool m_Healing = false;
 	bool m_Glinding = false;
 	bool m_StartGlinding = false;
@@ -109,7 +113,8 @@ private:
 	//当たり判定用
 	bool m_PlayerHitEnemy = false;
 	bool m_Rockhit = false;
-	bool m_DamageReaction = false;
+	bool m_SmallDamageReaction = false;
+	bool m_BigDamageReaction = false;
 
 	//サウンド処理
 	class Audio* m_OnWeponSE{};
@@ -122,6 +127,8 @@ private:
 	class Audio* m_AttackCV1{};
 	class Audio* m_AttackCV2{};
 	class Audio* m_AttackCV3{};
+	class Audio* m_GetDamegeCV1{};
+	class Audio* m_GetDamegeCV2{};
 
 	bool m_FootSoundFlag{};
 	int m_FootSoundInterval = 0;
@@ -141,6 +148,7 @@ private:
 	class MeshField* m_MeshField;
 	class RockEffect* m_RockEffect;
 	class Bullet* m_Bullet;
+	class Sword* m_Sword;
 	class Shield* m_Shield;
 	class PlayerAnimationCorrection* m_PlayerAnimationCorrection;
 	class Staminagage* m_Staminagage;
@@ -185,16 +193,16 @@ public:
 	bool GetPlayerIdle() { return m_Idle; }
 	bool GetPlayerAttackCollider() { return m_AttackCollisionFlag; }
 	bool GetHitStopFlag() { return m_HitStopFlag; }
-	bool GetPlayerDead(){return m_Dead;}
-	bool GetPlayerDeadUIFlag(){ return m_DeadUIFlag; }
+	bool GetPlayerDead() { return m_Dead; }
+	bool GetPlayerDeadUIFlag() { return m_DeadUIFlag; }
 	bool GetFaliedFlag() { return m_FaliedUIFlag; }
-	bool GetGlinding() {return m_Glinding;}
+	bool GetGlinding() { return m_Glinding; }
 	D3DXVECTOR3 GetCameraCorrectionPosition() { return m_CameraCorrectionPosition; }
 
 
 
 
-	void SetHitStop(bool hitstopflag){m_HitStopFlag = hitstopflag;}
+	void SetHitStop(bool hitstopflag) { m_HitStopFlag = hitstopflag; }
 
 	void SetHitStopTime(float hitstoptime)
 	{
@@ -274,7 +282,7 @@ private:
 	D3DXVECTOR3 m_DifferencePosition;
 	D3DXVECTOR3 m_Oldposition;
 
-	
+
 
 
 	class Scene* m_Scene;

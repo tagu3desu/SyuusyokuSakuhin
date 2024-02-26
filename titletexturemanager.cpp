@@ -52,6 +52,8 @@ void TitleTexture::Init()
 
 	scene = Manager::GetScene();
 	
+
+	m_MenuSelectPosition = (D3DXVECTOR2(50.0f, 312.0f));
 	//145Å`325
 	m_BGMThumbPosition = D3DXVECTOR2(157.0f, 154.0f);
 	m_SEThumbPosition = D3DXVECTOR2(157.0f, 273.0f);
@@ -81,27 +83,19 @@ void TitleTexture::Update()
 
 	if (Title::GetMenuControl())
 	{
-		if (Input::GetKeyTrigger(VK_UP) ||  (130< m_MouseposX &&  m_MouseposX < 860 &&  620 < m_MouseposY && m_MouseposY <720) && !m_OptionFlag )
+		if ((Input::GetKeyTrigger(VK_UP) ||  (130< m_MouseposX &&  m_MouseposX < 860 &&  620 < m_MouseposY && m_MouseposY <720))  && !m_OptionFlag )
 		{		
 			m_MenuSelectPosition =(D3DXVECTOR2(50.0f, 312.0f));
 			m_GameButtonOverlap = true;
 			m_OptionButtonOverlap = false;
 		}
-		else if (Input::GetKeyTrigger(VK_DOWN) ||   (130 < m_MouseposX && m_MouseposX < 860 && 760 < m_MouseposY && m_MouseposY < 860))
+		else if (Input::GetKeyTrigger(VK_DOWN) || ((130 < m_MouseposX && m_MouseposX < 860 && 760 < m_MouseposY && m_MouseposY < 860)))
 		{
-			
-			
-
-			m_MenuSelectPosition = (D3DXVECTOR2(50.0f, 382.0f));
-
-			
+			m_MenuSelectPosition = (D3DXVECTOR2(50.0f, 382.0f));	
 			m_GameButtonOverlap = false;
 			m_OptionButtonOverlap = true;
 		}
-		else
-		{
-			m_MenuSelectPosition = (D3DXVECTOR2(50.0f, 312.0f));
-		}
+		
 
 		if (m_OptionButtonOverlap)
 		{

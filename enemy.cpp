@@ -53,7 +53,7 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
-	m_HP = 20; //120
+	m_HP = 40; //120
 
 	m_Threshold = 0;
 	m_DissolveEnable = true;
@@ -411,12 +411,12 @@ void Enemy::UpdateHowl()
 	if (m_Howl == true)
 	{
 		m_AnimationDelay++;
-		if (m_AnimationDelay >= 90 && m_AnimationDelay<=300)
+		if (m_AnimationDelay >= 90 && m_AnimationDelay<=290)
 		{
-			if (m_AnimationDelay % 10 == 0)
+			if (m_AnimationDelay % 20 == 0)
 			{
-				//HowlEffect* howleffect = m_Scene->AddGameObject<HowlEffect>();
-				//howleffect->SetScale(D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+				HowlEffect* howleffect = m_Scene->AddGameObject<HowlEffect>();
+				howleffect->SetScale(D3DXVECTOR3(50.0f, 50.0f, 0.0f));
 			}		
 			if (!m_HowlSEFlag)
 			{
