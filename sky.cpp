@@ -8,7 +8,7 @@ void Sky::Init()
 {
 	
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\sky.obj");
+	m_Model->Load("asset\\model\\skydome.obj");
 
 	m_ReflectEnable = true;
 
@@ -35,6 +35,7 @@ void Sky::Update()
 	Camera* camera = scene->GetGameObject<Camera>();
 	
 	m_Position = camera->GetPosition();
+	m_Rotation.y += 0.0001f;
 }
 
 void Sky::Draw()

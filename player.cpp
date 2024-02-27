@@ -36,6 +36,7 @@
 #include"whetstone.h"
 #include"inputx.h"
 #include"debug.h"
+#include"trail.h"
 void Player::Init()
 {
 	m_Scene = Manager::GetScene();
@@ -210,12 +211,13 @@ void Player::Update()
 		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
 		Potion* potion = m_Scene->GetGameObject<Potion>();
 		WheteStone* whetestone = m_Scene->GetGameObject<WheteStone>();
-		DebugSystem* debugsystem = m_Scene->GetGameObject<DebugSystem>();
+		Trail* trail = m_Scene->GetGameObject<Trail>();
+		m_DebugSystem = m_Scene->GetGameObject<DebugSystem>();
 		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 		m_Bullet = m_Scene->GetGameObject<Bullet>();
 		m_Enemy = m_Scene->GetGameObject<Enemy>();
 		m_Sword = m_Scene->GetGameObject<Sword>();
-
+		
 
 		m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -223,7 +225,7 @@ void Player::Update()
 		m_Move = false;
 
 
-		if (debugsystem->GetDebugWindowEnable())
+		if (m_DebugSystem->GetDebugWindowEnable())
 		{
 			bool  checkhit = m_Sword->GetSwordHit();
 			////GUI‚Éƒpƒ‰ƒ[ƒ^•\Ž¦
@@ -233,15 +235,14 @@ void Player::Update()
 			ImGui::InputFloat("Frame", &m_AnimationDelay);
 			ImGui::InputInt("HP", &m_HP);
 			ImGui::Checkbox("AttackHit", &checkhit);
+			ImGui::Checkbox("TrailEnable", &m_TrailEnable);
 			ImGui::End();
+
+			trail->SetTrailEnable(m_TrailEnable);
 		}
 
 
 		GameObject::Update();
-
-
-
-
 
 
 		m_CameraFoward = m_Camera->GetForward();
@@ -1293,7 +1294,8 @@ void Player::UpdateGround()
 	}
 
 	//ƒJƒEƒ“ƒ^[UŒ‚
-	if (Input::GetKeyTrigger(VK_LBUTTON) && Input::GetKeyPress(VK_LCONTROL) && !m_Run && m_Sworddrawn && !m_OnSword)
+	if (Input::GetKeyTrigger(VK_LBUTTON) && Input::GetKeyPress(VK_LCONTROL) && !m_Run && m_Sworddrawn && !m_OnSword  && !m_DebugSystem->GetDebugWindowEnable() || 
+		Input::GetKeyTrigger('X') && !m_Run && m_Sworddrawn && !m_OnSword && !m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "CounterAttack")
 		{
@@ -1309,7 +1311,8 @@ void Player::UpdateGround()
 	}
 
 	//’ÊíUŒ‚
-	else if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating)
+	else if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
+		Input::GetKeyTrigger('X') && !m_Run && m_Sworddrawn && !m_OnSword  && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating && m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "SlashAttack")
 		{
@@ -1330,7 +1333,8 @@ void Player::UpdateGround()
 	}
 
 	//2’i–ÚUŒ‚
-	if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2 && !m_Animating)
+	if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2 && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
+		Input::GetKeyTrigger('X') && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2 && !m_Animating && m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "SlashAttack2")
 		{
@@ -1350,7 +1354,8 @@ void Player::UpdateGround()
 	}
 
 	////3’i–ÚUŒ‚
-	if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack3 && !m_Animating)
+	if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack3 && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
+		Input::GetKeyTrigger('X') && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack3 && !m_Animating && m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "SlashAttack3")
 		{
@@ -1372,7 +1377,8 @@ void Player::UpdateGround()
 
 
 	//‰ñ“]UŒ‚
-	if ((Input::GetKeyTrigger('T') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_Animating)
+	if ((Input::GetKeyTrigger('T') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
+		Input::GetKeyTrigger('C') && !m_Run && m_Sworddrawn && !m_OnSword && m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "RotationAttack")
 		{

@@ -27,7 +27,7 @@ void ItemCount::Init()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/score.png",
+		"asset/texture/UI/score.png",
 		NULL,
 		NULL,
 		&m_Texture,

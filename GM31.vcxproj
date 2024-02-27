@@ -179,6 +179,7 @@
     <ClCompile Include="howleffect.cpp" />
     <ClCompile Include="inputx.cpp" />
     <ClCompile Include="ItemManger.cpp" />
+    <ClCompile Include="timer.cpp" />
     <ClCompile Include="loadingtexturemanager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
@@ -263,6 +264,7 @@
     <ClInclude Include="howleffect.h" />
     <ClInclude Include="inputx.h" />
     <ClInclude Include="ItemManger.h" />
+    <ClInclude Include="timer.h" />
     <ClInclude Include="loadingtexturemanager.h" />
     <ClInclude Include="polygon2D.h" />
     <ClInclude Include="hpgage.h" />

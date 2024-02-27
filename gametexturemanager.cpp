@@ -16,8 +16,7 @@
 //ƒQ[ƒ€UI
 TextureLoad* texture_Dragon = new TextureLoad;
 TextureLoad* texture_Clock = new TextureLoad;
-TextureLoad* texture_TimeLimit = new TextureLoad;
-TextureLoad* texture_TimeHand = new TextureLoad;
+//TextureLoad* texture_TimeLimit = new TextureLoad;
 TextureLoad* texture_GageBase = new TextureLoad;
 TextureLoad* texture_TimelimitUI = new TextureLoad;
 TextureLoad* texture_ItemUI = new TextureLoad;
@@ -45,13 +44,10 @@ void GameTexture::Init()
 	texture_Dragon->SetTextureScale(180.0f, 180.0f);
 	texture_Clock->Init("asset/texture/UI/clock.png");
 	texture_Clock->SetTextureScale(150.0f, 150.0f);
-	texture_TimeLimit->Init("asset/texture/UI/ClockHandLimit2.png");
+	/*texture_TimeLimit->Init("asset/texture/UI/ClockHandLimit2.png");
 	texture_TimeLimit->SetOffset(33.0f, -105.0f);
 	texture_TimeLimit->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 1.0f));
-	texture_TimeLimit->SetTextureScale(150.0f, 150.0f);
-	texture_TimeHand->Init("asset/texture/UI/ClockHand2.png");
-	texture_TimeHand->SetOffset(-578.0f, -272.0f);
-	texture_TimeHand->SetTextureScale(150.0f, 150.0f);
+	texture_TimeLimit->SetTextureScale(150.0f, 150.0f);*/
 	texture_GageBase->Init("asset/texture/UI/gagebase2.png");
 	texture_GageBase->SetTextureScale(1600.0f, 50.0f);
 	texture_TimelimitUI->Init("asset/texture/UI/timelimit.png");
@@ -102,8 +98,7 @@ void GameTexture::Uninit()
 {
 	texture_Dragon->SetDestroy();
 	texture_Clock->SetDestroy();
-	texture_TimeLimit->SetDestroy();
-	texture_TimeHand->SetDestroy();
+	/*texture_TimeLimit->SetDestroy();*/
 	texture_GageBase->SetDestroy();
 	texture_WinUI->SetDestroy();
 	texture_WinUI2->SetDestroy();
@@ -129,8 +124,8 @@ void GameTexture::Update()
 
 	m_TimeLimitPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI,90);
 
-	m_ClockRotationY += 0.01f;
-	texture_TimeHand->SetRotation(D3DXVECTOR3(0.0f, 0.0f, m_ClockRotationY));
+
+
 	
 	//ƒNƒŠƒAŽž
 	if (m_Enemy != nullptr)
@@ -192,12 +187,6 @@ void GameTexture::Update()
 		}
 	}
 
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("texture");
-	ImGui::InputFloat("offsetx", &m_offsetx);
-	ImGui::InputFloat("offsety", &m_offsety);
-	ImGui::End();
-	texture_TimeHand->SetOffset(m_offsetx, m_offsety);
 }
 
 void GameTexture::Draw()
@@ -218,8 +207,7 @@ void GameTexture::Draw()
 	{
 		texture_Dragon->Draw(0.0f, 0.0f);
 		texture_Clock->Draw(5.0f, 8.0f);
-		texture_TimeLimit->Draw(5.0f, 8.0f);	
-		texture_TimeHand->Draw(5.0f, 8.0f);
+		/*texture_TimeLimit->Draw(5.0f, 8.0f);	*/
 		texture_PlayerName->Draw(10.0f, 90.0f);
 		texture_GageBase->Draw(80.0f, 5.0f);
 		texture_TimelimitUI->Draw(400.0f, m_TimeLimitPosY);

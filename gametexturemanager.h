@@ -17,16 +17,14 @@ private:
 	float m_SharpnessDownY=0.0f;
 	float m_SharpnessUpY=0.0f;
 	float m_DeadUIY = 0.0f;
-	float m_ClockRotationY = 0.0f;
+	
 
 	bool m_ClearLogoCountFlag = {};
 	bool m_ClearLogoFlag = {};
 	bool m_FaliedLogoCountFlag = {};
 	bool m_ChangeSceneFlag = {};
 	
-	float m_offsetx;
-	float m_offsety;
-
+	
 	class Scene* m_Scene;
 	class Enemy* m_Enemy;
 	class Sword* m_Sword;

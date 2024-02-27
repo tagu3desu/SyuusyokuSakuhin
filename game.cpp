@@ -51,6 +51,7 @@
 #include"healefect.h"
 #include"potion.h"
 #include"whetstone.h"
+#include"timer.h"
 Player* g_Player;
 
 bool Game::m_LoadFinish = false;
@@ -145,7 +146,9 @@ void Game::Init()
 	AddGameObject<Potion>(SPRITE_LAYER);
 	AddGameObject<WheteStone>(SPRITE_LAYER);
 
-
+	AddGameObject<ClockTimeLimit>(SPRITE_LAYER);
+	AddGameObject<ClockTimeHand>(SPRITE_LAYER);
+	
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
 	AddGameObject<DebugSystem>();

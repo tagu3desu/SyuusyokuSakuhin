@@ -48,6 +48,9 @@ void MeshField::Init()
 
 	//Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowMappingVS.cso");
 	//Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowMappingPS.cso");
+
+	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowFogMappingVS.cso");
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowFogMappingPS.cso");*/
 }
 
 void MeshField::Load()

@@ -29,7 +29,8 @@ private:
 
 	D3DXVECTOR3 m_TopVertex;
 	D3DXVECTOR3 m_BottomVertex;
-	bool m_TrailDrawFlag;
+	bool m_TrailDrawFlag = false;
+	bool m_TrailEnable=true;
 
 public:
 	void Init() ;
@@ -37,4 +38,6 @@ public:
 	void Update() ;
 	void Draw() ;
 	void SetTrail(D3DXVECTOR3 top, D3DXVECTOR3 bottom, bool trailflag) { m_TopVertex = top; m_BottomVertex = bottom;  m_TrailDrawFlag = trailflag;}
+	void SetTrailEnable(bool enable) { m_TrailEnable = enable;}
+	bool GetTrailEnable() { return m_TrailEnable;}
 };

@@ -184,8 +184,12 @@ void Trail::Draw()
 
 		Renderer::SetATCEnable(true);
 		// ƒ|ƒŠƒSƒ“•`‰æ
-		Renderer::GetDeviceContext()->Draw(m_BottomVertexArray.size()*2, 0);
+		if (m_TrailEnable)
+		{
+			Renderer::GetDeviceContext()->Draw(m_BottomVertexArray.size() * 2, 0);
 
+		}
+		
 		Renderer::SetATCEnable(false);
 		Renderer::SetRssetEnable(false);
 	}

@@ -250,7 +250,7 @@ void Camera::Draw()
 	camera.FogParam.y = m_FogEnd;
 	camera.FogParam.z = m_FogHeight;
 	camera.FogParam.w = 0.0f;
-	camera.FogColor = D3DXCOLOR(0.0f, 0.0f, 0.4f,1.0f);
+	camera.FogColor = D3DXCOLOR(0.3f, 0.0f, 0.0f,1.0f);
 	camera.GroundFogColor= D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::SetCameraPosition(camera);
 

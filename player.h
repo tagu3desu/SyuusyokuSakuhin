@@ -91,7 +91,7 @@ private:
 	float m_AttackMagnification = 0.0f; //攻撃倍率
 	bool m_SharpnessUpFlag = false;
 	float m_SharpnessUpCount = 0.0f;
-
+	bool m_TrailEnable=true;
 	//ヒットストップ関連
 	bool m_HitStopFlag = false;
 	float m_HitStopTime = false;
@@ -154,7 +154,7 @@ private:
 	class Staminagage* m_Staminagage;
 	class HPgage* m_HPgage;
 	class ItemManager* m_ItemManager;
-
+	class DebugSystem* m_DebugSystem;
 	class Potion* m_Potion;
 	class WheteStone* m_WheteStone;
 	//アニメーションの補正
