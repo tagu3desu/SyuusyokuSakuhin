@@ -144,11 +144,11 @@ void Player::Init()
 	m_AttackCV3 = AddComponent<Audio>();
 	m_AttackCV3->Load("asset\\audio\\SE\\攻撃3段目.wav");
 
-	m_GetDamegeCV1 = AddComponent<Audio>();
-	m_GetDamegeCV1->Load("asset\\audio\\SE\\「うっ！」.wav");
+	m_GetDamegeCVS = AddComponent<Audio>();
+	m_GetDamegeCVS->Load("asset\\audio\\SE\\「うっ！」.wav");
 
-	m_GetDamegeCV2 = AddComponent<Audio>();
-	m_GetDamegeCV2->Load("asset\\audio\\SE\\「くおぉっ！」.wav");
+	m_GetDamegeCVB = AddComponent<Audio>();
+	m_GetDamegeCVB->Load("asset\\audio\\SE\\「くおぉっ！」.wav");
 
 	m_Time = 0.0f;
 	m_BlendTime = 0.0f;
@@ -214,11 +214,28 @@ void Player::Update()
 		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 		m_Bullet = m_Scene->GetGameObject<Bullet>();
 		m_Enemy = m_Scene->GetGameObject<Enemy>();
+		m_Sword = m_Scene->GetGameObject<Sword>();
+
 
 		m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 		m_Move = false;
+
+
+		if (debugsystem->GetDebugWindowEnable())
+		{
+			bool  checkhit = m_Sword->GetSwordHit();
+			////GUIにパラメータ表示
+			ImGui::SetNextWindowSize(ImVec2(300, 250));
+			ImGui::Begin("Player");
+			ImGui::InputFloat3("Position", m_Position);
+			ImGui::InputFloat("Frame", &m_AnimationDelay);
+			ImGui::InputInt("HP", &m_HP);
+			ImGui::Checkbox("AttackHit", &checkhit);
+			ImGui::End();
+		}
+
 
 		GameObject::Update();
 
@@ -433,16 +450,7 @@ void Player::Update()
 		m_CameraCorrectionPosition = D3DXVECTOR3(m_PlayerAnimationCorrection->GetAnimationPosition().x, m_Position.y, m_PlayerAnimationCorrection->GetAnimationPosition().z);
 
 
-		if (debugsystem->GetDebugWindowEnable())
-		{
-			////GUIにパラメータ表示
-			ImGui::SetNextWindowSize(ImVec2(300, 250));
-			ImGui::Begin("Player");
-			ImGui::InputFloat3("Position", m_Position);
-			ImGui::InputFloat("Frame", &m_AnimationDelay);
-			ImGui::InputInt("HP", &m_HP);
-			ImGui::End();
-		}
+		
 		
 
 
@@ -491,6 +499,7 @@ void Player::Update()
 
 					if (m_ReturnHitAnimation)
 					{
+						m_Animating = true;
 						m_ReturnInpactDelay++;
 						m_Speed = 0.0f;
 						if (m_ReturnInpactDelay > 60)
@@ -667,8 +676,8 @@ void Player::Update()
 				else if (!m_InvincibilityFlag && !m_SuccessGuard)
 				{
 					hpgage->SetDamage(70);
-					m_GetDamegeCV2->Volume(Scene::m_SEVolume * 0.5f);
-					m_GetDamegeCV2->PlaySE();
+					m_GetDamegeCVB->Volume(Scene::m_SEVolume * 0.5f);
+					m_GetDamegeCVB->PlaySE();
 					m_InviciblilityStartFlag = true;
 					m_BigDamageReaction = true;
 				}
@@ -692,8 +701,8 @@ void Player::Update()
 				else if (!m_InvincibilityFlag && !m_SuccessGuard)
 				{
 					hpgage->SetDamage(80);
-					m_GetDamegeCV2->Volume(Scene::m_SEVolume * 0.5f);
-					m_GetDamegeCV2->PlaySE();
+					m_GetDamegeCVB->Volume(Scene::m_SEVolume * 0.5f);
+					m_GetDamegeCVB->PlaySE();
 					m_InviciblilityStartFlag = true;
 					m_BigDamageReaction = true;
 				}
@@ -713,8 +722,8 @@ void Player::Update()
 				}
 				else if (!m_InvincibilityFlag && !m_SuccessGuard)
 				{
-					m_GetDamegeCV1->Volume(Scene::m_SEVolume * 0.5f);
-					m_GetDamegeCV1->PlaySE();
+					m_GetDamegeCVS->Volume(Scene::m_SEVolume * 0.5f);
+					m_GetDamegeCVS->PlaySE();
 					hpgage->SetDamage(50);
 					m_InviciblilityStartFlag = true;
 					m_SmallDamageReaction = true;
@@ -1738,9 +1747,9 @@ void Player::UpdateGuard()
 
 	if (m_InpactGuard)
 	{
-		InputX::SetVibration(0, 500);
+		InputX::SetVibration(0, 100);
 	}
-	else
+	else if(!m_InpactGuard)
 	{
 		InputX::StopVibration(0);
 	}

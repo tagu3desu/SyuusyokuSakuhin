@@ -127,8 +127,8 @@ private:
 	class Audio* m_AttackCV1{};
 	class Audio* m_AttackCV2{};
 	class Audio* m_AttackCV3{};
-	class Audio* m_GetDamegeCV1{};
-	class Audio* m_GetDamegeCV2{};
+	class Audio* m_GetDamegeCVS{};
+	class Audio* m_GetDamegeCVB{};
 
 	bool m_FootSoundFlag{};
 	int m_FootSoundInterval = 0;

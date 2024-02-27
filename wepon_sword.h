@@ -55,6 +55,7 @@ public:
 	WEPON_SHARPNES GetWeponSharpnes() { return m_WeponSharpnes; }
 	bool GetSwordHit() { return m_Swordhit; }
 	bool GetSharpnessUIFlag() {return m_DownSharpnessFlag;}
+	void SetDurability(float durability) { m_Durability -= durability; }
 
 	void Init();
 	void Uninit();

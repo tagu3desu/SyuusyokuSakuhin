@@ -23,8 +23,8 @@ float Scene::m_SEVolume;
 
 void TitleTexture::Init()
 {
-	texture_PushSpace->Init("asset/texture/UI/PushSpacetoB.png");
-	texture_PushSpace->SetTextureScale(900.0f, 150.0f);
+	texture_PushSpace->Init("asset/texture/UI/PushSpacetoB2.png");
+	texture_PushSpace->SetTextureScale(950.0f, 120.0f);
 
 	texture_GameStart->Init("asset/texture/UI/GAMESTART.png");
 	texture_GameStart->SetTextureScale(900.0f, 150.0f);
@@ -206,7 +206,7 @@ void TitleTexture::Draw() //50,312 || 382
 		if (!Title::GetMenuControl())
 		{
 			texture_TitleSelect->Draw(50.0f, 312.0f);
-			texture_PushSpace->Draw(40.0f, 300.0f);
+			texture_PushSpace->Draw(40.0f, 310.0f);
 			texture_TitleLogo->Draw(100.0f, 0.0f);
 		}
 		if (Title::GetMenuControl())
