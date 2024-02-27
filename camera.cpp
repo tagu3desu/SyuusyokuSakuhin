@@ -19,7 +19,10 @@ void Camera::Init()
 	m_RotationY = 1.7f;
 	m_FogStart =100.0f;
 	m_FogEnd= 500.0f;
-	m_FogHeight =100.0f;
+	m_FogHeight =300.0f;
+
+	m_FogColor = D3DXCOLOR(0.3f, 0.0f, 0.0f, 0.0f);
+	m_GroundFogColor = D3DXCOLOR(0.1f, 0.0f, 0.0f, 0.0f);
 
 	m_Scene = Manager::GetScene();
 }
@@ -40,16 +43,29 @@ void Camera::Update()
 		m_FogHeight -= 1.0f;
 	}
 
-	//1ターゲット、元の場所,目標の場所の座標
+	
+	if (enemy != nullptr)
+	{
+		if (enemy->GetDead())
+		{
+			if (m_FogHeight >= 5)
+			{
+				m_FogHeight -= 1.0f;
+			}
+			if (m_FogColor.a <= 1.5f)
+			{
+				m_FogColor += D3DXCOLOR(0.003f, 0.003f, 0.003f, 0.003f);
+			}
+			
+			if (m_GroundFogColor.a <=1.5f)
+			{
+				m_GroundFogColor += D3DXCOLOR(0.003f, 0.003f, 0.003f, 0.003f);
+			}
+			
+		}
+	}
 	
 
-	/*ImGui::Begin("Camera");
-	ImGui::InputFloat("FogStart", &m_FogStart);
-	ImGui::InputFloat("FogEnd", &m_FogEnd);
-	ImGui::InputFloat("FogHeight", &m_FogHeight);
-	ImGui::InputFloat("RotationX", &m_RotationX);
-	ImGui::InputFloat("RotationY", &m_RotationY);
-	ImGui::End();*/
 
 	
 #if 1 //デバッグ
@@ -250,8 +266,10 @@ void Camera::Draw()
 	camera.FogParam.y = m_FogEnd;
 	camera.FogParam.z = m_FogHeight;
 	camera.FogParam.w = 0.0f;
-	camera.FogColor = D3DXCOLOR(0.3f, 0.0f, 0.0f,1.0f);
-	camera.GroundFogColor= D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	//camera.FogColor = D3DXCOLOR(0.3f, 0.0f, 0.0f,1.0f);
+	//camera.GroundFogColor= D3DXCOLOR(0.1f, 0.0f, 0.0f, 1.0f);
+	camera.FogColor = m_FogColor;
+	camera.GroundFogColor= m_GroundFogColor;
 	Renderer::SetCameraPosition(camera);
 
 

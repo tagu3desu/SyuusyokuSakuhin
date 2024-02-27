@@ -164,6 +164,7 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="campField.cpp" />
+    <ClCompile Include="clearrank.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="cylinder.cpp" />
     <ClCompile Include="debug.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="howleffect.cpp" />
     <ClCompile Include="inputx.cpp" />
     <ClCompile Include="ItemManger.cpp" />
+    <ClCompile Include="timenumber.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="loadingtexturemanager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -247,6 +249,7 @@
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="campField.h" />
+    <ClInclude Include="clearrank.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="compornent.h" />
     <ClInclude Include="cylinder.h" />
@@ -264,6 +267,7 @@
     <ClInclude Include="howleffect.h" />
     <ClInclude Include="inputx.h" />
     <ClInclude Include="ItemManger.h" />
+    <ClInclude Include="timenumber.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="loadingtexturemanager.h" />
     <ClInclude Include="polygon2D.h" />

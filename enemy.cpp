@@ -225,7 +225,7 @@ void Enemy::Update()
 
 	if (m_EnemyAI)
 	{
-		if (m_Length < 15 && !m_IsAttack && m_HowlFinish)
+		if (m_Length < 15 && !m_IsAttack && m_HowlFinish && !player->GetPlayerDead())
 		{
 			m_EnemyState = ENEMY_STATE_ATTACK;
 		}
@@ -425,7 +425,7 @@ void Enemy::UpdateHowl()
 		m_AnimationDelay++;
 		if (m_AnimationDelay >= 90 && m_AnimationDelay<=290)
 		{
-			if (m_AnimationDelay % 60 == 0)
+			if (m_AnimationDelay % 30 == 0)
 			{
 				HowlEffect* howleffect = m_Scene->AddGameObject<HowlEffect>();
 				howleffect->SetScale(D3DXVECTOR3(50.0f, 50.0f, 0.0f));

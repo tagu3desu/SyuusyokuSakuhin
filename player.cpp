@@ -94,7 +94,7 @@ void Player::Init()
 	m_Scale = D3DXVECTOR3(0.015f, 0.015f, 0.015f);
 	m_Speed = 0.1f;
 
-	m_HP = 500;
+	m_HP = 100;
 	m_Stamina = 1000;
 
 	m_DepthEnable = true;

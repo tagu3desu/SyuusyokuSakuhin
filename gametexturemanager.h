@@ -17,8 +17,11 @@ private:
 	float m_SharpnessDownY=0.0f;
 	float m_SharpnessUpY=0.0f;
 	float m_DeadUIY = 0.0f;
-	
+	float m_LimitUICount = 0.0f;
 
+
+
+	bool m_GameStasrtFlag = {};
 	bool m_ClearLogoCountFlag = {};
 	bool m_ClearLogoFlag = {};
 	bool m_FaliedLogoCountFlag = {};

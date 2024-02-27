@@ -19,9 +19,12 @@ private:
 
 	bool m_PlayBGMFlag{};
 	bool m_WinSEFlag{};
+	bool m_DeadSEFlag{};
+
 	class Scene* m_Scene{};
 	class Audio* m_BattleBGM{};
 	class Audio* m_WinSE{};
+	class Audio* m_DeadSE{};
 public:
 
 

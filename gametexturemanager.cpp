@@ -13,10 +13,10 @@
 #include"player.h"
 #include"camera.h"
 #include"ItemManger.h"
+#include"timer.h"
 //ƒQ[ƒ€UI
 TextureLoad* texture_Dragon = new TextureLoad;
 TextureLoad* texture_Clock = new TextureLoad;
-//TextureLoad* texture_TimeLimit = new TextureLoad;
 TextureLoad* texture_GageBase = new TextureLoad;
 TextureLoad* texture_TimelimitUI = new TextureLoad;
 TextureLoad* texture_ItemUI = new TextureLoad;
@@ -39,15 +39,16 @@ TextureLoad* texture_FaliedLogo = new TextureLoad;
 
 void GameTexture::Init()
 {
+	
+
+
+
+
 	//HPƒo[‚Ì”wŒi‚ÆŽžŠÔ•\Ž¦
 	texture_Dragon->Init("asset/texture/UI/dragonUI.png");
 	texture_Dragon->SetTextureScale(180.0f, 180.0f);
 	texture_Clock->Init("asset/texture/UI/clock.png");
 	texture_Clock->SetTextureScale(150.0f, 150.0f);
-	/*texture_TimeLimit->Init("asset/texture/UI/ClockHandLimit2.png");
-	texture_TimeLimit->SetOffset(33.0f, -105.0f);
-	texture_TimeLimit->SetRotation(D3DXVECTOR3(0.0f, 0.0f, 1.0f));
-	texture_TimeLimit->SetTextureScale(150.0f, 150.0f);*/
 	texture_GageBase->Init("asset/texture/UI/gagebase2.png");
 	texture_GageBase->SetTextureScale(1600.0f, 50.0f);
 	texture_TimelimitUI->Init("asset/texture/UI/timelimit.png");
@@ -91,14 +92,22 @@ void GameTexture::Init()
 	texture_FaliedLogo->Init("asset/texture/UI/failedlogo.png");
 	texture_FaliedLogo->SetTextureScale(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	//ŽžŠÔ‚Ìˆ—
 	m_Scene = Manager::GetScene();
+	ClockTimeLimit* clocklimit = m_Scene->AddGameObject<ClockTimeLimit>(SPRITE_LAYER);
+	ClockTimeHand* clockhand = m_Scene->AddGameObject<ClockTimeHand>(SPRITE_LAYER);
+
+	m_FrameWait = 0;
+	m_ReturnCampCount=0;
+	m_ReturnCampCount = 0;
+	
 }
 
 void GameTexture::Uninit()
 {
 	texture_Dragon->SetDestroy();
 	texture_Clock->SetDestroy();
-	/*texture_TimeLimit->SetDestroy();*/
+	texture_TimelimitUI->SetDestroy();
 	texture_GageBase->SetDestroy();
 	texture_WinUI->SetDestroy();
 	texture_WinUI2->SetDestroy();
@@ -122,24 +131,41 @@ void GameTexture::Update()
 	m_Sword = m_Scene->GetGameObject<Sword>();
 	m_Player = m_Scene->GetGameObject<Player>();
 
-	m_TimeLimitPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI,90);
-
-
+	if (!m_GameStasrtFlag)
+	{
+		m_TimeLimitPosY = texture_TimelimitUI->UiMove(160, texture_TimelimitUI, 70);
+		texture_TimelimitUI->SetEnable(true);
+		m_LimitUICount++;
+		if (m_LimitUICount >= 130)
+		{
+			m_GameStasrtFlag = true;
+			m_LimitUICount = 0;
+		}
+	}
 
 	
+
 	//ƒNƒŠƒAŽž
 	if (m_Enemy != nullptr)
 	{
 		if (m_Enemy->GetDead())
 		{
 			m_WinLogoPosY = texture_WinUI->UiMove(160, texture_WinUI,150);
-
+			texture_WinUI->SetEnable(true);
 			m_FrameWait++;
-
+			if (m_FrameWait > 130)
+			{
+				texture_WinUI->SetEnable(false);
+			}
 			if (m_FrameWait > 220)
 			{
 				m_WinLogo2PosY = texture_WinUI2->UiMove(160, texture_WinUI2, 150);
 				m_ClearLogoCountFlag = true;
+				texture_WinUI2->SetEnable(true);
+			}
+			if (m_FrameWait > 350)
+			{
+				texture_WinUI2->SetEnable(false);
 			}
 		}
 		
@@ -202,12 +228,12 @@ void GameTexture::Draw()
 		m_ClearLogoFlag = true;
 		
 		texture_ClearLogo->Draw(0.0f, 0.0f);
+		m_TimeLimitPosY = -50.0f;
 	}
 	else
 	{
 		texture_Dragon->Draw(0.0f, 0.0f);
 		texture_Clock->Draw(5.0f, 8.0f);
-		/*texture_TimeLimit->Draw(5.0f, 8.0f);	*/
 		texture_PlayerName->Draw(10.0f, 90.0f);
 		texture_GageBase->Draw(80.0f, 5.0f);
 		texture_TimelimitUI->Draw(400.0f, m_TimeLimitPosY);

@@ -18,12 +18,12 @@ TextureLoad* texture_BuckButton = new TextureLoad;
 TextureLoad* texture_BGMThumb = new TextureLoad;
 TextureLoad* texture_SEThumb = new TextureLoad;
 
-float Scene::m_BGMVolume;
-float Scene::m_SEVolume;
+float Scene::m_BGMVolume=0.0f;
+float Scene::m_SEVolume=0.0f;
 
 void TitleTexture::Init()
 {
-	texture_PushSpace->Init("asset/texture/UI/PushSpacetoB2.png");
+	texture_PushSpace->Init("asset/texture/UI/PushSpacetoB.png");
 	texture_PushSpace->SetTextureScale(950.0f, 120.0f);
 
 	texture_GameStart->Init("asset/texture/UI/GAMESTART.png");

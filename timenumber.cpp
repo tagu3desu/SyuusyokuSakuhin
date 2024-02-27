@@ -3,11 +3,11 @@
 #include"sprite.h"
 #include"itemcount.h"
 #include"input.h"
-#include"scene.h"
+#include"timenumber.h"
 #include"gametexturemanager.h"
 #include"manager.h"
 
-void ItemCount::Init()
+void TimeCount::Init()
 {
 	VERTEX_3D vertex[4];
 
@@ -27,7 +27,7 @@ void ItemCount::Init()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/UI/score.png",
+		"asset/texture/UI/time.png",
 		NULL,
 		NULL,
 		&m_Texture,
@@ -39,9 +39,10 @@ void ItemCount::Init()
 
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\unlitTexturePS.cso");
+
 }
 
-void ItemCount::Uninit()
+void TimeCount::Uninit()
 {
 	m_VertexBuffer->Release();
 	m_Texture->Release();
@@ -53,29 +54,21 @@ void ItemCount::Uninit()
 	GameObject::Uninit();
 }
 
-void ItemCount::Update()
+void TimeCount::Update()
 {
 	
 	GameObject::Update();
 	
 }
 
-void ItemCount::Draw()
+void TimeCount::Draw()
 {
 	Scene* scene = Manager::GetScene();
 	GameTexture* gametexture = scene->GetGameObject<GameTexture>();
 	
-	int count = m_ItemCount;
+	int count = m_Time;
 
-	//現在の所持アイテム数に応じて表示する桁数を変更
-	if (m_ItemCount >= m_MaxItemCount)
-	{
-		digits = 2;
-	}
-	else
-	{
-		digits = 1;
-	}
+	
 
 	//入力レイアウト
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
@@ -98,16 +91,7 @@ void ItemCount::Draw()
 	//マテリアル設定
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
-
-	if (m_ItemCount == m_MaxItemCount)
-	{
-		material.Diffuse = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
-	}
-	else
-	{
-		material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	}
-
+	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	material.TextureEnable = true;
 	Renderer::SetMaterial(material);
 
@@ -121,21 +105,12 @@ void ItemCount::Draw()
 
 	
 
-	for (int i = 0; i < digits; i++) {
-		
-		//桁数に応じて座標修正
-		if (digits == 2)	//2桁の時
-		{
-			m_X = 1719.0f - i * 18.0f;
-		}
-		else //1桁の時
-		{
-			m_X = 1709.0f - i * 20.0f;
-		}
-		m_Y = 906.0f;
+	for (int i = 0; i < 2; i++) {
 
-		float height = 45.0f;
-		float width = 32.0f;
+		
+		m_X = m_PosX - i * 25.0f; //1719
+		float height = 65.0f;
+		float width = 45.0f;
 		//テクスチャ座標算出
 		int number = count % 10;
 		count /= 10;
@@ -173,10 +148,8 @@ void ItemCount::Draw()
 		
 
 		//ポリゴン描画
-		if (m_Enable && !gametexture->GetGameClear())
-		{
-			Renderer::GetDeviceContext()->Draw(4, 0);
-		}
+		Renderer::GetDeviceContext()->Draw(4, 0);
+		
 		
 
 	}

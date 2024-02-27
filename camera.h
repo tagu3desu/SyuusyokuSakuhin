@@ -33,6 +33,9 @@ private:
 		float m_DeadCameraY = 0.0f;
 		bool m_DeadCameraFlag = false;
 		
+		D3DXCOLOR m_FogColor = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+		D3DXCOLOR m_GroundFogColor = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+
 
 		class Scene* m_Scene;
 

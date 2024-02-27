@@ -52,6 +52,8 @@
 #include"potion.h"
 #include"whetstone.h"
 #include"timer.h"
+#include"timenumber.h"
+
 Player* g_Player;
 
 bool Game::m_LoadFinish = false;
@@ -146,8 +148,7 @@ void Game::Init()
 	AddGameObject<Potion>(SPRITE_LAYER);
 	AddGameObject<WheteStone>(SPRITE_LAYER);
 
-	AddGameObject<ClockTimeLimit>(SPRITE_LAYER);
-	AddGameObject<ClockTimeHand>(SPRITE_LAYER);
+	
 	
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
@@ -191,6 +192,9 @@ void Game::Init()
 
 	m_WinSE = AddGameObject<GameObject>()->AddComponent<Audio>();
 	m_WinSE->Load("asset\\audio\\SE\\栄光のファンファーレ.wav");
+
+	m_DeadSE = AddGameObject<GameObject>()->AddComponent<Audio>();
+	m_DeadSE->Load("asset\\audio\\SE\\死亡時SE.wav");
 }
 
 
@@ -206,16 +210,24 @@ void Game::Update()
 	{
 		if (enemy->GetEnemyHowlFinish() && !m_PlayBGMFlag)
 		{
-			m_BattleBGM->Volume(Scene::m_BGMVolume * 0.1);
+			m_BattleBGM->Volume(Scene::m_BGMVolume * 0.03);
 			m_BattleBGM->PlayBGM();
 			m_PlayBGMFlag = true;
+		}
+
+		if (player->GetPlayerDead() && !m_DeadSEFlag)
+		{
+			m_BattleBGM->Stop();
+			m_DeadSE->Volume(Scene::m_SEVolume * 0.05f);
+			m_DeadSE->PlaySE();
+			m_DeadSEFlag = true;
 		}
 
 
 		if (enemy->GetDead() && !m_WinSEFlag)
 		{
 			m_BattleBGM->Stop();
-			m_WinSE->Volume(Scene::m_SEVolume*0.15f);
+			m_WinSE->Volume(Scene::m_SEVolume*0.05f);
 			m_WinSE->PlaySE();
 			m_WinSEFlag = true;
 		}
@@ -232,18 +244,6 @@ void Game::Update()
 	{
 		Manager::SetScene<Result>();
 	}
-	
-
-
-	/*if (player->GetOverFlag())
-	{
-		m_Fade->FadeOut();
-	}
-	if (m_Fade->GetFadeFinish())
-	{
-		Manager::SetScene<Result>();
-	}*/
-
 	
 }
 

@@ -10,11 +10,22 @@ private:
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
 
+	int m_TimeCount = 0;
+	static float m_TimeSecond;
+	static float m_TimeMilliSeconds;
+	static float m_TimeMin;
+
+	class Scene* m_Scene;
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
+
+	
+	float GetTimeMin() { return m_TimeMin; }
+	float GetTimeSecond() { return m_TimeSecond; }
+	float GetTimeMilliSecond() { return m_TimeMilliSeconds; }
 };
 
 class ClockTimeLimit :public GameObject
