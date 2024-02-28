@@ -1,23 +1,48 @@
-# Blender MTL File: 'birch_tree.blend'
-# Material Count: 2
+# Blender MTL File: 'None'
+# Material Count: 4
 
-newmtl Tree.Birch.Leaf.Summer.Mat
-Ns 250.000000
+newmtl Material__14
+Ns 10.000005
 Ka 1.000000 1.000000 1.000000
-Kd 0.208335 0.359993 0.139720
-Ks 0.200000 0.200000 0.200000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
-Ni 1.000000
+Ni 1.500000
 d 1.000000
-illum 2
+illum 1
+map_Kd gleditsia triacanthos flowers color.jpg
+map_dgleditsia triacanthos flowers mask.jpg
 
-newmtl マテリアル
-Ns 250.000000
+newmtl Material__5
+Ns 10.000005
 Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.036570 0.026343
-Ks 0.500000 0.500000 0.500000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
-Ni 1.450000
+Ni 1.500000
 d 1.000000
-illum 2
-map_Kd miki.jpg
+illum 1
+map_Kd gleditsia triacanthos bark reflect.jpg
+
+newmtl Material__6
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd gleditsia triacanthos bark2 a1.jpg
+
+newmtl Material__8
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd gleditsia triacanthos leaf color b1.jpg
+map_d gleditsia triacanthos leaf mask.jpg

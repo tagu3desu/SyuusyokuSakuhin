@@ -29,7 +29,7 @@ void RockEffect::Init()
 void RockEffect::Load()
 {
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\rockeffect.obj");
+	m_Model->Load("asset\\model\\object\\rockeffect.obj");
 }
 
 void RockEffect::Unload()

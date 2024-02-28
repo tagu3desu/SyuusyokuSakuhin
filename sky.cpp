@@ -8,7 +8,7 @@ void Sky::Init()
 {
 	
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\skydome.obj");
+	m_Model->Load("asset\\model\\object\\skydome.obj");
 
 	m_ReflectEnable = true;
 

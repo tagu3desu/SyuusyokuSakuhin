@@ -11,7 +11,7 @@ void Collider::Load()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\colliderver3.obj");
+	m_Model->Load("asset\\model\\object\\colliderver3.obj");
 };
 
 void Collider::Init()

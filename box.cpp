@@ -25,7 +25,7 @@ void Box::Init()
 void Box::Load()
 {
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\box.obj");
+	m_Model->Load("asset\\model\\object\\box.obj");
 }
 
 void Box::Unload()

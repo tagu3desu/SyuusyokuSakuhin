@@ -6,7 +6,7 @@ void Cylinder::Init()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\cylinder.obj");
+	m_Model->Load("asset\\model\\object\\cylinder.obj");
 
 
 	

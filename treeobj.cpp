@@ -6,7 +6,7 @@ void TreeOBJ::Init()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\tree.obj");
+	m_Model->Load("asset\\model\\object\\tree.obj");
 
 	m_DepthEnable = true;
 
