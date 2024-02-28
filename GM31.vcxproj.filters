@@ -156,9 +156,6 @@
     <ClCompile Include="result.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="result_gameover.cpp">
-      <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="box.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
@@ -261,9 +258,6 @@
     <ClCompile Include="collider.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="polygon2D.cpp">
-      <Filter>ソース ファイル\Texture\UI</Filter>
-    </ClCompile>
     <ClCompile Include="timenumber.cpp">
       <Filter>ソース ファイル\Texture\UI</Filter>
     </ClCompile>
@@ -293,9 +287,6 @@
     </ClCompile>
     <ClCompile Include="renderer.cpp">
       <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="bullet.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="rockeffect.cpp">
       <Filter>ソース ファイル\Object\Enemy</Filter>
@@ -372,9 +363,6 @@
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="result.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="result_gameover.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="textureload.h">
@@ -494,9 +482,6 @@
     <ClInclude Include="model.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="polygon2D.h">
-      <Filter>ヘッダー ファイル\Texture\UI</Filter>
-    </ClInclude>
     <ClInclude Include="sprite.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
@@ -511,9 +496,6 @@
     </ClInclude>
     <ClInclude Include="scene.h">
       <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="bullet.h">
-      <Filter>ヘッダー ファイル\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="rockeffect.h">
       <Filter>ヘッダー ファイル\Object\Enemy</Filter>

@@ -161,7 +161,6 @@
     <ClCompile Include="basecamptent.cpp" />
     <ClCompile Include="bladeefect2.cpp" />
     <ClCompile Include="box.cpp" />
-    <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="clearrank.cpp" />
     <ClCompile Include="collider.cpp" />
@@ -186,7 +185,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="polygon2D.cpp" />
     <ClCompile Include="hpgage.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -207,7 +205,6 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="resulttexturemanager.cpp" />
-    <ClCompile Include="result_gameover.cpp" />
     <ClCompile Include="rock.cpp" />
     <ClCompile Include="rockeffect.cpp" />
     <ClCompile Include="score.cpp" />
@@ -243,7 +240,6 @@
     <ClInclude Include="basecamptent.h" />
     <ClInclude Include="bladeefect2.h" />
     <ClInclude Include="box.h" />
-    <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="campField.h" />
     <ClInclude Include="clearrank.h" />
@@ -266,7 +262,6 @@
     <ClInclude Include="timenumber.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="loadingtexturemanager.h" />
-    <ClInclude Include="polygon2D.h" />
     <ClInclude Include="hpgage.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -288,7 +283,6 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="resulttexturemanager.h" />
-    <ClInclude Include="result_gameover.h" />
     <ClInclude Include="rock.h" />
     <ClInclude Include="rockeffect.h" />
     <ClInclude Include="scene.h" />

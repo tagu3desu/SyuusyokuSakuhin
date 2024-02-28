@@ -2,19 +2,13 @@
 #include"manager.h"
 #include"renderer.h"
 #include"game.h"
-#include "polygon2D.h"
-#include "field.h"
+#include"field.h"
 #include"camera.h"
 #include"player.h"	
 #include"enemy.h"
-#include"Cylinder.h"
-#include"bullet.h"
-#include"bladeefect1.h"
-#include"bladeefect2.h"
 #include"box.h"
 #include"result.h"
 #include"input.h"
-#include"score.h"
 #include"audio.h"
 #include"sky.h"
 #include"fade.h"
@@ -23,41 +17,34 @@
 #include"treetexture.h"
 #include"collider.h"
 #include"animationModel.h"
-#include"torus.h"
-#include"hpgage.h"
 #include"staminagage.h"
 #include"healItem.h"
 #include"itemcount.h"
 #include"wepon_sword.h"
 #include"swordtrail.h"
-#include"wepon_gun.h"
-#include"wepon_galbert.h"
 #include"wepon_shield.h"
 #include"treeobj.h"
 #include"howleffect.h"
 #include"watersurface.h"
-#include"collider.h"
 #include"trail.h"
 #include"gametexturemanager.h"
-#include"collider.h"
 #include"rockeffect.h"
-#include"basecamptent.h"
-#include"treasurebox.h"
 #include"debug.h"
 #include"shieldefect.h"
 #include"healefect.h"
-#include"potion.h"
 #include"whetstone.h"
 #include"timer.h"
 #include"timenumber.h"
 #include"basecamptent.h"
+#include"bladeefect1.h"
+#include"bladeefect2.h"
 Player* g_Player;
 
 bool Game::m_LoadFinish = false;
 
 void Game::Load()
 {
-	Bullet::Load();
+	
 	Enemy::Load();
 	Rock::Load();
 	TreeTexture::Load();
@@ -70,7 +57,6 @@ void Game::Load()
 	Box::Load();
 	RockEffect::Load();
 	BaceCampTent::Load();
-	TreasureBox::Load();
 	ShieldEffect::Load();
 	HealEffect::Load();
 	m_LoadFinish = true;
@@ -80,7 +66,7 @@ void Game::Unload()
 {
 	m_LoadFinish = false;
 
-	Bullet::Unload();
+	
 	Enemy::Unload();
 	Rock::Unload();
 	TreeTexture::Unload();
@@ -93,7 +79,6 @@ void Game::Unload()
 	Box::Unload();
 	RockEffect::Unload();
 	BaceCampTent::Unload();
-	TreasureBox::Unload();
 	ShieldEffect::Unload();
 	HealEffect::Unload();
 }
@@ -128,23 +113,13 @@ void Game::Init()
 	Enemy* enemy = AddGameObject<Enemy>();
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 
-	/*BaceCampTent* tent = AddGameObject<BaceCampTent>();
-	tent->SetPosition(D3DXVECTOR3(- 1, 0, -22));*/
+
 
 	
 	Box* box = AddGameObject<Box>();
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
 
-	
 
-
-	
-	
-	AddGameObject<Potion>(SPRITE_LAYER);
-	AddGameObject<WheteStone>(SPRITE_LAYER);
-
-	
-	
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
 	AddGameObject<DebugSystem>();

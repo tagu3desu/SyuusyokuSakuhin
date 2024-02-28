@@ -30,7 +30,7 @@ void Rock::Init()
 void Rock::Load()
 {
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\Rock.obj");
+	m_Model->Load("asset\\model\\object\\Rock.obj");
 }
 
 void Rock::Uninit()
@@ -50,13 +50,8 @@ void Rock::Unload()
 
 void Rock::Update()
 {
-	
 	m_RockCollider->SetMatrix(m_Matrix);
 	SetColliderInfo(m_RockCollider->GetMatrix());
-
-	
-	
-	
 }
 
 void Rock::Draw()
