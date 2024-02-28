@@ -36,16 +36,13 @@
 #include"treeobj.h"
 #include"howleffect.h"
 #include"watersurface.h"
-#include"wepon_axe.h"
 #include"collider.h"
 #include"trail.h"
 #include"gametexturemanager.h"
 #include"collider.h"
-#include"campField.h"
 #include"rockeffect.h"
 #include"basecamptent.h"
 #include"treasurebox.h"
-#include"dummy.h"
 #include"debug.h"
 #include"shieldefect.h"
 #include"healefect.h"
@@ -53,7 +50,7 @@
 #include"whetstone.h"
 #include"timer.h"
 #include"timenumber.h"
-
+#include"basecamptent.h"
 Player* g_Player;
 
 bool Game::m_LoadFinish = false;
@@ -70,12 +67,10 @@ void Game::Load()
 	SwordTopVertex::Load();
 	MeshField::Load();
 	Collider::Load();
-	BaseCamp::Load();
 	Box::Load();
 	RockEffect::Load();
 	BaceCampTent::Load();
 	TreasureBox::Load();
-	Dummy::Load();
 	ShieldEffect::Load();
 	HealEffect::Load();
 	m_LoadFinish = true;
@@ -95,12 +90,10 @@ void Game::Unload()
 	SwordTopVertex::Unload();
 	MeshField::Unload();
 	Collider::Unload();
-	BaseCamp::Unload();
 	Box::Unload();
 	RockEffect::Unload();
 	BaceCampTent::Unload();
 	TreasureBox::Unload();
-	Dummy::Unload();
 	ShieldEffect::Unload();
 	HealEffect::Unload();
 }
@@ -135,7 +128,9 @@ void Game::Init()
 	Enemy* enemy = AddGameObject<Enemy>();
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 
-	
+	/*BaceCampTent* tent = AddGameObject<BaceCampTent>();
+	tent->SetPosition(D3DXVECTOR3(- 1, 0, -22));*/
+
 	
 	Box* box = AddGameObject<Box>();
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
@@ -154,38 +149,38 @@ void Game::Init()
 
 	AddGameObject<DebugSystem>();
 
-	////////木
-	{
-		//for (int i = 0; i < 20; i++) 
+	//////////木
+	//{
+	//	for (int i = 0; i < 20; i++) 
 	//{
 	//	auto tree = AddGameObject<TreeTexture>();
 
 	//	D3DXVECTOR3 pos;
-	//	pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-	//	pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
+	//	pos.x = (float)rand() / RAND_MAX * 80.0f - 50.0f;
+	//	pos.z = (float)rand() / RAND_MAX * 80.0f - 50.0f;
 	//	//pos.y = meshfield->GetHeight(pos);
 	//	pos.y = 0.0f;
 	//	tree->SetPosition(pos);
 	//}
-	}
+	//}
 	
 
-	//////////岩
-	//for (int i = 0; i < 20; i++)
-	//{
-	//	auto rock = AddGameObject<Rock>();
+	////////岩
+	for (int i = 0; i < 20; i++)
+	{
+		auto rock = AddGameObject<Rock>();
 
-	//	D3DXVECTOR3 pos;
-	//	pos.x = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-	//	pos.z = (float)rand() / RAND_MAX * 100.0f - 50.0f;
-	//	MeshField* meshField = GetGameObject<MeshField>();
-	//	pos.y = meshField->GetHeight(pos);
-	//	rock->SetPosition(pos);
+		D3DXVECTOR3 pos;
+		pos.x = (float)rand() / RAND_MAX * 100.0f - 40.0f;
+		pos.z = (float)rand() / RAND_MAX * 100.0f - 60.0f;
+		MeshField* meshField = GetGameObject<MeshField>();
+		pos.y = meshField->GetHeight(pos);
+		rock->SetPosition(pos);
 
-	//	D3DXVECTOR3 scl;
-	//	scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
-	//	rock->SetScale(scl);
-	//}
+		D3DXVECTOR3 scl;
+		scl.x = scl.y = scl.z = (float)rand() / RAND_MAX * 1.0f + 1.0f;
+		rock->SetScale(scl);
+	}
 	
 	m_BattleBGM = AddGameObject<GameObject>()->AddComponent<Audio>();
 	m_BattleBGM->Load("asset\\audio\\BGM\\battlebgm.wav");
@@ -261,66 +256,11 @@ void Game::Draw()
 	D3DXVECTOR3 lighttarget;
 	MeshField* meshfield= GetGameObject<MeshField>();
 	
-	
 	lighttarget = meshfield->GetCenterPosition();
 
 	
 	
-	////////reflect
- //   //ビュー変換行列を作成する
- //   //注視点オフセットテーブル
-	//D3DXVECTOR3 lookatOffset[6] = {
-	//	{ 1.0f, 0.0f, 0.0f },//+X D3D11_TEXTURECUBE_FACE_POSITIVE_X
-	//	{ -1.0f, 0.0f, 0.0f },//-X D3D11_TEXTURECUBE_FACE_NEGATIVE_X
-	//	{ 0.0f, 1.0f, 0.0f },//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
-	//	{ 0.0f, -1.0f, 0.0f },//-Y D3D11_TEXTURECUBE_FACE_NEGATIVE_Y
-	//	{ 0.0f, 0.0f, 1.0f },//+Z D3D11_TEXTURECUBE_FACE_POSITIVE_Z
-	//	{ 0.0f, 0.0f, -1.0f },//-Z D3D11_TEXTURECUBE_FACE_NEGATIVE_Z
-	//};
-
-	////upベクトルテーブル
-	//D3DXVECTOR3 upOffset[6] = {
-	//	{ 0.0f, 1.0f, 0.0f },
-	//	{ 0.0f, 1.0f, 0.0f },
-	//	{ 0.0f, 0.0f, -1.0f },
-	//	{ 0.0f, 0.0f, 1.0f },
-	//	{ 0.0f, 1.0f, 0.0f },
-	//	{ 0.0f, 1.0f, 0.0f },
-	//};
-
-	//D3DXVECTOR3 eye;
-	//D3DXVECTOR3 lookat;
-	//D3DXVECTOR3 up;
-	//D3DXMATRIX viewMatrixArray[6];
-	//D3DXVECTOR3 vPlayerPos = sword->GetPosition();
-	//for (int i = 0; i < 6; i++)
-	//{
-	//	eye = vPlayerPos;
-	//	lookat = vPlayerPos + lookatOffset[i];
-	//	up = -upOffset[i];
-	//	D3DXMatrixLookAtLH(&viewMatrixArray[i], &eye, &lookat, &up);
-	//}
-
-	////プロジェクションマトリクス設定
-	//D3DXMATRIX projectionMatrix;
-	//D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 2, 1.0f, 0.01f, 15000.0f);
-	//Renderer::SetProjectionMatrix(&projectionMatrix);
-	////ビューポート変更
-	//Renderer::SetReflectViewport();
-	////6面分描画する
-	//for (int i = 0; i < 6; i++)
-	//{
-	//	Renderer::BeginCube();
-	//	//ビュー変換マトリクス設定
-	//	Renderer::SetViewMatrix(&viewMatrixArray[i]);
-	//	Scene::ReflectDraw();
-
-	//	//描画したテクスチャをキューブマップ用テクスチャにコピーしていく
-	//	Renderer::GetDeviceContext()->CopySubresourceRegion(
-	//		Renderer::GetCubeReflectTexture(),
-	//		D3D11CalcSubresource(0, i, 1),
-	//		0, 0, 0, Renderer::GetReflectTexture(), 0, nullptr);
-	//}
+	
 
 
 

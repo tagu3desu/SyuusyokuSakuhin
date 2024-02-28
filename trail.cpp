@@ -18,12 +18,12 @@ void Trail::Init()
 		for (int i = 0; i < VERTEX_NUMBER / 2; i++)
 		{
 
-			m_Vertex[i * 2].Position = D3DXVECTOR3((i - 10) * 5.0f, 2.0f, 0);
+			m_Vertex[i * 2].Position = D3DXVECTOR3((i - 10) * 1.0f, 2.0f, 0);
 			m_Vertex[i * 2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 			m_Vertex[i * 2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 			m_Vertex[i * 2].TexCoord = D3DXVECTOR2(i * 1.0f, 0.0f);
 
-			m_Vertex[i * 2 + 1].Position = D3DXVECTOR3((i - 10) * 5.0f, 2.0f, 5.0f);
+			m_Vertex[i * 2 + 1].Position = D3DXVECTOR3((i - 10) * 1.0f, 2.0f, 5.0f);
 			m_Vertex[i * 2 + 1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 			m_Vertex[i * 2 + 1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 			m_Vertex[i * 2 + 1].TexCoord = D3DXVECTOR2(i * 1.0f, 1.0f);
@@ -91,20 +91,22 @@ void Trail::Draw()
 	Renderer::SetRssetEnable(true);
 	GameObject::Draw();
 
-	if (m_TopVertexArray.size() >= VERTEX_NUMBER / 2)
-	{
-		m_TopVertexArray.pop();
-		m_BottomVertexArray.pop();
-	}
-	m_TopVertexArray.push(m_TopVertex);
-	m_BottomVertexArray.push(m_BottomVertex);
+	
 
-
-	m_TopVertexArrayCopy = m_TopVertexArray;
-	m_BottomVertexArrayCopy = m_BottomVertexArray;
 
 	if (m_TrailDrawFlag)
 	{
+		
+		if (m_TopVertexArray.size() >= VERTEX_NUMBER / 2)
+		{
+			m_TopVertexArray.pop();
+			m_BottomVertexArray.pop();
+		}
+		m_TopVertexArray.push(m_TopVertex);
+		m_BottomVertexArray.push(m_BottomVertex);
+
+		m_TopVertexArrayCopy = m_TopVertexArray;
+		m_BottomVertexArrayCopy = m_BottomVertexArray;
 
 		//// 頂点データ書き換え// ここにメンバ変数で保存した頂点データを変える
 		D3D11_MAPPED_SUBRESOURCE msr;
@@ -193,7 +195,21 @@ void Trail::Draw()
 		Renderer::SetATCEnable(false);
 		Renderer::SetRssetEnable(false);
 	}
-
+	else
+	{
+		while (!m_TopVertexArray.empty()) {
+			m_TopVertexArray.pop();
+		}
+		while (!m_BottomVertexArray.empty()){
+			m_BottomVertexArray.pop();
+		}
+		while(!m_BottomVertexArrayCopy.empty()){
+			m_BottomVertexArrayCopy.pop();
+		}
+		while (!m_TopVertexArrayCopy.empty()) {
+			m_TopVertexArrayCopy.pop();
+		}
+	}
 	
 }
 

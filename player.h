@@ -13,7 +13,6 @@ enum PLAYER_STATE
 	PLAYER_STATE_ATTACK2,
 	PLAYER_STATE_ATTACK3,
 	PLAYER_STATE_ROTATION_ATTACK,
-	PLAYER_STATE_COUNTER_ATTACK,
 	PLAYER_STATE_ROLL,
 	PLAYER_STATE_DEAD,
 	PLAYER_STATE_GUARD,
@@ -172,7 +171,6 @@ public:
 	void UpdateAttack2();
 	void UpdateAttack3();
 	void UpdateRotationAttack();
-	void UpdateCounterAttack();
 	void UpdateRoll();
 	void UpdateDead();
 	void UpdateGuard();

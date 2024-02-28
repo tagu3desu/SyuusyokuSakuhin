@@ -25,7 +25,7 @@ void BaceCampTent::Init()
 void BaceCampTent::Load()
 {
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\Object\\basecamp.obj");
+	m_Model->Load("asset\\model\\object\\basecamp.obj");
 }
 
 void BaceCampTent::Unload()
@@ -73,10 +73,9 @@ void BaceCampTent::Draw()
 	m_Matrix = scale * rot * trans;
 	Renderer::SetWorldMatrix(&m_Matrix);
 	
-	if (basecamp->GetMapActive())
-	{
-		m_Model->Draw();
-	}
+	
+	m_Model->Draw();
+	
 	
 	
 	

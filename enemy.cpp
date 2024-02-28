@@ -36,12 +36,6 @@ void Enemy::Init()
 	m_NextAnimationName = "Idle";
 
 	m_Scale = D3DXVECTOR3(0.05f, 0.05f, 0.05f);
-	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\pixelLightingVS.cso");
-
-	Renderer::CreatePixelShader(&m_PixelShader,
-			"shader\\dissolvePS.cso");*/
-
 
 	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\skiningVertexLightingVS.cso");
@@ -55,7 +49,7 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
-	m_HP = 40; //120
+	m_HP = 80; //120
 
 	m_Threshold = 0;
 	m_DissolveEnable = true;
@@ -94,14 +88,14 @@ void Enemy::Load()
 {
 	m_Model = new AnimationModel();
 	//読み込むモデルをローポリとハイポリで2つ読みこむ
-	m_Model->Load("asset\\model\\Mutant.fbx");
-	m_Model->LoadAnimation("asset\\model\\Mutant Breathing Idle.fbx", "Idle");
-	m_Model->LoadAnimation("asset\\model\\Mutant Walking.fbx", "Walk");
-	m_Model->LoadAnimation("asset\\model\\Mutant Swiping.fbx", "PunchiAttack");
-	m_Model->LoadAnimation("asset\\model\\SlapAttack.fbx", "SlapAttack");
-	m_Model->LoadAnimation("asset\\model\\Jump Attack.fbx", "JumpAttack");
-	m_Model->LoadAnimation("asset\\model\\Mutant Roaring.fbx", "Howl");
-	m_Model->LoadAnimation("asset\\model\\Standing React Death Forward.fbx", "Dead");
+	m_Model->Load("asset\\model\\enemy\\Mutant.fbx");
+	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Breathing Idle.fbx", "Idle");
+	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Walking.fbx", "Walk");
+	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Swiping.fbx", "PunchiAttack");
+	m_Model->LoadAnimation("asset\\model\\enemy\\SlapAttack.fbx", "SlapAttack");
+	m_Model->LoadAnimation("asset\\model\\enemy\\Jump Attack.fbx", "JumpAttack");
+	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Roaring.fbx", "Howl");
+	m_Model->LoadAnimation("asset\\model\\enemy\\Standing React Death Forward.fbx", "Dead");
 }
 
 void Enemy::Uninit()

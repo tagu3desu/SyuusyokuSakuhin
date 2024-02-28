@@ -47,44 +47,42 @@ void Player::Init()
 
 
 	m_Model = new AnimationModel();
-	m_Model->Load("asset\\model\\Paladin J Nordstrom.fbx");
+	m_Model->Load("asset\\model\\player\\Paladin J Nordstrom.fbx");
 
 
 	//納刀状態モーション
-	m_Model->LoadAnimation("asset\\model\\Walking.fbx", "Walk");
-	m_Model->LoadAnimation("asset\\model\\Standard Run.fbx", "Run");
-	m_Model->LoadAnimation("asset\\model\\Unarmed Idle 01.fbx", "Idle");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Death.fbx", "IsDead");
-	m_Model->LoadAnimation("asset\\model\\Sprinting Forward Roll.fbx", "IsRoll");
+	m_Model->LoadAnimation("asset\\model\\player\\Walking.fbx", "Walk");
+	m_Model->LoadAnimation("asset\\model\\player\\Standard Run.fbx", "Run");
+	m_Model->LoadAnimation("asset\\model\\player\\Unarmed Idle 01.fbx", "Idle");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Death.fbx", "IsDead");
+	m_Model->LoadAnimation("asset\\model\\player\\Sprinting Forward Roll.fbx", "IsRoll");
 
 	//剣モーション
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Walk.fbx", "SwordWalk");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Run.fbx", "SwordRun");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Idle.fbx", "SwordIdle");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Idle2.fbx", "SwordIdle2");
-	m_Model->LoadAnimation("asset\\model\\Sheath Sword 2.fbx", "onSword");
-	m_Model->LoadAnimation("asset\\model\\Sheath Sword 1.fbx", "offSword");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Slash.fbx", "SlashAttack");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Slash2.fbx", "SlashAttack2");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Slash3.fbx", "SlashAttack3");
-	m_Model->LoadAnimation("asset\\model\\Standing Melee Attack 360 High.fbx", "RotationAttack");
-	m_Model->LoadAnimation("asset\\model\\Stable Sword Inward Slash.fbx", "CounterAttack");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield BlockStart.fbx", "StartGuard");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Block Idle.fbx", "IsGuard");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield BlockEnd.fbx", "EndGuard");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield Impact.fbx", "GuardImpact");
-	m_Model->LoadAnimation("asset\\model\\Victory.fbx", "HealMotion");
-	m_Model->LoadAnimation("asset\\model\\Sword And Shield HitSmallAttack.fbx", "HitSmallImpact");
-	m_Model->LoadAnimation("asset\\model\\Grinding1.fbx", "StartGlinding");
-	m_Model->LoadAnimation("asset\\model\\Grinding2.fbx", "IsGlinding");
-	m_Model->LoadAnimation("asset\\model\\Grinding3.fbx", "EndGlinding");
-	m_Model->LoadAnimation("asset\\model\\Shoulder Hit And Fall.fbx", "HitBigImpact");
-	m_Model->LoadAnimation("asset\\model\\Standing Up.fbx", "ReturnHitBigImpact");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Walk.fbx", "SwordWalk");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Run.fbx", "SwordRun");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Idle.fbx", "SwordIdle");
+	m_Model->LoadAnimation("asset\\model\\player\\Sheath Sword 2.fbx", "onSword");
+	m_Model->LoadAnimation("asset\\model\\player\\Sheath Sword 1.fbx", "offSword");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Slash.fbx", "SlashAttack");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Slash2.fbx", "SlashAttack2");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Slash3.fbx", "SlashAttack3");
+	m_Model->LoadAnimation("asset\\model\\player\\Standing Melee Attack 360 High.fbx", "RotationAttack");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield BlockStart.fbx", "StartGuard");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Block Idle.fbx", "IsGuard");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield BlockEnd.fbx", "EndGuard");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Impact.fbx", "GuardImpact");
+	m_Model->LoadAnimation("asset\\model\\player\\Victory.fbx", "HealMotion");
+	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield HitSmallAttack.fbx", "HitSmallImpact");
+	m_Model->LoadAnimation("asset\\model\\player\\Grinding1.fbx", "StartGlinding");
+	m_Model->LoadAnimation("asset\\model\\player\\Grinding2.fbx", "IsGlinding");
+	m_Model->LoadAnimation("asset\\model\\player\\Grinding3.fbx", "EndGlinding");
+	m_Model->LoadAnimation("asset\\model\\player\\Shoulder Hit And Fall.fbx", "HitBigImpact");
+	m_Model->LoadAnimation("asset\\model\\player\\Standing Up.fbx", "ReturnHitBigImpact");
 
 
 
 	//タイトル用のモーション
-	m_Model->LoadAnimation("asset\\model\\Sitting.fbx", "TitleIdle");
+	m_Model->LoadAnimation("asset\\model\\player\\Sitting.fbx", "TitleIdle");
 
 
 	m_AnimationName = "Idle";
@@ -94,19 +92,12 @@ void Player::Init()
 	m_Scale = D3DXVECTOR3(0.015f, 0.015f, 0.015f);
 	m_Speed = 0.1f;
 
-	m_HP = 100;
+	m_HP = 300;
 	m_Stamina = 1000;
 
 	m_DepthEnable = true;
 
-#if 0
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
-		"shader\\DepthShadowMappingVS.cso");
 
-	Renderer::CreatePixelShader(&m_PixelShader,
-		"shader\\DepthShadowMappingPS.cso");
-
-#else
 	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\skiningVertexLightingVS.cso");
 
@@ -114,8 +105,6 @@ void Player::Init()
 		"shader\\VertexLightingPS.cso");
 
 
-
-#endif // 0
 
 	m_OnWeponSE = AddComponent<Audio>();
 	m_OnWeponSE->Load("asset\\audio\\SE\\剣を抜く.wav");
@@ -611,9 +600,6 @@ void Player::Update()
 		break;
 	case PLAYER_STATE_ROTATION_ATTACK:
 		UpdateRotationAttack();
-		break;
-	case PLAYER_STATE_COUNTER_ATTACK:
-		UpdateCounterAttack();
 		break;
 	case PLAYER_STATE_ROLL:
 		UpdateRoll();
@@ -1293,25 +1279,10 @@ void Player::UpdateGround()
 		m_PlayerState = PLAYER_STATE_GUARD;
 	}
 
-	//カウンター攻撃
-	if (Input::GetKeyTrigger(VK_LBUTTON) && Input::GetKeyPress(VK_LCONTROL) && !m_Run && m_Sworddrawn && !m_OnSword  && !m_DebugSystem->GetDebugWindowEnable() || 
-		Input::GetKeyTrigger('X') && !m_Run && m_Sworddrawn && !m_OnSword && !m_DebugSystem->GetDebugWindowEnable())
-	{
-		if (m_NextAnimationName != "CounterAttack")
-		{
-			m_Time = 0.0f;
-			m_BlendTime = 0.0f;
-			m_AnimationName = m_NextAnimationName;
-			m_NextAnimationName = "CounterAttack";
-			m_Attack = true;
-			m_Move = true;
-			m_Idle = false;
-			m_PlayerState = PLAYER_STATE_COUNTER_ATTACK;
-		}
-	}
+	
 
 	//通常攻撃
-	else if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
+	if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
 		Input::GetKeyTrigger('X') && !m_Run && m_Sworddrawn && !m_OnSword  && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating && m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "SlashAttack")
@@ -1665,35 +1636,7 @@ void Player::UpdateRotationAttack()
 	}
 }
 
-void Player::UpdateCounterAttack()
-{
-	m_Idle = true;
-	if (m_Attack)
-	{
-		m_AnimationDelay++;
 
-		//攻撃判定が発生する時間設定
-		if (55 < m_AnimationDelay && m_AnimationDelay < 85)
-		{
-			m_AttackCollisionFlag = true;
-		}
-		else
-		{
-			m_AttackCollisionFlag = false;
-		}
-
-		if (m_AnimationDelay >= 90)
-		{
-			m_Time = 0;
-			m_AnimationDelay = 0;
-			m_Attack = false;
-			m_Move = false;
-			m_AttackMotion1 = false;
-			m_PlayerState = PLAYER_STATE_GROUND;
-		}
-	}
-
-}
 
 void Player::UpdateGuard()
 {

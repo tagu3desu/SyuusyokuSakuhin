@@ -6,7 +6,7 @@ void Wood::Init()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\Object\\wood2.obj");
+	m_Model->Load("asset\\model\\object\\wood2.obj");
 
 	m_DepthEnable = true;
 

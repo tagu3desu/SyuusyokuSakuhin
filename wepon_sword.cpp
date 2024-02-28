@@ -22,7 +22,7 @@ void Sword::Init()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\MetalSword.obj");
+	m_Model->Load("asset\\model\\sword\\MetalSword.obj");
 
 	
 	m_DepthEnable = true;

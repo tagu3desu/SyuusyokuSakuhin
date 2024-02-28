@@ -14,7 +14,7 @@ void Shield::Init()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\MetalShield.obj");
+	m_Model->Load("asset\\model\\shield\\MetalShield.obj");
 
 	m_DepthEnable = true;
 

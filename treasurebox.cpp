@@ -25,7 +25,7 @@ void TreasureBox::Init()
 void TreasureBox::Load()
 {
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\Object\\treasurebox.obj");
+	m_Model->Load("asset\\model\\object\\treasurebox.obj");
 }
 
 void TreasureBox::Unload()
