@@ -58,7 +58,7 @@ void BladeEffect1::Load()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/01_斬撃.png",
+		"asset/texture/Effect/SwordEffect.png",
 		NULL,
 		NULL,
 		&m_Texture,

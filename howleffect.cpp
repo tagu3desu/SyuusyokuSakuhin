@@ -62,7 +62,7 @@ void HowlEffect::Load()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/howl4.png",
+		"asset/texture/Effect/Howl.png",
 		NULL,
 		NULL,
 		&m_Texture,

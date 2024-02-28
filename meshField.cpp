@@ -45,12 +45,6 @@ void MeshField::Init()
 
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowNormalMappingVS.cso");
 	Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowNormalMappingPS.cso");
-
-	//Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowMappingVS.cso");
-	//Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowMappingPS.cso");
-
-	/*Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\DepthShadowFogMappingVS.cso");
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\DepthShadowFogMappingPS.cso");*/
 }
 
 void MeshField::Load()
@@ -143,7 +137,7 @@ void MeshField::Load()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/Rock.jpg",
+		"asset/texture/2DPolygon/Rock.jpg",
 		NULL,
 		NULL,
 		&m_Texture,
@@ -152,7 +146,7 @@ void MeshField::Load()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/NormalMapRock.png",
+		"asset/texture/2DPolygon/NormalMapRock.png",
 		NULL,
 		NULL,
 		&m_NormalTexture,

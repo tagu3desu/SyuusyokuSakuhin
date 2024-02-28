@@ -15,7 +15,7 @@ void Fade::Init()
 
 
 	m_Sprite = AddComponent<Sprite>();
-	m_Sprite->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, "asset/texture/fade.png");
+	m_Sprite->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, "asset/texture/Effect/fade.png");
 	
 }
 

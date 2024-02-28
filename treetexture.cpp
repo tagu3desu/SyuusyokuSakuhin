@@ -59,7 +59,7 @@ void TreeTexture::Load()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/tree.png",
+		"asset/texture/2DPolygon/tree.png",
 		NULL,
 		NULL,
 		&m_Texture,

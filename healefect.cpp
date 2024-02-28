@@ -58,7 +58,7 @@ void HealEffect::Load()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/heal.png",
+		"asset/texture/Effect/Heal.png",
 		NULL,
 		NULL,
 		&m_Texture,

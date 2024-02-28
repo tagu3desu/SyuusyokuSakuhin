@@ -206,7 +206,7 @@ public:
 	virtual void Init() {
 		// テクスチャ読み込み
 		D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-			"asset/texture/dissolve.png",
+			"asset/texture/Effect/dissolve.png",
 			NULL,
 			NULL,
 			&m_DisolveTexture,

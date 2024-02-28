@@ -58,7 +58,7 @@ void ShieldEffect::Load()
 
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		"asset/texture/shieldeffect.png",
+		"asset/texture/Effect/GuardEffect.png",
 		NULL,
 		NULL,
 		&m_Texture,
