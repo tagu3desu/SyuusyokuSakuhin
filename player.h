@@ -156,6 +156,9 @@ private:
 	class DebugSystem* m_DebugSystem;
 	class Potion* m_Potion;
 	class WheteStone* m_WheteStone;
+	
+
+
 	//アニメーションの補正
 	bool  m_SlowAnimation = false;
 	D3DXVECTOR3 m_CameraCorrectionPosition;

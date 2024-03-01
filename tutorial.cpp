@@ -1,7 +1,7 @@
 #include"main.h"
 #include"manager.h"
 #include"renderer.h"
-#include"game.h"
+#include"tutorial.h"
 #include"field.h"
 #include"camera.h"
 #include"player.h"	
@@ -40,9 +40,9 @@
 #include"bladeefect2.h"
 Player* g_Player;
 
-bool Game::m_LoadFinish = false;
+bool Tutorial::m_LoadFinish = false;
 
-void Game::Load()
+void Tutorial::Load()
 {
 	
 	Enemy::Load();
@@ -54,15 +54,12 @@ void Game::Load()
 	SwordTopVertex::Load();
 	MeshField::Load();
 	Collider::Load();
-	Box::Load();
-	RockEffect::Load();
-	BaceCampTent::Load();
 	ShieldEffect::Load();
 	HealEffect::Load();
 	m_LoadFinish = true;
 }
 
-void Game::Unload()
+void Tutorial::Unload()
 {
 	m_LoadFinish = false;
 
@@ -77,13 +74,11 @@ void Game::Unload()
 	MeshField::Unload();
 	Collider::Unload();
 	Box::Unload();
-	RockEffect::Unload();
-	BaceCampTent::Unload();
 	ShieldEffect::Unload();
 	HealEffect::Unload();
 }
 
-void Game::Init()
+void Tutorial::Init()
 {
 	
 	
@@ -94,7 +89,6 @@ void Game::Init()
 	skydome->SetScale(D3DXVECTOR3(300.0f,300.0f,300.0f));
 
 	//フィールド関連
-	//Field* field = AddGameObject<Field>();
 	MeshField*  meshfield = AddGameObject<MeshField>();
 	meshfield->SetMapActive(true);
 
@@ -106,15 +100,9 @@ void Game::Init()
 	g_Player->SetPosition(D3DXVECTOR3(-1,0,-20));
 	
 	
-	/*Sword*sword =AddGameObject<Sword>();
-	Shield* shield = AddGameObject<Shield>();*/
+	Sword*sword =AddGameObject<Sword>();
+	Shield* shield = AddGameObject<Shield>();
 	
-
-	Enemy* enemy = AddGameObject<Enemy>();
-	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
-
-
-
 	
 	Box* box = AddGameObject<Box>();
 	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
@@ -123,22 +111,6 @@ void Game::Init()
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
 	AddGameObject<DebugSystem>();
-
-	//////////木
-	//{
-	//	for (int i = 0; i < 20; i++) 
-	//{
-	//	auto tree = AddGameObject<TreeTexture>();
-
-	//	D3DXVECTOR3 pos;
-	//	pos.x = (float)rand() / RAND_MAX * 80.0f - 50.0f;
-	//	pos.z = (float)rand() / RAND_MAX * 80.0f - 50.0f;
-	//	//pos.y = meshfield->GetHeight(pos);
-	//	pos.y = 0.0f;
-	//	tree->SetPosition(pos);
-	//}
-	//}
-	
 
 	////////岩
 	for (int i = 0; i < 20; i++)
@@ -168,7 +140,7 @@ void Game::Init()
 }
 
 
-void Game::Update()
+void Tutorial::Update()
 {
 	Scene::Update();
 	m_Scene = Manager::GetScene();
@@ -217,7 +189,7 @@ void Game::Update()
 	
 }
 
-void Game::Uninit()
+void Tutorial::Uninit()
 {
 	Scene::Uninit();
 	
@@ -225,17 +197,13 @@ void Game::Uninit()
 	
 }
 
-void Game::Draw()
+void Tutorial::Draw()
 {
 	m_Scene = Manager::GetScene();
 	D3DXVECTOR3 lighttarget;
 	MeshField* meshfield= GetGameObject<MeshField>();
 	
 	lighttarget = meshfield->GetCenterPosition();
-
-	
-	
-	
 
 
 

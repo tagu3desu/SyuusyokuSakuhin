@@ -45,8 +45,7 @@ void Title::Init()
 
 	Player* player = AddGameObject<Player>();
 	player->SetRotation(D3DXVECTOR3(0.0f, -2.4f, 0.0f));
-	AddGameObject<Sword>();
-	AddGameObject<Shield>();
+	
 
 	Wood* wood = AddGameObject<Wood>();
 	wood->SetPosition(D3DXVECTOR3(-0.3f, 0.3f, 0.0f));

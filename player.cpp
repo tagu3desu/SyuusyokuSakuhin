@@ -153,7 +153,8 @@ void Player::Init()
 	m_ComboCount = 0;
 
 
-
+	m_Sword = m_Scene->AddGameObject<Sword>();
+	m_Shield = m_Scene->AddGameObject<Shield>();
 	if (!Title::GetCheckTitle())
 	{
 		m_ItemManager = m_Scene->AddGameObject<ItemManager>();
@@ -161,6 +162,8 @@ void Player::Init()
 		m_PlayerCollider = m_Scene->AddGameObject<Collider>();
 		m_PlayerCollider->SetScale(D3DXVECTOR3(70.0f, 170.0f, 70.0f));
 		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	
+
 
 		m_HPgage = m_Scene->AddGameObject<HPgage>(SPRITE_LAYER);
 		m_Staminagage = m_Scene->AddGameObject<Staminagage>(SPRITE_LAYER);
@@ -222,6 +225,7 @@ void Player::Update()
 			ImGui::Begin("Player");
 			ImGui::InputFloat3("Position", m_Position);
 			ImGui::InputFloat("Frame", &m_AnimationDelay);
+			ImGui::InputFloat("HitFrame", &m_HitInpactDelay);
 			ImGui::InputInt("HP", &m_HP);
 			ImGui::Checkbox("AttackHit", &checkhit);
 			ImGui::Checkbox("TrailEnable", &m_TrailEnable);
@@ -449,7 +453,11 @@ void Player::Update()
 			//ダメージリアクション大
 			if (m_BigDamageReaction && !m_SuccessGuard && !m_BigHitInpact)
 			{
-				
+				m_Attack = false;
+				m_Move = false;
+				m_HitInpactDelay = 0;
+				m_AttackCollisionFlag = false;
+				m_PlayerState = PLAYER_STATE_GROUND;
 				if (m_NextAnimationName != "HitBigImpact")
 				{
 					m_Time = 0.0f;
@@ -518,7 +526,11 @@ void Player::Update()
 			//ダメージリアクション小
 			if (m_SmallDamageReaction && !m_SuccessGuard && !m_SmallHitInpact)
 			{
-				
+				m_Attack = false;
+				m_Move = false;
+				m_HitInpactDelay = 0;
+				m_AttackCollisionFlag = false;
+				m_PlayerState = PLAYER_STATE_GROUND;
 				if (m_NextAnimationName != "HitSmallImpact")
 				{
 					m_Time = 0.0f;
@@ -1219,7 +1231,7 @@ void Player::UpdateGround()
 
 
 	//待機状態
-	if (m_Move == false && m_Attack == false && !m_OnSword && !m_OffSword && !m_SmallHitInpact && !m_BigHitInpact && !m_Healing && !m_Animating)
+	if (!m_Move&& !m_Attack && !m_OnSword && !m_OffSword && !m_SmallHitInpact && !m_BigHitInpact && !m_Healing && !m_Animating)
 	{
 		m_Run = false;
 		m_Walk = false;

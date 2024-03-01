@@ -597,7 +597,7 @@ void Enemy::UpdatePunchAttack() {
 
 	m_AnimationDelay++;
 
-	if (40 < m_AnimationDelay && 80)
+	if (80 < m_AnimationDelay &&  m_AnimationDelay < 110)
 	{
 		m_PunchAttackFlag = true;
 	}
