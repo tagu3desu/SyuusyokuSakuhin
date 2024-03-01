@@ -1,9 +1,18 @@
 #pragma once
 #include"gameobject.h"
 
+enum GameSceneAll
+{
+	TUTORIAL_SCENE,
+	QUEST1_SCENE
+};
+
+
 class GameTexture: public GameObject
 {
 private:
+	GameSceneAll m_GameScene/*= QUEST1_SCENE*/;
+
 	ID3D11VertexShader* m_VertexShader{};
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
@@ -30,16 +39,26 @@ private:
 	
 	class Scene* m_Scene;
 	class Enemy* m_Enemy;
+	class TutorialEnemy* m_TutorialEnemy;
 	class Sword* m_Sword;
 	class Player* m_Player;
 	class Camera* m_Camera;
 	class ItemManager* m_ItemManager;
+	class ClockTimeLimit* m_Clocklimit;
+	class ClockTimeHand* m_Clockhand;
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
 
+
+	void TutorialUpdate();
+	void TutorialDraw();
+	void QuestUpdate();
+	void QuestDraw();
+
+	void SetGameScene(GameSceneAll scene) { m_GameScene = scene; }
 	bool GetGameClear() { return m_ClearLogoFlag; }
 	bool GetChangeSceneFlag() { return m_ChangeSceneFlag; }
 };

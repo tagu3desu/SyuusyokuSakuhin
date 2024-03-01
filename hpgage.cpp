@@ -84,11 +84,14 @@ void HPgage::Update()
 	{
 		m_BeforHp -= 1.0f;
 	}
-
-	if (gametexture->GetGameClear())
+	if (gametexture != nullptr)
 	{
-		SetDestroy();
+		if (gametexture->GetGameClear())
+		{
+			SetDestroy();
+		}
 	}
+	
 
 }
 

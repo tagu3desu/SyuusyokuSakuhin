@@ -23,6 +23,7 @@ private:
 	class Audio* m_BattleBGM{};
 	class Audio* m_WinSE{};
 	class Audio* m_DeadSE{};
+	class GameTexture* m_GameTexture;
 public:
 
 

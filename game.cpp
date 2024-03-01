@@ -102,8 +102,13 @@ void Game::Init()
 	meshfield->SetMapActive(true);
 
 	
+	//éûä‘ÇÃèàóù
+	m_GameTexture = AddGameObject<GameTexture>(SPRITE_LAYER);
+	m_GameTexture->SetGameScene(QUEST1_SCENE);
+	AddGameObject<ClockTimeLimit>(SPRITE_LAYER);
+	AddGameObject<ClockTimeHand>(SPRITE_LAYER);
 
-	AddGameObject<GameTexture>(SPRITE_LAYER);
+
 
 	Player* player =  AddGameObject<Player>();
 	player->SetPosition(D3DXVECTOR3(-1.0f,0.0f,-20.0f));
@@ -113,9 +118,6 @@ void Game::Init()
 
 	Enemy* enemy = AddGameObject<Enemy>();
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
-
-	TutorialEnemy* tutorialenemy = AddGameObject<TutorialEnemy>();
-	tutorialenemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 10.0f));
 
 	
 	Box* box = AddGameObject<Box>();

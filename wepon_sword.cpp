@@ -8,6 +8,7 @@
 #include"swordtrail.h"
 #include"input.h"
 #include"enemy.h"
+#include"tutorialenemy.h"
 #include"collider.h"
 #include"title.h"
 #include"bladeefect1.h"
@@ -81,6 +82,7 @@ void Sword::Update()
 {
 	Player* player = m_Scene->GetGameObject<Player>();
 	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
+	TutorialEnemy* tutorialenemy = m_Scene->GetGameObject<TutorialEnemy>();
 	m_Camera = m_Scene->GetGameObject<Camera>();
 
 
@@ -242,7 +244,79 @@ void Sword::Update()
 			}
 		}
 
+		if (tutorialenemy != nullptr)
+		{
 
+			if (m_SwordCollider->CollisionChecker(this, tutorialenemy, 0.7f))
+			{
+
+				m_SwordCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+				if (player->GetPlayerAttackCollider() && !m_InvincibilityFlag)
+				{
+					if (player->GetPlayerAttackNumber() == 1)
+					{
+
+						m_NormalAttackHitSE->Volume(Scene::m_SEVolume);
+						m_NormalAttackHitSE->PlaySE();
+						InputX::SetVibration(0, 300);
+						m_Camera->Shake(0.05f);
+
+					}
+
+					if (player->GetPlayerAttackNumber() == 2)
+					{
+						m_SmallAttackHitSE->Volume(Scene::m_SEVolume * 0.3f);
+						m_SmallAttackHitSE->PlaySE();
+						InputX::SetVibration(0, 300);
+						m_Camera->Shake(0.02f);
+					}
+					else
+					{
+						m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
+						m_BigAttackHitSE->PlaySE();
+						m_Camera->Shake(0.1f);
+						InputX::SetVibration(0, 600);
+					}
+					/*if (player->GetPlayerAttackNumber() == 3)
+					{
+						m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
+						m_BigAttackHitSE->PlaySE();
+						m_Camera->Shake(0.1f);
+						InputX::SetVibration(0, 600);
+					}*/
+
+					m_ResultDamege = player->GetAttackMagnification() * m_WeponDamage;
+					m_Durability -= 4.0f;
+					m_Swordhit = true;
+					m_NormalAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
+					m_NormalAttackHitSE->PlaySE();
+					tutorialenemy->SetDamage(m_ResultDamege);
+
+					if (m_WeponSharpnes == SHARPNES_BLUE || m_WeponSharpnes == SHARPNES_GREEN)
+					{
+						BladeEffect1* bladeeffect1 = m_Scene->AddGameObject<BladeEffect1>(EFFECT_LAYER);
+						SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
+						bladeeffect1->SetScale(D3DXVECTOR3(6.5f, 6.5f, 6.5f));
+						bladeeffect1->SetPosition(swordvertex->GetTopVertexPostion());
+					}
+
+					if (m_WeponSharpnes == SHARPNES_YELLOW || m_WeponSharpnes == SHARPNES_RED)
+					{
+						BladeEffect2* bladeeffect2 = m_Scene->AddGameObject<BladeEffect2>(EFFECT_LAYER);
+						SwordTopVertex* swordvertex = m_Scene->GetGameObject<SwordTopVertex>();
+						bladeeffect2->SetScale(D3DXVECTOR3(3.5f, 3.5f, 3.5f));
+						bladeeffect2->SetPosition(swordvertex->GetTopVertexPostion());
+					}
+					player->SetHitStop(true);
+				}
+
+			}
+			else
+			{
+				m_Swordhit = false;
+				m_SwordCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+			}
+		}
 		
 
 

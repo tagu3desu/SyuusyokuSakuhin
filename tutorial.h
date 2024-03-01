@@ -22,6 +22,9 @@ private:
 	bool m_DeadSEFlag{};
 
 	class Scene* m_Scene{};
+	class GameTexture* m_GameTexture;
+	
+
 	class Audio* m_BattleBGM{};
 	class Audio* m_WinSE{};
 	class Audio* m_DeadSE{};

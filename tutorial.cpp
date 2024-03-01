@@ -96,7 +96,8 @@ void Tutorial::Init()
 
 	
 
-	AddGameObject<GameTexture>(SPRITE_LAYER);
+	m_GameTexture =  AddGameObject<GameTexture>(SPRITE_LAYER);
+	m_GameTexture->SetGameScene(TUTORIAL_SCENE);
 
 	Player* player =  AddGameObject<Player>();
 	player->SetPosition(D3DXVECTOR3(-1.0f,0.0f,-20.0f));
