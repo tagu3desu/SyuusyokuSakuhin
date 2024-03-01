@@ -39,6 +39,10 @@ private:
 
 	float m_MoveHeight;
 	int m_ShowTime{};
+
+	float m_R = 1.0f;
+	float m_G = 1.0f;
+	float m_B = 1.0f;
 public:
 	void Init(const char* TextureName);
 	void Uninit();
@@ -65,16 +69,18 @@ public:
 		
 	}
 
-	void TextureFlashing(int interval ,float arufa)	//ä‘äu,aílå∏è≠ó 
+	void TextureFlashing(int interval ,float arufa)	//ä‘äu,RGBílå∏è≠ó 
 	{
 		m_Count++;
+		SetColor(D3DXCOLOR(m_R, m_G, m_B, 1.0f));
+
 		if (m_Count < interval)
 		{
 			m_AlfaColor -= arufa;
 		}
 		else if (m_Count > interval && m_Count < (interval * 2))
 		{
-			m_AlfaColor +=arufa;
+			m_AlfaColor += arufa;
 		}
 		else if (m_Count > (interval * 2))
 		{
@@ -84,6 +90,30 @@ public:
 		SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, m_AlfaColor));
 	}
 
+	void TextureRGBFlashing(int interval, float reducedvalue)	//ä‘äu,aílå∏è≠ó 
+	{
+		m_Count++;
+		if (m_Count < interval)
+		{
+			m_R -= reducedvalue;
+			m_G -= reducedvalue;
+			m_B -= reducedvalue;
+		}
+		else if (m_Count > interval && m_Count < (interval * 2))
+		{
+			m_R += reducedvalue;
+			m_G += reducedvalue;
+			m_B += reducedvalue;
+		}
+		else if (m_Count > (interval * 2))
+		{
+			m_Count = 0;
+		}
+
+		SetColor(D3DXCOLOR(m_R, m_G, m_B, 1.0f));
+
+		
+	}
 
 	float UiMove(int heightlimit, GameObject * object1,int showtime);
 };

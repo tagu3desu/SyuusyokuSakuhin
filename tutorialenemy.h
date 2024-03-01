@@ -5,33 +5,31 @@
 #include"animationModel.h"
 
 
-enum ENEMY_STATE
+enum TUTORIAL_ENEMY_STATE
 {
-	ENEMY_STATE_IDLE,
-	ENEMY_STATE_MOVE,
-	ENEMY_STATE_ATTACK,
-	ENEMY_STATE_HOWL,
-	ENAMY_STATE_DEAD
+	TUTORIAL_ENEMY_STATE_IDLE,
+	TUTORIAL_ENEMY_STATE_MOVE,
+	TUTORIAL_ENEMY_STATE_ATTACK,
+	TUTORIAL_ENEMY_STATE_HOWL,
+	TUTORIAL_ENAMY_STATE_DEAD
 };
 
 
-enum ENEMY_ATTACK_PATARN
+enum TUTORIAL_ENEMY_ATTACK_PATARN
 {
-	ENEMY_ATTACK_SLAP,
-	ENEMY_ATTACK_PUNCH,
-	ENEMY_ATTCK_JUMP
+	TUTORIAL_ENEMY_ATTACK_PUNCH
 };
-class Enemy : public GameObject
+class TutorialEnemy : public GameObject
 {
 private:
-	ENEMY_STATE  m_EnemyState = ENEMY_STATE_IDLE;
-	ENEMY_ATTACK_PATARN m_EnemyAttackPatarn = ENEMY_ATTACK_SLAP;
+	TUTORIAL_ENEMY_STATE  m_EnemyState = TUTORIAL_ENEMY_STATE_IDLE;
+	TUTORIAL_ENEMY_ATTACK_PATARN m_EnemyAttackPatarn = TUTORIAL_ENEMY_ATTACK_PUNCH;
 
 
 	D3DXMATRIX m_ViewMatrix{};
 	D3DXMATRIX m_ProjectionMatrix;
 
-	
+
 
 	//static Model* m_Model;
 	ID3D11VertexShader* m_VertexShader{};
@@ -50,7 +48,7 @@ private:
 	//視野
 	D3DXVECTOR3 m_Direction = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float m_Length = 0;
-	
+
 
 	//アニメーション関連
 	bool m_EnemyAI = true;
@@ -74,8 +72,8 @@ private:
 	bool m_ShotCount = 0;
 	float m_RockattackLimit{};
 	int m_AnimationDelay = 0;
-	bool m_HowlSEFlag=false;
-	
+	bool m_HowlSEFlag = false;
+
 
 	//攻撃関連
 	bool m_Attacking = false;
@@ -89,8 +87,8 @@ private:
 	int m_AttackRandomNum = 0;
 
 	//コライダー関連
-	class Collider* m_EnemyCollider{};
-	class EnemyLeftArm* m_EnemyLeftArm;
+	class Collider* m_EnemyTutoriaCollider{};
+
 
 	int m_InvincibilityTime = 0;
 	bool m_JumpAttackHit = false;
@@ -101,21 +99,20 @@ private:
 	//効果音
 	class Audio* m_HowlSE{};
 	class Audio* m_RockAttackSE{};
-	
+
 
 	//ポインタ変数
 	class Scene* m_Scene{};
-	class EnemyAnimationCorrection* m_EnemyAnimationCorrection;
-	
+	class EnemyRightArm* m_EnemyRightArm;
 public:
 	static void Load();
 	static void Unload();
 
-	
+
 
 	static class AnimationModel* m_Model;
 
-	bool GetDead() { return m_Dead;}
+	bool GetDead() { return m_Dead; }
 
 	void Init();
 	void Uninit();
@@ -130,33 +127,31 @@ public:
 
 
 	//敵の攻撃のパターン
-	void UpdateSlapAttack();
 	void UpdatePunchAttack();
-	void UpdateJumpAttack();
+	
 
-
-	void SetDamage(int hp) { m_HP -= hp;}
+	void SetDamage(int hp) { m_HP -= hp; }
 	void SetEnemyAI(bool ai) { m_EnemyAI = ai; }
-	bool GetEnemyAI() {	return m_EnemyAI;}
+	bool GetEnemyAI() { return m_EnemyAI; }
 
 	bool IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee);
-	
+
 	bool GetEnemyHowlFinish() { return m_HowlFinish; };
 	bool GetJumpAttackHit() { return m_JumpAttackHit; }
 	bool GetPunchAttackHit() { return m_PunchAttackHit; }
 
 	AnimationModel* GetAnimationModel() { return m_Model; }
-	
+
 };
 
-class EnemyLeftArm : public GameObject
+class EnemyRightArm : public GameObject
 {
 private:
 	D3DXMATRIX m_Parent{};
-	
+
 
 	class Scene* m_Scene;
-	class Collider* m_LeftArmCollider;
+	class Collider* m_RightArmCollider;
 public:
 	void Init();
 	void Uninit();
@@ -164,22 +159,3 @@ public:
 	void Draw();
 };
 
-class EnemyAnimationCorrection : public GameObject
-{
-private:
-	D3DXMATRIX m_Parent{};
-	D3DXVECTOR3 m_AnimationPosition;
-	D3DXVECTOR3 m_DifferencePosition;
-	D3DXVECTOR3 m_Oldposition;
-
-	class Scene* m_Scene;
-	class Collider* test;
-public:
-	void Init();
-	void Uninit();
-	void Update();
-	void Draw();
-
-	D3DXVECTOR3 GetAnimationPosition() { return m_AnimationPosition; }
-	D3DXVECTOR3 GetDifferencePosition() { return m_DifferencePosition; }
-};

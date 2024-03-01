@@ -156,7 +156,7 @@ private:
 	class DebugSystem* m_DebugSystem;
 	class Potion* m_Potion;
 	class WheteStone* m_WheteStone;
-	
+	class TutorialEnemy* m_TutorialEnemy;
 
 
 	//アニメーションの補正

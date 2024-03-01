@@ -6,9 +6,7 @@ class Game : public Scene
 {
 private:
 	class Audio* m_BGM{};
-
 	class Fade* m_Fade{};
-
 	static bool m_LoadFinish;
 
 	LIGHT m_Light;

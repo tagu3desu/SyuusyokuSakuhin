@@ -27,13 +27,28 @@ private:
 	D3DXVECTOR2 m_BGMThumbPosition{};
 	D3DXVECTOR2 m_SEThumbPosition{};
 
+	//音量調節用のつまみの初期座標
 	float m_BGM_Volume=8.0f;
 	float m_SE_Volume=8.0f;
 
+	//マウスの座標
 	float m_MouseposX;
 	float m_MouseposY;
 
-	bool m_GameButtonOverlap{};
+	//音量用のセレクトUI
+	float m_SelectUIPosY;
+	bool m_BackButton = false;
+	bool m_SEFlag=false;
+	bool m_BGMFlag=true;
+
+	//クエストセレクト画面
+	bool m_QuestSelect = false;
+	bool m_TutorialFlag = true;
+	bool m_QuestFlag = false;
+	bool m_DecidedTutorial = false;
+	bool m_DecidedQuest = false;
+
+	bool m_GameButtonOverlap=true;
 	bool m_OptionButtonOverlap{};
 	bool m_OptionFlag{};
 
@@ -44,6 +59,10 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+
+
+	bool GetTutorialFlag() { return m_DecidedTutorial; }
+	bool GetQuestFlag() { return m_DecidedQuest; }
 
 	bool GetGameButtonOverLap() { return m_GameButtonOverlap; }
 

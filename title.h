@@ -19,6 +19,7 @@ private:
 
 
 	static bool m_Menucontrol;
+	static bool m_QuestSelect;
 
 	class Scene* scene{};
 
@@ -34,4 +35,7 @@ public:
 	void Draw() override;
 
 	static bool GetMenuControl() { return m_Menucontrol; }
+	static void SetMenuControl(bool flag) { m_QuestSelect = flag; }
+	static bool GetQuestSelect() { return m_QuestSelect; }
+	static void SetQuestSelect(bool flag) {m_QuestSelect = flag;}
 };

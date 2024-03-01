@@ -5,13 +5,13 @@ class Loading :public Scene
 private:
 	
 
-	float m_MouseposX;
-	float m_MouseposY;
-
-	bool m_LoadingCheck;
-
+	static bool m_GameLoad;
+	static bool m_TutorialLoad;
+	
 public:
-	bool GetCheckLoad() { return m_LoadingCheck;}
+	static void SetGameLoad(bool load) { m_GameLoad = load;}
+	static void SetTutorial(bool load) { m_TutorialLoad = load; }
+
 	void Init() override;
 	void Update() override;
 };

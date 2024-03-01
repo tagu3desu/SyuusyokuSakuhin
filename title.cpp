@@ -23,6 +23,7 @@
 
 bool Title::m_TitleCheck = false;
 bool Title::m_Menucontrol = false;
+bool Title::m_QuestSelect = false;
 
 TitleTexture* titletexture;
 
@@ -73,12 +74,25 @@ void Title::Update()
 
 
 	//キー入力でゲーム画面に遷移
-	if (Input::GetKeyTrigger(VK_SPACE)  && m_Menucontrol ||  Input::GetKeyTrigger(VK_LBUTTON) && titletexture->GetGameButtonOverLap() && m_Menucontrol ||
-		InputX::IsButtonTriggered(0,XINPUT_GAMEPAD_B) && m_Menucontrol) //Enterキー
+	if ((Input::GetKeyTrigger(VK_SPACE) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B) || Input::GetKeyTrigger(VK_LBUTTON)) && m_Menucontrol   && titletexture->GetGameButtonOverLap()) //Enterキー
 	{
 		m_Menucontrol = false;
-		m_Fade->FadeOut();
+		m_QuestSelect = true;
+		
+		
+		
 	} 
+	if (titletexture->GetTutorialFlag())
+	{
+		Loading::SetTutorial(true);
+		m_Fade->FadeOut();
+	}
+
+	if (titletexture->GetQuestFlag())
+	{
+		Loading::SetGameLoad(true);
+		m_Fade->FadeOut();
+	}
 	if (m_Fade->GetFadeFinish())
 	{
 		m_TitleCheck = false;

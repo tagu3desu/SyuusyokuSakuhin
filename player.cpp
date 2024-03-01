@@ -37,6 +37,7 @@
 #include"inputx.h"
 #include"debug.h"
 #include"trail.h"
+#include"tutorialenemy.h"
 void Player::Init()
 {
 	m_Scene = Manager::GetScene();
@@ -198,6 +199,8 @@ void Player::Update()
 
 	if (!Title::GetCheckTitle())
 	{
+		//チュートリアル用
+		m_TutorialEnemy = m_Scene->GetGameObject<TutorialEnemy>();
 
 		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
 		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
@@ -227,6 +230,7 @@ void Player::Update()
 			ImGui::InputFloat("Frame", &m_AnimationDelay);
 			ImGui::InputFloat("HitFrame", &m_HitInpactDelay);
 			ImGui::InputInt("HP", &m_HP);
+			ImGui::InputInt("Stamina", &m_Stamina);
 			ImGui::Checkbox("AttackHit", &checkhit);
 			ImGui::Checkbox("TrailEnable", &m_TrailEnable);
 			ImGui::End();
@@ -682,7 +686,33 @@ void Player::Update()
 				}
 			}
 		}
+		//チュートリアル
+		if (m_TutorialEnemy != nullptr)
+		{
+			if (m_TutorialEnemy->GetPunchAttackHit())
+			{
+				if (m_SuccessGuard && !m_GuardEffect)
+				{
+					m_GuardSE->Volume(Scene::m_SEVolume);
+					m_GuardSE->PlaySE();
+					ShieldEffect* shieldeffect = m_Scene->AddGameObject<ShieldEffect>(EFFECT_LAYER);
+					shieldeffect->SetScale(D3DXVECTOR3(5.0f, 5.0f, 5.0f));
+					shieldeffect->SetPosition(MatrixtoPosition(m_Shield->GetMatrix()));
+					m_Camera->Shake(0.05f);
+					m_GuardEffect = true;
+				}
+				else if (!m_InvincibilityFlag && !m_SuccessGuard)
+				{
+					hpgage->SetDamage(40);
+					m_GetDamegeCVS->Volume(Scene::m_SEVolume * 0.5f);
+					m_GetDamegeCVS->PlaySE();
+					m_InviciblilityStartFlag = true;
+					m_SmallDamageReaction = true;
+				}
+			}
+		}
 
+		//ゲーム
 		if (m_Enemy != nullptr)
 		{
 			if (m_Enemy->GetJumpAttackHit())

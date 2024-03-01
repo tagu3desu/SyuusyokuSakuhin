@@ -73,8 +73,6 @@ void Staminagage::Uninit()
 
 void Staminagage::Update()
 {
-	
-
 	GameObject::Update();
 	m_Player = m_Scene->GetGameObject<Player>();
 	GameTexture* gamatexture = m_Scene->GetGameObject<GameTexture>();

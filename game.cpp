@@ -38,6 +38,7 @@
 #include"basecamptent.h"
 #include"bladeefect1.h"
 #include"bladeefect2.h"
+#include"tutorialenemy.h"
 Player* g_Player;
 
 bool Game::m_LoadFinish = false;
@@ -59,6 +60,7 @@ void Game::Load()
 	BaceCampTent::Load();
 	ShieldEffect::Load();
 	HealEffect::Load();
+	TutorialEnemy::Load();
 	m_LoadFinish = true;
 }
 
@@ -81,6 +83,7 @@ void Game::Unload()
 	BaceCampTent::Unload();
 	ShieldEffect::Unload();
 	HealEffect::Unload();
+	TutorialEnemy::Unload();
 }
 
 void Game::Init()
@@ -102,18 +105,17 @@ void Game::Init()
 
 	AddGameObject<GameTexture>(SPRITE_LAYER);
 
-	g_Player =  AddGameObject<Player>();
-	g_Player->SetPosition(D3DXVECTOR3(-1,0,-20));
+	Player* player =  AddGameObject<Player>();
+	player->SetPosition(D3DXVECTOR3(-1.0f,0.0f,-20.0f));
 	
 	
-	/*Sword*sword =AddGameObject<Sword>();
-	Shield* shield = AddGameObject<Shield>();*/
 	
 
 	Enemy* enemy = AddGameObject<Enemy>();
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 
-
+	TutorialEnemy* tutorialenemy = AddGameObject<TutorialEnemy>();
+	tutorialenemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 10.0f));
 
 	
 	Box* box = AddGameObject<Box>();
@@ -230,14 +232,7 @@ void Game::Draw()
 	m_Scene = Manager::GetScene();
 	D3DXVECTOR3 lighttarget;
 	MeshField* meshfield= GetGameObject<MeshField>();
-	
 	lighttarget = meshfield->GetCenterPosition();
-
-	
-	
-	
-
-
 
 	//ライトカメラ構造体の初期化
 	//LIGHT light;

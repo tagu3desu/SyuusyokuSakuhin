@@ -38,7 +38,7 @@
 #include"basecamptent.h"
 #include"bladeefect1.h"
 #include"bladeefect2.h"
-Player* g_Player;
+#include"tutorialenemy.h"
 
 bool Tutorial::m_LoadFinish = false;
 
@@ -56,6 +56,7 @@ void Tutorial::Load()
 	Collider::Load();
 	ShieldEffect::Load();
 	HealEffect::Load();
+	TutorialEnemy::Load();
 	m_LoadFinish = true;
 }
 
@@ -76,6 +77,7 @@ void Tutorial::Unload()
 	Box::Unload();
 	ShieldEffect::Unload();
 	HealEffect::Unload();
+	TutorialEnemy::Unload();
 }
 
 void Tutorial::Init()
@@ -96,17 +98,11 @@ void Tutorial::Init()
 
 	AddGameObject<GameTexture>(SPRITE_LAYER);
 
-	g_Player =  AddGameObject<Player>();
-	g_Player->SetPosition(D3DXVECTOR3(-1,0,-20));
+	Player* player =  AddGameObject<Player>();
+	player->SetPosition(D3DXVECTOR3(-1.0f,0.0f,-20.0f));
 	
-	
-	Sword*sword =AddGameObject<Sword>();
-	Shield* shield = AddGameObject<Shield>();
-	
-	
-	Box* box = AddGameObject<Box>();
-	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
-
+	TutorialEnemy* tutorialenemy = AddGameObject<TutorialEnemy>();
+	tutorialenemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 10.0f));
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
@@ -145,12 +141,12 @@ void Tutorial::Update()
 	Scene::Update();
 	m_Scene = Manager::GetScene();
 	Player* player = m_Scene->GetGameObject<Player>();
-	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
+	TutorialEnemy* tutorialenemy = m_Scene->GetGameObject<TutorialEnemy>();
 	GameTexture* gametexture = m_Scene->GetGameObject<GameTexture>();
 
-	if (enemy != nullptr)
+	if (tutorialenemy != nullptr)
 	{
-		if (enemy->GetEnemyHowlFinish() && !m_PlayBGMFlag)
+		if (tutorialenemy->GetEnemyHowlFinish() && !m_PlayBGMFlag)
 		{
 			m_BattleBGM->Volume(Scene::m_BGMVolume * 0.03);
 			m_BattleBGM->PlayBGM();
@@ -166,7 +162,7 @@ void Tutorial::Update()
 		}
 
 
-		if (enemy->GetDead() && !m_WinSEFlag)
+		if (tutorialenemy->GetDead() && !m_WinSEFlag)
 		{
 			m_BattleBGM->Stop();
 			m_WinSE->Volume(Scene::m_SEVolume*0.05f);
