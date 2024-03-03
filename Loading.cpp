@@ -19,14 +19,15 @@ bool Loading::m_TutorialLoad = false;
 void Loading::Init()
 {
 	AddGameObject<LoadingTexture>(SPRITE_LAYER);
-	if (m_GameLoad)
-	{
-		std::thread th(&Game::Load);
-		th.detach();
-	}
+	
 	if (m_TutorialLoad)
 	{
 		std::thread th(&Tutorial::Load);
+		th.detach();
+	}
+	else if (m_GameLoad)
+	{
+		std::thread th(&Game::Load);
 		th.detach();
 	}
 }
@@ -35,19 +36,18 @@ void Loading::Init()
 void Loading::Update()
 {
 	Scene::Update();
-	
-	
 
 	//キー入力でゲーム画面に遷移
-	if (Game::GetLoadFinish()) //Enterキー
-	{
-		Manager::SetScene<Game>();
-	} 
+	
 	if (Tutorial::GetLoadFinish())
 	{
 		Manager::SetScene<Tutorial>();
 	}
-	
+
+	if (Game::GetLoadFinish()) //Enterキー
+	{
+		Manager::SetScene<Game>();
+	}
 }
 
 

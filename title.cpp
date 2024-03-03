@@ -20,6 +20,7 @@
 #include"titletexturemanager.h"
 #include"audio.h"
 #include"inputx.h"
+#include"tutorial.h"
 
 bool Title::m_TitleCheck = false;
 bool Title::m_Menucontrol = false;
@@ -33,17 +34,22 @@ void Title::Init()
 
 	Scene::Init();
 
+
+	/*Game::SetLoadFinish(false);
+	Tutorial::SetLoadFinish(false);*/
+
+	Loading::SetTutorial(false);
+	Loading::SetGameLoad(false);
+
+
 	m_FloarPosition = 0;
 	m_TitleCheck = true;
 
 	//ÉJÉÅÉâ
 	Camera* camera = AddGameObject<Camera>(CAMERA_LAYER);
-
 	Sky* skydome = AddGameObject<Sky>();
 	skydome->SetScale(D3DXVECTOR3(300.0f, 300.0f, 300.0f));
-
 	Field* field = AddGameObject<Field>();
-
 	Player* player = AddGameObject<Player>();
 	player->SetRotation(D3DXVECTOR3(0.0f, -2.4f, 0.0f));
 	
@@ -78,25 +84,22 @@ void Title::Update()
 	{
 		m_Menucontrol = false;
 		m_QuestSelect = true;
-		
-		
-		
 	} 
+
 	if (titletexture->GetTutorialFlag())
 	{
 		Loading::SetTutorial(true);
 		m_Fade->FadeOut();
 	}
-
-	if (titletexture->GetQuestFlag())
+	else if (titletexture->GetQuestFlag())
 	{
 		Loading::SetGameLoad(true);
 		m_Fade->FadeOut();
 	}
+
 	if (m_Fade->GetFadeFinish())
 	{
 		m_TitleCheck = false;
-	
 		Manager::SetScene<Loading>();
 	}
 

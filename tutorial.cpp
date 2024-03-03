@@ -39,7 +39,8 @@
 #include"bladeefect1.h"
 #include"bladeefect2.h"
 #include"tutorialenemy.h"
-
+#include"title.h"
+#include"npcteacher.h"
 bool Tutorial::m_LoadFinish = false;
 
 void Tutorial::Load()
@@ -57,14 +58,13 @@ void Tutorial::Load()
 	ShieldEffect::Load();
 	HealEffect::Load();
 	TutorialEnemy::Load();
+	NpcTeacher::Load();
 	m_LoadFinish = true;
 }
 
 void Tutorial::Unload()
 {
 	m_LoadFinish = false;
-
-	
 	Enemy::Unload();
 	Rock::Unload();
 	TreeTexture::Unload();
@@ -74,10 +74,10 @@ void Tutorial::Unload()
 	SwordTopVertex::Unload();
 	MeshField::Unload();
 	Collider::Unload();
-	Box::Unload();
 	ShieldEffect::Unload();
 	HealEffect::Unload();
 	TutorialEnemy::Unload();
+	NpcTeacher::Unload();
 }
 
 void Tutorial::Init()
@@ -102,8 +102,11 @@ void Tutorial::Init()
 	Player* player =  AddGameObject<Player>();
 	player->SetPosition(D3DXVECTOR3(-1.0f,0.0f,-20.0f));
 	
-	TutorialEnemy* tutorialenemy = AddGameObject<TutorialEnemy>();
-	tutorialenemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 10.0f));
+	//TutorialEnemy* tutorialenemy = AddGameObject<TutorialEnemy>();
+	//tutorialenemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 10.0f));
+
+	AddGameObject<NpcTeacher>()->SetPosition(D3DXVECTOR3(0.0f,0.0f,3.0f));
+
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
@@ -181,7 +184,7 @@ void Tutorial::Update()
 	}
 	if (m_Fade->GetFadeFinish())
 	{
-		Manager::SetScene<Result>();
+		Manager::SetScene<Title>();
 	}
 	
 }
@@ -189,9 +192,7 @@ void Tutorial::Update()
 void Tutorial::Uninit()
 {
 	Scene::Uninit();
-	
-	
-	
+	Tutorial::Unload();
 }
 
 void Tutorial::Draw()

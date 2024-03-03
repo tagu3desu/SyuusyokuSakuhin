@@ -47,7 +47,7 @@ void Manager::Init()
 
 	
 	SetScene<Title>();
-	//SetScene<Game>();
+	
 	
 }
 

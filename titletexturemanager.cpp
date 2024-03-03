@@ -112,11 +112,7 @@ void TitleTexture::Update()
 	m_MouseposX = GetMouseCursorPosXinWnd();
 	m_MouseposY = GetMouseCursorPosYinWnd();
 
-	ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Title");
-	ImGui::Checkbox("Tutorial", &m_TutorialFlag);
-	ImGui::Checkbox("Quest", &m_QuestFlag);
-	ImGui::End();
+	
 
 	if (Title::GetQuestSelect())
 	{

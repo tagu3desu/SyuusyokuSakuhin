@@ -99,6 +99,9 @@ private:
 	//å¯â âπ
 	class Audio* m_HowlSE{};
 	class Audio* m_RockAttackSE{};
+	class Audio* m_DeadSE{};
+	bool m_DeadSEFlag = false;
+
 
 
 	//É|ÉCÉìÉ^ïœêî
@@ -133,12 +136,13 @@ public:
 	void SetDamage(int hp) { m_HP -= hp; }
 	void SetEnemyAI(bool ai) { m_EnemyAI = ai; }
 	bool GetEnemyAI() { return m_EnemyAI; }
-
 	bool IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee);
-
 	bool GetEnemyHowlFinish() { return m_HowlFinish; };
 	bool GetJumpAttackHit() { return m_JumpAttackHit; }
 	bool GetPunchAttackHit() { return m_PunchAttackHit; }
+
+	int GetHP() { return m_HP;}
+
 
 	AnimationModel* GetAnimationModel() { return m_Model; }
 

@@ -49,10 +49,9 @@ void Enemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
-	m_HP = 80; //120
+	m_HP = 180; //120
 
-	m_Threshold = 0;
-	m_DissolveEnable = true;
+
 
 	m_DepthEnable = true;
 
@@ -69,6 +68,9 @@ void Enemy::Init()
 
 	m_RockAttackSE = AddComponent<Audio>();
 	m_RockAttackSE->Load("asset\\audio\\SE\\打撃4.wav");
+
+	m_DeadSE = AddComponent<Audio>();
+	m_DeadSE->Load("asset\\audio\\SE\\怪獣の足音.wav");
 
 	if (!Title::GetCheckTitle())
 	{
@@ -126,7 +128,11 @@ void Enemy::Update()
 	AreaChange* areachange = m_Scene->GetGameObject<AreaChange>();
 	DebugSystem* debugsystem = m_Scene->GetGameObject<DebugSystem>();
 	
-
+	D3DXQUATERNION quat;
+	D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	float angle = atan2f(GetForward().x, GetForward().z);
+	D3DXQuaternionRotationAxis(&quat, &axis, angle);
+	D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.1f);
 	
 	//敵本体のコライダー
 	AnimationModel* animationmodel;
@@ -242,11 +248,13 @@ void Enemy::Update()
 		m_Direction = player->GetPosition() - m_Position;
 		m_Length = D3DXVec3Length(&m_Direction);
 		D3DXVec3Normalize(&m_Direction, &m_Direction);
-		if (!m_Dead && !m_Attacking && !m_Find)
+		if (!m_Dead && !m_Attacking && !m_Find && !m_Animating)
 		{
 			m_Rotation.y = atan2f(m_Direction.x, m_Direction.z);
 		}
 	}
+
+
 	
 
 
@@ -353,7 +361,8 @@ void Enemy::Draw()
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	//D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	D3DXMatrixRotationQuaternion(&rot, &m_Quaternion);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 
@@ -375,10 +384,6 @@ void Enemy::Draw()
 	}
 
 
-
-	//Initで用意したモデルの読み込み切り替え
-
-	
 	m_Model->Draw();
 
 }
@@ -422,6 +427,7 @@ void Enemy::UpdateHowl()
 			{
 				HowlEffect* howleffect = m_Scene->AddGameObject<HowlEffect>();
 				howleffect->SetScale(D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+				howleffect->SetPosition(D3DXVECTOR3(m_Position.x, m_Position.y + 4.0f, m_Position.z));
 			}		
 			if (!m_HowlSEFlag)
 			{
@@ -523,25 +529,19 @@ void Enemy::UpdateDead() {
 	}
 
 	m_DeadAnimationdelay++;
+	if (m_DeadAnimationdelay >= 250 && !m_DeadSEFlag)
+	{
+		m_DeadSE->Volume(Scene::m_SEVolume * 0.5f);
+		m_DeadSE->PlaySE();
+		m_DeadSEFlag = true;
+	}
 
 	if (m_DeadAnimationdelay >= 350)
 	{
 		m_Time = 350;
 		m_DeadFinish = true;
 		
-	}
-
-	if (m_DeadAnimationdelay >= 550)
-	{
-		
-		m_Threshold += 0.005;
-
-		if (m_Threshold > 1.1f)
-		{
-			//SetDestroy();
-		}
-	}
-	
+	}	
 }
 
 void Enemy::UpdateSlapAttack(){

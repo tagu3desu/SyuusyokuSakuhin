@@ -10,6 +10,7 @@
 #include"debug.h"
 #include"result.h"
 #include"inputx.h"
+#include"tutorialenemy.h"
 void Camera::Init()
 {	
 	
@@ -31,6 +32,7 @@ void Camera::Update()
 	
 	Player* player = m_Scene->GetGameObject<Player>();
 	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
+	TutorialEnemy* tutoriaruenemy = m_Scene->GetGameObject<TutorialEnemy>();
 	DebugSystem* debug = m_Scene->GetGameObject<DebugSystem>();
 	
 
@@ -65,11 +67,29 @@ void Camera::Update()
 		}
 	}
 	
+	if (tutoriaruenemy != nullptr)
+	{
+		if (tutoriaruenemy->GetDead())
+		{
+			if (m_FogHeight >= 5)
+			{
+				m_FogHeight -= 1.0f;
+			}
+			if (m_FogColor.a <= 1.5f)
+			{
+				m_FogColor += D3DXCOLOR(0.003f, 0.003f, 0.003f, 0.003f);
+			}
 
+			if (m_GroundFogColor.a <= 1.5f)
+			{
+				m_GroundFogColor += D3DXCOLOR(0.003f, 0.003f, 0.003f, 0.003f);
+			}
+
+		}
+	}
 
 	
-#if 1 //デバッグ
-	//-0.3,6.8
+
 
 	if (Title::GetCheckTitle())
 	{
@@ -97,58 +117,6 @@ void Camera::Update()
 	}
 
 	
-#else //本番用
-	if (Title::GetCheckTitle())
-	{
-		m_RotationX = 0.1f;
-		m_RotationY = 3.7f;
-	}
-
-	if(debug != nullptr)
-	if (debug->GetDebugWindowEnable())
-	{
-		if (Input::GetKeyPress(VK_RIGHT))
-		{
-			m_RotationX -= 0.1f;
-		}
-		if (Input::GetKeyPress(VK_LEFT))
-		{
-			m_RotationX += 0.1f;
-		}
-		if (Input::GetKeyPress(VK_UP))
-		{
-			m_RotationY += 0.1f;
-		}
-		if (Input::GetKeyPress(VK_DOWN))
-		{
-			m_RotationY -= 0.1f;
-		}
-	}
-
-	if (!Title::GetCheckTitle())
-	{
-		m_RotationX -= GetMouseCursorPosX() / 400;
-		if (1.5f <= m_RotationY && m_RotationY <= 6.6)
-		{
-			m_RotationY += GetMouseCursorPosY() / 600;
-		}
-
-		if (m_RotationY < 1.5f)
-		{
-			m_RotationY = 1.5f;
-		}
-		if (m_RotationY > 6.6f)
-		{
-			m_RotationY = 6.6f;
-		}
-	}
-
-	
-
-#endif 
-
-	
-
 
 	
 
@@ -196,6 +164,35 @@ void Camera::Update()
 		}
 		
 		
+	}
+	else if (tutoriaruenemy != nullptr && tutoriaruenemy->GetDead() && !m_DeathCamera)
+	{
+		m_FrameWait++;
+		if (m_FrameWait < 120)
+		{
+			m_EnemyCameraRotationX += 0.01f;
+			m_Target = tutoriaruenemy->GetPosition() + D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+			m_Position = m_Target + tutoriaruenemy->GetForward() * 13.0f + tutoriaruenemy->GetForward() * 1.5f + tutoriaruenemy->GetUp() * (1.5f * m_EnemyCameraRotationX);
+		}
+		else if (m_FrameWait <= 240)
+		{
+			m_EnemyCameraRotationY += 0.01f;
+			m_Target = tutoriaruenemy->GetPosition() + D3DXVECTOR3(0.0f, 1.0f, 0.0f) + tutoriaruenemy->GetForward() * 3.0f;
+			m_Position = m_Target + tutoriaruenemy->GetForward() * 13.0f + tutoriaruenemy->GetRight() * (15.0f + m_EnemyCameraRotationY) + D3DXVECTOR3(0.0f, 6.0f, 0.0f);
+		}
+		else if (m_FrameWait <= 300)
+		{
+			m_EnemyCameraRotationY += 0.01f;
+			m_Target = tutoriaruenemy->GetPosition() + D3DXVECTOR3(0.0f, 1.0f, 0.0f) + tutoriaruenemy->GetForward() * 3.0f;
+			m_Position = m_Target + tutoriaruenemy->GetForward() * 6.0f + tutoriaruenemy->GetRight() * (15.0f + m_EnemyCameraRotationY) + D3DXVECTOR3(0.0f, 16.0f, 0.0f);
+		}
+
+		if (300 <= m_FrameWait)
+		{
+			m_DeathCamera = true;
+		}
+
+
 	}
 	else if (player!= nullptr &&  player->GetPlayerDead() && !m_DeadCameraFlag)
 	{

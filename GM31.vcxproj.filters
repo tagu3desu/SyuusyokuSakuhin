@@ -100,6 +100,12 @@
     <Filter Include="ヘッダー ファイル\Object\Enemy">
       <UniqueIdentifier>{83a40b33-4980-4edd-8922-536368ff0644}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object\NPC">
+      <UniqueIdentifier>{9328501d-fde9-4765-a193-c30e4a0595a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Object\NPC">
+      <UniqueIdentifier>{afceddfb-b7ea-4371-aac1-8ce14605cb07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -299,6 +305,12 @@
     </ClCompile>
     <ClCompile Include="tutorialenemy.cpp">
       <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="spritetextureload.cpp">
+      <Filter>ソース ファイル\Texture\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="npcteacher.cpp">
+      <Filter>ソース ファイル\Object\NPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -514,6 +526,12 @@
     </ClInclude>
     <ClInclude Include="tutorialenemy.h">
       <Filter>ヘッダー ファイル\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="spritetextureload.h">
+      <Filter>ヘッダー ファイル\Texture\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="npcteacher.h">
+      <Filter>ヘッダー ファイル\Object\NPC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

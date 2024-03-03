@@ -115,7 +115,7 @@ void HowlEffect::Update()
 void HowlEffect::Draw()
 {
 	Scene* scene = Manager::GetScene();
-	Enemy* enemy = scene->GetGameObject<Enemy>();
+	
 
 
 	//テクスチャ座標算出
@@ -173,7 +173,7 @@ void HowlEffect::Draw()
 	//マトリクス設定
 	D3DXMATRIX world, scale, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
-	D3DXMatrixTranslation(&trans, m_Position.x + enemy->GetPosition().x, m_Position.y + enemy->GetPosition().y + 4.0f, m_Position.z +  enemy->GetPosition().z);
+	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * invView * trans;
 	Renderer::SetWorldMatrix(&world);
 

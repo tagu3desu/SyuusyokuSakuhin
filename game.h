@@ -30,7 +30,7 @@ public:
 	static void Load();
 	static void Unload();
 	static bool GetLoadFinish() { return m_LoadFinish; }
-
+	static void SetLoadFinish(bool load) { m_LoadFinish = load; }
 
 	void Init() override;
 	void Update() override;

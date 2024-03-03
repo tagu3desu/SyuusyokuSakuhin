@@ -26,6 +26,7 @@
 #include"areachangecollider.h"
 #include"inputx.h"
 #include"debug.h"
+#include"gametexturemanager.h"
 AnimationModel* TutorialEnemy::m_Model{};
 
 void TutorialEnemy::Init()
@@ -35,7 +36,7 @@ void TutorialEnemy::Init()
 	m_AnimationName = "Idle";
 	m_NextAnimationName = "Idle";
 
-	m_Scale = D3DXVECTOR3(0.02f, 0.02f, 0.02f);
+	m_Scale = D3DXVECTOR3(0.03f, 0.03f, 0.03f);
 
 	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\skiningVertexLightingVS.cso");
@@ -49,7 +50,7 @@ void TutorialEnemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
-	m_HP = 40; //120
+	m_HP = 60; //120
 
 	m_Threshold = 0;
 	m_DissolveEnable = true;
@@ -65,10 +66,13 @@ void TutorialEnemy::Init()
 	m_Scene = Manager::GetScene();
 
 	m_HowlSE = AddComponent<Audio>();
-	m_HowlSE->Load("asset\\audio\\SE\\怪獣・鳴声01.wav");
+	m_HowlSE->Load("asset\\audio\\SE\\ゴブリンの鳴き声2.wav");
 
 	m_RockAttackSE = AddComponent<Audio>();
 	m_RockAttackSE->Load("asset\\audio\\SE\\打撃4.wav");
+
+	m_DeadSE = AddComponent<Audio>();
+	m_DeadSE->Load("asset\\audio\\SE\\怪獣の足音.wav");
 
 	if (!Title::GetCheckTitle())
 	{
@@ -123,6 +127,7 @@ void TutorialEnemy::Update()
 	auto player = m_Scene->GetGameObject<Player>();
 	auto sword = m_Scene->GetGameObject<Sword>();
 	DebugSystem* debugsystem = m_Scene->GetGameObject<DebugSystem>();
+	GameTexture* gametexture = m_Scene->GetGameObject<GameTexture>();
 
 	//敵本体のコライダー
 	AnimationModel* animationmodel;
@@ -134,7 +139,11 @@ void TutorialEnemy::Update()
 	m_EnemyTutoriaCollider->SetBoneMatrix(animationmodel->ConvertMatrix(bodybone->WorldMatrix));
 	SetColliderInfo(m_EnemyTutoriaCollider->GetMatrix());
 
-
+	D3DXQUATERNION quat;
+	D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	float angle = atan2f(GetForward().x, GetForward().z);
+	D3DXQuaternionRotationAxis(&quat, &axis, angle);
+	D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.1f);
 
 	
 	
@@ -197,7 +206,7 @@ void TutorialEnemy::Update()
 
 
 
-	if (m_EnemyAI)
+	if (m_EnemyAI && !m_Dead)
 	{
 		if (m_Length < 3 && !m_IsAttack && m_HowlFinish && !player->GetPlayerDead())
 		{
@@ -209,7 +218,7 @@ void TutorialEnemy::Update()
 		}
 		if (IsInFieldOfView(m_Position, m_Direction, 70, 25.0f))
 		{
-			if (!m_Howl)
+			if (!m_Howl && gametexture->GetEnemyHowlFlag())
 			{
 				m_EnemyState = TUTORIAL_ENEMY_STATE_HOWL;
 			}
@@ -223,7 +232,7 @@ void TutorialEnemy::Update()
 		m_Direction = player->GetPosition() - m_Position;
 		m_Length = D3DXVec3Length(&m_Direction);
 		D3DXVec3Normalize(&m_Direction, &m_Direction);
-		if (!m_Dead && !m_Attacking && !m_Find)
+		if (!m_Dead && !m_Attacking && !m_Find && !m_Animating)
 		{
 			m_Rotation.y = atan2f(m_Direction.x, m_Direction.z);
 		}
@@ -333,7 +342,8 @@ void TutorialEnemy::Draw()
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	//D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	D3DXMatrixRotationQuaternion(&rot, &m_Quaternion);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	m_Matrix = scale * rot * trans;
 
@@ -386,16 +396,17 @@ void TutorialEnemy::UpdateHowl()
 	if (m_Howl == true)
 	{
 		m_AnimationDelay++;
-		/*if (m_AnimationDelay >= 90 && m_AnimationDelay <= 290)
+		if (m_AnimationDelay >= 60 && m_AnimationDelay <= 100)
 		{
 			if (m_AnimationDelay % 30 == 0)
 			{
 				HowlEffect* howleffect = m_Scene->AddGameObject<HowlEffect>();
-				howleffect->SetScale(D3DXVECTOR3(50.0f, 50.0f, 0.0f));
+				howleffect->SetScale(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
+				howleffect->SetPosition(D3DXVECTOR3(m_Position.x, m_Position.y + 3.0f, m_Position.z));
 			}
 			if (!m_HowlSEFlag)
 			{
-				m_HowlSE->Volume(Scene::m_SEVolume * 0.1f);
+				m_HowlSE->Volume(Scene::m_SEVolume * 0.3f);
 				m_HowlSE->PlaySE();
 				m_HowlSEFlag = true;
 			}
@@ -404,7 +415,7 @@ void TutorialEnemy::UpdateHowl()
 		else
 		{
 			InputX::StopVibration(0);
-		}*/
+		}
 
 
 
@@ -470,6 +481,13 @@ void TutorialEnemy::UpdateDead() {
 
 	m_DeadAnimationdelay++;
 
+	if (m_DeadAnimationdelay >= 250 && !m_DeadSEFlag)
+	{
+		m_DeadSE->Volume(Scene::m_SEVolume * 0.5f);
+		m_DeadSE->PlaySE();
+		m_DeadSEFlag = true;
+	}
+
 	if (m_DeadAnimationdelay >= 350)
 	{
 		m_Time = 350;
@@ -477,16 +495,7 @@ void TutorialEnemy::UpdateDead() {
 
 	}
 
-	if (m_DeadAnimationdelay >= 550)
-	{
-
-		m_Threshold += 0.005;
-
-		if (m_Threshold > 1.1f)
-		{
-			//SetDestroy();
-		}
-	}
+	
 
 }
 

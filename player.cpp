@@ -233,6 +233,9 @@ void Player::Update()
 			ImGui::InputInt("Stamina", &m_Stamina);
 			ImGui::Checkbox("AttackHit", &checkhit);
 			ImGui::Checkbox("TrailEnable", &m_TrailEnable);
+			ImGui::Checkbox("StartGuard", &m_StartGuard);
+			ImGui::Checkbox("IsGuard", &m_IsGuard);
+			ImGui::Checkbox("EndGuard", &m_EndGuard);
 			ImGui::End();
 
 			trail->SetTrailEnable(m_TrailEnable);
@@ -864,9 +867,13 @@ void Player::Draw()
 	{
 		m_Time += 0.0f;
 	}
-	else if (m_PlayerState == PLAYER_STATE_ATTACK3)
+	/*else if (m_PlayerState == PLAYER_STATE_ATTACK3)
 	{
 		m_Time += 0.6f;
+	}*/
+	else if (m_PlayerState == PLAYER_STATE_ROTATION_ATTACK || m_PlayerState==PLAYER_STATE_ATTACK || m_PlayerState==PLAYER_STATE_ATTACK2)
+	{
+		m_Time += 0.9f;
 	}
 	else if (m_Run || m_Walk)
 	{
@@ -1180,7 +1187,7 @@ void Player::UpdateGround()
 
 	}
 
-	if ((Input::GetKeyPress('D') || InputX::GetThumbLeftX(0) >= 0.3) && !m_Animating) {
+	if ((Input::GetKeyPress('D') || InputX::GetThumbLeftX(0) >= 0.2) && !m_Animating) {
 
 		if ((Input::GetKeyPress(VK_SHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0)
 		{
@@ -1324,7 +1331,7 @@ void Player::UpdateGround()
 	
 
 	//í èÌçUåÇ
-	if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
+	if ((Input::GetKeyTrigger(VK_LBUTTON) && !m_DebugSystem->GetDebugWindowEnable() || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating  ||
 		Input::GetKeyTrigger('X') && !m_Run && m_Sworddrawn && !m_OnSword  && !m_ConboflagisAttack2 && !m_ConboflagisAttack3 && !m_Animating && m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "SlashAttack")
@@ -1346,7 +1353,7 @@ void Player::UpdateGround()
 	}
 
 	//2íiñ⁄çUåÇ
-	if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2 && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
+	if ((Input::GetKeyTrigger(VK_LBUTTON) && !m_DebugSystem->GetDebugWindowEnable() || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2 && !m_Animating  ||
 		Input::GetKeyTrigger('X') && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack2 && !m_Animating && m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "SlashAttack2")
@@ -1367,7 +1374,7 @@ void Player::UpdateGround()
 	}
 
 	////3íiñ⁄çUåÇ
-	if ((Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack3 && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
+	if ((Input::GetKeyTrigger(VK_LBUTTON) && !m_DebugSystem->GetDebugWindowEnable() || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_B)) && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack3 && !m_Animating  ||
 		Input::GetKeyTrigger('X') && !m_Run && m_Sworddrawn && !m_OnSword && m_ConboflagisAttack3 && !m_Animating && m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "SlashAttack3")
@@ -1390,7 +1397,7 @@ void Player::UpdateGround()
 
 
 	//âÒì]çUåÇ
-	if ((Input::GetKeyTrigger('T') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_Animating && !m_DebugSystem->GetDebugWindowEnable() ||
+	if ((Input::GetKeyTrigger('T') && !m_DebugSystem->GetDebugWindowEnable() || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Run && m_Sworddrawn && !m_OnSword && !m_Animating  ||
 		Input::GetKeyTrigger('C') && !m_Run && m_Sworddrawn && !m_OnSword && m_DebugSystem->GetDebugWindowEnable())
 	{
 		if (m_NextAnimationName != "RotationAttack")
@@ -1471,21 +1478,10 @@ void Player::UpdateRoll()
 {
 	if (m_Roll == true)
 	{
-		float speed = 0.1f;
+		float speed = 0.01f;
 		m_AnimationDelay++;
 
-		if (Input::GetKeyPress('W')) {
-			speed = 0.05f;
-		}
-		if (Input::GetKeyPress('S')) {
-			speed = 0.05f;
-		}
-		if (Input::GetKeyPress('A')) {
-			speed = 0.05f;
-		}
-		if (Input::GetKeyPress('D')) {
-			speed = 0.05f;
-		}
+		
 		m_Animating = true;
 		m_DirectionZ = GetForward() * speed;
 
@@ -1518,13 +1514,13 @@ void Player::UpdateAttack()
 	{
 		m_AnimationDelay++;
 
-		if (m_AnimationDelay < 50 && 65 <= m_AnimationDelay)
+		if (m_AnimationDelay < 40 && 55 <= m_AnimationDelay)
 		{
 			m_AttackMotion1 = true;
 		}
 
 		//çUåÇîªíËÇ™î≠ê∂Ç∑ÇÈéûä‘ê›íË
-		if (25 < m_AnimationDelay && m_AnimationDelay < 35)
+		if (20 < m_AnimationDelay && m_AnimationDelay < 30)
 		{
 			m_AttackCollisionFlag = true;
 		}
@@ -1533,7 +1529,7 @@ void Player::UpdateAttack()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (m_AnimationDelay >= 65 && m_ComboCount == 1)
+		if (m_AnimationDelay >= 45 && m_ComboCount == 1)
 		{
 			m_Time = 0;
 			m_AnimationDelay = 0;
@@ -1552,14 +1548,14 @@ void Player::UpdateAttack2()
 	{
 		m_AnimationDelay++;
 
-		if (m_AnimationDelay < 50 && 70 <= m_AnimationDelay)
+		if (m_AnimationDelay < 35 && 60 <= m_AnimationDelay)
 		{
 			m_AttackMotion2 = true;
 		}
 
 
 		//çUåÇîªíËÇ™î≠ê∂Ç∑ÇÈéûä‘ê›íË
-		if (35 < m_AnimationDelay && m_AnimationDelay < 50)
+		if (20 < m_AnimationDelay && m_AnimationDelay < 35)
 		{
 			m_AttackCollisionFlag = true;
 		}
@@ -1574,7 +1570,7 @@ void Player::UpdateAttack2()
 		}
 
 
-		if (m_AnimationDelay >= 70 && m_ComboCount == 2)
+		if (m_AnimationDelay >= 50 && m_ComboCount == 2)
 		{
 			m_AnimationDelay = 0;
 			m_Attack = false;
@@ -1595,18 +1591,13 @@ void Player::UpdateAttack3()
 	if (m_Attack)
 	{
 
-		if (m_SlowAnimation)
-		{
-			m_AnimationDelay += 0.1f;
-		}
-		else
-		{
-			m_AnimationDelay++;
-		}
+		
+		m_AnimationDelay++;
+		
 
 
 		//çUåÇîªíËÇ™î≠ê∂Ç∑ÇÈéûä‘ê›íË
-		if (70 < m_AnimationDelay && m_AnimationDelay < 80)
+		if (50 < m_AnimationDelay && m_AnimationDelay < 70)
 		{
 			m_AttackCollisionFlag = true;
 		}
@@ -1615,13 +1606,10 @@ void Player::UpdateAttack3()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (122 <= m_AnimationDelay)
-		{
-			m_SlowAnimation = true;
-		}
+		
 
 
-		if (m_AnimationDelay >= 122.1f && m_ComboCount == 3)
+		if (m_AnimationDelay >= 104.0f && m_ComboCount == 3)
 		{
 			m_AnimationDelay = 0;
 			m_Attack = false;
@@ -1657,7 +1645,7 @@ void Player::UpdateRotationAttack()
 
 
 		//çUåÇîªíËÇ™î≠ê∂Ç∑ÇÈéûä‘ê›íË
-		if (40 < m_AnimationDelay && m_AnimationDelay < 55)
+		if (25 < m_AnimationDelay && m_AnimationDelay < 45)
 		{
 			m_AttackCollisionFlag = true;
 		}
@@ -1666,7 +1654,7 @@ void Player::UpdateRotationAttack()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (m_AnimationDelay >= 100)
+		if (m_AnimationDelay >= 80)
 		{
 			m_Time = 0;
 			m_AnimationDelay = 0;
@@ -1734,6 +1722,36 @@ void Player::UpdateGuard()
 
 		}
 
+	}
+
+
+	if (m_TutorialEnemy != nullptr)
+	{
+		if (m_StartGuard && !m_InpactGuard && m_TutorialEnemy->GetJumpAttackHit())
+		{
+			if (m_NextAnimationName != "GuardImpact")
+			{
+				m_Time = 0.0f;
+				m_AnimationName = m_NextAnimationName;
+				m_NextAnimationName = "GuardImpact";
+				m_Move = true;
+				m_InpactGuard = true;
+				m_SuccessGuard = true;
+			}
+		}
+		if (m_StartGuard && !m_InpactGuard && m_TutorialEnemy->GetPunchAttackHit())
+		{
+			if (m_NextAnimationName != "GuardImpact")
+			{
+				m_Time = 0.0f;
+				m_AnimationName = m_NextAnimationName;
+				m_NextAnimationName = "GuardImpact";
+				m_Move = true;
+				m_InpactGuard = true;
+				m_SuccessGuard = true;
+			}
+
+		}
 	}
 
 	if (m_InpactGuard)

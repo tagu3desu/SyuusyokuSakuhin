@@ -31,9 +31,8 @@ private:
 	D3DXMATRIX m_ViewMatrix{};
 	D3DXMATRIX m_ProjectionMatrix;
 
-	
 
-	//static Model* m_Model;
+	
 	ID3D11VertexShader* m_VertexShader{};
 	ID3D11PixelShader* m_PixelShader{};
 	ID3D11InputLayout* m_VertexLayout{};
@@ -101,7 +100,9 @@ private:
 	//å¯â âπ
 	class Audio* m_HowlSE{};
 	class Audio* m_RockAttackSE{};
-	
+	class Audio* m_DeadSE{};
+	bool m_DeadSEFlag = false;
+
 
 	//É|ÉCÉìÉ^ïœêî
 	class Scene* m_Scene{};

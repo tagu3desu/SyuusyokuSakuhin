@@ -203,13 +203,7 @@ void Sword::Update()
 						m_Camera->Shake(0.1f);
 						InputX::SetVibration(0, 600);
 					}
-					/*if (player->GetPlayerAttackNumber() == 3)
-					{
-						m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
-						m_BigAttackHitSE->PlaySE();
-						m_Camera->Shake(0.1f);
-						InputX::SetVibration(0, 600);
-					}*/
+					
 					
 					m_ResultDamege = player->GetAttackMagnification()* m_WeponDamage;
 					m_Durability -= 4.0f;
@@ -277,13 +271,7 @@ void Sword::Update()
 						m_Camera->Shake(0.1f);
 						InputX::SetVibration(0, 600);
 					}
-					/*if (player->GetPlayerAttackNumber() == 3)
-					{
-						m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
-						m_BigAttackHitSE->PlaySE();
-						m_Camera->Shake(0.1f);
-						InputX::SetVibration(0, 600);
-					}*/
+					
 
 					m_ResultDamege = player->GetAttackMagnification() * m_WeponDamage;
 					m_Durability -= 4.0f;
@@ -335,16 +323,34 @@ void Sword::Update()
 		{
 			InputX::StopVibration(0);
 			m_InvincibilityTime++;
-			if (m_InvincibilityTime <= 15)
+
+			if (player->GetPlayerAttackNumber() == 3)
 			{
-				m_InvincibilityFlag = true;
+				if (m_InvincibilityTime <= 20)
+				{
+					m_InvincibilityFlag = true;
+				}
+				else
+				{
+					m_InvincibilityFlag = false;
+					m_InviciblilityStartFlag = false;
+					m_InvincibilityTime = 0;
+				}
 			}
 			else
 			{
-				m_InvincibilityFlag = false;
-				m_InviciblilityStartFlag = false;
-				m_InvincibilityTime = 0;
+				if (m_InvincibilityTime <= 15)
+				{
+					m_InvincibilityFlag = true;
+				}
+				else
+				{
+					m_InvincibilityFlag = false;
+					m_InviciblilityStartFlag = false;
+					m_InvincibilityTime = 0;
+				}
 			}
+			
 		}
 
 		if (player->GetSwordDrawn())

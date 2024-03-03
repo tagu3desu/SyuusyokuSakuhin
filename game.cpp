@@ -39,7 +39,7 @@
 #include"bladeefect1.h"
 #include"bladeefect2.h"
 #include"tutorialenemy.h"
-Player* g_Player;
+
 
 bool Game::m_LoadFinish = false;
 
@@ -60,15 +60,12 @@ void Game::Load()
 	BaceCampTent::Load();
 	ShieldEffect::Load();
 	HealEffect::Load();
-	TutorialEnemy::Load();
 	m_LoadFinish = true;
 }
 
 void Game::Unload()
 {
 	m_LoadFinish = false;
-
-	
 	Enemy::Unload();
 	Rock::Unload();
 	TreeTexture::Unload();
@@ -83,7 +80,7 @@ void Game::Unload()
 	BaceCampTent::Unload();
 	ShieldEffect::Unload();
 	HealEffect::Unload();
-	TutorialEnemy::Unload();
+	
 }
 
 void Game::Init()
@@ -97,7 +94,6 @@ void Game::Init()
 	skydome->SetScale(D3DXVECTOR3(300.0f,300.0f,300.0f));
 
 	//フィールド関連
-	//Field* field = AddGameObject<Field>();
 	MeshField*  meshfield = AddGameObject<MeshField>();
 	meshfield->SetMapActive(true);
 
@@ -120,8 +116,8 @@ void Game::Init()
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 
 	
-	Box* box = AddGameObject<Box>();
-	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));
+	/*Box* box = AddGameObject<Box>();
+	box->SetPosition(D3DXVECTOR3(7.0f,0.0f,0.0f));*/
 
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
@@ -224,7 +220,7 @@ void Game::Update()
 void Game::Uninit()
 {
 	Scene::Uninit();
-	
+	Game::Unload();
 	
 	
 }

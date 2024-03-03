@@ -177,6 +177,8 @@
     <ClCompile Include="howleffect.cpp" />
     <ClCompile Include="inputx.cpp" />
     <ClCompile Include="ItemManger.cpp" />
+    <ClCompile Include="npcteacher.cpp" />
+    <ClCompile Include="spritetextureload.cpp" />
     <ClCompile Include="timenumber.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="loadingtexturemanager.cpp">
@@ -264,6 +266,8 @@
     <ClInclude Include="howleffect.h" />
     <ClInclude Include="inputx.h" />
     <ClInclude Include="ItemManger.h" />
+    <ClInclude Include="npcteacher.h" />
+    <ClInclude Include="spritetextureload.h" />
     <ClInclude Include="timenumber.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="loadingtexturemanager.h" />
