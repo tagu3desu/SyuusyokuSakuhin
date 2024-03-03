@@ -1273,7 +1273,10 @@ void Player::UpdateGround()
 		m_Run = false;
 		m_Walk = false;
 		m_Idle = true;
-		m_FootSoundFlag = false;
+		m_StartGuard = false;
+		m_IsGuard = false;
+		m_EndGuard = false;
+		m_InpactGuard = false;
 		m_FootSoundInterval = 0;
 		if (m_Sworddrawn)
 		{
