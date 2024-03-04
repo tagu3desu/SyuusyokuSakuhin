@@ -223,6 +223,7 @@ void Player::Update()
 		if (m_DebugSystem->GetDebugWindowEnable())
 		{
 			bool  checkhit = m_Sword->GetSwordHit();
+
 			////GUIにパラメータ表示
 			ImGui::SetNextWindowSize(ImVec2(300, 250));
 			ImGui::Begin("Player");

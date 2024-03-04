@@ -35,6 +35,11 @@ void Camera::Update()
 	TutorialEnemy* tutoriaruenemy = m_Scene->GetGameObject<TutorialEnemy>();
 	DebugSystem* debug = m_Scene->GetGameObject<DebugSystem>();
 	
+	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
+	ImGui::Begin("Camera");
+	ImGui::InputFloat("X", &m_RotationX);
+	ImGui::InputFloat("Y", &m_RotationY);
+	ImGui::End();*/
 
 	if (Input::GetKeyPress('J'))
 	{

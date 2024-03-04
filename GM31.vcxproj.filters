@@ -73,29 +73,11 @@
     <Filter Include="ソース ファイル\Object\Player">
       <UniqueIdentifier>{a424a58b-957f-4dea-ba61-35dbd08c24cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object\Player\アイテム">
-      <UniqueIdentifier>{54a1ea4d-d44f-4db5-a619-562ee9264999}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object\Player\武具">
-      <UniqueIdentifier>{82c19a2a-8080-482d-8510-4f69a3350e26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object\Player\本体">
-      <UniqueIdentifier>{0f19ab54-d783-4963-ab6a-cc5e5db20719}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Object\Enemy">
       <UniqueIdentifier>{96deecd8-70af-46d4-b1bc-1eb304905bbe}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Object\Player">
       <UniqueIdentifier>{12708ad4-b37d-4e42-8013-62a9734b088f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Object\Player\武具">
-      <UniqueIdentifier>{be7e6e78-2ea9-4f2c-b0ce-9ddca8a3fba0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Object\Player\本体">
-      <UniqueIdentifier>{15a7c593-a281-40e0-9fc8-7627a0ecdc10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Object\Player\アイテム">
-      <UniqueIdentifier>{5470551f-b8f4-4420-a24e-7474e0d7dac1}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Object\Enemy">
       <UniqueIdentifier>{83a40b33-4980-4edd-8922-536368ff0644}</UniqueIdentifier>
@@ -105,6 +87,24 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Object\NPC">
       <UniqueIdentifier>{afceddfb-b7ea-4371-aac1-8ce14605cb07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Object\Player\Item">
+      <UniqueIdentifier>{54a1ea4d-d44f-4db5-a619-562ee9264999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Object\Player\Wepon">
+      <UniqueIdentifier>{82c19a2a-8080-482d-8510-4f69a3350e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Object\Player\Player">
+      <UniqueIdentifier>{0f19ab54-d783-4963-ab6a-cc5e5db20719}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Object\Player\Item">
+      <UniqueIdentifier>{5470551f-b8f4-4420-a24e-7474e0d7dac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Object\Player\Wepon">
+      <UniqueIdentifier>{be7e6e78-2ea9-4f2c-b0ce-9ddca8a3fba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Object\Player\Player">
+      <UniqueIdentifier>{15a7c593-a281-40e0-9fc8-7627a0ecdc10}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -226,31 +226,31 @@
       <Filter>ソース ファイル\Texture\TextureManager</Filter>
     </ClCompile>
     <ClCompile Include="wepon_shield.cpp">
-      <Filter>ソース ファイル\Object\Player\武具</Filter>
+      <Filter>ソース ファイル\Object\Player\Wepon</Filter>
     </ClCompile>
     <ClCompile Include="wepon_sword.cpp">
-      <Filter>ソース ファイル\Object\Player\武具</Filter>
+      <Filter>ソース ファイル\Object\Player\Wepon</Filter>
     </ClCompile>
     <ClCompile Include="hpgage.cpp">
-      <Filter>ソース ファイル\Object\Player\本体</Filter>
+      <Filter>ソース ファイル\Object\Player\Player</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\Object\Player\本体</Filter>
+      <Filter>ソース ファイル\Object\Player\Player</Filter>
     </ClCompile>
     <ClCompile Include="trail.cpp">
       <Filter>ソース ファイル\Texture\Effect</Filter>
     </ClCompile>
     <ClCompile Include="staminagage.cpp">
-      <Filter>ソース ファイル\Object\Player\本体</Filter>
+      <Filter>ソース ファイル\Object\Player\Player</Filter>
     </ClCompile>
     <ClCompile Include="potion.cpp">
-      <Filter>ソース ファイル\Object\Player\アイテム</Filter>
+      <Filter>ソース ファイル\Object\Player\Item</Filter>
     </ClCompile>
     <ClCompile Include="whetstone.cpp">
-      <Filter>ソース ファイル\Object\Player\アイテム</Filter>
+      <Filter>ソース ファイル\Object\Player\Item</Filter>
     </ClCompile>
     <ClCompile Include="ItemManger.cpp">
-      <Filter>ソース ファイル\Object\Player\アイテム</Filter>
+      <Filter>ソース ファイル\Object\Player\Item</Filter>
     </ClCompile>
     <ClCompile Include="animationModel.cpp">
       <Filter>ソース ファイル\System</Filter>
@@ -438,31 +438,31 @@
       <Filter>ヘッダー ファイル\Texture\TextureManager</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル\Object\Player\本体</Filter>
+      <Filter>ヘッダー ファイル\Object\Player\Player</Filter>
     </ClInclude>
     <ClInclude Include="hpgage.h">
-      <Filter>ヘッダー ファイル\Object\Player\本体</Filter>
+      <Filter>ヘッダー ファイル\Object\Player\Player</Filter>
     </ClInclude>
     <ClInclude Include="staminagage.h">
-      <Filter>ヘッダー ファイル\Object\Player\本体</Filter>
+      <Filter>ヘッダー ファイル\Object\Player\Player</Filter>
     </ClInclude>
     <ClInclude Include="trail.h">
       <Filter>ヘッダー ファイル\Texture\Effect</Filter>
     </ClInclude>
     <ClInclude Include="wepon_shield.h">
-      <Filter>ヘッダー ファイル\Object\Player\武具</Filter>
+      <Filter>ヘッダー ファイル\Object\Player\Wepon</Filter>
     </ClInclude>
     <ClInclude Include="wepon_sword.h">
-      <Filter>ヘッダー ファイル\Object\Player\武具</Filter>
+      <Filter>ヘッダー ファイル\Object\Player\Wepon</Filter>
     </ClInclude>
     <ClInclude Include="potion.h">
-      <Filter>ヘッダー ファイル\Object\Player\アイテム</Filter>
+      <Filter>ヘッダー ファイル\Object\Player\Item</Filter>
     </ClInclude>
     <ClInclude Include="whetstone.h">
-      <Filter>ヘッダー ファイル\Object\Player\アイテム</Filter>
+      <Filter>ヘッダー ファイル\Object\Player\Item</Filter>
     </ClInclude>
     <ClInclude Include="ItemManger.h">
-      <Filter>ヘッダー ファイル\Object\Player\アイテム</Filter>
+      <Filter>ヘッダー ファイル\Object\Player\Item</Filter>
     </ClInclude>
     <ClInclude Include="animationModel.h">
       <Filter>ヘッダー ファイル\System</Filter>
