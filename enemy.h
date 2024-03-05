@@ -88,7 +88,7 @@ private:
 	int m_AttackRandomNum = 0;
 
 	//コライダー関連
-	class Collider* m_EnemyCollider{};
+	class BoxCollider* m_EnemyCollider{};
 	class EnemyLeftArm* m_EnemyLeftArm;
 
 	int m_InvincibilityTime = 0;
@@ -157,7 +157,7 @@ private:
 	
 
 	class Scene* m_Scene;
-	class Collider* m_LeftArmCollider;
+	class BoxCollider* m_LeftArmCollider;
 public:
 	void Init();
 	void Uninit();
@@ -174,7 +174,7 @@ private:
 	D3DXVECTOR3 m_Oldposition;
 
 	class Scene* m_Scene;
-	class Collider* test;
+	class BoxCollider* test;
 public:
 	void Init();
 	void Uninit();

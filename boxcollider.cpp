@@ -1,20 +1,20 @@
 #include"main.h"
 #include"renderer.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"scene.h"
 #include"manager.h"
 #include"wepon_sword.h"
 #include"input.h"
-Model* Collider::m_Model;
+Model* BoxCollider::m_Model;
 
-void Collider::Load()
+void BoxCollider::Load()
 {
 
 	m_Model = new Model();
 	m_Model->Load("asset\\model\\object\\colliderver3.obj");
 };
 
-void Collider::Init()
+void BoxCollider::Init()
 {
 	//m_Scale = D3DXVECTOR3(0.0f, 0.00f, 0.0f);
 	//m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -27,27 +27,27 @@ void Collider::Init()
 		"shader\\collidervertexLightingPS.cso");	
 }
 
-void Collider::Unload()
+void BoxCollider::Unload()
 {
 	m_Model->Unload();
 	delete m_Model;
 }
 
-void Collider::Uninit()
+void BoxCollider::Uninit()
 {
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
 }
 
-void Collider::Update()
+void BoxCollider::Update()
 {
 }
 
 	
 
 
-void Collider::Draw()
+void BoxCollider::Draw()
 {
 	
 		Renderer::SetRssetEnable(true);
@@ -98,7 +98,7 @@ void Collider::Draw()
 
 
 //A(obb1)‚ÆB(obb2)‚ÌOBB“–‚½‚è”»’èŠÖ”
-bool Collider::CollisionChecker(GameObject* obb1, GameObject* obb2 ,float offsetscale)
+bool BoxCollider::CollisionChecker(GameObject* obb1, GameObject* obb2 ,float offsetscale)
 {
 	//A‚Ì²‚ÉŠi”[
 	D3DXVECTOR3 NAe1 = obb1->GetColliderRight(), Ae1 = NAe1 * (obb1->GetColliderScale().x * offsetscale);
@@ -290,7 +290,7 @@ bool Collider::CollisionChecker(GameObject* obb1, GameObject* obb2 ,float offset
 // “Š‰eü•ª’·ŠÖ” //
 // •ª—£²‚É“Š‰e‚³‚ê‚½²¬•ª‚©‚ç“Š‰eü•ª’·‚ğZo
 // •ª—£²Sep‚Í•W€‰»‚³‚ê‚Ä‚¢‚é‚±‚Æ
-float Collider::LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECTOR3* e2, D3DXVECTOR3* e3)
+float BoxCollider::LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECTOR3* e2, D3DXVECTOR3* e3)
 {
 	// 3‚Â‚Ì“àÏ‚Ìâ‘Î’l‚Ì˜a‚Å“Š‰eü•ª’·‚ğŒvZ
 	float r1 = fabs(D3DXVec3Dot(Sep, e1));

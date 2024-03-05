@@ -2,7 +2,7 @@
 #include"manager.h"
 #include"renderer.h"
 #include"basecamptent.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"campField.h"
 
 Model* BaceCampTent::m_Model;

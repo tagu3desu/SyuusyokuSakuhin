@@ -12,7 +12,7 @@ private:
 	ID3D11InputLayout* m_VertexLayout{};
 
 	class Scene* scene{};
-	class Collider* m_RockCollider{};
+	class BoxCollider* m_RockCollider{};
 
 	
 	

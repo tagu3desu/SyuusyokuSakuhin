@@ -15,7 +15,7 @@
 #include"meshField.h"
 #include"rock.h"
 #include"treetexture.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"animationModel.h"
 #include"staminagage.h"
 #include"healItem.h"
@@ -54,7 +54,7 @@ void Tutorial::Load()
 	BladeEffect2::Load();
 	SwordTopVertex::Load();
 	MeshField::Load();
-	Collider::Load();
+	BoxCollider::Load();
 	ShieldEffect::Load();
 	HealEffect::Load();
 	TutorialEnemy::Load();
@@ -73,7 +73,7 @@ void Tutorial::Unload()
 	BladeEffect2::Unload();
 	SwordTopVertex::Unload();
 	MeshField::Unload();
-	Collider::Unload();
+	BoxCollider::Unload();
 	ShieldEffect::Unload();
 	HealEffect::Unload();
 	TutorialEnemy::Unload();

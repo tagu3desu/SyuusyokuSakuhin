@@ -17,7 +17,7 @@ private:
 
 
 	class Scene* m_Scene{};
-	class Collider* m_ShieldCollider{};
+	class BoxCollider* m_ShieldCollider{};
 	class RockEffect* m_RockEffect{};
 	class Enemy* m_Enemy{};
 public:

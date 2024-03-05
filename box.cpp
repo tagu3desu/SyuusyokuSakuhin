@@ -2,7 +2,7 @@
 #include"manager.h"
 #include"renderer.h"
 #include"box.h"
-#include"collider.h"
+#include"boxcollider.h"
 
 
 Model* Box::m_Model;
@@ -17,7 +17,7 @@ void Box::Init()
 		"shader\\DepthShadowMappingPS.cso");
 
 	scene = Manager::GetScene();
-	m_BoxCollider = scene->AddGameObject<Collider>();
+	m_BoxCollider = scene->AddGameObject<BoxCollider>();
 	m_BoxCollider->SetScale(D3DXVECTOR3(1.0f/m_Scale.x, 1.0f/m_Scale.y, 1.0f/m_Scale.z)*2.0f);
 	m_BoxCollider->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 }

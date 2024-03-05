@@ -163,7 +163,7 @@
     <ClCompile Include="box.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="clearrank.cpp" />
-    <ClCompile Include="collider.cpp" />
+    <ClCompile Include="boxcollider.cpp" />
     <ClCompile Include="cylinder.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="enemy.cpp" />
@@ -250,7 +250,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="campField.h" />
     <ClInclude Include="clearrank.h" />
-    <ClInclude Include="collider.h" />
+    <ClInclude Include="boxcollider.h" />
     <ClInclude Include="compornent.h" />
     <ClInclude Include="cylinder.h" />
     <ClInclude Include="debug.h" />

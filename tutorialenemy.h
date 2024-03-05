@@ -87,7 +87,7 @@ private:
 	int m_AttackRandomNum = 0;
 
 	//コライダー関連
-	class Collider* m_EnemyTutoriaCollider{};
+	class BoxCollider* m_EnemyTutoriaCollider{};
 
 
 	int m_InvincibilityTime = 0;
@@ -155,7 +155,7 @@ private:
 
 
 	class Scene* m_Scene;
-	class Collider* m_RightArmCollider;
+	class BoxCollider* m_RightArmCollider;
 public:
 	void Init();
 	void Uninit();

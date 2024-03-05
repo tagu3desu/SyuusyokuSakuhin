@@ -2,7 +2,7 @@
 #include"main.h"
 #include"manager.h"
 #include"scene.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"input.h"
 #include"enemy.h"
 
@@ -49,8 +49,8 @@ void DebugSystem::Update()
 		//第2引数は表示したいデータ,第3引数は要素数
 		ImGui::PlotLines("", value, sizeof(value) / sizeof(float), 0, NULL, 0.0f, 100.0f, ImVec2(0, 50));
 		ImGui::Checkbox("Colldier", &m_ColliderEnable);
-		std::vector<Collider*> colliders = m_Scene->GetGameObjects<Collider>();
-		for (Collider* collider : colliders)
+		std::vector<BoxCollider*> colliders = m_Scene->GetGameObjects<BoxCollider>();
+		for (BoxCollider* collider : colliders)
 		{
 			collider->SetColliderEnable(m_ColliderEnable);
 		}

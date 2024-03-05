@@ -3,7 +3,7 @@
 #include"renderer.h"
 #include"scene.h"
 #include"rock.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"title.h"
 Model* Rock::m_Model{};
 
@@ -21,7 +21,7 @@ void Rock::Init()
 	m_Scene = Manager::GetScene();
 
 
-	m_RockCollider = m_Scene->AddGameObject<Collider>();
+	m_RockCollider = m_Scene->AddGameObject<BoxCollider>();
 	m_RockCollider->SetScale(D3DXVECTOR3(1 / m_Scale.x, 1 / m_Scale.y, 1 / m_Scale.z) * 1.5f);
 	m_RockCollider->SetPosition(D3DXVECTOR3(0.0f, 0.3f, 0.0f));
 	

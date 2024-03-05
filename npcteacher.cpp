@@ -3,7 +3,7 @@
 #include"scene.h"
 #include"manager.h"
 #include"npcteacher.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"meshField.h"
 #include"camera.h"
 #include"player.h"
@@ -34,7 +34,7 @@ void NpcTeacher::Init()
 
 	m_Scene = Manager::GetScene();
 
-	m_NpcCollider = m_Scene->AddGameObject<Collider>();
+	m_NpcCollider = m_Scene->AddGameObject<BoxCollider>();
 	m_NpcCollider->SetScale(D3DXVECTOR3(160.0f, 180.0f, 160.0f));
 	m_NpcCollider->SetPosition(D3DXVECTOR3(0.0f, -10.0f, 0.0f));
 

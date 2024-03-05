@@ -6,7 +6,7 @@
 #include"player.h"
 #include"animationModel.h"
 #include"input.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"title.h"
 #include"rockeffect.h"
 #include"enemy.h"
@@ -36,7 +36,7 @@ void Shield::Init()
 	if (!Title::GetCheckTitle())
 	{
 		
-		m_ShieldCollider = m_Scene->AddGameObject<Collider>(COLLIDER_LAYER);
+		m_ShieldCollider = m_Scene->AddGameObject<BoxCollider>(COLLIDER_LAYER);
 		m_ShieldCollider->SetScale(D3DXVECTOR3(0.45f, 0.25f, 0.60f));
 		m_ShieldCollider->SetTag(ITEM_TAG);
 	}

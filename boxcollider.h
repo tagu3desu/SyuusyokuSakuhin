@@ -12,7 +12,7 @@ enum Tag
 };
 
 
-class Collider : public GameObject
+class BoxCollider : public GameObject
 {
 private:
 	static Model* m_Model;

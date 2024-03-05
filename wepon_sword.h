@@ -29,7 +29,7 @@ private:
 	//ƒ|ƒCƒ“ƒ^•Ï”
 	class Scene* m_Scene{};
 	class Camera* m_Camera{};
-	class Collider* m_SwordCollider{};
+	class BoxCollider* m_SwordCollider{};
 	class Trail* m_SwordTrail{};
 	class SwordTopVertex* m_SwordTopVertex{};
 

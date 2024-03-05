@@ -7,7 +7,7 @@
 #include"game.h"
 #include"title.h"
 #include"audio.h"
-#include"collider.h"
+#include"boxcollider.h"
 
 Scene* Manager::m_Scene{};	//静的メンバ変数は再宣言が必要
 Scene* Manager::m_NextScene{}; 

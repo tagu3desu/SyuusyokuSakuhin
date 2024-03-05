@@ -261,7 +261,7 @@
     <ClCompile Include="clearrank.cpp">
       <Filter>ソース ファイル\Texture\UI</Filter>
     </ClCompile>
-    <ClCompile Include="collider.cpp">
+    <ClCompile Include="boxcollider.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="timenumber.cpp">
@@ -473,7 +473,7 @@
     <ClInclude Include="clearrank.h">
       <Filter>ヘッダー ファイル\Texture\UI</Filter>
     </ClInclude>
-    <ClInclude Include="collider.h">
+    <ClInclude Include="boxcollider.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="compornent.h">

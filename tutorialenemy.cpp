@@ -10,7 +10,6 @@
 #include<cmath>
 #include"spherecomponent.h"
 #include"input.h"
-#include"boxcomponent.h"
 #include"bladeefect1.h"
 #include"bladeefect2.h"
 #include"audio.h"
@@ -20,7 +19,7 @@
 #include"field.h"
 #include"campField.h"
 #include"title.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"wepon_sword.h"
 #include"rockeffect.h"
 #include"areachangecollider.h"
@@ -76,7 +75,7 @@ void TutorialEnemy::Init()
 
 	if (!Title::GetCheckTitle())
 	{
-		m_EnemyTutoriaCollider = m_Scene->AddGameObject<Collider>();
+		m_EnemyTutoriaCollider = m_Scene->AddGameObject<BoxCollider>();
 		m_EnemyTutoriaCollider->SetScale(D3DXVECTOR3(100.0f, 160.0f, 100.0f));
 		m_EnemyTutoriaCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		m_EnemyTutoriaCollider->SetRotation(D3DXVECTOR3(0.1f, 0.4f, 0.0f));
@@ -567,7 +566,7 @@ void EnemyRightArm::Init()
 
 
 	m_Scene = Manager::GetScene();
-	m_RightArmCollider = m_Scene->AddGameObject<Collider>();
+	m_RightArmCollider = m_Scene->AddGameObject<BoxCollider>();
 	m_RightArmCollider->SetScale(D3DXVECTOR3(60.0f, 120.0f, 60.0f));
 	m_RightArmCollider->SetPosition(D3DXVECTOR3(0.0f, 40.0f, 0.0f));
 }

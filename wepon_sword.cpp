@@ -9,7 +9,7 @@
 #include"input.h"
 #include"enemy.h"
 #include"tutorialenemy.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"title.h"
 #include"bladeefect1.h"
 #include"bladeefect2.h"
@@ -53,7 +53,7 @@ void Sword::Init()
 		m_SwordTrail = m_Scene->AddGameObject<Trail>();
 		m_SwordTopVertex = m_Scene->AddGameObject<SwordTopVertex>();
 
-		m_SwordCollider = m_Scene->AddGameObject<Collider>(COLLIDER_LAYER);
+		m_SwordCollider = m_Scene->AddGameObject<BoxCollider>(COLLIDER_LAYER);
 		m_SwordCollider->SetScale(D3DXVECTOR3(0.2f, 0.2f, 1.0f));
 		m_SwordCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.2f));
 	}

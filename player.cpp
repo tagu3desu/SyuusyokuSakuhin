@@ -19,7 +19,7 @@
 #include"howleffect.h"
 #include"GuardInpacteffect.h"
 #include"wepon_sword.h"
-#include"collider.h"
+#include"boxcollider.h"
 #include"title.h"
 #include"game.h"
 #include"rock.h"
@@ -160,7 +160,7 @@ void Player::Init()
 	{
 		m_ItemManager = m_Scene->AddGameObject<ItemManager>();
 
-		m_PlayerCollider = m_Scene->AddGameObject<Collider>();
+		m_PlayerCollider = m_Scene->AddGameObject<BoxCollider>();
 		m_PlayerCollider->SetScale(D3DXVECTOR3(70.0f, 170.0f, 70.0f));
 		m_PlayerCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	

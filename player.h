@@ -102,7 +102,7 @@ private:
 	bool m_ConboflagisAttack3 = false;
 
 	//コライダー
-	class Collider* m_PlayerCollider{};
+	class BoxCollider* m_PlayerCollider{};
 	bool m_AttackCollisionFlag = false;
 
 	//カメラ制御

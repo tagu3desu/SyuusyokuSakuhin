@@ -16,7 +16,7 @@ private:
 	float m_GroundHeight;
 
 	//コライダー関連
-	class Collider* m_NpcCollider{};
+	class BoxCollider* m_NpcCollider{};
 
 	//アニメーション用
 	float m_Time{};
