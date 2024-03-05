@@ -1,22 +1,21 @@
 #include"main.h"
 #include"renderer.h"
-#include"boxcollider.h"
+#include"spherecollider.h"
 #include"scene.h"
 #include"manager.h"
 #include"input.h"
-Model* BoxCollider::m_Model;
+Model* SphereCollider::m_Model;
 
-void BoxCollider::Load()
+void SphereCollider::Load()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\object\\colliderver3.obj");
+	m_Model->Load("asset\\model\\object\\spherecollider.obj");
+
 };
 
-void BoxCollider::Init()
+void SphereCollider::Init()
 {
-	
-	
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,
 		"shader\\vertexLightingVS.cso");
 
@@ -24,27 +23,27 @@ void BoxCollider::Init()
 		"shader\\collidervertexLightingPS.cso");	
 }
 
-void BoxCollider::Unload()
+void SphereCollider::Unload()
 {
 	m_Model->Unload();
 	delete m_Model;
 }
 
-void BoxCollider::Uninit()
+void SphereCollider::Uninit()
 {
 	m_VertexLayout->Release();
 	m_VertexShader->Release();
 	m_PixelShader->Release();
 }
 
-void BoxCollider::Update()
+void SphereCollider::Update()
 {
 }
 
 	
 
 
-void BoxCollider::Draw()
+void SphereCollider::Draw()
 {
 	
 		Renderer::SetRssetEnable(true);
@@ -95,7 +94,7 @@ void BoxCollider::Draw()
 
 
 //A(obb1)‚ÆB(obb2)‚ÌOBB“–‚½‚è”»’èŠÖ”
-bool BoxCollider::CollisionChecker(GameObject* obb1, GameObject* obb2 ,float offsetscale)
+bool SphereCollider::CollisionChecker(GameObject* obb1, GameObject* obb2 ,float offsetscale)
 {
 	//A‚Ì²‚ÉŠi”[
 	D3DXVECTOR3 NAe1 = obb1->GetColliderRight(), Ae1 = NAe1 * (obb1->GetColliderScale().x * offsetscale);
@@ -287,7 +286,7 @@ bool BoxCollider::CollisionChecker(GameObject* obb1, GameObject* obb2 ,float off
 // “Š‰eü•ª’·ŠÖ” //
 // •ª—£²‚É“Š‰e‚³‚ê‚½²¬•ª‚©‚ç“Š‰eü•ª’·‚ğZo
 // •ª—£²Sep‚Í•W€‰»‚³‚ê‚Ä‚¢‚é‚±‚Æ
-float BoxCollider::LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECTOR3* e2, D3DXVECTOR3* e3)
+float SphereCollider::LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECTOR3* e2, D3DXVECTOR3* e3)
 {
 	// 3‚Â‚Ì“àÏ‚Ìâ‘Î’l‚Ì˜a‚Å“Š‰eü•ª’·‚ğŒvZ
 	float r1 = fabs(D3DXVec3Dot(Sep, e1));

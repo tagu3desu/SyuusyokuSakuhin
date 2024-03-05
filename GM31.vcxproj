@@ -178,6 +178,7 @@
     <ClCompile Include="inputx.cpp" />
     <ClCompile Include="ItemManger.cpp" />
     <ClCompile Include="npcteacher.cpp" />
+    <ClCompile Include="spherecollider.cpp" />
     <ClCompile Include="spritetextureload.cpp" />
     <ClCompile Include="timenumber.cpp" />
     <ClCompile Include="timer.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="inputx.h" />
     <ClInclude Include="ItemManger.h" />
     <ClInclude Include="npcteacher.h" />
+    <ClInclude Include="spherecollider.h" />
     <ClInclude Include="spritetextureload.h" />
     <ClInclude Include="timenumber.h" />
     <ClInclude Include="timer.h" />

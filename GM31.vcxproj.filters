@@ -106,6 +106,12 @@
     <Filter Include="ヘッダー ファイル\Object\Player\Player">
       <UniqueIdentifier>{15a7c593-a281-40e0-9fc8-7627a0ecdc10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object\Collider">
+      <UniqueIdentifier>{3fc06db7-026a-46f5-866c-9a760fb7fe08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Object\Collider">
+      <UniqueIdentifier>{dce3f907-1ec6-4b14-9d4e-f64a3a2d8b75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -261,9 +267,6 @@
     <ClCompile Include="clearrank.cpp">
       <Filter>ソース ファイル\Texture\UI</Filter>
     </ClCompile>
-    <ClCompile Include="boxcollider.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
     <ClCompile Include="timenumber.cpp">
       <Filter>ソース ファイル\Texture\UI</Filter>
     </ClCompile>
@@ -311,6 +314,12 @@
     </ClCompile>
     <ClCompile Include="npcteacher.cpp">
       <Filter>ソース ファイル\Object\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="boxcollider.cpp">
+      <Filter>ソース ファイル\Object\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="spherecollider.cpp">
+      <Filter>ソース ファイル\Object\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -473,9 +482,6 @@
     <ClInclude Include="clearrank.h">
       <Filter>ヘッダー ファイル\Texture\UI</Filter>
     </ClInclude>
-    <ClInclude Include="boxcollider.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
     <ClInclude Include="compornent.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
@@ -532,6 +538,12 @@
     </ClInclude>
     <ClInclude Include="npcteacher.h">
       <Filter>ヘッダー ファイル\Object\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="boxcollider.h">
+      <Filter>ヘッダー ファイル\Object\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="spherecollider.h">
+      <Filter>ヘッダー ファイル\Object\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
