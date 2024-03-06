@@ -11,7 +11,7 @@ void SphereCollider::Load()
 
 	m_Model = new Model();
 	m_Model->Load("asset\\model\\object\\spherecollider.obj");
-
+	
 };
 
 void SphereCollider::Init()

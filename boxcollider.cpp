@@ -10,7 +10,7 @@ void BoxCollider::Load()
 {
 
 	m_Model = new Model();
-	m_Model->Load("asset\\model\\object\\colliderver3.obj");
+	m_Model->Load("asset\\model\\object\\Colliderver3.obj");
 };
 
 void BoxCollider::Init()

@@ -291,25 +291,7 @@ void Enemy::Update()
 			m_Velocity.y = 0.0f;
 		}
 
-		if (sword->GetSwordHit())
-		{
-			m_InviciblilityStartFlag = true;
-		}
-
-		if (m_InviciblilityStartFlag)
-		{
-			m_InvincibilityTime++;
-			if (m_InvincibilityTime <= 60)
-			{
-				m_InvincibilityFlag = true;
-			}
-			else
-			{
-				m_InvincibilityFlag = false;
-				m_InviciblilityStartFlag = false;
-				m_InvincibilityTime = 0;
-			}
-		}
+		
 	}
 	
 	//Ž€–SŒn‚Ìˆ—
@@ -325,7 +307,7 @@ void Enemy::Update()
 	{
 		//GUI‚Éƒpƒ‰ƒ[ƒ^•\Ž¦
 		ImGui::SetNextWindowSize(ImVec2(300, 250));
-		ImGui::Begin("Enemy");
+		ImGui::Begin("EnemyStates");
 		ImGui::InputFloat3("Position", m_Position);
 		ImGui::InputInt("Frame", &m_AnimationDelay);
 		ImGui::InputInt("HP", &m_HP);

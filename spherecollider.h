@@ -3,13 +3,7 @@
 #include"model.h"
 #include"gameobject.h"
 
-enum Tag
-{
-	PLAYER_TAG,
-	ENEMY_TAG,
-	ITEM_TAG,
-	BGOBJ_TAG
-};
+
 
 
 class SphereCollider : public GameObject
@@ -28,7 +22,7 @@ private:
 
 	D3DXCOLOR m_ColliderColor{ 0.0f, 1.0f, 0.0f, 1.0f };
 	
-	Tag m_Tag = BGOBJ_TAG;
+
 
 	float m_MinDirection{};
 	
@@ -53,8 +47,7 @@ public:
 	bool GetColliderEnable() { return m_ColliderEnable; }
 	void SetColliderEnable(bool enable) { m_ColliderEnable = enable; }
 
-	void SetTag(Tag tag) { m_Tag = tag;}
-	Tag GetTag() { return m_Tag; }
+	
 
 	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix) {
 		D3DXVECTOR3 pos;

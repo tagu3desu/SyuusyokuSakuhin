@@ -272,26 +272,6 @@ void TutorialEnemy::Update()
 			m_Position.y = m_GroundHeight;
 			m_Velocity.y = 0.0f;
 		}
-
-		if (sword->GetSwordHit())
-		{
-			m_InviciblilityStartFlag = true;
-		}
-
-		if (m_InviciblilityStartFlag)
-		{
-			m_InvincibilityTime++;
-			if (m_InvincibilityTime <= 60)
-			{
-				m_InvincibilityFlag = true;
-			}
-			else
-			{
-				m_InvincibilityFlag = false;
-				m_InviciblilityStartFlag = false;
-				m_InvincibilityTime = 0;
-			}
-		}
 	}
 
 	//Ž€–SŒn‚Ìˆ—

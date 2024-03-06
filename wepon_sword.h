@@ -24,7 +24,10 @@ private:
 	D3DXMATRIX  m_Parent{};
 	D3DXMATRIX  m_ChildMatrix{};
 	D3DXVECTOR3  m_BottomVertex;
-	bool m_Swordhit{};
+
+	//当たり判定の処理
+	bool m_AlreadyHit{}; //攻撃モーション中にまだ当たってるかの判定
+	bool m_Swordhit{}; //当たったかの処理
 
 	//ポインタ変数
 	class Scene* m_Scene{};

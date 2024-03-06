@@ -26,7 +26,7 @@ void Shield::Init()
 
 
 
-	//m_Scale = D3DXVECTOR3(1.0f/0.1f, 1.0f / 0.1f, 1.0f / 0.1f);
+
 	m_Scale = D3DXVECTOR3(1.0f / 0.01f, 1.0f / 0.01f, 1.0f / 0.01f);
 	m_Position = D3DXVECTOR3(5.0f, 12.0f, 3.0f);
 	m_Rotation = D3DXVECTOR3(-2.9f, -4.25f, 1.5f);
@@ -35,10 +35,8 @@ void Shield::Init()
 
 	if (!Title::GetCheckTitle())
 	{
-		
 		m_ShieldCollider = m_Scene->AddGameObject<BoxCollider>(COLLIDER_LAYER);
 		m_ShieldCollider->SetScale(D3DXVECTOR3(0.45f, 0.25f, 0.60f));
-		m_ShieldCollider->SetTag(ITEM_TAG);
 	}
 
 	
