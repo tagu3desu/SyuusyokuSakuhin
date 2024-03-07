@@ -199,9 +199,8 @@ void Player::Update()
 
 	if (!Title::GetCheckTitle())
 	{
-		//チュートリアル用
+		
 		m_TutorialEnemy = m_Scene->GetGameObject<TutorialEnemy>();
-
 		HPgage* hpgage = m_Scene->GetGameObject<HPgage>();
 		Staminagage* staminagage = m_Scene->GetGameObject<Staminagage>();
 		Potion* potion = m_Scene->GetGameObject<Potion>();
@@ -212,7 +211,9 @@ void Player::Update()
 		m_Bullet = m_Scene->GetGameObject<Bullet>();
 		m_Enemy = m_Scene->GetGameObject<Enemy>();
 		m_Sword = m_Scene->GetGameObject<Sword>();
+		m_OldPosition = m_Position;
 		
+
 
 		m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -449,12 +450,9 @@ void Player::Update()
 			}
 		}
 
+		//カメラ補正用
 		m_CameraCorrectionPosition = D3DXVECTOR3(m_PlayerAnimationCorrection->GetAnimationPosition().x, m_Position.y, m_PlayerAnimationCorrection->GetAnimationPosition().z);
-
-
 		
-		
-
 
 		//被ダメアニメーション
 		{
@@ -643,18 +641,23 @@ void Player::Update()
 	}
 
 	//OBB判定　
-	std::vector<Box*> boxes = m_Scene->GetGameObjects<Box>();
+
+	std::vector<Rock*> rocks = m_Scene->GetGameObjects<Rock>();
 	{
-		for (Box* box : boxes)
+		for (Rock* rock : rocks)
 		{
-			if (m_PlayerCollider->CollisionChecker(this, box, 0.7f))
+			if (m_PlayerCollider->CollisionChecker(this, rock, 0.7f))
 			{
 				m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+				m_Position = m_OldPosition;
+				break;
 			}
 			else
 			{
 				m_PlayerCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 			}
+		
+			
 		}
 	}
 
@@ -832,7 +835,7 @@ void Player::Draw()
 {
 	GameObject::Draw();
 
-	//m_BoxCollider->Draw();
+	
 
 	//入力レイアウト
 	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);

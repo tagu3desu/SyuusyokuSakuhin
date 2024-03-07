@@ -10,6 +10,7 @@
 #include"enemy.h"
 #include"tutorialenemy.h"
 #include"boxcollider.h"
+#include"spherecollider.h"
 #include"title.h"
 #include"bladeefect1.h"
 #include"bladeefect2.h"
@@ -56,6 +57,8 @@ void Sword::Init()
 		m_SwordCollider = m_Scene->AddGameObject<BoxCollider>(COLLIDER_LAYER);
 		m_SwordCollider->SetScale(D3DXVECTOR3(0.2f, 0.2f, 1.0f));
 		m_SwordCollider->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 0.2f));
+
+		
 	}
 
 	m_SmallAttackHitSE = AddComponent<Audio>();
@@ -91,6 +94,8 @@ void Sword::Update()
 		//Œ•‚É“–‚½‚è”»’è‚ð‚Â‚¯‚é
 		m_SwordCollider->SetMatrix(m_Matrix);
 		SetColliderInfo(m_SwordCollider->GetMatrix());
+
+		
 		//‹OÕƒZƒbƒg
 		m_SwordTrail->SetTrail(m_SwordTopVertex->GetTopVertexPostion(), GetBottomVertexPostion(), player->GetPlayerAttackCollider());
 

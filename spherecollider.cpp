@@ -85,6 +85,9 @@ void SphereCollider::Draw()
 		{
 		m_Model->Draw();
 		}
+		
+		
+		
 		Renderer::SetRssetEnable(false);
 		Renderer::SetATCEnable(false);
 	

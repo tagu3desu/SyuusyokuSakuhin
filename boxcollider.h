@@ -25,7 +25,7 @@ private:
 
 	float m_MinDirection{};
 	
-	bool m_ColliderEnable;
+	
 
 	
 
@@ -43,8 +43,7 @@ public:
 	void SetColliderColor(D3DXCOLOR color) { m_ColliderColor = color; }
 	float GetMinDirection() { return m_MinDirection; }
 
-	bool GetColliderEnable() { return m_ColliderEnable; }
-	void SetColliderEnable(bool enable) { m_ColliderEnable = enable; }
+	
 
 
 
@@ -113,7 +112,8 @@ public:
 		return a3;
 	}
 
-	bool CollisionChecker(GameObject* obb1, GameObject* obb2 , float offsetscale);
+	bool CollisionChecker(GameObject* obb1, GameObject* obb2 , float offsetscale); //“–‚½‚è”»’è—p
+
 	float LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXVECTOR3* e2, D3DXVECTOR3* e3);
 
 };

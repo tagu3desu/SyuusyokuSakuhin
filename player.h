@@ -37,7 +37,7 @@ private:
 	bool m_Dead = false;
 	bool m_DeadUIFlag = false;
 	float m_DeadUIFlagCount = 0.0f;
-
+	D3DXVECTOR3 m_OldPosition = D3DXVECTOR3(0.0f,0.0f,0.0f);
 
 	//ˆÚ“®ŠÖ˜A
 	float m_Speed;

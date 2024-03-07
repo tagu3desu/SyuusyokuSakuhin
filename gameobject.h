@@ -47,6 +47,7 @@ protected:
 
 	float m_FrameWait{};
 
+	bool m_ColliderEnable;
 	bool m_Hit{};
 public:
 	bool GetReflectEnable() { return m_ReflectEnable; }
@@ -60,7 +61,8 @@ public:
 	void SetQuaternion(D3DXQUATERNION quaternion) { m_Quaternion = quaternion; }
 
 
-
+	bool GetColliderEnable() { return m_ColliderEnable; }
+	void SetColliderEnable(bool enable) { m_ColliderEnable = enable; }
 	D3DXVECTOR3 GetColliderScale() { return m_ColliderScale; }
 	D3DXVECTOR3 GetColliderPosition() { return m_ColliderPosition; }
 	D3DXVECTOR3 GetColliderRight() { return m_ColiiderRight; }

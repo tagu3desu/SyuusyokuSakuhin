@@ -118,8 +118,7 @@ void Game::Init()
 	Enemy* enemy = AddGameObject<Enemy>();
 	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
 
-	AddGameObject<SphereCollider>();
-
+	
 
 	m_Fade = AddGameObject<Fade>(SPRITE_LAYER);
 
@@ -142,7 +141,7 @@ void Game::Init()
 	
 
 	////////Šâ
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		auto rock = AddGameObject<Rock>();
 

@@ -11,6 +11,7 @@ void BoxCollider::Load()
 
 	m_Model = new Model();
 	m_Model->Load("asset\\model\\object\\Colliderver3.obj");
+	
 };
 
 void BoxCollider::Init()
@@ -91,6 +92,9 @@ void BoxCollider::Draw()
 	
 	
 }
+
+//obb‚ÆPlane‚Ì•Ç ‚èŠÖ”
+
 
 
 
@@ -284,6 +288,8 @@ bool BoxCollider::CollisionChecker(GameObject* obb1, GameObject* obb2 ,float off
 	return true; // Õ“Ë‚µ‚Ä‚¢‚é
 }
 
+
+
 // “Š‰eü•ª’·ŠÖ” //
 // •ª—£²‚É“Š‰e‚³‚ê‚½²¬•ª‚©‚ç“Š‰eü•ª’·‚ğZo
 // •ª—£²Sep‚Í•W€‰»‚³‚ê‚Ä‚¢‚é‚±‚Æ
@@ -298,6 +304,8 @@ float BoxCollider::LenSegOnSeparateAxis(D3DXVECTOR3* Sep, D3DXVECTOR3* e1, D3DXV
 
 	return r1 + r2 + r3;
 }
+
+
 
 
 

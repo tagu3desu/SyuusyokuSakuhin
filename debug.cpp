@@ -3,6 +3,7 @@
 #include"manager.h"
 #include"scene.h"
 #include"boxcollider.h"
+#include"spherecollider.h"
 #include"input.h"
 #include"enemy.h"
 
@@ -49,10 +50,15 @@ void DebugSystem::Update()
 		//第2引数は表示したいデータ,第3引数は要素数
 		ImGui::PlotLines("", value, sizeof(value) / sizeof(float), 0, NULL, 0.0f, 100.0f, ImVec2(0, 50));
 		ImGui::Checkbox("Colldier", &m_ColliderEnable);
-		std::vector<BoxCollider*> colliders = m_Scene->GetGameObjects<BoxCollider>();
-		for (BoxCollider* collider : colliders)
+		std::vector<BoxCollider*> boxcolliders = m_Scene->GetGameObjects<BoxCollider>();
+		for (BoxCollider* boxcollider : boxcolliders)
 		{
-			collider->SetColliderEnable(m_ColliderEnable);
+			boxcollider->SetColliderEnable(m_ColliderEnable);
+		}
+		std::vector<SphereCollider*> spherecolliders = m_Scene->GetGameObjects<SphereCollider>();
+		for (SphereCollider* spherecollider : spherecolliders)
+		{
+			spherecollider->SetColliderEnable(m_ColliderEnable);
 		}
 		if (enemy != nullptr)
 		{

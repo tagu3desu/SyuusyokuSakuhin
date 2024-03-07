@@ -8,7 +8,6 @@
 #include"meshField.h"
 #include"player.h"
 #include<cmath>
-#include"spherecomponent.h"
 #include"input.h"
 #include"bladeefect1.h"
 #include"bladeefect2.h"
