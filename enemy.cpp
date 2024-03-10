@@ -44,7 +44,6 @@ void Enemy::Init()
 
 	m_Time = 0.0f;
 	m_BlendTime = 0.0f;
-	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
 	m_HP = 180; //120
@@ -67,8 +66,11 @@ void Enemy::Init()
 	m_RockAttackSE = AddComponent<Audio>();
 	m_RockAttackSE->Load("asset\\audio\\SE\\打撃4.wav");
 
-	m_DeadSE = AddComponent<Audio>();
+	m_DeadSE = AddComponent<Audio>();  //足音と死んだときの音に使用
 	m_DeadSE->Load("asset\\audio\\SE\\怪獣の足音.wav");
+
+	m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	if (!Title::GetCheckTitle())
 	{
@@ -91,6 +93,7 @@ void Enemy::Load()
 	m_Model->Load("asset\\model\\enemy\\Mutant.fbx");
 	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Breathing Idle.fbx", "Idle");
 	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Walking.fbx", "Walk");
+	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Run.fbx", "Run");
 	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Swiping.fbx", "PunchiAttack");
 	m_Model->LoadAnimation("asset\\model\\enemy\\SlapAttack.fbx", "SlapAttack");
 	m_Model->LoadAnimation("asset\\model\\enemy\\Jump Attack.fbx", "JumpAttack");
@@ -213,6 +216,9 @@ void Enemy::Update()
 	case ENAMY_STATE_DEAD:
 		UpdateDead();
 		break;
+	case ENEMY_STATE_LOITERING:
+		UpdateLoitering();
+		break;
 	default:
 		break;
 	}
@@ -222,18 +228,30 @@ void Enemy::Update()
 
 	if (m_EnemyAI)
 	{
+		m_Direction = player->GetPosition() - m_Position;
+		m_Length = D3DXVec3Length(&m_Direction);
+		D3DXVec3Normalize(&m_Direction, &m_Direction);
+
 		if (m_Length < 16 && !m_IsAttack && m_HowlFinish && !player->GetPlayerDead())
 		{
+			m_Run = false;
+			m_Walk = false;
 			m_EnemyState = ENEMY_STATE_ATTACK;
+		}
+		else if (!m_HowlFinish && !m_Find && m_EnemyState != ENEMY_STATE_HOWL)
+		{
+			m_EnemyState = ENEMY_STATE_LOITERING;
 		}
 		else if (m_HowlFinish && m_Length < 70 && 16 <= m_Length && !m_Dead && !m_IsAttack)
 		{
+			m_Run = true;
 			m_EnemyState = ENEMY_STATE_MOVE;
 		}
-		if (IsInFieldOfView(m_Position, m_Direction, 70, 25.0f))
+		if (IsInFieldOfView(m_Position, m_Direction, 70, 15.0f) || m_Length < 15)
 		{
 			if (!m_Howl)
 			{
+				m_Walk = false;
 				m_EnemyState = ENEMY_STATE_HOWL;
 			}
 			m_Find = true;
@@ -243,27 +261,12 @@ void Enemy::Update()
 			m_Find = false;
 		}
 
-		m_Direction = player->GetPosition() - m_Position;
-		m_Length = D3DXVec3Length(&m_Direction);
-		D3DXVec3Normalize(&m_Direction, &m_Direction);
-		if (!m_Dead && !m_Attacking && !m_Find && !m_Animating)
+		
+		if (!m_Dead && !m_Animating && ( !m_Attacking && m_HowlFinish || m_Find) )
 		{
 			m_Rotation.y = atan2f(m_Direction.x, m_Direction.z);
 		}
 	}
-
-
-	
-
-
-	m_Position += m_Direction * m_Speed;
-	m_Position += m_Velocity;
-
-
-
-	
-	
-
 	
 	{
 		//メッシュフィールドとの衝突判定
@@ -281,7 +284,7 @@ void Enemy::Update()
 	
 		//重力
 		m_Velocity.y -= 0.015f;
-
+		
 		//接地
 		if (m_Position.y < m_GroundHeight && m_Velocity.y < 0.0f)
 		{
@@ -289,7 +292,7 @@ void Enemy::Update()
 			m_Position.y = m_GroundHeight;
 			m_Velocity.y = 0.0f;
 		}
-
+		m_Position += m_Velocity;
 		
 	}
 	
@@ -312,6 +315,54 @@ void Enemy::Update()
 		ImGui::InputInt("HP", &m_HP);
 		ImGui::End();
 	}
+
+	D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
+	D3DXVec3Normalize(&direction, &direction);
+	m_Position += direction * m_Speed;
+	
+
+	//足音
+	if (m_Walk)
+	{
+
+		if (!m_FootSoundFlag)
+		{
+			m_DeadSE->Volume(Scene::m_SEVolume * 0.01f);
+			m_DeadSE->PlaySE();
+			m_FootSoundFlag = true;
+		}
+		if (m_FootSoundFlag)
+		{
+			m_FootSoundInterval++;
+			if (m_FootSoundInterval >= 40)
+			{
+				m_FootSoundInterval = 0;
+				m_FootSoundFlag = false;
+			}
+		}
+	}
+
+	if (m_Run)
+	{
+		if (!m_FootSoundFlag)
+		{
+			m_DeadSE->Volume(Scene::m_SEVolume * 0.05f);
+			m_DeadSE->PlaySE();
+			m_FootSoundFlag = true;
+		}
+		if (m_FootSoundFlag)
+		{
+			m_FootSoundInterval++;
+			if (m_FootSoundInterval >= 23)
+			{
+				m_FootSoundInterval = 0;
+				m_FootSoundFlag = false;
+			}
+		}
+	}
+
+
+
 	
 }
 
@@ -344,10 +395,9 @@ void Enemy::Draw()
 	//D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixRotationQuaternion(&rot, &m_Quaternion);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * rot * trans;
+	m_Matrix = scale * rot * trans;
 
-	m_Matrix = world;
-	Renderer::SetWorldMatrix(&world);
+	Renderer::SetWorldMatrix(&m_Matrix);
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));
@@ -396,7 +446,8 @@ void Enemy::UpdateHowl()
 		m_Howl = true;
 	}
 
-	
+	m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			
 	if (m_Howl == true)
 	{
@@ -480,18 +531,21 @@ void Enemy::UpdateAttack() {
 }
 
 void Enemy::UpdateMove() {
-	if (m_NextAnimationName != "Walk")
+	if (m_NextAnimationName != "Run")
 	{
-		m_Speed = 0.05f;
+		m_Speed = 0.2f;
 		m_AnimationName = m_NextAnimationName;
-		m_NextAnimationName = "Walk";
+		m_NextAnimationName = "Run";
 		m_BlendTime = 0.0f;
+		m_DirectionZ = GetForward();
+		m_Run = true;
 	}
 	if (!m_Find)
 	{
+		m_Run = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
-
+	
 }
 
 void Enemy::UpdateDead() {
@@ -522,6 +576,44 @@ void Enemy::UpdateDead() {
 		m_DeadFinish = true;
 		
 	}	
+}
+
+void Enemy::UpdateLoitering()
+{
+	if (m_NextAnimationName != "Walk")
+	{
+		m_Speed = 0.05f;
+		m_AnimationName = m_NextAnimationName;
+		m_NextAnimationName = "Walk";
+		m_BlendTime = 0.0f;
+		m_Walk = true;
+	}
+
+	m_FrameWait++;
+	if (m_FrameWait < 180 || 540 <=m_FrameWait && m_FrameWait <720 )
+	{
+		m_DirectionX = -GetRight();
+
+		D3DXQUATERNION quat;
+		D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		float angle = atan2f(-GetRight().x, -GetRight().z);
+		D3DXQuaternionRotationAxis(&quat, &axis, angle);
+		D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.1f);	//球面線形補間
+	}
+	else if (180 <= m_FrameWait && m_FrameWait < 540)
+	{
+		m_DirectionX = GetRight();
+
+		D3DXQUATERNION quat;
+		D3DXVECTOR3 axis = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		float angle = atan2f(GetRight().x, GetRight().z);
+		D3DXQuaternionRotationAxis(&quat, &axis, angle);
+		D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.1f);	//球面線形補間
+	}
+	else if (720 <= m_FrameWait)
+	{
+		m_FrameWait = 0;
+	}
 }
 
 void Enemy::UpdateSlapAttack(){

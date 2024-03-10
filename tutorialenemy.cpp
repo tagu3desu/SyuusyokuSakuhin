@@ -69,6 +69,7 @@ void TutorialEnemy::Init()
 	m_RockAttackSE = AddComponent<Audio>();
 	m_RockAttackSE->Load("asset\\audio\\SE\\打撃4.wav");
 
+	//足音、死亡音、着地音
 	m_DeadSE = AddComponent<Audio>();
 	m_DeadSE->Load("asset\\audio\\SE\\怪獣の足音.wav");
 
@@ -110,8 +111,6 @@ void TutorialEnemy::Uninit()
 
 void TutorialEnemy::Unload()
 {
-
-
 	m_Model->Unload();
 	delete m_Model;
 }
@@ -293,21 +292,32 @@ void TutorialEnemy::Update()
 		ImGui::End();
 	}
 
+	if (m_Move)
+	{
+		if (!m_FootSoundFlag)
+		{
+			m_DeadSE->Volume(Scene::m_SEVolume * 0.05f);
+			m_DeadSE->PlaySE();
+			m_FootSoundFlag = true;
+		}
+		if (m_FootSoundFlag)
+		{
+			m_FootSoundInterval++;
+			if (m_FootSoundInterval >= 27)
+			{
+				m_FootSoundInterval = 0;
+				m_FootSoundFlag = false;
+			}
+		}
+	}
+
+
 }
 
 void TutorialEnemy::Draw()
 {
 	GameObject::Draw();
 	MeshField* meshfield = m_Scene->GetGameObject<MeshField>();
-
-	////視錘台カリング
-	//{
-	//	Camera* camera = m_Scene->GetGameObject<Camera>();
-
-	//	if (!camera->CheckView(m_Position))
-	//		return;
-	//}
-
 
 
 	//入力レイアウト
@@ -432,12 +442,14 @@ void TutorialEnemy::UpdateMove() {
 	if (m_NextAnimationName != "Walk")
 	{
 		m_Speed = 0.05f;
+		m_Move = true;
 		m_AnimationName = m_NextAnimationName;
 		m_NextAnimationName = "Walk";
 		m_BlendTime = 0.0f;
 	}
 	if (!m_Find)
 	{
+		m_Move = false;
 		m_EnemyState = TUTORIAL_ENEMY_STATE_IDLE;
 	}
 

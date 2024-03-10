@@ -11,7 +11,8 @@ enum ENEMY_STATE
 	ENEMY_STATE_MOVE,
 	ENEMY_STATE_ATTACK,
 	ENEMY_STATE_HOWL,
-	ENAMY_STATE_DEAD
+	ENAMY_STATE_DEAD,
+	ENEMY_STATE_LOITERING
 };
 
 
@@ -68,15 +69,20 @@ private:
 	bool m_DeadFinish = false;
 	bool m_Dead = false;
 	bool m_Find = false;
-	bool m_Move = false;
+	bool m_Walk = false;
+	bool m_Run = false;
 	bool m_ShotFlag = false;
 	bool m_ShotCount = 0;
 	float m_RockattackLimit{};
 	int m_AnimationDelay = 0;
 	bool m_HowlSEFlag=false;
 	
+	//移動関連
+	D3DXVECTOR3 m_DirectionX;
+	D3DXVECTOR3 m_DirectionZ;
 
 	//攻撃関連
+	bool m_CombatFlag = false;
 	bool m_Attacking = false;
 	bool m_Animating = false;
 	int m_Attackdelay = 0;
@@ -103,6 +109,8 @@ private:
 	class Audio* m_DeadSE{};
 	bool m_DeadSEFlag = false;
 
+	bool m_FootSoundFlag = false;
+	int m_FootSoundInterval = 0;
 
 	//ポインタ変数
 	class Scene* m_Scene{};
@@ -128,7 +136,7 @@ public:
 	void UpdateAttack();
 	void UpdateHowl();
 	void UpdateDead();
-
+	void UpdateLoitering();
 
 	//敵の攻撃のパターン
 	void UpdateSlapAttack();

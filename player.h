@@ -48,7 +48,6 @@ private:
 	bool m_Walk = false;
 	D3DXVECTOR3 m_DirectionX;
 	D3DXVECTOR3 m_DirectionZ;
-	D3DXVECTOR3 m_Velocity{};
 
 	//アニメーション関連
 	float m_Time{};

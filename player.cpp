@@ -826,6 +826,11 @@ void Player::Update()
 	}
 
 
+	//à⁄ìÆéûÇÃèàóù
+	D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
+	D3DXVec3Normalize(&direction, &direction);
+	m_Position += direction * m_Speed;
+
 
 	GameObject::Update();
 
@@ -1304,22 +1309,7 @@ void Player::UpdateGround()
 		}
 
 	}
-	//x,zÇâ¡éZÇµÇ‹Ç∑
-	D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
 
-
-	//ê≥ãKâªÇµÇ‹Ç∑
-	D3DXVec3Normalize(&direction, &direction);
-
-	//PositonÇ…Speedâ¡éZÇµÇ‹Ç∑
-	m_Position += direction * m_Speed;
-
-
-	// ÉvÉåÉCÉÑÅ[ÇÃà⁄ìÆÉxÉNÉgÉãÇçXêV
-	//m_MoveVector = m_Velocity * m_Speed;
-
-
-	D3DXVECTOR3 m_ColliderPos = m_Position + GetForward() * 2.0f;
 
 	//ÉKÅ[Éhì¸óÕ
 	if ((Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) >= 0.2) && !m_StartGuard && m_Sworddrawn)
@@ -1502,15 +1492,6 @@ void Player::UpdateRoll()
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
 
-		//x,zÇâ¡éZÇµÇ‹Ç∑
-		D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
-
-
-		//ê≥ãKâªÇµÇ‹Ç∑
-		D3DXVec3Normalize(&direction, &direction);
-
-		//PositonÇ…Speedâ¡éZÇµÇ‹Ç∑
-		m_Position += direction * m_Speed;
 	}
 }
 
@@ -1822,14 +1803,6 @@ void Player::UpdateGuard()
 		m_PlayerState = PLAYER_STATE_GROUND;
 	}
 
-	//x,zÇâ¡éZÇµÇ‹Ç∑
-	D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
-
-	//ê≥ãKâªÇµÇ‹Ç∑
-	D3DXVec3Normalize(&direction, &direction);
-
-	//PositonÇ…Speedâ¡éZÇµÇ‹Ç∑
-	m_Position += direction * m_Speed;
 }
 
 void Player::UpdateTitleIdle()

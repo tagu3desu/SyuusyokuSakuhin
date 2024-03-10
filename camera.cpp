@@ -22,8 +22,8 @@ void Camera::Init()
 	m_FogEnd= 500.0f;
 	m_FogHeight =300.0f;
 
-	m_FogColor = D3DXCOLOR(0.3f, 0.0f, 0.0f, 0.0f);
-	m_GroundFogColor = D3DXCOLOR(0.1f, 0.0f, 0.0f, 0.0f);
+	m_FogColor = D3DXCOLOR(0.4f, 0.0f, 0.0f, 0.0f);
+	m_GroundFogColor = D3DXCOLOR(0.2f, 0.0f, 0.0f, 0.0f);
 
 	m_Scene = Manager::GetScene();
 }
@@ -35,22 +35,8 @@ void Camera::Update()
 	TutorialEnemy* tutoriaruenemy = m_Scene->GetGameObject<TutorialEnemy>();
 	DebugSystem* debug = m_Scene->GetGameObject<DebugSystem>();
 	
-	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("Camera");
-	ImGui::InputFloat("X", &m_RotationX);
-	ImGui::InputFloat("Y", &m_RotationY);
-	ImGui::End();*/
-
-	if (Input::GetKeyPress('J'))
-	{
-		m_FogHeight += 1.0f;
-	}
-	if (Input::GetKeyPress('H'))
-	{
-		m_FogHeight -= 1.0f;
-	}
-
 	
+
 	if (enemy != nullptr)
 	{
 		if (enemy->GetDead())

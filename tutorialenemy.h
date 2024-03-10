@@ -102,7 +102,8 @@ private:
 	class Audio* m_DeadSE{};
 	bool m_DeadSEFlag = false;
 
-
+	bool m_FootSoundFlag = false;
+	int m_FootSoundInterval = 0;
 
 	//ƒ|ƒCƒ“ƒ^•Ï”
 	class Scene* m_Scene{};

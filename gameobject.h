@@ -147,7 +147,7 @@ public:
 		return up;
 	}
 
-	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix) {
+	D3DXVECTOR3 MatrixtoPosition(D3DXMATRIX matrix)	{	//座標を取得
 		D3DXVECTOR3 pos;
 		pos.x = matrix._41;
 		pos.y = matrix._42;
@@ -155,7 +155,7 @@ public:
 		return pos;
 	}
 
-	D3DXVECTOR3 MatrixtoScale(D3DXMATRIX matrix) {
+	D3DXVECTOR3 MatrixtoScale(D3DXMATRIX matrix) {	//スケールを取得
 		D3DXVECTOR3 scale;
 		scale.x = matrix._11;
 		scale.y = matrix._22;
@@ -163,6 +163,13 @@ public:
 		return scale;
 	}
 
+	D3DXVECTOR3 MatrixtRotation(D3DXMATRIX matrix) {	//回転角度を取得
+		D3DXVECTOR3 scale;
+		scale.x = matrix._11;
+		scale.y = matrix._22;
+		scale.z = matrix._33;
+		return scale;
+	}
 
 	D3DXVECTOR3 MatrixtoForward(D3DXMATRIX matrix) //前方面ベクトルを取得
 	{

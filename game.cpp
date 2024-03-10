@@ -116,7 +116,7 @@ void Game::Init()
 	
 
 	Enemy* enemy = AddGameObject<Enemy>();
-	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 25.0f));
+	enemy->SetPosition(D3DXVECTOR3(0.0f, 0.0f, 15.0f));
 
 	
 
