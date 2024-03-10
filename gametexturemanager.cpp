@@ -359,13 +359,13 @@ void GameTexture::TutorialUpdate()
 			if (m_EnemyCallCountFlag)
 			{
 				m_FrameWait++;
-				if (m_FrameWait > 180 && !m_EnemyCallFlag)
+				if (m_FrameWait > 90 && !m_EnemyCallFlag)
 				{
 					m_EnemyCallFlag = true;
 					m_TutorialEnemy = m_Scene->AddGameObject<TutorialEnemy>();
 					m_TutorialEnemy->SetPosition(D3DXVECTOR3(0.0f, 20.0f, 25.0f));
 				}
-				if (230 <m_FrameWait  && m_FrameWait < 240)
+				if (140 <m_FrameWait  && m_FrameWait < 150)
 				{
 					Camera* m_Camera = m_Scene->GetGameObject<Camera>();
 					if (!m_FallSEFlag)
@@ -378,7 +378,7 @@ void GameTexture::TutorialUpdate()
 					m_Camera->Shake(0.3f);
 					
 				}
-				if(250 <m_FrameWait)
+				if(150 <m_FrameWait)
 				{
 					m_FrameWait = 0;
 					m_DecideSE->Volume(Scene::m_SEVolume * 0.5f);
@@ -556,7 +556,10 @@ void GameTexture::TutorialDraw()
 			texture_TStory5->Draw(350.0f, 400.0f);
 			break;
 		case TUTORIAL_STORY6:
-			texture_TStory6->Draw(350.0f, 400.0f);
+			if (!m_EnemyCallCountFlag)
+			{
+				texture_TStory6->Draw(350.0f, 400.0f);
+			}
 			break;
 		case TUTORIAL_STORY7:
 			if (m_FrameWait < 90)

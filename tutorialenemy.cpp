@@ -292,26 +292,6 @@ void TutorialEnemy::Update()
 		ImGui::End();
 	}
 
-	if (m_Move)
-	{
-		if (!m_FootSoundFlag)
-		{
-			m_DeadSE->Volume(Scene::m_SEVolume * 0.05f);
-			m_DeadSE->PlaySE();
-			m_FootSoundFlag = true;
-		}
-		if (m_FootSoundFlag)
-		{
-			m_FootSoundInterval++;
-			if (m_FootSoundInterval >= 27)
-			{
-				m_FootSoundInterval = 0;
-				m_FootSoundFlag = false;
-			}
-		}
-	}
-
-
 }
 
 void TutorialEnemy::Draw()
@@ -451,6 +431,22 @@ void TutorialEnemy::UpdateMove() {
 	{
 		m_Move = false;
 		m_EnemyState = TUTORIAL_ENEMY_STATE_IDLE;
+	}
+
+	if (!m_FootSoundFlag)
+	{
+		m_DeadSE->Volume(Scene::m_SEVolume * 0.05f);
+		m_DeadSE->PlaySE();
+		m_FootSoundFlag = true;
+	}
+	if (m_FootSoundFlag)
+	{
+		m_FootSoundInterval++;
+		if (m_FootSoundInterval >= 27)
+		{
+			m_FootSoundInterval = 0;
+			m_FootSoundFlag = false;
+		}
 	}
 
 }

@@ -70,26 +70,11 @@
     <Filter Include="ヘッダー ファイル\System">
       <UniqueIdentifier>{d8aea568-15e6-441d-ad96-09eb1e2d4587}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object\Player">
-      <UniqueIdentifier>{a424a58b-957f-4dea-ba61-35dbd08c24cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object\Enemy">
-      <UniqueIdentifier>{96deecd8-70af-46d4-b1bc-1eb304905bbe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object\NPC">
-      <UniqueIdentifier>{9328501d-fde9-4765-a193-c30e4a0595a9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Object\Collider">
       <UniqueIdentifier>{3fc06db7-026a-46f5-866c-9a760fb7fe08}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Object\Collider">
       <UniqueIdentifier>{dce3f907-1ec6-4b14-9d4e-f64a3a2d8b75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object\Wepon">
-      <UniqueIdentifier>{82c19a2a-8080-482d-8510-4f69a3350e26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object\Item">
-      <UniqueIdentifier>{54a1ea4d-d44f-4db5-a619-562ee9264999}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Player">
       <UniqueIdentifier>{12708ad4-b37d-4e42-8013-62a9734b088f}</UniqueIdentifier>
@@ -97,14 +82,29 @@
     <Filter Include="ヘッダー ファイル\Enemy">
       <UniqueIdentifier>{83a40b33-4980-4edd-8922-536368ff0644}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Camera\NPC">
-      <UniqueIdentifier>{afceddfb-b7ea-4371-aac1-8ce14605cb07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Wepon">
       <UniqueIdentifier>{be7e6e78-2ea9-4f2c-b0ce-9ddca8a3fba0}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Item">
       <UniqueIdentifier>{5470551f-b8f4-4420-a24e-7474e0d7dac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy">
+      <UniqueIdentifier>{96deecd8-70af-46d4-b1bc-1eb304905bbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{a424a58b-957f-4dea-ba61-35dbd08c24cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\NPC">
+      <UniqueIdentifier>{afceddfb-b7ea-4371-aac1-8ce14605cb07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\NPC">
+      <UniqueIdentifier>{9328501d-fde9-4765-a193-c30e4a0595a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Item">
+      <UniqueIdentifier>{54a1ea4d-d44f-4db5-a619-562ee9264999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Wepon">
+      <UniqueIdentifier>{82c19a2a-8080-482d-8510-4f69a3350e26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -226,22 +226,22 @@
       <Filter>ソース ファイル\Texture\TextureManager</Filter>
     </ClCompile>
     <ClCompile Include="wepon_shield.cpp">
-      <Filter>ソース ファイル\Object\Wepon</Filter>
+      <Filter>ソース ファイル\Wepon</Filter>
     </ClCompile>
     <ClCompile Include="wepon_sword.cpp">
-      <Filter>ソース ファイル\Object\Wepon</Filter>
+      <Filter>ソース ファイル\Wepon</Filter>
     </ClCompile>
     <ClCompile Include="trail.cpp">
       <Filter>ソース ファイル\Texture\Effect</Filter>
     </ClCompile>
     <ClCompile Include="potion.cpp">
-      <Filter>ソース ファイル\Object\Item</Filter>
+      <Filter>ソース ファイル\Item</Filter>
     </ClCompile>
     <ClCompile Include="whetstone.cpp">
-      <Filter>ソース ファイル\Object\Item</Filter>
+      <Filter>ソース ファイル\Item</Filter>
     </ClCompile>
     <ClCompile Include="ItemManger.cpp">
-      <Filter>ソース ファイル\Object\Item</Filter>
+      <Filter>ソース ファイル\Item</Filter>
     </ClCompile>
     <ClCompile Include="animationModel.cpp">
       <Filter>ソース ファイル\System</Filter>
@@ -283,22 +283,22 @@
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="rockeffect.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="enemy.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="tutorial.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="tutorialenemy.cpp">
-      <Filter>ソース ファイル\Object\Enemy</Filter>
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="spritetextureload.cpp">
       <Filter>ソース ファイル\Texture\TextureManager</Filter>
     </ClCompile>
     <ClCompile Include="npcteacher.cpp">
-      <Filter>ソース ファイル\Object\NPC</Filter>
+      <Filter>ソース ファイル\NPC</Filter>
     </ClCompile>
     <ClCompile Include="boxcollider.cpp">
       <Filter>ソース ファイル\Object\Collider</Filter>
@@ -307,13 +307,13 @@
       <Filter>ソース ファイル\Object\Collider</Filter>
     </ClCompile>
     <ClCompile Include="hpgage.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
     <ClCompile Include="staminagage.cpp">
-      <Filter>ソース ファイル\Object\Player</Filter>
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -522,7 +522,7 @@
       <Filter>ヘッダー ファイル\Texture\TextureManager</Filter>
     </ClInclude>
     <ClInclude Include="npcteacher.h">
-      <Filter>ヘッダー ファイル\Camera\NPC</Filter>
+      <Filter>ヘッダー ファイル\NPC</Filter>
     </ClInclude>
     <ClInclude Include="boxcollider.h">
       <Filter>ヘッダー ファイル\Object\Collider</Filter>

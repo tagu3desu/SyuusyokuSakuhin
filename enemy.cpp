@@ -322,44 +322,7 @@ void Enemy::Update()
 	
 
 	//‘«‰¹
-	if (m_Walk)
-	{
-
-		if (!m_FootSoundFlag)
-		{
-			m_DeadSE->Volume(Scene::m_SEVolume * 0.01f);
-			m_DeadSE->PlaySE();
-			m_FootSoundFlag = true;
-		}
-		if (m_FootSoundFlag)
-		{
-			m_FootSoundInterval++;
-			if (m_FootSoundInterval >= 40)
-			{
-				m_FootSoundInterval = 0;
-				m_FootSoundFlag = false;
-			}
-		}
-	}
-
-	if (m_Run)
-	{
-		if (!m_FootSoundFlag)
-		{
-			m_DeadSE->Volume(Scene::m_SEVolume * 0.05f);
-			m_DeadSE->PlaySE();
-			m_FootSoundFlag = true;
-		}
-		if (m_FootSoundFlag)
-		{
-			m_FootSoundInterval++;
-			if (m_FootSoundInterval >= 23)
-			{
-				m_FootSoundInterval = 0;
-				m_FootSoundFlag = false;
-			}
-		}
-	}
+	
 
 
 
@@ -545,6 +508,22 @@ void Enemy::UpdateMove() {
 		m_Run = false;
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
+
+	if (!m_FootSoundFlag)
+	{
+		m_DeadSE->Volume(Scene::m_SEVolume * 0.03f);
+		m_DeadSE->PlaySE();
+		m_FootSoundFlag = true;
+	}
+	if (m_FootSoundFlag)
+	{
+		m_FootSoundInterval++;
+		if (m_FootSoundInterval >= 23)
+		{
+			m_FootSoundInterval = 0;
+			m_FootSoundFlag = false;
+		}
+	}
 	
 }
 
@@ -613,6 +592,22 @@ void Enemy::UpdateLoitering()
 	else if (720 <= m_FrameWait)
 	{
 		m_FrameWait = 0;
+	}
+
+	if (!m_FootSoundFlag)
+	{
+		m_DeadSE->Volume(Scene::m_SEVolume * 0.03f);
+		m_DeadSE->PlaySE();
+		m_FootSoundFlag = true;
+	}
+	if (m_FootSoundFlag)
+	{
+		m_FootSoundInterval++;
+		if (m_FootSoundInterval >= 40)
+		{
+			m_FootSoundInterval = 0;
+			m_FootSoundFlag = false;
+		}
 	}
 }
 
