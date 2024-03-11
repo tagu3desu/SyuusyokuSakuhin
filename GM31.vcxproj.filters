@@ -303,9 +303,6 @@
     <ClCompile Include="boxcollider.cpp">
       <Filter>ソース ファイル\Object\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="spherecollider.cpp">
-      <Filter>ソース ファイル\Object\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="hpgage.cpp">
       <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
@@ -525,9 +522,6 @@
       <Filter>ヘッダー ファイル\NPC</Filter>
     </ClInclude>
     <ClInclude Include="boxcollider.h">
-      <Filter>ヘッダー ファイル\Object\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="spherecollider.h">
       <Filter>ヘッダー ファイル\Object\Collider</Filter>
     </ClInclude>
     <ClInclude Include="hpgage.h">

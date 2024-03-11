@@ -10,7 +10,6 @@
 #include"enemy.h"
 #include"tutorialenemy.h"
 #include"boxcollider.h"
-#include"spherecollider.h"
 #include"title.h"
 #include"bladeefect1.h"
 #include"bladeefect2.h"

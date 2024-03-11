@@ -16,7 +16,6 @@
 #include"rock.h"
 #include"treetexture.h"
 #include"boxcollider.h"
-#include"spherecollider.h"
 #include"animationModel.h"
 #include"staminagage.h"
 #include"healItem.h"
@@ -56,7 +55,6 @@ void Game::Load()
 	SwordTopVertex::Load();
 	MeshField::Load();
 	BoxCollider::Load();
-	SphereCollider::Load();
 	Box::Load();
 	RockEffect::Load();
 	BaceCampTent::Load();
@@ -77,7 +75,6 @@ void Game::Unload()
 	SwordTopVertex::Unload();
 	MeshField::Unload();
 	BoxCollider::Unload();
-	SphereCollider::Unload();
 	Box::Unload();
 	RockEffect::Unload();
 	BaceCampTent::Unload();

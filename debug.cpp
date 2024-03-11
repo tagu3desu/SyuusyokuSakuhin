@@ -3,7 +3,6 @@
 #include"manager.h"
 #include"scene.h"
 #include"boxcollider.h"
-#include"spherecollider.h"
 #include"input.h"
 #include"enemy.h"
 
@@ -54,11 +53,6 @@ void DebugSystem::Update()
 		for (BoxCollider* boxcollider : boxcolliders)
 		{
 			boxcollider->SetColliderEnable(m_ColliderEnable);
-		}
-		std::vector<SphereCollider*> spherecolliders = m_Scene->GetGameObjects<SphereCollider>();
-		for (SphereCollider* spherecollider : spherecolliders)
-		{
-			spherecollider->SetColliderEnable(m_ColliderEnable);
 		}
 		if (enemy != nullptr)
 		{
