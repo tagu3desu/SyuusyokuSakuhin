@@ -211,8 +211,6 @@ void Player::Update()
 		m_Bullet = m_Scene->GetGameObject<Bullet>();
 		m_Enemy = m_Scene->GetGameObject<Enemy>();
 		m_Sword = m_Scene->GetGameObject<Sword>();
-		m_OldPosition = m_Position;
-		
 
 
 		m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -293,6 +291,8 @@ void Player::Update()
 		if ((Input::GetKeyTrigger('F') || (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X))) && !m_Glinding && !m_UsePotion && !m_Animating && !m_Attack && !m_Sworddrawn
 			&& !m_ItemManager->GetShowFlag())
 		{
+			m_Run = false;
+			m_Walk = false;
 			if (m_ItemManager->GetEnablePotion())
 			{
 				if (potion->GetCount() >= 1)
@@ -461,6 +461,8 @@ void Player::Update()
 			{
 				m_Attack = false;
 				m_Move = false;
+				m_Run = false;
+				m_Walk = false;
 				m_HitInpactDelay = 0;
 				m_AttackCollisionFlag = false;
 				m_PlayerState = PLAYER_STATE_GROUND;
@@ -649,7 +651,6 @@ void Player::Update()
 			if (m_PlayerCollider->CollisionChecker(this, rock, 0.7f))
 			{
 				m_PlayerCollider->SetColliderColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-				m_Position = m_OldPosition;
 				break;
 			}
 			else
@@ -876,10 +877,6 @@ void Player::Draw()
 	{
 		m_Time += 0.0f;
 	}
-	/*else if (m_PlayerState == PLAYER_STATE_ATTACK3)
-	{
-		m_Time += 0.6f;
-	}*/
 	else if (m_PlayerState == PLAYER_STATE_ROTATION_ATTACK || m_PlayerState==PLAYER_STATE_ATTACK || m_PlayerState==PLAYER_STATE_ATTACK2)
 	{
 		m_Time += 0.9f;

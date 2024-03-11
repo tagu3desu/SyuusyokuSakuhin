@@ -46,7 +46,7 @@ void Enemy::Init()
 	m_BlendTime = 0.0f;
 	m_GroundHeight = 0.0f;
 	m_Speed = 0.0f;
-	m_HP = 180; //120
+	m_HP = 120; //120
 
 
 
