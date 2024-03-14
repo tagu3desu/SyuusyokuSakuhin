@@ -356,7 +356,7 @@ void GameTexture::TutorialUpdate()
 				m_DecideSE->PlaySE();
 				
 			}
-			if (m_EnemyCallCountFlag)
+			if (m_EnemyCallCountFlag)//敵を呼び出す
 			{
 				m_FrameWait++;
 				if (m_FrameWait > 90 && !m_EnemyCallFlag)
@@ -389,7 +389,7 @@ void GameTexture::TutorialUpdate()
 			}
 		}
 		break;
-	case TUTORIAL_STORY7:
+	case TUTORIAL_STORY7: //戦闘開始時のセリフ
 		m_FrameWait++;
 		if (60 < m_FrameWait)
 		{
@@ -403,7 +403,7 @@ void GameTexture::TutorialUpdate()
 			m_DecideSE->PlaySE();
 		}
 		break;
-	case TUTORIAL_STORY8:
+	case TUTORIAL_STORY8: //敵を倒した時のセリフ
 		m_FrameWait++;
 		if (m_TutorialEnemy->GetDead())
 		{
@@ -424,7 +424,7 @@ void GameTexture::TutorialUpdate()
 
 	switch (m_TutorialNumber)
 	{
-	case TUTORIAL_MOVE:
+	case TUTORIAL_MOVE: //歩行チュートリアル
 		if ((InputX::GetThumbLeftY(0) >= 0.2 || InputX::GetThumbLeftY(0) <= -0.2 || InputX::GetThumbLeftX(0) <= -0.2 || InputX::GetThumbLeftX(0) >= 0.2))
 		{
 			m_FrameWait++;
@@ -435,7 +435,7 @@ void GameTexture::TutorialUpdate()
 			}
 		}
 		break;
-	case TUTORIAL_RUN:
+	case TUTORIAL_RUN: //移動チュートリアル
 		if ((InputX::GetThumbLeftY(0) >= 0.2 || InputX::GetThumbLeftY(0) <= -0.2 || InputX::GetThumbLeftX(0) <= -0.2 || InputX::GetThumbLeftX(0) >= 0.2) && InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER))
 		{
 			if (m_NPC->GetHit())
@@ -444,17 +444,17 @@ void GameTexture::TutorialUpdate()
 			}
 		}
 		break;
-	case TUTORIAL_MOVECAMERA:
+	case TUTORIAL_MOVECAMERA: //視点移動チュートリアル
 		break;
-	case TUTORIAL_ITEM:
+	case TUTORIAL_ITEM: //アイテム系チュートリアル
 		break;
-	case TUTORIAL_ONWEPON:
+	case TUTORIAL_ONWEPON:	//戦闘チュートリアル
 		if (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y))
 		{
 			m_TutorialNumber = static_cast<TUTORIAL_NUMBER>(static_cast<int>(m_TutorialNumber) + 1);
 		}
 		break;
-	case TUTORIAL_ATTACK:
+	case TUTORIAL_ATTACK:	//攻撃チュートリアル
 		if (m_TutorialEnemy->GetDead())
 		{
 			m_TutorialNumber = static_cast<TUTORIAL_NUMBER>(static_cast<int>(m_TutorialNumber) + 1);
@@ -500,6 +500,7 @@ void GameTexture::TutorialUpdate()
 		texture_DeadUI->SetEnable(true);
 	}
 
+	//クエスト失敗時のテクスチャ
 	if (m_FaliedLogoCountFlag)
 	{
 		m_ReturnCampCount++;
@@ -691,7 +692,7 @@ void GameTexture::TutorialDraw()
 				m_ChangeIconCount = 0;
 			}
 		}
-		else /*if (!GetGameClear())*/
+		else 
 		{
 			texture_WeponLogo->Draw(8.5f, 90.0f);
 		}
@@ -710,7 +711,7 @@ void GameTexture::TutorialDraw()
 			}
 		}
 	}
-	else /*if (!GetGameClear())*/
+	else 
 	{
 		texture_WeponLogo->Draw(8.5f, 90.0f);
 	}
@@ -834,6 +835,7 @@ void GameTexture::QuestDraw()
 		}
 
 		texture_ItemUI->Draw(800.0f, 405.0f);
+		//武器の切れ味UI表示
 		if (m_Sword != nullptr)
 		{
 			switch (m_Sword->GetWeponSharpnes())
@@ -853,23 +855,27 @@ void GameTexture::QuestDraw()
 			default:
 				break;
 			}
-
+			//切れ味ダウンのUI表示
 			if (m_Sword->GetSharpnessUIFlag())
 			{
 				texture_SharpnessDown->Draw(400.0f, m_SharpnessDownY);
 			}
 		}
+
 		if (m_Player != nullptr)
 		{
+			//武器砥ぎ時のUI
 			if (m_Player->GetSharpnessUpFlag())
 			{
 				texture_SharpnessUp->Draw(400.0f, m_SharpnessUpY);
 			}
+			//死亡時
 			if (m_Player->GetPlayerDeadUIFlag())
 			{
 				texture_DeadUI->Draw(400.0f, m_DeadUIY);
 			}
 
+			//クエスト失敗時
 			if (m_Player->GetFaliedFlag())
 			{
 				m_FaliedLogoCountFlag = true;
@@ -906,10 +912,9 @@ void GameTexture::QuestDraw()
 		}
 
 
-
+		//クリア時のロゴ表示
 		if (m_Enemy->GetDead())
 		{
-
 			texture_WinUI->Draw(350.0f, m_WinLogoPosY);
 
 			if (m_FrameWait > 220)

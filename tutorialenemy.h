@@ -41,8 +41,8 @@ private:
 
 	//ステータス
 	int m_HP;
-	float m_GroundHeight;
-	float m_Speed;
+	float m_GroundHeight=0.0f;
+	float m_Speed=0.0f;
 
 
 	//視野
@@ -52,8 +52,8 @@ private:
 
 	//アニメーション関連
 	bool m_EnemyAI = true;
-	float m_Time{};
-	float m_BlendTime{};
+	float m_Time=0.0f;
+	float m_BlendTime=0.0f;
 	std::string m_AnimationName;
 	std::string m_NextAnimationName;
 	int m_DeadAnimationdelay = 0;
@@ -68,9 +68,6 @@ private:
 	bool m_Dead = false;
 	bool m_Find = false;
 	bool m_Move = false;
-	bool m_ShotFlag = false;
-	bool m_ShotCount = 0;
-	float m_RockattackLimit{};
 	int m_AnimationDelay = 0;
 	bool m_HowlSEFlag = false;
 
@@ -81,17 +78,11 @@ private:
 	int m_Attackdelay = 0;
 	int m_HitCoolTime = 0;
 	bool m_PunchInvincibilityFlag = false;
-	bool m_JumpInvincibilityFlag = false;
 	bool m_PunchAttackFlag = false;
-	bool m_JumpAttackFlag = false;
-	int m_AttackRandomNum = 0;
 
 	//コライダー関連
 	class BoxCollider* m_EnemyTutoriaCollider{};
-
-
 	int m_InvincibilityTime = 0;
-	bool m_JumpAttackHit = false;
 	bool m_PunchAttackHit = false;
 	bool m_InvincibilityFlag = false;
 	bool m_InviciblilityStartFlag = false;
@@ -101,7 +92,6 @@ private:
 	class Audio* m_RockAttackSE{};
 	class Audio* m_DeadSE{};
 	bool m_DeadSEFlag = false;
-
 	bool m_FootSoundFlag = false;
 	int m_FootSoundInterval = 0;
 
@@ -139,7 +129,6 @@ public:
 	bool GetEnemyAI() { return m_EnemyAI; }
 	bool IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee);
 	bool GetEnemyHowlFinish() { return m_HowlFinish; };
-	bool GetJumpAttackHit() { return m_JumpAttackHit; }
 	bool GetPunchAttackHit() { return m_PunchAttackHit; }
 
 	int GetHP() { return m_HP;}
@@ -149,6 +138,7 @@ public:
 
 };
 
+//腕クラス
 class EnemyRightArm : public GameObject
 {
 private:

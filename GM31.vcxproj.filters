@@ -359,9 +359,6 @@
     <ClInclude Include="fade.h">
       <Filter>ヘッダー ファイル\Texture\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="campField.h">
-      <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="game.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>

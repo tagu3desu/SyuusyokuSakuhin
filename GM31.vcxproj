@@ -248,7 +248,6 @@
     <ClInclude Include="bladeefect2.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="campField.h" />
     <ClInclude Include="clearrank.h" />
     <ClInclude Include="boxcollider.h" />
     <ClInclude Include="compornent.h" />

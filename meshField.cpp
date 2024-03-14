@@ -3,7 +3,6 @@
 #include"manager.h"
 #include "renderer.h"
 #include "meshField.h"
-#include"campField.h"
 
 ID3D11Buffer* MeshField::m_VertexBuffer{};
 ID3D11Buffer* MeshField::m_IndexBuffer{};

@@ -40,24 +40,24 @@ private:
 	D3DXVECTOR3 m_OldPosition = D3DXVECTOR3(0.0f,0.0f,0.0f);
 
 	//移動関連
-	float m_Speed;
+	float m_Speed=0.0f;
 	float m_GroundHeight = 0.0f;
 	bool m_Move = false;
-	bool m_IsGround{};
+	bool m_IsGround=false;
 	bool m_Run = false;
 	bool m_Walk = false;
-	D3DXVECTOR3 m_DirectionX;
-	D3DXVECTOR3 m_DirectionZ;
+	D3DXVECTOR3 m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	//アニメーション関連
-	float m_Time{};
-	float m_BlendTime{};
+	float m_Time=0.0f;
+	float m_BlendTime=0.0f;
 	std::string m_AnimationName;
 	std::string m_NextAnimationName;
-	float m_AnimationDelay;
-	float m_HitInpactDelay;
-	float m_ReturnInpactDelay;
-	float m_HealAnimationDelay;
+	float m_AnimationDelay=0.0f;
+	float m_HitInpactDelay=0.0f;
+	float m_ReturnInpactDelay=0.0f;
+	float m_HealAnimationDelay=0.0f;
 
 
 	//アニメーション用フラグ
@@ -81,7 +81,7 @@ private:
 	bool m_UsePotion = false;
 	//攻撃関連
 	bool m_Attack = false;
-	int m_ComboCount{};
+	int m_ComboCount=0;
 	bool m_Sworddrawn = false;
 	bool m_OnSword = false;
 	bool m_OffSword = false;
@@ -127,8 +127,7 @@ private:
 	class Audio* m_AttackCV3{};
 	class Audio* m_GetDamegeCVS{};
 	class Audio* m_GetDamegeCVB{};
-
-	bool m_FootSoundFlag{};
+	bool m_FootSoundFlag=false;
 	int m_FootSoundInterval = 0;
 	bool m_GlindingSEFlag = false;
 
@@ -239,7 +238,7 @@ public:
 		return right;
 	}
 
-	D3DXVECTOR3 GetEulerForward() //右方面ベクトルを取得
+	D3DXVECTOR3 GetEulerForward() //右方面ベクトルを取得(オイラー角)
 	{
 		D3DXMATRIX euler;
 		D3DXMatrixRotationYawPitchRoll(&euler, m_Rotation.y, m_Rotation.x, m_Rotation.z);
@@ -270,6 +269,7 @@ public:
 	PLAYER_STATE GetPlayerState() { return m_PlayerState; }
 };
 
+//アニメーション位置補正用のクラス
 class PlayerAnimationCorrection : public GameObject
 {
 private:

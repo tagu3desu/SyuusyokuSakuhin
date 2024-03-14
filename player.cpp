@@ -93,10 +93,7 @@ void Player::Init()
 	m_Scale = D3DXVECTOR3(0.015f, 0.015f, 0.015f);
 	m_Speed = 0.1f;
 
-	m_HP = 300;
-	m_Stamina = 1000;
-
-	m_DepthEnable = true;
+	
 
 
 	Renderer::CreateSkiningVertexShader(&m_VertexShader, &m_VertexLayout,
@@ -141,19 +138,14 @@ void Player::Init()
 	m_GetDamegeCVB = AddComponent<Audio>();
 	m_GetDamegeCVB->Load("asset\\audio\\SE\\「くおぉっ！」.wav");
 
-	m_Time = 0.0f;
-	m_BlendTime = 0.0f;
-	m_AnimationDelay = 0.0f;
+	//パラメータ設定
+	m_HP = 300;
+	m_Stamina = 1000;
 
-	m_HitInpactDelay = 0;
-
-	m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-	m_Sworddrawn = false;
-	m_ComboCount = 0;
+	m_DepthEnable = true;
 
 
+	//プレイヤーの子オブジェクト追加
 	m_Sword = m_Scene->AddGameObject<Sword>();
 	m_Shield = m_Scene->AddGameObject<Shield>();
 	if (!Title::GetCheckTitle())
@@ -252,7 +244,7 @@ void Player::Update()
 		D3DXVec3Normalize(&m_CameraRight, &m_CameraRight);
 		D3DXVec3Normalize(&m_CameraFoward, &m_CameraFoward);
 
-		//HP関連
+		//HPとスタミナの管理
 		if (hpgage != nullptr)
 		{
 			m_HP = hpgage->GetHp();
@@ -287,7 +279,7 @@ void Player::Update()
 
 
 
-
+		//アイテム使用
 		if ((Input::GetKeyTrigger('F') || (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X))) && !m_Glinding && !m_UsePotion && !m_Animating && !m_Attack && !m_Sworddrawn
 			&& !m_ItemManager->GetShowFlag())
 		{
@@ -315,7 +307,7 @@ void Player::Update()
 		}
 
 
-		//砥ぐ
+		//砥ぎモーション
 		if (m_Glinding)
 		{
 			m_AnimationDelay++;
@@ -367,7 +359,7 @@ void Player::Update()
 					m_EndGlinding = true;
 				}
 			}
-			{//砥ぎ中
+			{//砥ぎ終了
 				if (m_NextAnimationName != "EndGlinding" && m_EndGlinding)
 				{
 					m_Time = 0.0f;
@@ -400,7 +392,6 @@ void Player::Update()
 		}
 
 		//回復薬使用
-
 		if (m_UsePotion && !m_Healing)
 		{
 			m_Healing = true;
@@ -412,7 +403,7 @@ void Player::Update()
 			m_Animating = true;
 			hpgage->SetHealPoint(50);
 		}
-
+		//回復モーション
 		if (m_Healing)
 		{
 			if (m_NextAnimationName != "HealMotion")
@@ -669,6 +660,7 @@ void Player::Update()
 		m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 		m_Shield = m_Scene->GetGameObject<Shield>();
 		m_Sword = m_Scene->GetGameObject<Sword>();
+		//岩攻撃
 		if (m_RockEffect != nullptr)
 		{
 			if (m_PlayerCollider->CollisionChecker(this, m_RockEffect, 0.6f))
@@ -694,7 +686,7 @@ void Player::Update()
 				}
 			}
 		}
-		//チュートリアル
+		//チュートリアル敵用
 		if (m_TutorialEnemy != nullptr)
 		{
 			if (m_TutorialEnemy->GetPunchAttackHit())
@@ -720,7 +712,7 @@ void Player::Update()
 			}
 		}
 
-		//ゲーム
+		//通常の敵用
 		if (m_Enemy != nullptr)
 		{
 			if (m_Enemy->GetJumpAttackHit())
@@ -905,7 +897,7 @@ void Player::Draw()
 
 void Player::UpdateGround()
 {
-	//武器の取り出し
+	//抜刀
 	if ((Input::GetKeyTrigger('Y') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Sworddrawn && !m_Animating)
 	{
 
@@ -922,7 +914,22 @@ void Player::UpdateGround()
 		m_Sworddrawn = true;
 
 	}
+	if (m_OffSword)
+	{
+		m_AnimationDelay++;
+		m_Animating = true;
+		if (m_AnimationDelay > 50)
+		{
+			m_Animating = false;
+			m_Sworddrawn = false;
+			m_AnimationDelay = 0;
+			m_OffSword = false;
+		}
 
+	}
+
+
+	//納刀
 	if ((Input::GetKeyTrigger('R') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X)) && !m_Animating && !m_ItemManager->GetShowFlag())
 	{
 		if (m_Sworddrawn)//納刀
@@ -941,7 +948,6 @@ void Player::UpdateGround()
 		}
 
 	}
-
 	if (m_OnSword)
 	{
 		m_AnimationDelay++;
@@ -954,21 +960,11 @@ void Player::UpdateGround()
 		}
 
 	}
-	if (m_OffSword)
-	{
-		m_AnimationDelay++;
-		m_Animating = true;
-		if (m_AnimationDelay > 50)
-		{
-			m_Animating = false;
-			m_Sworddrawn = false;
-			m_AnimationDelay = 0;
-			m_OffSword = false;
-		}
+	
+	
+	
 
-	}
-
-	////サードパーソンビュー(斜め移動)
+	//正面移動
 	if ((Input::GetKeyPress('W') || InputX::GetThumbLeftY(0) >= 0.2) && !m_Animating) {
 
 		if ((Input::GetKeyPress(VK_LSHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0)
@@ -1042,7 +1038,7 @@ void Player::UpdateGround()
 
 
 	}
-
+	//後ろ移動
 	if ((Input::GetKeyPress('S') || InputX::GetThumbLeftY(0) <= -0.2) && !m_Animating) {
 
 		if ((Input::GetKeyPress(VK_LSHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0)
@@ -1115,7 +1111,7 @@ void Player::UpdateGround()
 		}
 
 	}
-
+	//右移動
 	if ((Input::GetKeyPress('A') || InputX::GetThumbLeftX(0) <= -0.2) && !m_Animating) {
 
 		if ((Input::GetKeyPress(VK_LSHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0)
@@ -1192,7 +1188,7 @@ void Player::UpdateGround()
 		}
 
 	}
-
+	//左移動
 	if ((Input::GetKeyPress('D') || InputX::GetThumbLeftX(0) >= 0.2) && !m_Animating) {
 
 		if ((Input::GetKeyPress(VK_SHIFT) || InputX::IsButtonPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)) && m_Stamina > 0)
@@ -1467,7 +1463,7 @@ void Player::UpdateGround()
 	}
 
 }
-
+//回避行動
 void Player::UpdateRoll()
 {
 	if (m_Roll == true)
@@ -1491,7 +1487,7 @@ void Player::UpdateRoll()
 
 	}
 }
-
+//1コンボ目
 void Player::UpdateAttack()
 {
 	m_Idle = true;
@@ -1525,7 +1521,7 @@ void Player::UpdateAttack()
 		}
 	}
 }
-
+//2コンボ目
 void Player::UpdateAttack2()
 {
 	m_Idle = true;
@@ -1567,7 +1563,7 @@ void Player::UpdateAttack2()
 	}
 
 }
-
+//3コンボ目
 void Player::UpdateAttack3()
 {
 	m_PlayerAnimationCorrection = m_Scene->GetGameObject<PlayerAnimationCorrection>();
@@ -1575,12 +1571,7 @@ void Player::UpdateAttack3()
 	m_ConboflagisAttack3 = false;
 	if (m_Attack)
 	{
-
-		
 		m_AnimationDelay++;
-		
-
-
 		//攻撃判定が発生する時間設定
 		if (50 < m_AnimationDelay && m_AnimationDelay < 70)
 		{
@@ -1592,15 +1583,22 @@ void Player::UpdateAttack3()
 		}
 
 		
+		//画面揺れ
+		if (m_AnimationDelay >= 80 && m_AnimationDelay <= 85)
+		{
 
+			Camera* m_Camera = m_Scene->GetGameObject<Camera>();
+			m_Camera->Shake(0.1f);
 
+		}
+
+		//アニメーションの終了時にプレイヤーの座標をアニメーションの位置に同期
 		if (m_AnimationDelay >= 104.0f && m_ComboCount == 3)
 		{
 			m_AnimationDelay = 0;
 			m_Attack = false;
 			m_Move = false;
 			m_DirectionZ = m_Speed * GetForward();
-			//m_ConboflagisAttack3 = false;
 
 			m_Position.x = m_PlayerAnimationCorrection->GetAnimationPosition().x;
 			m_Position.z = m_PlayerAnimationCorrection->GetAnimationPosition().z;
@@ -1609,13 +1607,8 @@ void Player::UpdateAttack3()
 
 			m_PlayerState = PLAYER_STATE_GROUND;
 		}
-		if (m_AnimationDelay >= 80 && m_AnimationDelay <= 85)
-		{
 
-			Camera* m_Camera = m_Scene->GetGameObject<Camera>();
-			m_Camera->Shake(0.1f);
-
-		}
+		
 	}
 
 }
@@ -1660,6 +1653,7 @@ void Player::UpdateGuard()
 	m_Bullet = m_Scene->GetGameObject<Bullet>();
 	m_Shield = m_Scene->GetGameObject<Shield>();
 
+	//岩のエフェクトがある時のみ
 	if (m_RockEffect != nullptr)
 	{
 		if (m_StartGuard && m_Shield->GetShieldHit() && !m_InpactGuard)
@@ -1677,6 +1671,7 @@ void Player::UpdateGuard()
 		}
 	}
 
+	//敵がいるときのみ
 	if (m_Enemy != nullptr)
 	{
 
@@ -1709,21 +1704,9 @@ void Player::UpdateGuard()
 
 	}
 
-
+	//チュートリアルの敵用
 	if (m_TutorialEnemy != nullptr)
 	{
-		if (m_StartGuard && !m_InpactGuard && m_TutorialEnemy->GetJumpAttackHit())
-		{
-			if (m_NextAnimationName != "GuardImpact")
-			{
-				m_Time = 0.0f;
-				m_AnimationName = m_NextAnimationName;
-				m_NextAnimationName = "GuardImpact";
-				m_Move = true;
-				m_InpactGuard = true;
-				m_SuccessGuard = true;
-			}
-		}
 		if (m_StartGuard && !m_InpactGuard && m_TutorialEnemy->GetPunchAttackHit())
 		{
 			if (m_NextAnimationName != "GuardImpact")
@@ -1748,6 +1731,15 @@ void Player::UpdateGuard()
 		InputX::StopVibration(0);
 	}
 
+	//ノックバック
+	if (m_InpactGuard)
+	{
+		m_AnimationDelay++;
+		m_Speed = 0.1f;
+		m_DirectionZ = -GetForward() * m_Speed;
+	}
+
+	//ガード中
 	if ((Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) >= 0.1) && m_StartGuard && !m_InpactGuard)
 	{
 		if (m_NextAnimationName != "IsGuard")
@@ -1759,6 +1751,7 @@ void Player::UpdateGuard()
 			m_IsGuard = true;
 		}
 	}
+	//ガード終了
 	else if ((!Input::GetKeyPress(VK_RBUTTON) || InputX::GetRightTrigger(0) <= 0.1))
 	{
 		if (m_NextAnimationName != "EndGuard" && !m_EndGuard)
@@ -1772,13 +1765,13 @@ void Player::UpdateGuard()
 		}
 	}
 
-	if (m_InpactGuard)
+	if (m_EndGuard)
 	{
 		m_AnimationDelay++;
-		m_Speed = 0.1f;
-		m_DirectionZ = -GetForward() * m_Speed;
 	}
 
+	
+	//防御成功時ののアニメーション制御
 	if (m_AnimationDelay > 40 && m_InpactGuard)
 	{
 		m_AnimationDelay = 0;
@@ -1787,11 +1780,8 @@ void Player::UpdateGuard()
 	}
 
 
-	if (m_EndGuard)
-	{
-		m_AnimationDelay++;
-	}
-
+	
+	//ガードステート終了
 	if (m_AnimationDelay > 20 && m_EndGuard)
 	{
 		m_AnimationDelay = 0;
@@ -1827,7 +1817,7 @@ void Player::UpdateDead()
 
 }
 
-//アニメーション補正用のクラス
+//アニメーション位置補正用のクラス
 void PlayerAnimationCorrection::Init()
 {
 	m_Scene = Manager::GetScene();

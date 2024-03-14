@@ -13,14 +13,14 @@ private:
 	ID3D11InputLayout* m_VertexLayout{};
 
 
-	float m_GroundHeight;
+	float m_GroundHeight=0.0f;
 
 	//コライダー関連
 	class BoxCollider* m_NpcCollider{};
 
 	//アニメーション用
-	float m_Time{};
-	float m_BlendTime{};
+	float m_Time=0.0f;
+	float m_BlendTime=0.0f;
 	std::string m_AnimationName;
 	std::string m_NextAnimationName;
 

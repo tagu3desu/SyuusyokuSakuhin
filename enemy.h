@@ -43,8 +43,8 @@ private:
 
 	//ステータス
 	int m_HP;
-	float m_GroundHeight;
-	float m_Speed;
+	float m_GroundHeight=0.0f;
+	float m_Speed = 0.0f;
 
 
 	//視野
@@ -54,8 +54,8 @@ private:
 
 	//アニメーション関連
 	bool m_EnemyAI = true;
-	float m_Time{};
-	float m_BlendTime{};
+	float m_Time=0.0f;
+	float m_BlendTime=0.0f;
 	std::string m_AnimationName;
 	std::string m_NextAnimationName;
 	int m_DeadAnimationdelay = 0;
@@ -78,8 +78,8 @@ private:
 	bool m_HowlSEFlag=false;
 	
 	//移動関連
-	D3DXVECTOR3 m_DirectionX;
-	D3DXVECTOR3 m_DirectionZ;
+	D3DXVECTOR3 m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	//攻撃関連
 	bool m_CombatFlag = false;

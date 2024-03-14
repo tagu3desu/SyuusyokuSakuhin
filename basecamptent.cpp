@@ -3,7 +3,7 @@
 #include"renderer.h"
 #include"basecamptent.h"
 #include"boxcollider.h"
-#include"campField.h"
+
 
 Model* BaceCampTent::m_Model;
 void BaceCampTent::Init()
@@ -54,7 +54,7 @@ void BaceCampTent::Update()
 void BaceCampTent::Draw()
 {
 	scene = Manager::GetScene();
-	BaseCamp* basecamp = scene->GetGameObject<BaseCamp>();
+
 
 
 	Renderer::SetRssetEnable(true);

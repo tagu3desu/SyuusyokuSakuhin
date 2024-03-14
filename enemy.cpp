@@ -16,7 +16,6 @@
 #include<cstdlib>
 #include"bullet.h"
 #include"field.h"
-#include"campField.h"
 #include"title.h"
 #include"boxcollider.h"
 #include"wepon_sword.h"
@@ -42,21 +41,11 @@ void Enemy::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\VertexLightingPS.cso");
 
-	m_Time = 0.0f;
-	m_BlendTime = 0.0f;
-	m_GroundHeight = 0.0f;
-	m_Speed = 0.0f;
-	m_HP = 120; //120
-
-
-
-	m_DepthEnable = true;
-
 	
 
-	m_Howl=false;
-
-
+	//影の有効化
+	m_DepthEnable = true;
+	
 
 	m_Scene = Manager::GetScene();
 
@@ -69,8 +58,9 @@ void Enemy::Init()
 	m_DeadSE = AddComponent<Audio>();  //足音と死んだときの音に使用
 	m_DeadSE->Load("asset\\audio\\SE\\怪獣の足音.wav");
 
-	m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_DirectionZ = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//パラメータの設定
+	m_HP = 120;
+
 
 	if (!Title::GetCheckTitle())
 	{

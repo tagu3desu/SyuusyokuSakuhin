@@ -23,7 +23,7 @@ private:
 	
 
 
-	float m_MinDirection{};
+	float m_MinDirection=0.0f;
 	
 	
 

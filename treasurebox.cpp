@@ -3,7 +3,7 @@
 #include"renderer.h"
 #include"treasurebox.h"
 #include"boxcollider.h"
-#include"campField.h"
+
 
 Model* TreasureBox::m_Model;
 void TreasureBox::Init()

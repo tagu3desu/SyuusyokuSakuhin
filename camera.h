@@ -13,21 +13,21 @@ private:
 		D3DXMATRIX m_ViewMatrix{};
 		D3DXMATRIX m_ProjectionMatrix;
 
-		float m_RotationX{};
-		float m_RotationY{};
+		float m_RotationX=0.0f;
+		float m_RotationY = 0.0f;
 
-		float m_EnemyCameraRotationY{};
-		float m_EnemyCameraRotationX{};
-		float m_DeathCamera{};
+		float m_EnemyCameraRotationY = 0.0f;
+		float m_EnemyCameraRotationX = 0.0f;
+		float m_DeathCamera = 0.0f;
 
-		float m_ShakeAmplitude{};
-		int   m_ShakeTime{};
-		float m_ShakeOffset{};
+		float m_ShakeAmplitude = 0.0f;
+		int   m_ShakeTime = 0;
+		float m_ShakeOffset = 0.0f;
 
 
-		float m_FogStart;
-		float m_FogEnd;
-		float m_FogHeight;
+		float m_FogStart = 0.0f;
+		float m_FogEnd = 0.0f;
+		float m_FogHeight = 0.0f;
 
 		
 		float m_DeadCameraY = 0.0f;

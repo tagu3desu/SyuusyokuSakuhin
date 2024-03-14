@@ -16,7 +16,6 @@
 #include<cstdlib>
 #include"bullet.h"
 #include"field.h"
-#include"campField.h"
 #include"title.h"
 #include"boxcollider.h"
 #include"wepon_sword.h"
@@ -43,12 +42,9 @@ void TutorialEnemy::Init()
 	Renderer::CreatePixelShader(&m_PixelShader,
 		"shader\\VertexLightingPS.cso");
 
-	m_Time = 0.0f;
-	m_BlendTime = 0.0f;
-	m_Rotation = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
-	m_GroundHeight = 0.0f;
+
 	m_Speed = 0.0f;
-	m_HP = 60; //120
+	m_HP = 60; 
 
 	m_Threshold = 0;
 	m_DissolveEnable = true;
