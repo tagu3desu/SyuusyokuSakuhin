@@ -66,8 +66,9 @@ void ClearRank::Draw()
 	Scene* scene = Manager::GetScene();
 	GameTexture* gametexture = scene->GetGameObject<GameTexture>();
 
+	
 	int count = m_Rank;
-
+	
 
 
 	//“ü—ÍƒŒƒCƒAƒEƒg
@@ -128,58 +129,46 @@ void ClearRank::Draw()
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 
+	float height = 165.0f;
+	float width = 185.0f;
+	//ƒeƒNƒXƒ`ƒƒÀ•WŽZo
+	int number = count % 6;
+	//count /= 6;
+	float x = number % 2/*c•ªŠ„*/ * (1.0f / 2);//c•ªŠ„
+	//float x = number / 2/*c•ªŠ„*/ * (1.0f / 2);//c•ªŠ„
+	//float y = number % 3/*‰¡•ªŠ„*/ * (1.0f / 3);//c•ªŠ„
+	float y = number / 3/*‰¡•ªŠ„*/ * (1.0f / 3);//c•ªŠ„
 
+	//’¸“_ƒf[ƒ^‘‚«Š·‚¦
+	D3D11_MAPPED_SUBRESOURCE msr;
+	Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
-	
-	for (int i = 0; i < 1; i++) {
+	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
+	vertex[0].Position = D3DXVECTOR3(m_X, m_Y, 0.0f);	
+	vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[0].TexCoord = D3DXVECTOR2(x, y);
 
-		//m_X = m_PosX  * 25.0f; //1719
-		/*float height = 65.0f;
-		float width = 45.0f;*/
-		float height = 165.0f;
-		float width = 185.0f;
-		//ƒeƒNƒXƒ`ƒƒÀ•WŽZo
-		int number = count % 6;
-		count /= 6;
-		float x = number % 2/*‰¡•ªŠ„*/ * (1.0f / 2);//‰¡•ªŠ„
-		float y = number / 3/*‰¡•ªŠ„*/ * (1.0f / 3);//c•ªŠ„
+	vertex[1].Position = D3DXVECTOR3(m_X + width, m_Y, 0.0f);	
+	vertex[1].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].TexCoord = D3DXVECTOR2(x + 0.5f, y);
 
-		//’¸“_ƒf[ƒ^‘‚«Š·‚¦
-		D3D11_MAPPED_SUBRESOURCE msr;
-		Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+	vertex[2].Position = D3DXVECTOR3(m_X, m_Y + height, 0.0f);
+	vertex[2].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].TexCoord = D3DXVECTOR2(x, y + (1.0f/3.0f));
 
-		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+	vertex[3].Position = D3DXVECTOR3(m_X + width, m_Y + height, 0.0f);
+	vertex[3].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].TexCoord = D3DXVECTOR2(x + 0.5f, y + (1.0f / 3.0f));
 
-		vertex[0].Position = D3DXVECTOR3(m_X, m_Y, 0.0f);	//¶‰œ
-		vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-		vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[0].TexCoord = D3DXVECTOR2(x, y);
-
-		vertex[1].Position = D3DXVECTOR3(m_X + width, m_Y, 0.0f);	//‰E‰œ
-		vertex[1].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-		vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[1].TexCoord = D3DXVECTOR2(x + 0.5f, y);
-
-		vertex[2].Position = D3DXVECTOR3(m_X, m_Y + height, 0.0f);
-		vertex[2].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-		vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[2].TexCoord = D3DXVECTOR2(x, y + (1.0f/3.0f));
-
-		vertex[3].Position = D3DXVECTOR3(m_X + width, m_Y + height, 0.0f);
-		vertex[3].Normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
-		vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-		vertex[3].TexCoord = D3DXVECTOR2(x + 0.5f, y + (1.0f / 3.0f));
-
-		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
+	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
 
 
-		//ƒ|ƒŠƒSƒ“•`‰æ
-		Renderer::GetDeviceContext()->Draw(4, 0);
-
-
-
-	}
-
+	//ƒ|ƒŠƒSƒ“•`‰æ
+	Renderer::GetDeviceContext()->Draw(4, 0);
 }

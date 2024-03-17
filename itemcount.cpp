@@ -139,8 +139,8 @@ void ItemCount::Draw()
 		//テクスチャ座標算出
 		int number = count % 10;
 		count /= 10;
-		float x = number % 5/*横分割*/ * (1.0f / 5);//横分割
-		float y = number / 5/*横分割*/ * (1.0f / 5);//縦分割
+		float x = number % 5/*縦分割*/ * (1.0f / 5);//縦分割
+		float y = number / 5/*横分割*/ * (1.0f / 5);//横分割
 
 		//頂点データ書き換え
 		D3D11_MAPPED_SUBRESOURCE msr;

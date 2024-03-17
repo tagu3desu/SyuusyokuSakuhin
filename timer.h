@@ -14,7 +14,7 @@ private:
 	static float m_TimeSecond;
 	static float m_TimeMilliSeconds;
 	static float m_TimeMin;
-
+	static int m_Rank;
 	class Scene* m_Scene;
 public:
 	void Init();
@@ -26,6 +26,7 @@ public:
 	float GetTimeMin() { return m_TimeMin; }
 	float GetTimeSecond() { return m_TimeSecond; }
 	float GetTimeMilliSecond() { return m_TimeMilliSeconds; }
+	int GetRank() { return m_Rank; }
 };
 
 class ClockTimeLimit :public GameObject

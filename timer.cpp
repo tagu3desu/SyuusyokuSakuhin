@@ -10,7 +10,7 @@
 float ClockTimeHand::m_TimeMin=0.0f; //•ª
 float ClockTimeHand::m_TimeSecond=0.0f;	//•b
 float ClockTimeHand::m_TimeMilliSeconds =0.0f;	//ƒ~ƒŠ
-
+int ClockTimeHand::m_Rank = 0;
 void ClockTimeHand::Init()
 {
 
@@ -68,42 +68,32 @@ void ClockTimeHand::Update()
 	
 	if (enemy->GetDead())
 	{
-		if (clearrank != nullptr)
-		{
-			if (m_TimeMin <= 1) //S
-			{
-				clearrank->SetRank(0);
-			}
-			else if (m_TimeMin >= 1 && m_TimeSecond > 30) //A
-			{
-				clearrank->SetRank(1);
-			}
-			else if (m_TimeMin >= 2 && m_TimeSecond > 30) //B
-			{
-				clearrank->SetRank(2);
-			}
-			else if (m_TimeMin >= 3 && m_TimeSecond > 30) //C
-			{
-				clearrank->SetRank(3);
-			}
-			else if (m_TimeMin >= 4 && m_TimeSecond > 30) //D
-			{
-				clearrank->SetRank(4);
-			}
-			else if (m_TimeMin >= 5 && m_TimeSecond > 30) //E
-			{
-				clearrank->SetRank(5);
-			}
-		}
 		
+			if (m_TimeMin < 1) //S
+			{
+				m_Rank = 0;
+			}
+			else if (1 <= m_TimeMin  && m_TimeMin < 3) //A
+			{
+				m_Rank = 1;
+			}
+			else if (3 <= m_TimeMin && m_TimeMin < 4) //B
+			{
+				m_Rank = 2;
+			}
+			else if (4 <= m_TimeMin && m_TimeMin < 5) //C
+			{
+				m_Rank = 3;
+			}
+			else if (5 <= m_TimeMin && m_TimeMin < 6) //D
+			{
+				m_Rank = 4;
+			}
+			else//E
+			{
+				m_Rank = 5;
+			}
 	}
-	
-	/*ImGui::Begin("Time");
-	ImGui::InputFloat("Min", &m_TimeMin);
-	ImGui::InputFloat("Second", &m_TimeSecond);
-	ImGui::InputFloat("MilliSecond", &m_TimeMilliSeconds);
-	ImGui::End();*/
-
 }
 
 void ClockTimeHand::Draw()

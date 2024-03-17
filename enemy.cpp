@@ -291,6 +291,7 @@ void Enemy::Update()
 		if (m_HP <= 0)
 		{
 			m_Dead = true;
+			m_Speed = 0.0f;
 			m_EnemyState = ENAMY_STATE_DEAD;
 		}
 	}
@@ -309,13 +310,6 @@ void Enemy::Update()
 	D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
 	D3DXVec3Normalize(&direction, &direction);
 	m_Position += direction * m_Speed;
-	
-
-	//足音
-	
-
-
-
 	
 }
 
@@ -786,12 +780,6 @@ void EnemyLeftArm::Update()
 		m_LeftArmCollider->SetColliderColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 		m_Hit = false;
 	}
-
-	//GUIにパラメータ表示
-	/*ImGui::SetNextWindowSize(ImVec2(300, 250));
-	ImGui::Begin("EnemyArm");
-	ImGui::Checkbox("Hit", &m_Hit);
-	ImGui::End();*/
 
 }
 
