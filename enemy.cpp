@@ -616,9 +616,13 @@ void Enemy::UpdateSlapAttack(){
 		rockeffect->SetRotation(m_Rotation);
 		m_RockAttackSE->Volume(Scene::m_SEVolume);
 		m_RockAttackSE->PlaySE();
-		Camera* m_Camera = m_Scene->GetGameObject<Camera>();
-		m_Camera->Shake(0.1f);
 		m_Attacking = true;
+	}
+
+	if (100 <= m_AnimationDelay && m_AnimationDelay < 110)
+	{
+		Camera* m_Camera = m_Scene->GetGameObject<Camera>();
+		m_Camera->Shake(1.0f);
 	}
 
 	if (m_AnimationDelay >= 200)
@@ -686,11 +690,15 @@ void Enemy::UpdateJumpAttack()
 	{
 		m_RockAttackSE->Volume(Scene::m_SEVolume);
 		m_RockAttackSE->PlaySE();
-		Camera* m_Camera = m_Scene->GetGameObject<Camera>();
-		m_Camera->Shake(0.3f);
 		m_Attacking = true;
 	}
 
+
+	if (100 <= m_AnimationDelay && m_AnimationDelay < 110)
+	{
+		Camera* m_Camera = m_Scene->GetGameObject<Camera>();
+		m_Camera->Shake(1.0f);
+	}
 
 	if (90 <= m_AnimationDelay && m_AnimationDelay <= 130)
 	{

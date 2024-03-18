@@ -85,9 +85,9 @@ private:
 
 
 	//ゲーム終了関係のフラグ
+    static bool m_ClearLogoFlag;
 	bool m_GameStasrtFlag = {};
 	bool m_ClearLogoCountFlag = {};
-	bool m_ClearLogoFlag = {};
 	bool m_FaliedLogoCountFlag = {};
 	bool m_ChangeSceneFlag = {};
 	

@@ -12,28 +12,35 @@
 #include"timer.h"
 #include"timer.h"
 #include"clearrank.h"
+#include"gametexturemanager.h"
 void Result::Init()
 {
 	Scene* scene = Manager::GetScene();
 
-	ResultTexture* resulttexture = AddGameObject<ResultTexture>(SPRITE_LAYER);
+
 	ClockTimeHand* cleartime = GetGameObject<ClockTimeHand>();
+	GameTexture* gametexture = GetGameObject<GameTexture>();
 
-	TimeCount* minTime = AddGameObject<TimeCount>(SPRITE_LAYER); //•ª1
-	minTime->SetCount(cleartime->GetTimeMin());
-	minTime->SetTexturePostion(850.0f, 683.0f);
+	ResultTexture* resulttexture = AddGameObject<ResultTexture>(SPRITE_LAYER);
+	if (gametexture->GetGameClear())
+	{
+		TimeCount* minTime = AddGameObject<TimeCount>(SPRITE_LAYER); //•ª1
+		minTime->SetCount(cleartime->GetTimeMin());
+		minTime->SetTexturePostion(850.0f, 683.0f);
 
-	TimeCount* secondTime = AddGameObject<TimeCount>(SPRITE_LAYER);	//•b
-	secondTime->SetCount(cleartime->GetTimeSecond());
-	secondTime->SetTexturePostion(930.0f, 683.0f);
+		TimeCount* secondTime = AddGameObject<TimeCount>(SPRITE_LAYER);	//•b
+		secondTime->SetCount(cleartime->GetTimeSecond());
+		secondTime->SetTexturePostion(930.0f, 683.0f);
 
-	TimeCount* milliSecondTime  = AddGameObject<TimeCount>(SPRITE_LAYER);	//ƒ~ƒŠ•b
-	milliSecondTime->SetCount(cleartime->GetTimeMilliSecond());
-	milliSecondTime->SetTexturePostion(1015.0f, 683.0f);
+		TimeCount* milliSecondTime = AddGameObject<TimeCount>(SPRITE_LAYER);	//ƒ~ƒŠ•b
+		milliSecondTime->SetCount(cleartime->GetTimeMilliSecond());
+		milliSecondTime->SetTexturePostion(1015.0f, 683.0f);
 
-	ClearRank* clearrank = AddGameObject<ClearRank>(SPRITE_LAYER);
-	//clearrank->SetRank(cleartime->GetRank());
-	clearrank->SetTexturePostion(1150.0f, 635.0f);
+		ClearRank* clearrank = AddGameObject<ClearRank>(SPRITE_LAYER);
+		clearrank->SetRank(cleartime->GetRank());
+		clearrank->SetTexturePostion(1150.0f, 635.0f);
+	}
+	
 }
 
 

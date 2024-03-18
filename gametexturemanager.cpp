@@ -65,7 +65,7 @@ TextureLoad* texture_TStory7 = new TextureLoad;
 TextureLoad* texture_TStory8 = new TextureLoad;
 TextureLoad* texture_TStory9 = new TextureLoad;
 
-
+bool GameTexture::m_ClearLogoFlag=false;
 void GameTexture::Init()
 {
 	GameObject::Init();

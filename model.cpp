@@ -139,42 +139,6 @@ void Model::Unload()
 }
 
 
-//モデルのトレイル用の頂点を取得する
-void Model::GetTrailVertex(const char* FileName, D3DXVECTOR3& topVertex, D3DXVECTOR3& bottomVertex)
-{
-
-	MODEL model;
-	LoadObj(FileName, &model);
-
-	if (model.VertexArray == nullptr || model.VertexNum == 0)
-	{
-		// 頂点データがないか無効な場合は処理を終了
-		return;
-	}
-
-	// 先端と終わりの頂点の初期化
-	topVertex = model.VertexArray[0].Position;
-	bottomVertex = model.VertexArray[0].Position;
-
-	// 全ての頂点を調査し、先端と終わりの頂点を見つける
-	for (unsigned int i = 1; i < model.VertexNum; ++i)
-	{
-		const D3DXVECTOR3& currentVertexPosition = model.VertexArray[i].Position;
-
-		// Y座標が最大の頂点を先端として更新
-		if (currentVertexPosition.y > topVertex.y)
-		{
-			topVertex = currentVertexPosition;
-		}
-
-		// Y座標が最小の頂点を終わりとして更新
-		if (currentVertexPosition.y < bottomVertex.y)
-		{
-			bottomVertex = currentVertexPosition;
-		}
-	}
-
-}
 
 
 

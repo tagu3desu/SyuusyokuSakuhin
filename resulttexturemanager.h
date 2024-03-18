@@ -6,7 +6,7 @@ class ResultTexture : public GameObject
 private:
 
 	class Scene* m_Scene{};
-
+	
 
 public:
 	void Init();

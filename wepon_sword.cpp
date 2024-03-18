@@ -107,15 +107,15 @@ void Sword::Update()
 			break;
 		case SHARPNES_YELLOW:
 			m_WeponDamage = 3.0f;
-			m_HitStopTime = 5.0f;
+			m_HitStopTime = 10.0f;
 			break;
 		case SHARPNES_GREEN:
 			m_WeponDamage = 5.0f;
-			m_HitStopTime = 10.0f;
+			m_HitStopTime = 15.0f;
 			break;
 		case SHARPNES_BLUE:
 			m_WeponDamage = 8.0f;
-			m_HitStopTime = 10.0f;
+			m_HitStopTime = 15.0f;
 			break;
 		default:
 			break;
@@ -186,7 +186,7 @@ void Sword::Update()
 					m_NormalAttackHitSE->Volume(Scene::m_SEVolume);
 					m_NormalAttackHitSE->PlaySE();
 					
-					m_Camera->Shake(0.05f);
+					m_Camera->Shake(0.1f);
 
 				}
 
@@ -195,7 +195,7 @@ void Sword::Update()
 					m_SmallAttackHitSE->Volume(Scene::m_SEVolume * 0.3f);
 					m_SmallAttackHitSE->PlaySE();
 				
-					m_Camera->Shake(0.02f);
+					m_Camera->Shake(0.1);
 				}
 				else
 				{
@@ -253,7 +253,7 @@ void Sword::Update()
 					m_NormalAttackHitSE->Volume(Scene::m_SEVolume);
 					m_NormalAttackHitSE->PlaySE();
 
-					m_Camera->Shake(0.05f);
+					m_Camera->Shake(0.1f);
 
 				}
 
@@ -262,7 +262,7 @@ void Sword::Update()
 					m_SmallAttackHitSE->Volume(Scene::m_SEVolume * 0.3f);
 					m_SmallAttackHitSE->PlaySE();
 
-					m_Camera->Shake(0.02f);
+					m_Camera->Shake(0.1f);
 				}
 				else
 				{
@@ -326,43 +326,7 @@ void Sword::Update()
 			m_AlreadyHit = false;
 		}
 
-		/*if (m_Swordhit)
-		{
-			m_InviciblilityStartFlag = true;
-		}
-		if (m_InviciblilityStartFlag)
-		{
-			InputX::StopVibration(0);
-			m_InvincibilityTime++;
-
-			if (player->GetPlayerAttackNumber() == 3)
-			{
-				if (m_InvincibilityTime <= 20)
-				{
-					m_InvincibilityFlag = true;
-				}
-				else
-				{
-					m_InvincibilityFlag = false;
-					m_InviciblilityStartFlag = false;
-					m_InvincibilityTime = 0;
-				}
-			}
-			else
-			{
-				if (m_InvincibilityTime <= 15)
-				{
-					m_InvincibilityFlag = true;
-				}
-				else
-				{
-					m_InvincibilityFlag = false;
-					m_InviciblilityStartFlag = false;
-					m_InvincibilityTime = 0;
-				}
-			}
-			
-		}*/
+		
 
 		if (player->GetSwordDrawn())
 		{

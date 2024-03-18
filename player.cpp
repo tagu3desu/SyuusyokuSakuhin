@@ -1510,7 +1510,7 @@ void Player::UpdateAttack()
 			m_AttackCollisionFlag = false;
 		}
 
-		if (m_AnimationDelay >= 45 && m_ComboCount == 1)
+		if (m_AnimationDelay >= 50 && m_ComboCount == 1)
 		{
 			m_Time = 0;
 			m_AnimationDelay = 0;
