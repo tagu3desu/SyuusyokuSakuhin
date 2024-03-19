@@ -36,6 +36,7 @@ void Camera::Update()
 	DebugSystem* debug = m_Scene->GetGameObject<DebugSystem>();
 	
 	
+	
 
 	if (enemy != nullptr)
 	{
@@ -97,11 +98,11 @@ void Camera::Update()
 		{
 			m_RotationX += 0.1f;
 		}
-		if (Input::GetKeyPress(VK_UP) || InputX::GetThumbRightY(0) >= 0.2)
+		if ((Input::GetKeyPress(VK_UP) || InputX::GetThumbRightY(0) >= 0.2) && m_RotationY < 4.5)
 		{
 			m_RotationY += 0.1f;
 		}
-		if (Input::GetKeyPress(VK_DOWN) || InputX::GetThumbRightY(0) <= -0.2)
+		if ((Input::GetKeyPress(VK_DOWN) || InputX::GetThumbRightY(0) <= -0.2) && -0.7 <  m_RotationY)		
 		{
 			m_RotationY -= 0.1f;
 		}
