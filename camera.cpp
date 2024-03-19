@@ -89,11 +89,11 @@ void Camera::Update()
 	}
 	else
 	{
-		if (Input::GetKeyPress(VK_RIGHT) || InputX::GetThumbRightX(0) >= 0.2)
+		if (Input::GetKeyPress('E') || InputX::GetThumbRightX(0) >= 0.2)
 		{
 			m_RotationX -= 0.1f;
 		}
-		if (Input::GetKeyPress(VK_LEFT) || InputX::GetThumbRightX(0) <= -0.2)
+		if (Input::GetKeyPress('Q') || InputX::GetThumbRightX(0) <= -0.2)
 		{
 			m_RotationX += 0.1f;
 		}

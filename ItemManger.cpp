@@ -25,7 +25,7 @@ void ItemManager::Uninit() {
 void ItemManager::Update()
 {
 	m_Hweel = GetHweel();
-	if (Input::GetKeyPress('Q') || InputX::IsButtonPressed(0,XINPUT_GAMEPAD_LEFT_SHOULDER))
+	if (Input::GetKeyPress(VK_LCONTROL) || InputX::IsButtonPressed(0,XINPUT_GAMEPAD_LEFT_SHOULDER))
 	{
 		m_ShowItemFlag = true;
 		if (m_OldHweel + 1 == m_Hweel || InputX::IsButtonTriggered(0,XINPUT_GAMEPAD_X))

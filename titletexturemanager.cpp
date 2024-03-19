@@ -206,7 +206,7 @@ void TitleTexture::Update()
 					m_OptionFlag = false;
 				}
 			}
-			else if (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_A))
+			else if (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_A) || Input::GetKeyTrigger('B'))
 			{
 				m_DecisiveSE->Volume(GetSEVolume());
 				m_DecisiveSE->PlaySE();
@@ -239,7 +239,7 @@ void TitleTexture::Update()
 					texture_BGMThumb->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 				}
 				m_BGM_Volume = ((m_BGMThumbPosition.x - MAX_ThubPosition) / (MIN_ThubPosition - MAX_ThubPosition) * 100);
-				if (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_DPAD_DOWN))
+				if (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_DPAD_DOWN) || Input::GetKeyTrigger(VK_DOWN))
 				{
 					m_SelectUIPosY = 260.0f;
 					m_BGMFlag = true;
@@ -271,7 +271,7 @@ void TitleTexture::Update()
 					texture_SEThumb->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 				}
 				m_SE_Volume = ((m_SEThumbPosition.x - MAX_ThubPosition) / (MIN_ThubPosition - MAX_ThubPosition) * 100);
-				if (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_DPAD_UP))
+				if (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_DPAD_UP) || Input::GetKeyTrigger(VK_UP))
 				{
 					m_SelectUIPosY = 145.0f;
 					m_BGMFlag = false;
@@ -280,7 +280,7 @@ void TitleTexture::Update()
 					m_DecisiveSE->PlaySE();
 				}	
 
-				if (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_DPAD_DOWN))
+				if (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_DPAD_DOWN) || Input::GetKeyTrigger(VK_DOWN) )
 				{
 					m_BackButton = true;
 					m_BGMFlag = false;

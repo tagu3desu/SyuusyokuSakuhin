@@ -898,7 +898,7 @@ void Player::Draw()
 void Player::UpdateGround()
 {
 	//î≤ìÅ
-	if ((Input::GetKeyTrigger('Y') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Sworddrawn && !m_Animating)
+	if ((Input::GetKeyTrigger('Y') || Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Sworddrawn && !m_Animating)
 	{
 
 		if (m_NextAnimationName != "onSword")
@@ -930,7 +930,7 @@ void Player::UpdateGround()
 
 
 	//î[ìÅ
-	if ((Input::GetKeyTrigger('R') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X)) && !m_Animating && !m_ItemManager->GetShowFlag())
+	if ((Input::GetKeyTrigger('R')  || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X)) && !m_Animating && !m_ItemManager->GetShowFlag())
 	{
 		if (m_Sworddrawn)//î[ìÅ
 		{
