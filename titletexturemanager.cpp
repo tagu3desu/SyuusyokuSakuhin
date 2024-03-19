@@ -220,14 +220,14 @@ void TitleTexture::Update()
 			//コントローラーの時の処理
 			if (m_SelectUIPosY==145)
 			{
-				if (InputX::IsButtonPressed(0, XINPUT_GAMEPAD_DPAD_LEFT))
+				if (InputX::IsButtonPressed(0, XINPUT_GAMEPAD_DPAD_LEFT) || Input::GetKeyPress(VK_LEFT))
 				{
 					m_DecisiveSE->Volume(GetSEVolume());
 					m_DecisiveSE->PlaySE();
 					m_BGMThumbPosition.x -= 1.0f;
 					texture_BGMThumb->SetColor(D3DXCOLOR(0.9f, 0.6f, 0.2f, 1.0f));
 				}
-				else if (InputX::IsButtonPressed(0, XINPUT_GAMEPAD_DPAD_RIGHT))
+				else if (InputX::IsButtonPressed(0, XINPUT_GAMEPAD_DPAD_RIGHT) || Input::GetKeyPress(VK_RIGHT))
 				{
 					m_DecisiveSE->Volume(GetSEVolume());
 					m_DecisiveSE->PlaySE();
@@ -252,14 +252,14 @@ void TitleTexture::Update()
 			}
 			if (m_SelectUIPosY == 260)
 			{
-				if (InputX::IsButtonPressed(0, XINPUT_GAMEPAD_DPAD_LEFT))
+				if (InputX::IsButtonPressed(0, XINPUT_GAMEPAD_DPAD_LEFT) || Input::GetKeyPress(VK_LEFT))
 				{
 					m_DecisiveSE->Volume(GetSEVolume());
 					m_DecisiveSE->PlaySE();
 					m_SEThumbPosition.x -= 1.0f;
 					texture_SEThumb->SetColor(D3DXCOLOR(0.9f, 0.6f, 0.2f, 1.0f));
 				}
-				else if (InputX::IsButtonPressed(0, XINPUT_GAMEPAD_DPAD_RIGHT))
+				else if (InputX::IsButtonPressed(0, XINPUT_GAMEPAD_DPAD_RIGHT) || Input::GetKeyPress(VK_RIGHT))
 				{
 					m_DecisiveSE->Volume(GetSEVolume());
 					m_DecisiveSE->PlaySE();
