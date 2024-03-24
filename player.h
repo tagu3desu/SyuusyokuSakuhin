@@ -90,6 +90,7 @@ private:
 	bool m_SharpnessUpFlag = false;
 	float m_SharpnessUpCount = 0.0f;
 	bool m_TrailEnable=true;
+
 	//ヒットストップ関連
 	bool m_HitStopFlag = false;
 	float m_HitStopTime = false;
@@ -113,6 +114,8 @@ private:
 	bool m_Rockhit = false;
 	bool m_SmallDamageReaction = false;
 	bool m_BigDamageReaction = false;
+
+	
 
 	//サウンド処理
 	class Audio* m_OnWeponSE{};

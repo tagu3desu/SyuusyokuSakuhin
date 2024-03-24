@@ -40,6 +40,8 @@
 #include"bladeefect2.h"
 #include"tutorialenemy.h"
 
+#include"hpgage.h"
+#include"staminagage.h"
 
 bool Game::m_LoadFinish = false;
 
@@ -108,8 +110,7 @@ void Game::Init()
 
 	Player* player =  AddGameObject<Player>();
 	player->SetPosition(D3DXVECTOR3(-1.0f,0.0f,-20.0f));
-	
-	
+
 	
 
 	Enemy* enemy = AddGameObject<Enemy>();
@@ -169,9 +170,10 @@ void Game::Update()
 {
 	Scene::Update();
 	m_Scene = Manager::GetScene();
-	Player* player = m_Scene->GetGameObject<Player>();
+	
 	Enemy* enemy = m_Scene->GetGameObject<Enemy>();
 	GameTexture* gametexture = m_Scene->GetGameObject<GameTexture>();
+	Player* player = m_Scene->GetGameObject<Player>();
 
 	if (enemy != nullptr)
 	{
@@ -218,8 +220,6 @@ void Game::Uninit()
 {
 	Scene::Uninit();
 	Game::Unload();
-	
-	
 }
 
 void Game::Draw()

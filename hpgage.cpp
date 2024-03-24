@@ -56,7 +56,9 @@ void HPgage::Init()
 	m_Scene = Manager::GetScene();
 	m_Player = m_Scene->GetGameObject<Player>();
 
+	
 	m_Hp = m_HpMax = m_BeforHp = m_Player->GetPlayerHP();
+	
 }
 
 void HPgage::Uninit()

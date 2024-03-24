@@ -162,9 +162,11 @@ void GameTexture::Init()
 	texture_TStory9->Init("asset/texture/TutoriaruUI/story9.png");
 	texture_TStory9->SetTextureScale(550.0f, 150.0f);
 
+	
 
 	m_Scene = Manager::GetScene();
 	
+	m_ClearLogoFlag = false;
 
 	m_FrameWait = 0;
 	m_ReturnCampCount=0;

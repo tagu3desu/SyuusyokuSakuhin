@@ -150,7 +150,7 @@ void Player::Init()
 	m_Shield = m_Scene->AddGameObject<Shield>();
 	if (!Title::GetCheckTitle())
 	{
-		m_ItemManager = m_Scene->AddGameObject<ItemManager>();
+		m_ItemManager = m_Scene->AddGameObject<ItemManager>(SPRITE_LAYER);
 
 		m_PlayerCollider = m_Scene->AddGameObject<BoxCollider>();
 		m_PlayerCollider->SetScale(D3DXVECTOR3(70.0f, 170.0f, 70.0f));
@@ -173,6 +173,8 @@ void Player::Uninit()
 {
 	GameObject::Uninit();
 
+	
+
 	m_Model->Unload();
 	delete m_Model;
 
@@ -186,9 +188,6 @@ void Player::Uninit()
 void Player::Update()
 {
 	m_Camera = m_Scene->GetGameObject<Camera>();
-
-
-
 	if (!Title::GetCheckTitle())
 	{
 		
@@ -224,6 +223,7 @@ void Player::Update()
 			ImGui::InputInt("HP", &m_HP);
 			ImGui::InputInt("Stamina", &m_Stamina);
 			ImGui::Checkbox("AttackHit", &checkhit);
+			ImGui::Checkbox("Muteki", &m_InvincibilityFlag);
 			ImGui::Checkbox("TrailEnable", &m_TrailEnable);
 			ImGui::Checkbox("StartGuard", &m_StartGuard);
 			ImGui::Checkbox("IsGuard", &m_IsGuard);
@@ -471,7 +471,7 @@ void Player::Update()
 			{
 				
 				m_Speed = 0.05f;
-				m_DirectionZ = -GetForward() * m_Speed;
+				m_DirectionZ = m_Enemy->GetForward() * m_Speed;
 				m_HitInpactDelay++;
 				m_Animating = true;
 				if (m_HitInpactDelay > 80)
@@ -511,15 +511,6 @@ void Player::Update()
 
 
 				}
-
-				//x,zを加算します
-				D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
-
-				//正規化します
-				D3DXVec3Normalize(&direction, &direction);
-
-				//PositonにSpeed加算します
-				m_Position += direction * m_Speed;
 			}
 
 			//ダメージリアクション小
@@ -634,7 +625,6 @@ void Player::Update()
 	}
 
 	//OBB判定　
-
 	std::vector<Rock*> rocks = m_Scene->GetGameObjects<Rock>();
 	{
 		for (Rock* rock : rocks)
@@ -778,6 +768,7 @@ void Player::Update()
 	if (m_AttackMotion1)
 	{
 		m_ConboflagisAttack2 = true;
+
 	}
 
 	if (m_ConboflagisAttack2)
@@ -789,7 +780,6 @@ void Player::Update()
 			m_ConboflagisAttack2 = false;
 		}
 	}
-
 	if (m_AttackMotion2)
 	{
 		m_ConboflagisAttack3 = true;
@@ -898,68 +888,72 @@ void Player::Draw()
 void Player::UpdateGround()
 {
 	//抜刀
-	if ((Input::GetKeyTrigger('Y') || Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Sworddrawn && !m_Animating)
 	{
-
-		if (m_NextAnimationName != "onSword")
+		if ((Input::GetKeyTrigger('Y') || Input::GetKeyTrigger(VK_LBUTTON) || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_Y)) && !m_Sworddrawn && !m_Animating)
 		{
-			m_Time = 0.0f;
-			m_AnimationName = m_NextAnimationName;
-			m_NextAnimationName = "onSword";
-			m_OnWeponSE->Volume(Scene::m_SEVolume * 0.2);
-			m_OnWeponSE->PlaySE();
-			m_BlendTime = 0.0f;
-		}
-		m_OnSword = true;
-		m_Sworddrawn = true;
 
-	}
-	if (m_OffSword)
-	{
-		m_AnimationDelay++;
-		m_Animating = true;
-		if (m_AnimationDelay > 50)
-		{
-			m_Animating = false;
-			m_Sworddrawn = false;
-			m_AnimationDelay = 0;
-			m_OffSword = false;
-		}
-
-	}
-
-
-	//納刀
-	if ((Input::GetKeyTrigger('R')  || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X)) && !m_Animating && !m_ItemManager->GetShowFlag())
-	{
-		if (m_Sworddrawn)//納刀
-		{
-			if (m_NextAnimationName != "offSword")
+			if (m_NextAnimationName != "onSword")
 			{
 				m_Time = 0.0f;
 				m_AnimationName = m_NextAnimationName;
-				m_NextAnimationName = "offSword";
-				m_OffWeponSE->Volume(Scene::m_SEVolume * 0.2);
-				m_OffWeponSE->PlaySE();
+				m_NextAnimationName = "onSword";
+				m_OnWeponSE->Volume(Scene::m_SEVolume * 0.2);
+				m_OnWeponSE->PlaySE();
 				m_BlendTime = 0.0f;
 			}
-			m_OffSword = true;
+			m_OnSword = true;
+			m_Sworddrawn = true;
 
 		}
-
-	}
-	if (m_OnSword)
-	{
-		m_AnimationDelay++;
-		m_Animating = true;
-		if (m_AnimationDelay > 35)
+		if (m_OffSword)
 		{
-			m_Animating = false;
-			m_OnSword = false;
-			m_AnimationDelay = 0;
-		}
+			m_AnimationDelay++;
+			m_Animating = true;
+			if (m_AnimationDelay > 50)
+			{
+				m_Animating = false;
+				m_Sworddrawn = false;
+				m_AnimationDelay = 0;
+				m_OffSword = false;
+			}
 
+		}
 	}
+
+	//納刀
+	{
+		if ((Input::GetKeyTrigger('R') || InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X)) && !m_Animating && !m_ItemManager->GetShowFlag())
+		{
+			if (m_Sworddrawn)//納刀
+			{
+				if (m_NextAnimationName != "offSword")
+				{
+					m_Time = 0.0f;
+					m_AnimationName = m_NextAnimationName;
+					m_NextAnimationName = "offSword";
+					m_OffWeponSE->Volume(Scene::m_SEVolume * 0.2);
+					m_OffWeponSE->PlaySE();
+					m_BlendTime = 0.0f;
+				}
+				m_OffSword = true;
+
+			}
+
+		}
+		if (m_OnSword)
+		{
+			m_AnimationDelay++;
+			m_Animating = true;
+			if (m_AnimationDelay > 35)
+			{
+				m_Animating = false;
+				m_OnSword = false;
+				m_AnimationDelay = 0;
+			}
+
+		}
+	}
+	
 	
 	
 	
@@ -1475,6 +1469,15 @@ void Player::UpdateRoll()
 		m_Animating = true;
 		m_DirectionZ = GetForward() * speed;
 
+		if (15 < m_AnimationDelay && m_AnimationDelay < 35)
+		{
+			m_InvincibilityFlag = true;
+		}
+		else
+		{
+			m_InvincibilityFlag = false;
+		}
+
 		if (m_AnimationDelay >= 50)
 		{
 			m_AnimationDelay = 0;
@@ -1495,7 +1498,7 @@ void Player::UpdateAttack()
 	{
 		m_AnimationDelay++;
 
-		if (m_AnimationDelay < 40 && 55 <= m_AnimationDelay)
+		if (m_AnimationDelay < 30 && 50 <= m_AnimationDelay)
 		{
 			m_AttackMotion1 = true;
 		}
@@ -1529,7 +1532,7 @@ void Player::UpdateAttack2()
 	{
 		m_AnimationDelay++;
 
-		if (m_AnimationDelay < 35 && 60 <= m_AnimationDelay)
+		if (m_AnimationDelay < 35 && 50 <= m_AnimationDelay)
 		{
 			m_AttackMotion2 = true;
 		}
@@ -1584,11 +1587,11 @@ void Player::UpdateAttack3()
 
 		
 		//画面揺れ
-		if (m_AnimationDelay >= 80 && m_AnimationDelay <= 85)
+		if (m_AnimationDelay >= 75 && m_AnimationDelay <= 80)
 		{
 
 			Camera* m_Camera = m_Scene->GetGameObject<Camera>();
-			m_Camera->Shake(0.1f);
+			m_Camera->Shake(0.2f);
 
 		}
 
@@ -1612,7 +1615,7 @@ void Player::UpdateAttack3()
 	}
 
 }
-
+//回転斬り
 void Player::UpdateRotationAttack()
 {
 	m_Idle = true;
@@ -1643,14 +1646,11 @@ void Player::UpdateRotationAttack()
 		}
 	}
 }
-
-
-
+//ガード
 void Player::UpdateGuard()
 {
 	m_Idle = false;
-	m_RockEffect = m_Scene->GetGameObject<RockEffect>();
-	m_Bullet = m_Scene->GetGameObject<Bullet>();
+	//m_RockEffect = m_Scene->GetGameObject<RockEffect>();
 	m_Shield = m_Scene->GetGameObject<Shield>();
 
 	//岩のエフェクトがある時のみ
@@ -1724,7 +1724,7 @@ void Player::UpdateGuard()
 
 	if (m_InpactGuard)
 	{
-		InputX::SetVibration(0, 100);
+		InputX::SetVibration(0, 200);
 	}
 	else if(!m_InpactGuard)
 	{
@@ -1786,12 +1786,13 @@ void Player::UpdateGuard()
 	{
 		m_AnimationDelay = 0;
 		m_IsGuard = m_StartGuard = m_EndGuard = m_InpactGuard = m_SuccessGuard = false;
+		InputX::StopVibration(0);
 		m_GuardEffect = false;
 		m_PlayerState = PLAYER_STATE_GROUND;
 	}
 
 }
-
+//タイトル用
 void Player::UpdateTitleIdle()
 {
 	if (m_NextAnimationName != "TitleIdle")
@@ -1801,7 +1802,7 @@ void Player::UpdateTitleIdle()
 		m_BlendTime = 0.0f;
 	}
 }
-
+//死亡時
 void Player::UpdateDead()
 {
 	m_AnimationDelay++;
