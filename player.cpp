@@ -223,7 +223,7 @@ void Player::Update()
 			ImGui::InputInt("HP", &m_HP);
 			ImGui::InputInt("Stamina", &m_Stamina);
 			ImGui::Checkbox("AttackHit", &checkhit);
-			ImGui::Checkbox("Muteki", &m_InvincibilityFlag);
+			ImGui::Checkbox("Invincibility", &m_InvincibilityFlag);
 			ImGui::Checkbox("TrailEnable", &m_TrailEnable);
 			ImGui::Checkbox("StartGuard", &m_StartGuard);
 			ImGui::Checkbox("IsGuard", &m_IsGuard);
