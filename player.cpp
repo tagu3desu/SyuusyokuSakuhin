@@ -274,11 +274,6 @@ void Player::Update()
 
 
 
-
-
-
-
-
 		//アイテム使用
 		if ((Input::GetKeyTrigger('F') || (InputX::IsButtonTriggered(0, XINPUT_GAMEPAD_X))) && !m_Glinding && !m_UsePotion && !m_Animating && !m_Attack && !m_Sworddrawn
 			&& !m_ItemManager->GetShowFlag())

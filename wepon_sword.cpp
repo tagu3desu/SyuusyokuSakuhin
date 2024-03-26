@@ -167,6 +167,7 @@ void Sword::Update()
 			}
 		}
 
+		//a‚ê–¡‚ğã‚°‚éˆ—
 		if (player->GetSharpnessUpFlag())
 		{
 			m_Durability = MAX_DURABILITY;
@@ -201,7 +202,7 @@ void Sword::Update()
 				{
 					m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 					m_BigAttackHitSE->PlaySE();
-					m_Camera->Shake(0.1f);
+					m_Camera->Shake(0.2f);
 					
 				}
 				
@@ -268,7 +269,7 @@ void Sword::Update()
 				{
 					m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 					m_BigAttackHitSE->PlaySE();
-					m_Camera->Shake(0.1f);
+					m_Camera->Shake(0.3f);
 
 				}
 
