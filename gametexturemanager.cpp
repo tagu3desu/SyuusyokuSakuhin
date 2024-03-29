@@ -9,7 +9,7 @@
 #include"game.h"
 #include"enemy.h"
 #include"input.h"
-#include"wepon_sword.h"
+#include"sword.h"
 #include"player.h"
 #include"camera.h"
 #include"ItemManger.h"

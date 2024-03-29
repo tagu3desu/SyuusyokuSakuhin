@@ -2,7 +2,7 @@
 #include"renderer.h"
 #include"manager.h"
 #include"scene.h"
-#include"wepon_sword.h"
+#include"sword.h"
 #include"player.h"
 #include"animationModel.h"
 #include"swordtrail.h"

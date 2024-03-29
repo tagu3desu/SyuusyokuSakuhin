@@ -14,9 +14,7 @@ private:
 
 	static VERTEX_3D					m_Vertex[21][21];
 
-	ID3D11VertexShader*			m_VertexShader{};
-	ID3D11PixelShader*			m_PixelShader{};
-	ID3D11InputLayout*			m_VertexLayout{};
+	
 	
 	bool m_BattleMapFlag = false;
 

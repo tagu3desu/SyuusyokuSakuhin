@@ -225,10 +225,10 @@
     <ClCompile Include="resulttexturemanager.cpp">
       <Filter>ソース ファイル\Texture\TextureManager</Filter>
     </ClCompile>
-    <ClCompile Include="wepon_shield.cpp">
+    <ClCompile Include="shield.cpp">
       <Filter>ソース ファイル\Wepon</Filter>
     </ClCompile>
-    <ClCompile Include="wepon_sword.cpp">
+    <ClCompile Include="sword.cpp">
       <Filter>ソース ファイル\Wepon</Filter>
     </ClCompile>
     <ClCompile Include="trail.cpp">
@@ -311,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="staminagage.cpp">
       <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="baseenemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -437,10 +440,10 @@
     <ClInclude Include="trail.h">
       <Filter>ヘッダー ファイル\Texture\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="wepon_shield.h">
+    <ClInclude Include="shield.h">
       <Filter>ヘッダー ファイル\Wepon</Filter>
     </ClInclude>
-    <ClInclude Include="wepon_sword.h">
+    <ClInclude Include="sword.h">
       <Filter>ヘッダー ファイル\Wepon</Filter>
     </ClInclude>
     <ClInclude Include="potion.h">

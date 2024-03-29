@@ -5,7 +5,7 @@
 #include "scene.h"
 #include"player.h"
 #include"input.h"
-#include"wepon_sword.h"
+
 
 
 void Trail::Init()

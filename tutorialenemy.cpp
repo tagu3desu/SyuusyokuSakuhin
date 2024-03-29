@@ -18,7 +18,7 @@
 #include"field.h"
 #include"title.h"
 #include"boxcollider.h"
-#include"wepon_sword.h"
+#include"sword.h"
 #include"rockeffect.h"
 #include"areachangecollider.h"
 #include"inputx.h"
@@ -209,7 +209,7 @@ void TutorialEnemy::Update()
 		{
 			m_EnemyState = TUTORIAL_ENEMY_STATE_MOVE;
 		}
-		if (IsInFieldOfView(m_Position, m_Direction, 70, 25.0f))
+		if (IsInFieldOfView(m_Position, m_Direction, 70, 25.0f,player))
 		{
 			if (!m_Howl && gametexture->GetEnemyHowlFlag())
 			{
@@ -517,32 +517,6 @@ void TutorialEnemy::UpdatePunchAttack() {
 	}
 
 }
-
-
-
-bool TutorialEnemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee)
-{
-
-	Player* player = m_Scene->GetGameObject<Player>();
-
-	// Ž‹–ì”ÍˆÍ“à‚©‚Ç‚¤‚©‚Ì”»’è
-	D3DXVECTOR3 normalizedDirection;
-	D3DXVec3Normalize(&normalizedDirection, &direction);
-	D3DXVECTOR3 houkou = GetForward();
-	float dotProduct = D3DXVec3Dot(&houkou, &normalizedDirection);
-	float angle = acos(dotProduct);
-	fieldOfViewRadians = D3DXToRadian(fieldOfViewRadians);
-	bool isInFieldOfView = angle <= fieldOfViewRadians / 2.0f;
-
-	// Ž‹–ì‹——£“à‚©‚Ç‚¤‚©‚Ì”»’è
-	D3DXVECTOR3 dice = origin - player->GetPosition();
-	float distance = D3DXVec3Length(&dice);
-	bool isInViewDistance = distance <= viewDistancee;
-
-	return isInFieldOfView && isInViewDistance;
-}
-
-
 //¶˜r
 void EnemyRightArm::Init()
 {

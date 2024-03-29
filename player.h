@@ -23,11 +23,7 @@ class Player :public GameObject
 private:
 	PLAYER_STATE  m_PlayerState = PLAYER_STATE_GROUND;
 
-	ID3D11VertexShader* m_VertexShader{};
-	ID3D11PixelShader* m_PixelShader{};
-	ID3D11InputLayout* m_VertexLayout{};
-
-
+	
 
 	//ステータス
 	int m_HP;

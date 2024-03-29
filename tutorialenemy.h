@@ -3,6 +3,7 @@
 #include"gameobject.h"
 #include<string>
 #include"animationModel.h"
+#include"baseenemy.h"
 
 
 enum TUTORIAL_ENEMY_STATE
@@ -19,7 +20,7 @@ enum TUTORIAL_ENEMY_ATTACK_PATARN
 {
 	TUTORIAL_ENEMY_ATTACK_PUNCH
 };
-class TutorialEnemy : public GameObject
+class TutorialEnemy : public BaseEnemy
 {
 private:
 	TUTORIAL_ENEMY_STATE  m_EnemyState = TUTORIAL_ENEMY_STATE_IDLE;
@@ -31,27 +32,11 @@ private:
 
 
 
-	//static Model* m_Model;
-	ID3D11VertexShader* m_VertexShader{};
-	ID3D11PixelShader* m_PixelShader{};
-	ID3D11InputLayout* m_VertexLayout{};
-
 	//ディゾルブ処理
 	float m_Threshold;
 
-	//ステータス
-	int m_HP;
-	float m_GroundHeight=0.0f;
-	float m_Speed=0.0f;
-
-
-	//視野
-	D3DXVECTOR3 m_Direction = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	float m_Length = 0;
-
 
 	//アニメーション関連
-	bool m_EnemyAI = true;
 	float m_Time=0.0f;
 	float m_BlendTime=0.0f;
 	std::string m_AnimationName;
@@ -102,8 +87,6 @@ public:
 	static void Load();
 	static void Unload();
 
-
-
 	static class AnimationModel* m_Model;
 
 	bool GetDead() { return m_Dead; }
@@ -123,16 +106,8 @@ public:
 	//敵の攻撃のパターン
 	void UpdatePunchAttack();
 	
-
-	void SetDamage(int hp) { m_HP -= hp; }
-	void SetEnemyAI(bool ai) { m_EnemyAI = ai; }
-	bool GetEnemyAI() { return m_EnemyAI; }
-	bool IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee);
 	bool GetEnemyHowlFinish() { return m_HowlFinish; };
 	bool GetPunchAttackHit() { return m_PunchAttackHit; }
-
-	int GetHP() { return m_HP;}
-
 
 	AnimationModel* GetAnimationModel() { return m_Model; }
 

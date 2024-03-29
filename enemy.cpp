@@ -18,7 +18,7 @@
 #include"field.h"
 #include"title.h"
 #include"boxcollider.h"
-#include"wepon_sword.h"
+#include"sword.h"
 #include"rockeffect.h"
 #include"areachangecollider.h"
 #include"inputx.h"
@@ -60,7 +60,7 @@ void Enemy::Init()
 
 	//パラメータの設定
 	m_HP = 120;
-
+	
 
 	if (!Title::GetCheckTitle())
 	{
@@ -81,14 +81,15 @@ void Enemy::Load()
 	m_Model = new AnimationModel();
 	//読み込むモデルをローポリとハイポリで2つ読みこむ
 	m_Model->Load("asset\\model\\enemy\\Mutant.fbx");
-	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Breathing Idle.fbx", "Idle");
-	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Walking.fbx", "Walk");
-	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Run.fbx", "Run");
-	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Swiping.fbx", "PunchiAttack");
-	m_Model->LoadAnimation("asset\\model\\enemy\\SlapAttack.fbx", "SlapAttack");
-	m_Model->LoadAnimation("asset\\model\\enemy\\Jump Attack.fbx", "JumpAttack");
-	m_Model->LoadAnimation("asset\\model\\enemy\\Mutant Roaring.fbx", "Howl");
-	m_Model->LoadAnimation("asset\\model\\enemy\\Standing React Death Forward.fbx", "Dead");
+	m_Model->LoadAnimation("asset\\model\\enemy\\MutantIdle.fbx", "Idle");
+	m_Model->LoadAnimation("asset\\model\\enemy\\MutantWalk.fbx", "Walk");
+	m_Model->LoadAnimation("asset\\model\\enemy\\MutantRun.fbx", "Run");
+	m_Model->LoadAnimation("asset\\model\\enemy\\MutantSwiping.fbx", "PunchiAttack");
+	m_Model->LoadAnimation("asset\\model\\enemy\\MutantSlapAttack.fbx", "SlapAttack");
+	m_Model->LoadAnimation("asset\\model\\enemy\\MutantJumpAttack.fbx", "JumpAttack");
+	m_Model->LoadAnimation("asset\\model\\enemy\\MutantHowl.fbx", "Howl");
+	m_Model->LoadAnimation("asset\\model\\enemy\\MutantReaction.fbx", "DamageReaction");
+	m_Model->LoadAnimation("asset\\model\\enemy\\MutantDead.fbx", "Dead");
 }
 
 void Enemy::Uninit()
@@ -237,7 +238,7 @@ void Enemy::Update()
 			m_Run = true;
 			m_EnemyState = ENEMY_STATE_MOVE;
 		}
-		if (IsInFieldOfView(m_Position, m_Direction, 70, 15.0f) || m_Length < 15)
+		if (IsInFieldOfView(m_Position, m_Direction, 70, 15.0f,player) || m_Length < 15)
 		{
 			if (!m_Howl)
 			{
@@ -722,27 +723,27 @@ void Enemy::UpdateJumpAttack()
 	}
 }
 
-bool Enemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee)
-{
-	
-	Player* player = m_Scene->GetGameObject<Player>();
-
-	// 視野範囲内かどうかの判定
-	D3DXVECTOR3 normalizedDirection;
-	D3DXVec3Normalize(&normalizedDirection, &direction);
-	D3DXVECTOR3 houkou = GetForward();
-	float dotProduct = D3DXVec3Dot(&houkou, &normalizedDirection);
-	float angle = acos(dotProduct);
-	fieldOfViewRadians = D3DXToRadian(fieldOfViewRadians);
-	bool isInFieldOfView = angle <= fieldOfViewRadians / 2.0f;
-
-	// 視野距離内かどうかの判定
-	D3DXVECTOR3 dice = origin - player->GetPosition();
-	float distance = D3DXVec3Length(&dice);
-	bool isInViewDistance = distance <= viewDistancee;
-
-	return isInFieldOfView && isInViewDistance;
-}
+//bool Enemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee)
+//{
+//	
+//	Player* player = m_Scene->GetGameObject<Player>();
+//
+//	// 視野範囲内かどうかの判定
+//	D3DXVECTOR3 normalizedDirection;
+//	D3DXVec3Normalize(&normalizedDirection, &direction);
+//	D3DXVECTOR3 houkou = GetForward();
+//	float dotProduct = D3DXVec3Dot(&houkou, &normalizedDirection);
+//	float angle = acos(dotProduct);
+//	fieldOfViewRadians = D3DXToRadian(fieldOfViewRadians);
+//	bool isInFieldOfView = angle <= fieldOfViewRadians / 2.0f;
+//
+//	// 視野距離内かどうかの判定
+//	D3DXVECTOR3 dice = origin - player->GetPosition();
+//	float distance = D3DXVec3Length(&dice);
+//	bool isInViewDistance = distance <= viewDistancee;
+//
+//	return isInFieldOfView && isInViewDistance;
+//}
 
 
 //左腕

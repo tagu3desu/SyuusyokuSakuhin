@@ -11,8 +11,6 @@ protected:
 	D3DXVECTOR3 m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	D3DXVECTOR3 m_MoveSpeed = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 m_MoveVector = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 m_Velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	D3DXQUATERNION m_Quaternion = D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f);
@@ -24,6 +22,10 @@ protected:
 	ID3D11ShaderResourceView* m_TextureEnv = NULL;
 	ID3D11ShaderResourceView* m_TextureEnvCube = NULL;
 	ID3D11ShaderResourceView* m_DisolveTexture = NULL;
+
+	ID3D11VertexShader* m_VertexShader{};
+	ID3D11PixelShader* m_PixelShader{};
+	ID3D11InputLayout* m_VertexLayout{};
 
 	float m_Threshold; //ÉfÉBÉ]ÉãÉuèàóù
 

@@ -2,7 +2,7 @@
 #include"renderer.h"
 #include"manager.h"
 #include"scene.h"
-#include"wepon_shield.h"
+#include"shield.h"
 #include"player.h"
 #include"animationModel.h"
 #include"input.h"

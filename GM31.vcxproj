@@ -160,6 +160,7 @@
     <ClCompile Include="animationModel.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="basecamptent.cpp" />
+    <ClCompile Include="baseenemy.h" />
     <ClCompile Include="bladeefect2.cpp" />
     <ClCompile Include="box.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -237,8 +238,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="wepon_shield.cpp" />
-    <ClCompile Include="wepon_sword.cpp" />
+    <ClCompile Include="shield.cpp" />
+    <ClCompile Include="sword.cpp" />
     <ClCompile Include="whetstone.cpp" />
     <ClCompile Include="wood.cpp" />
   </ItemGroup>
@@ -322,8 +323,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="wepon_shield.h" />
-    <ClInclude Include="wepon_sword.h" />
+    <ClInclude Include="shield.h" />
+    <ClInclude Include="sword.h" />
     <ClInclude Include="whetstone.h" />
     <ClInclude Include="wood.h" />
   </ItemGroup>
