@@ -533,6 +533,9 @@
     <ClInclude Include="player.h">
       <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
+    <ClInclude Include="baseitem.h">
+      <Filter>ヘッダー ファイル\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

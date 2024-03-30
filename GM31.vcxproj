@@ -247,6 +247,7 @@
     <ClInclude Include="animationModel.h" />
     <ClInclude Include="audio.h" />
     <ClInclude Include="basecamptent.h" />
+    <ClInclude Include="baseitem.h" />
     <ClInclude Include="bladeefect2.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="camera.h" />

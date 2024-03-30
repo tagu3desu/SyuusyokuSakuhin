@@ -1,5 +1,6 @@
+#pragma once
 #include"gameobject.h"
-class BaseEnemy : public GameObject
+class  BaseEnemy : public GameObject
 {
 protected:
 	//ステータス
