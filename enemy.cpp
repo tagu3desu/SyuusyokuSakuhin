@@ -60,7 +60,7 @@ void Enemy::Init()
 
 	//パラメータの設定
 	m_HP = 120;
-	
+	m_Hesitation = 100;
 
 	if (!Title::GetCheckTitle())
 	{
@@ -126,6 +126,18 @@ void Enemy::Update()
 	D3DXQuaternionRotationAxis(&quat, &axis, angle);
 	D3DXQuaternionSlerp(&m_Quaternion, &m_Quaternion, &quat, 0.1f);
 	
+	if (debugsystem->GetDebugWindowEnable())
+	{
+		//GUIにパラメータ表示
+		ImGui::SetNextWindowSize(ImVec2(300, 250));
+		ImGui::Begin("EnemyStates");
+		ImGui::InputFloat3("Position", m_Position);
+		ImGui::InputInt("Frame", &m_AnimationDelay);
+		ImGui::InputInt("HP", &m_HP);
+		ImGui::InputInt("Hesitation", &m_Hesitation);
+		ImGui::End();
+	}
+
 	//敵本体のコライダー
 	AnimationModel* animationmodel;
 	animationmodel = GetAnimationModel();
@@ -136,7 +148,7 @@ void Enemy::Update()
 	m_EnemyCollider->SetBoneMatrix(animationmodel->ConvertMatrix(bodybone->WorldMatrix));
 	SetColliderInfo(m_EnemyCollider->GetMatrix());
 
-
+	
 
 	//ジャンプ攻撃
 	if (m_JumpAttackFlag){
@@ -210,6 +222,8 @@ void Enemy::Update()
 	case ENEMY_STATE_LOITERING:
 		UpdateLoitering();
 		break;
+	case ENEMY_STATE_REACTION:
+		UpdateDamageReaction();
 	default:
 		break;
 	}
@@ -223,7 +237,13 @@ void Enemy::Update()
 		m_Length = D3DXVec3Length(&m_Direction);
 		D3DXVec3Normalize(&m_Direction, &m_Direction);
 
-		if (m_Length < 16 && !m_IsAttack && m_HowlFinish && !player->GetPlayerDead())
+		if (m_Hesitation <= 0)
+		{
+			m_Run = false;
+			m_Walk = false;
+			m_EnemyState = ENEMY_STATE_REACTION;
+		}
+		else if (m_Length < 16 && !m_IsAttack && m_HowlFinish && !player->GetPlayerDead())
 		{
 			m_Run = false;
 			m_Walk = false;
@@ -287,6 +307,8 @@ void Enemy::Update()
 		
 	}
 	
+	
+
 	//死亡系の処理
 	{
 		if (m_HP <= 0)
@@ -297,16 +319,7 @@ void Enemy::Update()
 		}
 	}
 
-	if (debugsystem->GetDebugWindowEnable())
-	{
-		//GUIにパラメータ表示
-		ImGui::SetNextWindowSize(ImVec2(300, 250));
-		ImGui::Begin("EnemyStates");
-		ImGui::InputFloat3("Position", m_Position);
-		ImGui::InputInt("Frame", &m_AnimationDelay);
-		ImGui::InputInt("HP", &m_HP);
-		ImGui::End();
-	}
+	
 
 	D3DXVECTOR3 direction = m_DirectionX + m_DirectionZ;
 	D3DXVec3Normalize(&direction, &direction);
@@ -594,6 +607,30 @@ void Enemy::UpdateLoitering()
 			m_FootSoundFlag = false;
 		}
 	}
+}
+
+void Enemy::UpdateDamageReaction()
+{
+	if (m_NextAnimationName != "DamageReaction")
+	{
+		m_AnimationName = m_NextAnimationName;
+		m_NextAnimationName = "DamageReaction";
+		m_BlendTime = 0.0f;
+		m_Time = 0.0f;
+		m_Speed = 0.0f;
+		m_Animating = true;
+	}
+	m_DamageReactionDelay++;
+	if (m_DamageReactionDelay >= 125)
+	{
+		m_Position.x = m_EnemyAnimationCorrection->GetAnimationPosition().x;
+		m_Position.z = m_EnemyAnimationCorrection->GetAnimationPosition().z;
+		m_AnimationDelay = 0;
+		m_DamageReactionDelay = 0;
+		m_Hesitation = 100;
+		m_EnemyState = ENEMY_STATE_IDLE;
+	}
+
 }
 
 void Enemy::UpdateSlapAttack(){

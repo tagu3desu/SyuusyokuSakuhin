@@ -5,7 +5,7 @@ class  BaseEnemy : public GameObject
 protected:
 	//ステータス
 	int m_HP;
-	int m_DamageTakeCount;
+	int m_Hesitation;   //怯み値
 	float m_GroundHeight = 0.0f;
 	float m_Speed = 0.0f;
 
@@ -20,8 +20,10 @@ public:
 
 	void SetDamage(int hp) { m_HP -= hp; }
 	void SetEnemyAI(bool ai) { m_EnemyAI = ai; }
-	bool GetEnemyAI() { return m_EnemyAI; }
+	void SetHesitation(int hisitation) { m_Hesitation -= hisitation; }
+	
 
+	bool GetEnemyAI() { return m_EnemyAI; }
 	int GetHP() { return m_HP; }
 
 

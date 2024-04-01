@@ -12,7 +12,8 @@ enum ENEMY_STATE
 	ENEMY_STATE_ATTACK,
 	ENEMY_STATE_HOWL,
 	ENAMY_STATE_DEAD,
-	ENEMY_STATE_LOITERING
+	ENEMY_STATE_LOITERING,
+	ENEMY_STATE_REACTION
 };
 
 
@@ -38,10 +39,6 @@ private:
 	float m_Threshold;
 
 	
-
-
-	
-
 	//アニメーション関連
 	float m_Time=0.0f;
 	float m_BlendTime=0.0f;
@@ -63,6 +60,7 @@ private:
 	float m_RockattackLimit{};
 	int m_AnimationDelay = 0;
 	bool m_HowlSEFlag=false;
+	int m_DamageReactionDelay = 0;
 	
 	//移動関連
 	D3DXVECTOR3 m_DirectionX = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -122,6 +120,7 @@ public:
 	void UpdateHowl();
 	void UpdateDead();
 	void UpdateLoitering();
+	void UpdateDamageReaction();
 
 	//敵の攻撃のパターン
 	void UpdateSlapAttack();

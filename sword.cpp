@@ -181,7 +181,7 @@ void Sword::Update()
 			
 			if (player->GetPlayerAttackCollider() && !m_AlreadyHit && m_SwordCollider->CollisionChecker(this, enemy, 0.7f))
 			{
-				if (player->GetPlayerAttackNumber() == 1)
+				if (player->GetPlayerAttackNumber() == 1) //攻撃1段目
 				{
 					
 					m_NormalAttackHitSE->Volume(Scene::m_SEVolume);
@@ -191,14 +191,14 @@ void Sword::Update()
 
 				}
 
-				if (player->GetPlayerAttackNumber() == 2)
+				if (player->GetPlayerAttackNumber() == 2) //攻撃2段目
 				{
 					m_SmallAttackHitSE->Volume(Scene::m_SEVolume * 0.3f);
 					m_SmallAttackHitSE->PlaySE();
 				
 					m_Camera->Shake(0.1);
 				}
-				else
+				else //攻撃3段目
 				{
 					m_BigAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 					m_BigAttackHitSE->PlaySE();
@@ -207,14 +207,17 @@ void Sword::Update()
 				}
 				
 				
-				m_ResultDamege = player->GetAttackMagnification()* m_WeponDamage;
+				
 				m_Durability -= 4.0f;
 				m_Swordhit = true;
 				m_AlreadyHit = true;
 
 				m_NormalAttackHitSE->Volume(Scene::m_SEVolume * 0.2f);
 				m_NormalAttackHitSE->PlaySE();
+				//ダメージ、ひるみ値処理
+				m_ResultDamege = player->GetAttackMagnification() * m_WeponDamage;
 				enemy->SetDamage(m_ResultDamege);
+				enemy->SetHesitation(15);
 
 				if (m_WeponSharpnes == SHARPNES_BLUE || m_WeponSharpnes == SHARPNES_GREEN)
 				{

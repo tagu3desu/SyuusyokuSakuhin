@@ -44,7 +44,11 @@ void TutorialEnemy::Init()
 
 
 	m_Speed = 0.0f;
+
+	//ƒpƒ‰ƒ[ƒ^İ’è
 	m_HP = 60; 
+
+
 
 	m_Threshold = 0;
 	m_DissolveEnable = true;

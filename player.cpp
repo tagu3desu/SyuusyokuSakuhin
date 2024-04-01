@@ -1464,7 +1464,7 @@ void Player::UpdateRoll()
 		m_Animating = true;
 		m_DirectionZ = GetForward() * speed;
 
-		if (15 < m_AnimationDelay && m_AnimationDelay < 35)
+		if (15 < m_AnimationDelay && m_AnimationDelay < 50)
 		{
 			m_InvincibilityFlag = true;
 		}
@@ -1485,6 +1485,7 @@ void Player::UpdateRoll()
 
 	}
 }
+
 //1コンボ目
 void Player::UpdateAttack()
 {
@@ -1812,6 +1813,10 @@ void Player::UpdateDead()
 	}
 
 }
+
+
+
+
 
 //アニメーション位置補正用のクラス
 void PlayerAnimationCorrection::Init()
