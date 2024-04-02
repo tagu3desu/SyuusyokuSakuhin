@@ -52,38 +52,39 @@ void Player::Init()
 
 
 	//納刀状態モーション
-	m_Model->LoadAnimation("asset\\model\\player\\Walking.fbx", "Walk");
-	m_Model->LoadAnimation("asset\\model\\player\\Standard Run.fbx", "Run");
-	m_Model->LoadAnimation("asset\\model\\player\\Unarmed Idle 01.fbx", "Idle");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Death.fbx", "IsDead");
-	m_Model->LoadAnimation("asset\\model\\player\\Sprinting Forward Roll.fbx", "IsRoll");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerWalk.fbx", "Walk");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerRun.fbx", "Run");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerIdle.fbx", "Idle");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerDead.fbx", "IsDead");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerRoll.fbx", "IsRoll");
 
 	//剣モーション
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Walk.fbx", "SwordWalk");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Run.fbx", "SwordRun");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Idle.fbx", "SwordIdle");
-	m_Model->LoadAnimation("asset\\model\\player\\Sheath Sword 2.fbx", "onSword");
-	m_Model->LoadAnimation("asset\\model\\player\\Sheath Sword 1.fbx", "offSword");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Slash.fbx", "SlashAttack");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Slash2.fbx", "SlashAttack2");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Slash3.fbx", "SlashAttack3");
-	m_Model->LoadAnimation("asset\\model\\player\\Standing Melee Attack 360 High.fbx", "RotationAttack");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield BlockStart.fbx", "StartGuard");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Block Idle.fbx", "IsGuard");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield BlockEnd.fbx", "EndGuard");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield Impact.fbx", "GuardImpact");
-	m_Model->LoadAnimation("asset\\model\\player\\Victory.fbx", "HealMotion");
-	m_Model->LoadAnimation("asset\\model\\player\\Sword And Shield HitSmallAttack.fbx", "HitSmallImpact");
-	m_Model->LoadAnimation("asset\\model\\player\\Grinding1.fbx", "StartGlinding");
-	m_Model->LoadAnimation("asset\\model\\player\\Grinding2.fbx", "IsGlinding");
-	m_Model->LoadAnimation("asset\\model\\player\\Grinding3.fbx", "EndGlinding");
-	m_Model->LoadAnimation("asset\\model\\player\\Shoulder Hit And Fall.fbx", "HitBigImpact");
-	m_Model->LoadAnimation("asset\\model\\player\\Standing Up.fbx", "ReturnHitBigImpact");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerSWalk.fbx", "SwordWalk");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerSRun.fbx", "SwordRun");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerSIdle.fbx", "SwordIdle");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerOnSword.fbx", "onSword");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerOffSword.fbx", "offSword");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerAttack1.fbx", "SlashAttack");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerAttack2.fbx", "SlashAttack2");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerAttack3.fbx", "SlashAttack3");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerYAttack.fbx", "RotationAttack");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerGuard1.fbx", "StartGuard");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerGuard2.fbx", "IsGuard");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerGuard3.fbx", "EndGuard");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerGuardInpact.fbx", "GuardImpact");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerHeal.fbx", "HealMotion");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerSmallReaction.fbx", "HitSmallImpact");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerBigReaction.fbx", "HitBigImpact");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerReturnReaction.fbx", "ReturnHitBigImpact");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerGrinding1.fbx", "StartGlinding");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerGrinding2.fbx", "IsGlinding");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerGrinding3.fbx", "EndGlinding");
+	
 
 
 
 	//タイトル用のモーション
-	m_Model->LoadAnimation("asset\\model\\player\\Sitting.fbx", "TitleIdle");
+	m_Model->LoadAnimation("asset\\model\\player\\PlayerTIdle.fbx", "TitleIdle");
 
 
 	m_AnimationName = "Idle";

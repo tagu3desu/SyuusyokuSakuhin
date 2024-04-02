@@ -58,6 +58,9 @@ void Enemy::Init()
 	m_DeadSE = AddComponent<Audio>();  //足音と死んだときの音に使用
 	m_DeadSE->Load("asset\\audio\\SE\\怪獣の足音.wav");
 
+	m_ReactionSE = AddComponent<Audio>();
+	m_ReactionSE->Load("asset\\audio\\SE\\怪物・怯み.wav");
+
 	//パラメータの設定
 	m_HP = 120;
 	m_Hesitation = 100;
@@ -353,7 +356,6 @@ void Enemy::Draw()
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
-	//D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixRotationQuaternion(&rot, &m_Quaternion);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	m_Matrix = scale * rot * trans;
@@ -611,6 +613,14 @@ void Enemy::UpdateLoitering()
 
 void Enemy::UpdateDamageReaction()
 {
+	if (!m_ReactionSEFlag)
+	{
+		m_ReactionSEFlag = true;
+		m_ReactionSE->Volume(Scene::m_SEVolume*0.3);
+		m_ReactionSE->PlaySE();
+	}
+
+
 	if (m_NextAnimationName != "DamageReaction")
 	{
 		m_AnimationName = m_NextAnimationName;
@@ -759,28 +769,6 @@ void Enemy::UpdateJumpAttack()
 		m_EnemyState = ENEMY_STATE_IDLE;
 	}
 }
-
-//bool Enemy::IsInFieldOfView(const D3DXVECTOR3& origin, D3DXVECTOR3& direction, float fieldOfViewRadians, float viewDistancee)
-//{
-//	
-//	Player* player = m_Scene->GetGameObject<Player>();
-//
-//	// 視野範囲内かどうかの判定
-//	D3DXVECTOR3 normalizedDirection;
-//	D3DXVec3Normalize(&normalizedDirection, &direction);
-//	D3DXVECTOR3 houkou = GetForward();
-//	float dotProduct = D3DXVec3Dot(&houkou, &normalizedDirection);
-//	float angle = acos(dotProduct);
-//	fieldOfViewRadians = D3DXToRadian(fieldOfViewRadians);
-//	bool isInFieldOfView = angle <= fieldOfViewRadians / 2.0f;
-//
-//	// 視野距離内かどうかの判定
-//	D3DXVECTOR3 dice = origin - player->GetPosition();
-//	float distance = D3DXVec3Length(&dice);
-//	bool isInViewDistance = distance <= viewDistancee;
-//
-//	return isInFieldOfView && isInViewDistance;
-//}
 
 
 //左腕

@@ -23,6 +23,7 @@ enum ENEMY_ATTACK_PATARN
 	ENEMY_ATTACK_PUNCH,
 	ENEMY_ATTCK_JUMP
 };
+
 class Enemy : public BaseEnemy
 {
 private:
@@ -91,8 +92,9 @@ private:
 	class Audio* m_HowlSE{};
 	class Audio* m_RockAttackSE{};
 	class Audio* m_DeadSE{};
+	class Audio* m_ReactionSE{};
 	bool m_DeadSEFlag = false;
-
+	bool m_ReactionSEFlag = false;
 	bool m_FootSoundFlag = false;
 	int m_FootSoundInterval = 0;
 
