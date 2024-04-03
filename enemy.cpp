@@ -635,6 +635,7 @@ void Enemy::UpdateDamageReaction()
 	{
 		m_Position.x = m_EnemyAnimationCorrection->GetAnimationPosition().x;
 		m_Position.z = m_EnemyAnimationCorrection->GetAnimationPosition().z;
+		m_ReactionSEFlag = false;
 		m_AnimationDelay = 0;
 		m_DamageReactionDelay = 0;
 		m_Hesitation = 100;
